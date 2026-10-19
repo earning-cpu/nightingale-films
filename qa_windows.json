@@ -85,9 +85,9 @@
   "end": 615
  },
  {
-  "name": "S3_1977_flash",
+  "name": "S3_1977_archive",
   "start": 601,
-  "end": 612
+  "end": 695
  },
  {
   "name": "S3_stamp",
@@ -125,11 +125,6 @@
   "end": 784
  },
  {
-  "name": "S4_glitch",
-  "start": 779,
-  "end": 791
- },
- {
   "name": "S5_slug",
   "start": 881,
   "end": 901
@@ -157,7 +152,7 @@
  {
   "name": "S5_macro_insert",
   "start": 987,
-  "end": 1047
+  "end": 1055
  },
  {
   "name": "S6_slug",

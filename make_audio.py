@@ -286,7 +286,6 @@ cue(800, 'S4_INSERT_radio', tape_click(0.20), 0.25)    # prop cutaway: reel-to-r
 cue(711, 'S4_head', tick(0.06, 1700))
 cue(721, 'S4_freq', tick(0.05, 2800))                 # freq readout appears
 cue(747, 'S4_cap', tick(0.05, 1500))
-cue(779, 'S4_glitch', glitch_stutter(0.14), 0.25)
 
 # --- S5 (875-1055) lab ---
 cue(875, 'S5_cut', impact(0.8, 0.48), 0.5)
@@ -306,12 +305,10 @@ cue(1077, 'S6_breach_stamp', stamp_thud(0.38), 0.45)
 cue(1085, 'S6_alarm', klaxon(1, 0.12))                  # MISSED BEFORE: alarm text
 cue(1107, 'S6_cap', tick(0.05, 1500))
 cue(1120, 'S6_hb', heartbeat(2, 0.26, 0.8))
-cue(1151, 'S6_glitch', glitch_stutter(0.18), 0.3)
 cue(1195, 'S6_hb2', heartbeat(2, 0.22, 0.75))
 
 # --- S7 (1250-1430) signal / blackout ---
 cue(1242, 'S7_BOOM', boom(0.85, 3.4), 0.85)            # RETIMED to blackout cut-in
-cue(1246, 'S7_glitch', glitch_stutter(0.2), 0.3)
 cue(1266, 'S7_head', tick(0.06, 1700))
 cue(1302, 'S7_cap', tick(0.05, 1500))
 cue(1258, 'S7_beam_shimmer', chime(0.13, (880, 1174.7, 1568, 2093), 2.6))   # RETIMED to beam glow t+8
@@ -335,7 +332,7 @@ cue(1723, 'S9_stamp', paper(0.14))
 cue(1775, 'S10_cut', impact(0.8, 0.5), 0.5)
 cue(1791, 'S10_head', tick(0.06, 1700))
 cue(1833, 'S10_cap', tick(0.05, 1500))
-cue(1925, 'S10_INSERT_news', paper(0.14), 0.2)          # prop cutaway: press clipping
+cue(1930, 'S10_INSERT_news', paper(0.14), 0.2)          # prop cutaway: press clipping
 cue(1863, 'S10_redact1', paper(0.13))
 cue(1869, 'S10_redact2', paper(0.11))
 cue(1875, 'S10_redact3', paper(0.1))
