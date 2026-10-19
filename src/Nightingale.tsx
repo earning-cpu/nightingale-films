@@ -1,8 +1,9 @@
 import React from 'react';
 import {AbsoluteFill, useCurrentFrame} from 'remotion';
 import {
-  AlarmPulse, BeamGlow, BlurWords, CaptionTrack, Clock, FreqReadout, Glitch, GradeBottom, Grain, KenBurns,
-  Letterbox, RadarSweep, RedactedBar, Scanlines, Seg, Slug, Stamp, Typewriter, Vignette, Waveform,
+  AlarmPulse, BeamGlow, BlurWords, Camera, CaptionTrack, Clock, Dust, ExposureFlicker, FilmEdges,
+  FreqReadout, GateWeave, Glitch, GradeBottom, Grain, Halation, InsertShot, KenBurns, Letterbox,
+  LightLeak, RadarSweep, RedactedBar, Scanlines, Seg, Slug, Stamp, Typewriter, Vignette, Waveform,
 } from './lib';
 import {C, F, T, clamp01, easeOutCubic, easeOutExpo, win} from './theme';
 
@@ -11,8 +12,7 @@ export const Title: React.FC = () => {
   const f = useCurrentFrame();
   return (
     <Seg from={T.title.from} dur={T.title.dur}>
-      <KenBurns src="img/s10_file.jpg" from={T.title.from} dur={T.title.dur}
-        zoomFrom={1.12} zoomTo={1.2} panX={-2} brightness={0.42} sepia={0.25}  narrSeg="title" />
+      <Camera src="img/s10_file.jpg" from={T.title.from} dur={T.title.dur} focusFrom={[46, 44]} focusTo={[41, 56]} scaleFrom={1.06} scaleTo={1.15} ease="inOut" handheld={0.2} rotate={-0.12} brightness={0.42} sepia={0.25} narrSeg="title" flicker />
       <GradeBottom strength={0.9} />
       <AbsoluteFill style={{justifyContent: 'center', alignItems: 'center', paddingBottom: 60}}>
         <div style={{opacity: win(f, 8, 16), fontFamily: F.mono, color: C.paperDim, letterSpacing: '0.5em', fontSize: 20, marginBottom: 26}}>
@@ -44,8 +44,7 @@ export const S1: React.FC = () => {
   const f = useCurrentFrame();
   return (
     <Seg from={T.s1.from} dur={T.s1.dur}>
-      <KenBurns src="img/s1_approach.jpg" from={T.s1.from} dur={T.s1.dur}
-        zoomFrom={1.05} zoomTo={1.15} panX={2.2} brightness={0.92}  narrSeg="s1" />
+      <Camera src="img/s1_approach.jpg" from={T.s1.from} dur={T.s1.dur} focusFrom={[20, 56]} focusTo={[76, 44]} scaleFrom={1.12} scaleTo={1.12} ease="linear" handheld={0.35} rotate={0} brightness={0.92} sepia={0} narrSeg="s1" />
       <GradeBottom />
       <Slug scene="SCENE 1" time="22:14 HRS" place="NEVADA HWY 375" start={T.s1.from + 6} />
       <Clock start={T.s1.from} baseSec={22 * 3600 + 14 * 60} />
@@ -82,8 +81,7 @@ export const S2: React.FC = () => {
   const f = useCurrentFrame();
   return (
     <Seg from={T.s2.from} dur={T.s2.dur}>
-      <KenBurns src="img/s2_checkpoint.jpg" from={T.s2.from} dur={T.s2.dur}
-        zoomFrom={1.14} zoomTo={1.05} panY={1.5} brightness={0.95}  narrSeg="s2" />
+      <Camera src="img/s2_checkpoint.jpg" from={T.s2.from} dur={T.s2.dur} focusFrom={[25, 19]} focusTo={[39, 31]} scaleFrom={1.04} scaleTo={1.21} ease="out" handheld={0.18} rotate={0.12} brightness={0.95} sepia={0} narrSeg="s2" />
       <GradeBottom />
       <AlarmPulse from={T.s2.from} dur={T.s2.dur} />
       <Slug scene="SCENE 2" time="22:31 HRS" place="CHECKPOINT ZULU" start={T.s2.from + 6} accent={C.warnGlow} />
@@ -111,12 +109,10 @@ export const S3: React.FC = () => {
   const flash = win(f, t + 118, 6); // cut to 1977 archive
   return (
     <Seg from={t} dur={T.s3.dur}>
-      <KenBurns src="img/s3_hangar.jpg" from={t} dur={T.s3.dur}
-        zoomFrom={1.08} zoomTo={1.18} panX={-1.5} brightness={0.9}  narrSeg="s3" />
+      <Camera src="img/s3_hangar.jpg" from={t} dur={T.s3.dur} focusFrom={[34, 54]} focusTo={[55, 29]} scaleFrom={1.17} scaleTo={1.05} ease="inOut" handheld={0.12} rotate={-0.1} brightness={0.9} sepia={0} narrSeg="s3" />
       {/* 1977 archival insert */}
       <AbsoluteFill style={{opacity: flash}}>
-        <KenBurns src="img/extra_1977_recovery.jpg" from={t + 118} dur={T.s3.dur - 118}
-          zoomFrom={1.16} zoomTo={1.06} panY={-1} brightness={0.85} sepia={0.45}  narrSeg="s3" />
+        <Camera src="img/extra_1977_recovery.jpg" from={t + 118} dur={T.s3.dur - 118} focusFrom={[58, 50]} focusTo={[57, 54]} scaleFrom={1.1} scaleTo={1.22} ease="inOut" handheld={0.55} rotate={-0.3} brightness={0.85} sepia={0.45} narrSeg="s3" flicker />
         <Scanlines opacity={0.2} />
       </AbsoluteFill>
       <GradeBottom />
@@ -152,8 +148,7 @@ export const S4: React.FC = () => {
   const t = T.s4.from;
   return (
     <Seg from={t} dur={T.s4.dur}>
-      <KenBurns src="img/s4_control.jpg" from={t} dur={T.s4.dur}
-        zoomFrom={1.05} zoomTo={1.13} panX={1.2} brightness={0.88}  narrSeg="s4" />
+      <Camera src="img/s4_control.jpg" from={t} dur={T.s4.dur} focusFrom={[50, 47]} focusTo={[49, 41]} scaleFrom={1.03} scaleTo={1.13} ease="inOut" handheld={0.1} rotate={0} brightness={0.88} sepia={0} narrSeg="s4" />
       <GradeBottom />
       <Slug scene="SCENE 4" time="23:18 HRS" place="CONTROL — SECTOR 4" start={t + 6} accent={C.phosphor} />
       <Clock start={t} baseSec={23 * 3600 + 18 * 60} />
@@ -185,12 +180,10 @@ export const S5: React.FC = () => {
   const t = T.s5.from;
   return (
     <Seg from={t} dur={T.s5.dur}>
-      <KenBurns src="img/s5_lab.jpg" from={t} dur={T.s5.dur}
-        zoomFrom={1.12} zoomTo={1.04} panY={-1.2} brightness={0.92}  narrSeg="s5" />
+      <Camera src="img/s5_lab.jpg" from={t} dur={T.s5.dur} focusFrom={[50, 33]} focusTo={[50, 65]} scaleFrom={1.05} scaleTo={1.18} ease="inOut" handheld={0.12} rotate={0} brightness={0.95} sepia={0} narrSeg="s5" />
       {/* macro insert of fragment */}
       <AbsoluteFill style={{opacity: win(f, t + 112, 8) * (1 - win(f, t + 156, 8))}}>
-        <KenBurns src="img/extra_fragment_macro.jpg" from={t + 112} dur={60}
-          zoomFrom={1.02} zoomTo={1.14} brightness={0.95}  narrSeg="s5" />
+        <Camera src="img/extra_fragment_macro.jpg" from={t + 112} dur={60} focusFrom={[52, 51]} focusTo={[52, 54]} scaleFrom={1.06} scaleTo={1.24} ease="inOut" handheld={0.25} rotate={0.5} brightness={1.0} sepia={0.32} narrSeg="s5" flicker />
       </AbsoluteFill>
       <GradeBottom />
       <Slug scene="SCENE 5" time="23:42 HRS" place="MATERIALS ANALYSIS LAB" start={t + 6} accent={C.plasma} />
@@ -229,8 +222,7 @@ export const S6: React.FC = () => {
   const t = T.s6.from;
   return (
     <Seg from={t} dur={T.s6.dur}>
-      <KenBurns src="img/s6_breach.jpg" from={t} dur={T.s6.dur}
-        zoomFrom={1.04} zoomTo={1.16} panY={1.8} brightness={0.95}  narrSeg="s6" />
+      <Camera src="img/s6_breach.jpg" from={t} dur={T.s6.dur} focusFrom={[63, 47]} focusTo={[62, 44]} scaleFrom={1.05} scaleTo={1.27} ease="out" handheld={0.9} rotate={0.15} brightness={0.9} sepia={0} narrSeg="s6" />
       <GradeBottom />
       <AlarmPulse from={t} dur={T.s6.dur} />
       <Slug scene="SCENE 6" time="00:03 HRS" place="CONTAINMENT BREACH" start={t + 6} accent={C.warnGlow} />
@@ -265,8 +257,7 @@ export const S7: React.FC = () => {
   const t = T.s7.from;
   return (
     <Seg from={t} dur={T.s7.dur}>
-      <KenBurns src="img/s7_beam.jpg" from={t} dur={T.s7.dur}
-        zoomFrom={1.16} zoomTo={1.03} panY={-2} brightness={0.9}  narrSeg="s7" />
+      <Camera src="img/s7_beam.jpg" from={t} dur={T.s7.dur} focusFrom={[47, 29]} focusTo={[49, 54]} scaleFrom={1.24} scaleTo={1.03} ease="out" handheld={0.08} rotate={0} brightness={0.75} sepia={0.15} narrSeg="s7" />
       <BeamGlow start={t + 8} />
       <GradeBottom strength={0.75} />
       <Slug scene="SCENE 7" time="00:07 HRS" place="THE SIGNAL" start={t + 6} accent={C.plasma} />
@@ -303,8 +294,7 @@ export const S8: React.FC = () => {
   const t = T.s8.from;
   return (
     <Seg from={t} dur={T.s8.dur}>
-      <KenBurns src="img/s8_evac.jpg" from={t} dur={T.s8.dur}
-        zoomFrom={1.03} zoomTo={1.14} panX={-2} brightness={0.92}  narrSeg="s8" />
+      <Camera src="img/s8_evac.jpg" from={t} dur={T.s8.dur} focusFrom={[60, 34]} focusTo={[44, 56]} scaleFrom={1.06} scaleTo={1.17} ease="inOut" handheld={0.75} rotate={-0.18} brightness={0.92} sepia={0} narrSeg="s8" />
       <GradeBottom />
       <Slug scene="SCENE 8" time="00:12 HRS" place="EVACUATION" start={t + 6} accent={C.warnGlow} />
       <Clock start={t} baseSec={24 * 3600 + 12 * 60} />
@@ -339,8 +329,7 @@ export const S9: React.FC = () => {
   const t = T.s9.from;
   return (
     <Seg from={t} dur={T.s9.dur}>
-      <KenBurns src="img/s9_morning.jpg" from={t} dur={T.s9.dur}
-        zoomFrom={1.14} zoomTo={1.04} panY={-1} brightness={1.0} sepia={0.32}  narrSeg="s9" />
+      <Camera src="img/s9_morning.jpg" from={t} dur={T.s9.dur} focusFrom={[51, 55]} focusTo={[51, 56]} scaleFrom={1.035} scaleTo={1.045} ease="linear" handheld={0.04} rotate={0} brightness={1.0} sepia={0.32} />
       <GradeBottom />
       <Slug scene="SCENE 9" time="06:30 HRS" place="MORNING AFTER" start={t + 6} />
       <Clock start={t} baseSec={6 * 3600 + 30 * 60} />
@@ -380,8 +369,7 @@ export const S10: React.FC = () => {
   const t = T.s10.from;
   return (
     <Seg from={t} dur={T.s10.dur}>
-      <KenBurns src="img/s10_file.jpg" from={t} dur={T.s10.dur}
-        zoomFrom={1.03} zoomTo={1.14} panX={1.5} panY={-1} brightness={0.75} sepia={0.15}  narrSeg="s10" />
+      <Camera src="img/s10_file.jpg" from={t} dur={T.s10.dur} focusFrom={[45, 49]} focusTo={[40, 65]} scaleFrom={1.02} scaleTo={1.19} ease="inOut" handheld={0.1} rotate={0} brightness={0.82} sepia={0.12} narrSeg="s10" />
       <GradeBottom />
       <Slug scene="SCENE 10" time="2004" place="FOIA RELEASE" start={t + 6} />
       <AbsoluteFill style={{justifyContent: 'flex-end', padding: '0 72px 130px'}}>
@@ -439,20 +427,39 @@ export const End: React.FC = () => {
 /* --------------------------- MAIN COMPOSITION --------------------------- */
 export const Nightingale: React.FC = () => (
   <AbsoluteFill style={{background: C.black}}>
-    <Title />
-    <S1 />
-    <S2 />
-    <S3 />
-    <S4 />
-    <S5 />
-    <S6 />
-    <S7 />
-    <S8 />
-    <S9 />
-    <S10 />
-    <End />
+    <GateWeave>
+      <Title />
+      <S1 />
+      <S2 />
+      <S3 />
+      <S4 />
+      <S5 />
+      <S6 />
+      <S7 />
+      <S8 />
+      <S9 />
+      <S10 />
+      <End />
+      {/* prop cutaways — keep the eye moving between the big shots */}
+      <InsertShot src="img/insert_notes.jpg" from={T.s3.from + 60} dur={40}
+        label="CASE NOTE 77-B" focusFrom={[40, 62]} focusTo={[46, 50]} scaleFrom={1.06} scaleTo={1.18} rot={-1.2} />
+      <InsertShot src="img/insert_radio.jpg" from={T.s4.from + 28} dur={42}
+        label="SIGNAL INTERCEPT — 1.7 GHz" focusFrom={[52, 58]} focusTo={[46, 46]} scaleFrom={1.10} scaleTo={1.02} rot={0.8} />
+      <InsertShot src="img/insert_thermal.jpg" from={T.s5.from + 44} dur={42}
+        label="THERMAL SCAN — SAMPLE A-51-F" focusFrom={[50, 50]} focusTo={[52, 54]} scaleFrom={1.04} scaleTo={1.16} rot={0} />
+      <InsertShot src="img/insert_watch.jpg" from={T.s8.from + 60} dur={44}
+        label="EXHIBIT 12 — STOPPED 00:11" focusFrom={[54, 46]} focusTo={[46, 52]} scaleFrom={1.08} scaleTo={1.20} rot={1.4} />
+      <InsertShot src="img/insert_newspaper.jpg" from={T.s10.from + 66} dur={44}
+        label="PRESS CLIPPING — MAY 1979" focusFrom={[44, 60]} focusTo={[52, 46]} scaleFrom={1.05} scaleTo={1.17} rot={-0.9} />
+      <LightLeak from={T.s3.from + 10} dur={40} />
+      <LightLeak from={T.s9.from + 30} dur={60} />
+      <FilmEdges />
+    </GateWeave>
     <CaptionTrack />
+    <Dust />
+    <Halation />
+    <ExposureFlicker />
     <Vignette />
-    <Grain opacity={0.14} />
+    <Grain opacity={0.19} />
   </AbsoluteFill>
 );

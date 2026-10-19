@@ -1,0 +1,14 @@
+# AI asset prompts — one per line as:  slug|prompt
+# The "Generate AI Assets" workflow reads this file, calls the free Pollinations
+# image endpoint, and commits results to public/img/generated/.
+# Keep the 1970s classified-documentary look: film grain, dim tungsten light, dust.
+bg_highway_dawn|1970s documentary photograph, empty desert highway at dawn, distant mountains, dust haze, Kodak film grain, pale amber light
+bg_hangar_interior|1970s photograph, vast dark aircraft hangar interior, empty steel floor, single hanging lamp, dust in air, film grain
+bg_desert_night|1970s photograph, Nevada desert at night under stars, distant base lights on horizon, long exposure, film grain
+prop_tape_reels|macro photograph of magnetic tape reels on a steel table, 1970s, dim lamp, dust, film grain, shallow depth of field
+prop_id_card|1970s military identification card lying on a desk, worn laminate, blank photo area, dim light, film grain, macro
+prop_map_table|1970s aerial survey map spread on a table with dividers, pencil marks, dim lamp, dust, film grain, high angle
+prop_radio_console|1970s radio console with analog dials and toggle switches, teal glow, cigarette haze, film grain, close-up
+prop_camera_1970s|vintage 1970s 16mm film camera on a tripod in a dark room, single light, dust, film grain
+prop_documents_stack|stack of classified folders tied with string on a steel table, 1970s, red stamp visible, dim lamp, film grain
+prop_window_light|1970s interior, light shaft through venetian blinds onto an empty chair, dust motes, film grain, noir

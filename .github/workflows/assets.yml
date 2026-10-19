@@ -1,0 +1,55 @@
+# 🖼️ AI ASSET GENERATOR — runs in GitHub Actions (free)
+# Generates unlimited images via Pollinations' free URL endpoint (no key needed).
+# Add prompts to assets/prompts.txt as:  slug|prompt text
+# Then: Actions → "Generate AI Assets" → Run workflow.
+name: Generate AI Assets
+
+on:
+  workflow_dispatch:
+    inputs:
+      batch:
+        description: 'Number of prompts to process from assets/prompts.txt'
+        required: false
+        default: '10'
+
+permissions:
+  contents: write
+
+jobs:
+  generate:
+    runs-on: ubuntu-latest
+    timeout-minutes: 60
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Generate images (throttled 15s — free tier)
+        run: |
+          mkdir -p public/img/generated
+          N=${{ github.event.inputs.batch }}
+          head -n "$N" assets/prompts.txt | while IFS='|' read -r slug prompt; do
+            [ -z "$slug" ] && continue
+            echo "→ $slug"
+            URL="https://image.pollinations.ai/prompt/$(python3 -c "import urllib.parse,sys; print(urllib.parse.quote(sys.argv[1]))" "$prompt")?width=1600&height=900&nologo=true&model=flux&seed=$RANDOM"
+            # optional: add a free Pollinations key as repo secret to lift rate limits/watermark
+            if [ -n "${{ secrets.POLLINATIONS_TOKEN }}" ]; then URL="$URL&token=${{ secrets.POLLINATIONS_TOKEN }}"; fi
+            curl -sS -m 120 --retry 3 --retry-delay 20 "$URL" -o "public/img/generated/${slug}.jpg" || true
+            sleep 15
+          done
+          ls -la public/img/generated | tail -20
+
+      - name: Verify + downscale
+        run: |
+          sudo apt-get install -y -qq imagemagick >/dev/null 2>&1 || true
+          for f in public/img/generated/*.jpg; do
+            [ -f "$f" ] || continue
+            if ! identify "$f" >/dev/null 2>&1; then echo "corrupt: $f"; rm -f "$f"; continue; fi
+            convert "$f" -resize '1920x1080>' -quality 88 "$f" || true
+          done
+
+      - name: Commit new assets
+        run: |
+          git config user.name "asset-bot"
+          git config user.email "asset-bot@users.noreply.github.com"
+          git add public/img/generated
+          git commit -m "assets: AI-generated batch [skip ci]" || echo "nothing to commit"
+          git push

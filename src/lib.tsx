@@ -524,3 +524,144 @@ export const Seg: React.FC<{from: number; dur: number; children: React.ReactNode
     </AbsoluteFill>
   );
 };
+
+/* ===================== V3 CAMERA SYSTEM (vision-guided) ===================== */
+export type EaseName = 'inOut' | 'out' | 'in' | 'linear';
+const easeFn = (e: EaseName, t: number) =>
+  e === 'out' ? easeOutCubic(t) : e === 'in' ? easeInCubic(t) : e === 'linear' ? t : easeInOutCubic(t);
+
+/** A camera move aimed at a real subject found by vision analysis.
+ *  focusFrom/focusTo are [x%, y%] of the frame — the lens looks THERE. */
+export const Camera: React.FC<{
+  src: string;
+  from: number;
+  dur: number;
+  focusFrom?: [number, number];
+  focusTo?: [number, number];
+  scaleFrom?: number;
+  scaleTo?: number;
+  ease?: EaseName;
+  handheld?: number;
+  rotate?: number;
+  brightness?: number;
+  sepia?: number;
+  narrSeg?: string;
+  flicker?: boolean;
+}> = ({src, from, dur, focusFrom = [50, 50], focusTo = [50, 50], scaleFrom = 1.05, scaleTo = 1.15,
+      ease = 'inOut', handheld = 0.15, rotate = 0, brightness = 1, sepia = 0, narrSeg, flicker = false}) => {
+  const frame = useCurrentFrame();
+  const p = easeFn(ease, clamp01((frame - from) / dur));
+  const fx = focusFrom[0] + (focusTo[0] - focusFrom[0]) * p;
+  const fy = focusFrom[1] + (focusTo[1] - focusFrom[1]) * p;
+  const s = (scaleFrom + (scaleTo - scaleFrom) * p) * narrZoom(frame, narrSeg)
+    * (1 + 0.0016 * Math.sin(frame * 0.07));
+  const hx = handheld * (Math.sin(frame * 0.61) * 0.09 + (prand(Math.floor(frame / 2)) - 0.5) * 0.20);
+  const hy = handheld * (Math.cos(frame * 0.47) * 0.08 + (prand(Math.floor(frame / 2) + 7) - 0.5) * 0.18);
+  const flick = flicker ? 1 + 0.016 * Math.sin(frame * 1.7) + 0.011 * (prand(frame + 3) - 0.5) : 1;
+  return (
+    <AbsoluteFill style={{overflow: 'hidden'}}>
+      <Img src={staticFile(src)} style={{
+        width: '100%', height: '100%', objectFit: 'cover',
+        transform: `scale(${s}) translate(${(50 - fx) + hx}%, ${(50 - fy) + hy}%) rotate(${rotate}deg)`,
+        filter: `brightness(${brightness * flick}) saturate(0.84) contrast(1.07) sepia(${sepia})`,
+      }} />
+    </AbsoluteFill>
+  );
+};
+
+/** Global film gate weave — the tiny mechanical wobble of a real projector. */
+export const GateWeave: React.FC<{children: React.ReactNode}> = ({children}) => {
+  const f = useCurrentFrame();
+  const tx = (prand(Math.floor(f / 3)) - 0.5) * 0.09;
+  const ty = (prand(Math.floor(f / 3) + 5) - 0.5) * 0.08;
+  const rot = (prand(Math.floor(f / 4) + 9) - 0.5) * 0.035;
+  return <AbsoluteFill style={{transform: `translate(${tx}%, ${ty}%) rotate(${rot}deg)`}}>{children}</AbsoluteFill>;
+};
+
+/** Floating dust motes in the projector beam. */
+export const Dust: React.FC<{count?: number}> = ({count = 26}) => {
+  const f = useCurrentFrame();
+  return (
+    <AbsoluteFill style={{pointerEvents: 'none', mixBlendMode: 'screen'}}>
+      <svg width="100%" height="100%">
+        {Array.from({length: count}).map((_, i) => {
+          const x = (prand(i * 3.1) * 100 + f * (0.010 + 0.018 * prand(i))) % 100;
+          const y = (prand(i * 7.7) * 100 - f * (0.008 + 0.014 * prand(i + 2)) + 200) % 100;
+          const r = 0.6 + prand(i * 5.3) * 1.5;
+          const o = 0.04 + prand(i * 2.2) * 0.11;
+          return <circle key={i} cx={`${x}%`} cy={`${y}%`} r={r} fill="#E8DFC8" opacity={o} />;
+        })}
+      </svg>
+    </AbsoluteFill>
+  );
+};
+
+/** Lens halation — warm glow bleed around highlights, like real film. */
+export const Halation: React.FC = () => (
+  <AbsoluteFill style={{
+    pointerEvents: 'none', mixBlendMode: 'screen', opacity: 0.55,
+    background: 'radial-gradient(58% 44% at 50% 38%, rgba(255,178,92,0.065), rgba(255,120,60,0.028) 46%, transparent 72%)',
+  }} />
+);
+
+/** A passing light leak (motivated: lamps, floods, sun). */
+export const LightLeak: React.FC<{from: number; dur: number}> = ({from, dur}) => {
+  const f = useCurrentFrame();
+  const w = win(f, from, dur);
+  if (w <= 0 || w >= 1) return null;
+  const o = Math.sin(Math.PI * w);
+  return (
+    <AbsoluteFill style={{
+      pointerEvents: 'none', mixBlendMode: 'screen', opacity: o * 0.42,
+      background: 'linear-gradient(105deg, transparent 30%, rgba(255,150,70,0.34) 48%, rgba(255,220,160,0.20) 56%, transparent 74%)',
+    }} />
+  );
+};
+
+/** Archival film rebate marks along the frame edges. */
+export const FilmEdges: React.FC = () => (
+  <AbsoluteFill style={{pointerEvents: 'none', opacity: 0.18}}>
+    <div style={{position: 'absolute', left: 7, top: 0, bottom: 0, width: 12,
+      background: 'repeating-linear-gradient(180deg, transparent 0 70px, rgba(233,226,210,0.30) 70px 72px, transparent 72px 140px)'}} />
+    <div style={{position: 'absolute', right: 7, top: 0, bottom: 0, width: 12,
+      background: 'repeating-linear-gradient(180deg, transparent 0 96px, rgba(233,226,210,0.22) 96px 98px, transparent 98px 190px)'}} />
+  </AbsoluteFill>
+);
+
+/** Exposure flicker — subtle brightness breathing of aged film. */
+export const ExposureFlicker: React.FC = () => {
+  const f = useCurrentFrame();
+  const o = Math.max(0, 0.016 + 0.013 * Math.sin(f * 0.9) + 0.01 * (prand(Math.floor(f / 2) + 31) - 0.5));
+  return <AbsoluteFill style={{pointerEvents: 'none', background: '#000', opacity: o}} />;
+};
+
+/** Cutaway prop insert (documents, evidence, tape decks) with its own camera move. */
+export const InsertShot: React.FC<{
+  src: string; from: number; dur: number; label?: string;
+  focusFrom?: [number, number]; focusTo?: [number, number];
+  scaleFrom?: number; scaleTo?: number; rot?: number;
+}> = ({src, from, dur, label, focusFrom = [50, 50], focusTo = [50, 50], scaleFrom = 1.05, scaleTo = 1.16, rot = 0}) => {
+  const f = useCurrentFrame();
+  if (f < from || f > from + dur) return null;
+  const p = easeInOutCubic(clamp01((f - from) / dur));
+  const fx = focusFrom[0] + (focusTo[0] - focusFrom[0]) * p;
+  const fy = focusFrom[1] + (focusTo[1] - focusFrom[1]) * p;
+  const s = scaleFrom + (scaleTo - scaleFrom) * p;
+  const opacity = Math.min(win(f, from, 3), 1 - win(f, from + dur - 3, 3)) || 0;
+  const flick = 1 + 0.02 * Math.sin(f * 1.9) + 0.014 * (prand(f + 11) - 0.5);
+  return (
+    <AbsoluteFill style={{background: '#05070A', opacity}}>
+      <Img src={staticFile(src)} style={{
+        width: '100%', height: '100%', objectFit: 'cover',
+        transform: `scale(${s}) translate(${50 - fx}%, ${50 - fy}%) rotate(${rot}deg)`,
+        filter: `brightness(${0.94 * flick}) saturate(0.78) contrast(1.09)`,
+      }} />
+      <AbsoluteFill style={{background: 'radial-gradient(74% 68% at 50% 45%, transparent 38%, rgba(0,0,0,0.62) 100%)'}} />
+      {label ? (
+        <div style={{position: 'absolute', left: 74, bottom: 66, fontFamily: F.mono, fontSize: 20,
+          letterSpacing: '0.26em', color: C.amber, opacity: 0.92}}>{label}</div>
+      ) : null}
+      <FilmEdges />
+    </AbsoluteFill>
+  );
+};

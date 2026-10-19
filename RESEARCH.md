@@ -65,3 +65,56 @@ Open-source image-to-video (Wan 2.x, LTX-Video, CogVideoX, Stable Video Diffusio
 
 ---
 *Sources fetched 2026-10-19. Re-check annually — retention benchmarks move fast.*
+
+---
+
+# 🖼️ AI IMAGES & VIDEO AT SCALE — can GitHub do it? (tested 2026-10-19)
+
+## The hard limits first
+| Resource | Free GitHub runner reality |
+|---|---|
+| GPU | **None.** Free runners are 2-core (public: 4-core) CPUs — no CUDA |
+| Job length | 6 h max per job |
+| Concurrency | up to 20 parallel jobs (public repos) |
+| Storage | Release asset ≤ 2 GB/file, unlimited assets; artifacts 90 days |
+| Minutes | public repo = **free & unmetered**; private = 2,000 min/mo |
+
+**So:** Stable Diffusion/Flux/Wan/LTX *cannot* run locally on the runner in reasonable time (SDXL ≈ minutes/image on CPU; video models ≈ hours). But Actions can **orchestrate** generation through free APIs — that's the winning pattern.
+
+## Images — ✅ SOLVED, free, unlimited-ish
+**Pollinations free URL endpoint** (`image.pollinations.ai/prompt/{text}`):
+- **Tested from this workspace today: HTTP 200, JPEG returned, no key needed.**
+- Anonymous tier ≈ 1 request / 15 s (≈ 240 images/hour), optional watermark; a free Pollinations account key lifts limits and removes it.
+- Wired into the repo: **`.github/workflows/assets.yml`** reads `assets/prompts.txt` → generates → commits to `public/img/generated/`.
+- Cost: **$0.** 100 new b-roll images ≈ 25 min of runner time.
+- Quality bar tip: keep prompts in the film's visual language (1970s, Kodak grain, tungsten, dust) so new assets match.
+
+## Video — honest options (no free lunch yet)
+| Route | Cost | Reality |
+|---|---|---|
+| Local Wan 2.x / LTX-Video / CogVideoX | $0 software | needs **12–24 GB VRAM GPU** — not on Actions |
+| Replicate / fal.ai API from Actions | ~$0.05–0.50 per 3–5 s clip | works well; key stored as repo secret |
+| Pollinations video models | pollen credits | same orchestration pattern as images |
+| **Motion-graphics (this project)** | **$0** | deterministic, frame-locked to audio, no artifacts — and no "AI-slop" look |
+
+**Verdict:** for a documentary/story format, animated stills + props + motion graphics outperform cheap AI video and cost nothing. Use paid AI video only for 1–2 hero shots per video if ever needed.
+
+## 8–10 minute videos — ✅ solved with parallel rendering
+**`render-long.yml`** splits the timeline into equal chunks, renders them on up to **20 runners concurrently**, then concatenates (`ffmpeg concat`, `-c copy`) and muxes the score, publishing one permanent Release.
+
+| Video length | Frames @30fps | 8 workers | Wall time (est.) |
+|---|---|---|---|
+| 70 s (this film) | 2,090 | 1 | ~12 min |
+| 3 min | 5,400 | 4 | ~12–18 min |
+| 8 min | 14,400 | 8 | ~20–30 min |
+| 10 min | 18,000 | 10 | ~25–35 min |
+
+File size at CRF 17–18 1080p ≈ **25–45 MB/min** → a 10-min film is ~300–450 MB, comfortably under the 2 GB Release limit. Storage stays **$0**.
+
+## Why it must not look "AI-generated" (and what we changed)
+YouTube requires disclosure only for *realistic synthetic* content. Our format (photo + motion graphics) isn't that — but viewers still smell "AI" from: **uniform zooms, perfect symmetry, sterile sharpness, repeated motion**. Fixes now in the film:
+- **Motivated camera moves only** — every move targets a real subject found by vision (soldier's helmet, radar, fragment, beam, stamp)
+- **11 different move types** — lateral track, tilt-up reveal, tilt-down to object, pull-back reveal, handheld track, fast push, locked-off static (breathing shot), macro creep
+- **Physical imperfections**: gate weave (projector wobble), exposure flicker, halation glow, dust motes, light leaks, film rebate marks, grain 0.19
+- **Human props**: handwritten notebook, reel-to-reel tape deck, stopped wristwatch on an evidence table, yellowed press clipping, thermal scan
+- **Breathing moments** — 2 shots with no zoom at all (the 2026 MrBeast correction: constant subtle motion, deliberate big moments)

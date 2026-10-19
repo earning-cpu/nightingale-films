@@ -272,6 +272,7 @@ cue(394, 'S2_stamp', stamp_thud(0.32), 0.35)   # RETIMED to visual stamp T.s2+74
 cue(485, 'S3_cut', impact(0.85, 0.52), 0.5)
 cue(503, 'S3_head', tick(0.06, 1700))
 cue(539, 'S3_cap', tick(0.05, 1500))
+cue(545, 'S3_INSERT_notes', paper(0.13), 0.25)          # prop cutaway: case notebook
 cue(581, 'S3_tw_head', tick(0.05, 2300))                # typewriter block opens
 cue(601, 'S3_1977_tape', tape_click(0.22), 0.3)         # RETIMED: J-cut 2f before flash
 cue(603, 'S3_1977_static', static_burst(0.45, 0.12))    # RETIMED to visual flash T.s3+118
@@ -281,6 +282,7 @@ cue(635, 'S3_stamp', stamp_thud(0.3), 0.3)
 cue(695, 'S4_cut', impact(0.8, 0.5), 0.5)
 for k, pf in enumerate([705, 739, 773, 807, 841]):
     cue(pf, f'S4_ping_{k}', ping(0.13 if k % 2 == 0 else 0.09))
+cue(723, 'S4_INSERT_radio', tape_click(0.20), 0.25)    # prop cutaway: reel-to-reel
 cue(711, 'S4_head', tick(0.06, 1700))
 cue(721, 'S4_freq', tick(0.05, 2800))                 # freq readout appears
 cue(747, 'S4_cap', tick(0.05, 1500))
@@ -317,6 +319,7 @@ cue(1258, 'S7_beam_shimmer', chime(0.13, (880, 1174.7, 1568, 2093), 2.6))   # RE
 cue(1430, 'S8_cut', impact(0.85, 0.55), 0.55)
 cue(1446, 'S8_head', tick(0.06, 1800))
 cue(1482, 'S8_cap', tick(0.05, 1500))
+cue(1490, 'S8_INSERT_watch', tick(0.09, 900, 0.05), 0.15)  # prop cutaway: stopped watch
 cue(1500, 'S8_hb', heartbeat(2, 0.2, 0.9))
 cue(1558, 'S8_stamp', stamp_thud(0.34), 0.4)            # MISSED BEFORE: 1.2s gap (visual T.s8+128)
 
@@ -331,6 +334,7 @@ cue(1723, 'S9_stamp', paper(0.14))
 cue(1775, 'S10_cut', impact(0.8, 0.5), 0.5)
 cue(1791, 'S10_head', tick(0.06, 1700))
 cue(1833, 'S10_cap', tick(0.05, 1500))
+cue(1841, 'S10_INSERT_news', paper(0.14), 0.2)          # prop cutaway: press clipping
 cue(1863, 'S10_redact1', paper(0.13))
 cue(1869, 'S10_redact2', paper(0.11))
 cue(1875, 'S10_redact3', paper(0.1))

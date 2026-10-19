@@ -124,6 +124,12 @@
    "event": "S3_cap"
   },
   {
+   "frame": 545.0,
+   "seconds": 18.1667,
+   "beat": 27.25,
+   "event": "S3_INSERT_notes"
+  },
+  {
    "frame": 581.0,
    "seconds": 19.3667,
    "beat": 29.05,
@@ -212,6 +218,12 @@
    "seconds": 24.0333,
    "beat": 36.05,
    "event": "S4_freq"
+  },
+  {
+   "frame": 723.0,
+   "seconds": 24.1,
+   "beat": 36.15,
+   "event": "S4_INSERT_radio"
   },
   {
    "frame": 739.0,
@@ -430,6 +442,12 @@
    "event": "S8_cap"
   },
   {
+   "frame": 1490.0,
+   "seconds": 49.6667,
+   "beat": 74.5,
+   "event": "S8_INSERT_watch"
+  },
+  {
    "frame": 1500.0,
    "seconds": 50.0,
    "beat": 75.0,
@@ -524,6 +542,12 @@
    "seconds": 61.1,
    "beat": 91.65,
    "event": "S10_cap"
+  },
+  {
+   "frame": 1841.0,
+   "seconds": 61.3667,
+   "beat": 92.05,
+   "event": "S10_INSERT_news"
   },
   {
    "frame": 1863.0,

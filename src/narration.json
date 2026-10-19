@@ -1,51 +1,47 @@
 {
  "title": {
   "start": 6,
-  "text": "In nineteen forty seven, the desert kept a secret.",
+  "text": "Nineteen forty seven. The desert kept a secret.",
+  "rate": "-6%",
   "words": [
    {
-    "w": "In",
+    "w": "Nineteen",
     "f": 9,
-    "d": 6
-   },
-   {
-    "w": "nineteen",
-    "f": 15,
-    "d": 14
+    "d": 17
    },
    {
     "w": "forty",
-    "f": 29,
+    "f": 27,
     "d": 10
    },
    {
     "w": "seven",
-    "f": 39,
-    "d": 12
+    "f": 37,
+    "d": 16
    },
    {
-    "w": "the",
-    "f": 59,
-    "d": 4
+    "w": "The",
+    "f": 80,
+    "d": 5
    },
    {
     "w": "desert",
-    "f": 64,
-    "d": 11
+    "f": 86,
+    "d": 12
    },
    {
     "w": "kept",
-    "f": 75,
+    "f": 98,
     "d": 8
    },
    {
     "w": "a",
-    "f": 84,
+    "f": 106,
     "d": 2
    },
    {
     "w": "secret",
-    "f": 86,
+    "f": 108,
     "d": 18
    }
   ],
@@ -57,6 +53,7 @@
  "s1": {
   "start": 146,
   "text": "A silent craft comes down on Highway three seventy five.",
+  "rate": "-6%",
   "words": [
    {
     "w": "A",
@@ -116,57 +113,43 @@
  },
  "s2": {
   "start": 330,
-  "text": "Checkpoint Zulu. Security level four. They have orders to shoot.",
+  "text": "Checkpoint Zulu. Level four. Orders to shoot.",
+  "rate": "-2%",
   "words": [
    {
     "w": "Checkpoint",
     "f": 333,
-    "d": 17
+    "d": 16
    },
    {
     "w": "Zulu",
-    "f": 351,
-    "d": 17
+    "f": 350,
+    "d": 16
    },
    {
-    "w": "Security",
-    "f": 395,
-    "d": 19
-   },
-   {
-    "w": "level",
-    "f": 415,
+    "w": "Level",
+    "f": 392,
     "d": 11
    },
    {
     "w": "four",
-    "f": 426,
+    "f": 404,
     "d": 15
    },
    {
-    "w": "They",
-    "f": 468,
-    "d": 5
-   },
-   {
-    "w": "have",
-    "f": 474,
-    "d": 6
-   },
-   {
-    "w": "orders",
-    "f": 480,
+    "w": "Orders",
+    "f": 445,
     "d": 12
    },
    {
     "w": "to",
-    "f": 492,
+    "f": 458,
     "d": 3
    },
    {
     "w": "shoot",
-    "f": 496,
-    "d": 14
+    "f": 461,
+    "d": 15
    }
   ],
   "zoom_words": [
@@ -175,62 +158,63 @@
   ]
  },
  "s3": {
-  "start": 495,
+  "start": 494,
   "text": "Hangar six. And the fragment is not ours. It never was.",
+  "rate": "-6%",
   "words": [
    {
     "w": "Hangar",
-    "f": 498,
+    "f": 497,
     "d": 12
    },
    {
     "w": "six",
-    "f": 510,
+    "f": 509,
     "d": 18
    },
    {
     "w": "And",
-    "f": 556,
+    "f": 555,
     "d": 4
    },
    {
     "w": "the",
-    "f": 561,
+    "f": 560,
     "d": 2
    },
    {
     "w": "fragment",
-    "f": 564,
+    "f": 563,
     "d": 17
    },
    {
     "w": "is",
-    "f": 581,
+    "f": 580,
     "d": 4
    },
    {
     "w": "not",
-    "f": 586,
+    "f": 585,
     "d": 8
    },
    {
     "w": "ours",
-    "f": 594,
+    "f": 593,
     "d": 17
    },
    {
     "w": "It",
-    "f": 639,
+    "f": 638,
     "d": 5
    },
    {
     "w": "never",
-    "f": 645,
+    "f": 644,
     "d": 12
    },
    {
     "w": "was",
-    "f": 657,
+    "f": 656,
     "d": 16
    }
   ],
@@ -240,68 +224,49 @@
   ]
  },
  "s4": {
-  "start": 705,
-  "text": "Then, a signal. One point seven gigahertz. Repeating, for seventy nine years.",
+  "start": 704,
+  "text": "Then a signal. One point seven gigahertz. Repeating.",
+  "rate": "-6%",
   "words": [
    {
     "w": "Then",
-    "f": 708,
-    "d": 12
+    "f": 707,
+    "d": 8
    },
    {
     "w": "a",
-    "f": 728,
+    "f": 715,
     "d": 2
    },
    {
     "w": "signal",
-    "f": 730,
+    "f": 718,
     "d": 19
    },
    {
     "w": "One",
-    "f": 776,
+    "f": 764,
     "d": 10
    },
    {
     "w": "point",
-    "f": 786,
+    "f": 774,
     "d": 9
    },
    {
     "w": "seven",
-    "f": 796,
+    "f": 784,
     "d": 13
    },
    {
     "w": "gigahertz",
-    "f": 809,
+    "f": 797,
     "d": 25
    },
    {
     "w": "Repeating",
-    "f": 861,
-    "d": 20
-   },
-   {
-    "w": "for",
-    "f": 890,
-    "d": 6
-   },
-   {
-    "w": "seventy",
-    "f": 896,
-    "d": 12
-   },
-   {
-    "w": "nine",
-    "f": 909,
-    "d": 10
-   },
-   {
-    "w": "years",
-    "f": 919,
-    "d": 18
+    "f": 849,
+    "d": 22
    }
   ],
   "zoom_words": [
@@ -310,138 +275,109 @@
   ]
  },
  "s5": {
-  "start": 885,
-  "text": "The lab finds no welds. No seams. The metal runs hot by itself.",
+  "start": 884,
+  "text": "No welds. No seams. The metal runs hot.",
+  "rate": "-6%",
   "words": [
    {
-    "w": "The",
-    "f": 888,
-    "d": 5
-   },
-   {
-    "w": "lab",
-    "f": 893,
-    "d": 11
-   },
-   {
-    "w": "finds",
-    "f": 905,
-    "d": 14
-   },
-   {
-    "w": "no",
-    "f": 919,
-    "d": 7
+    "w": "No",
+    "f": 887,
+    "d": 10
    },
    {
     "w": "welds",
-    "f": 926,
+    "f": 897,
     "d": 18
    },
    {
     "w": "No",
-    "f": 972,
+    "f": 943,
     "d": 9
    },
    {
     "w": "seams",
-    "f": 982,
+    "f": 953,
     "d": 22
    },
    {
     "w": "The",
-    "f": 1031,
+    "f": 1002,
     "d": 4
    },
    {
     "w": "metal",
-    "f": 1035,
-    "d": 10
+    "f": 1006,
+    "d": 11
    },
    {
     "w": "runs",
-    "f": 1046,
+    "f": 1017,
     "d": 8
    },
    {
     "w": "hot",
-    "f": 1055,
-    "d": 9
-   },
-   {
-    "w": "by",
-    "f": 1064,
-    "d": 5
-   },
-   {
-    "w": "itself",
-    "f": 1070,
-    "d": 20
+    "f": 1026,
+    "d": 14
    }
   ],
   "zoom_words": [
-   "metal",
-   "lab"
+   "metal"
   ]
  },
  "s6": {
-  "start": 1065,
-  "text": "Then it wakes. It puts itself back together. Every single night.",
+  "start": 1064,
+  "text": "Then it wakes. It puts itself back together. Every night.",
+  "rate": "-6%",
   "words": [
    {
     "w": "Then",
-    "f": 1068,
+    "f": 1067,
     "d": 8
    },
    {
     "w": "it",
-    "f": 1076,
+    "f": 1075,
     "d": 4
    },
    {
     "w": "wakes",
-    "f": 1080,
+    "f": 1079,
     "d": 19
    },
    {
     "w": "It",
-    "f": 1126,
+    "f": 1125,
     "d": 6
    },
    {
     "w": "puts",
-    "f": 1132,
+    "f": 1131,
     "d": 8
    },
    {
     "w": "itself",
-    "f": 1140,
+    "f": 1139,
     "d": 13
    },
    {
     "w": "back",
-    "f": 1154,
+    "f": 1153,
     "d": 8
    },
    {
     "w": "together",
-    "f": 1163,
+    "f": 1162,
     "d": 18
    },
    {
     "w": "Every",
-    "f": 1208,
-    "d": 11
-   },
-   {
-    "w": "single",
-    "f": 1219,
-    "d": 13
+    "f": 1207,
+    "d": 10
    },
    {
     "w": "night",
-    "f": 1233,
-    "d": 13
+    "f": 1218,
+    "d": 14
    }
   ],
   "zoom_words": [
@@ -451,7 +387,8 @@
  },
  "s7": {
   "start": 1258,
-  "text": "Eleven seconds of blackout. And a beam you can see from space.",
+  "text": "Eleven seconds of blackout. And a beam visible from space.",
+  "rate": "-6%",
   "words": [
    {
     "w": "Eleven",
@@ -480,48 +417,39 @@
    },
    {
     "w": "a",
-    "f": 1349,
+    "f": 1350,
     "d": 2
    },
    {
     "w": "beam",
-    "f": 1352,
+    "f": 1353,
     "d": 10
    },
    {
-    "w": "you",
+    "w": "visible",
     "f": 1363,
-    "d": 4
-   },
-   {
-    "w": "can",
-    "f": 1367,
-    "d": 5
-   },
-   {
-    "w": "see",
-    "f": 1373,
-    "d": 9
+    "d": 14
    },
    {
     "w": "from",
-    "f": 1382,
+    "f": 1378,
     "d": 6
    },
    {
     "w": "space",
-    "f": 1388,
+    "f": 1384,
     "d": 21
    }
   ],
   "zoom_words": [
-   "beam",
-   "blackout"
+   "blackout",
+   "beam"
   ]
  },
  "s8": {
   "start": 1440,
   "text": "Every watch in the building loses the same eleven minutes.",
+  "rate": "-6%",
   "words": [
    {
     "w": "Every",
@@ -582,6 +510,7 @@
  "s9": {
   "start": 1605,
   "text": "By morning, the desert is clean. Too clean.",
+  "rate": "-6%",
   "words": [
    {
     "w": "By",
@@ -630,47 +559,48 @@
   ]
  },
  "s10": {
-  "start": 1785,
+  "start": 1786,
   "text": "They classified everything. But someone kept a copy.",
+  "rate": "-6%",
   "words": [
    {
     "w": "They",
-    "f": 1788,
+    "f": 1789,
     "d": 6
    },
    {
     "w": "classified",
-    "f": 1794,
+    "f": 1795,
     "d": 24
    },
    {
     "w": "everything",
-    "f": 1818,
+    "f": 1819,
     "d": 19
    },
    {
     "w": "But",
-    "f": 1865,
+    "f": 1866,
     "d": 5
    },
    {
     "w": "someone",
-    "f": 1870,
+    "f": 1871,
     "d": 13
    },
    {
     "w": "kept",
-    "f": 1884,
+    "f": 1885,
     "d": 8
    },
    {
     "w": "a",
-    "f": 1892,
+    "f": 1893,
     "d": 2
    },
    {
     "w": "copy",
-    "f": 1895,
+    "f": 1896,
     "d": 17
    }
   ],
@@ -680,32 +610,33 @@
   ]
  },
  "end": {
-  "start": 1993,
+  "start": 1994,
   "text": "Read it before they do.",
+  "rate": "-6%",
   "words": [
    {
     "w": "Read",
-    "f": 1996,
+    "f": 1997,
     "d": 9
    },
    {
     "w": "it",
-    "f": 2005,
+    "f": 2006,
     "d": 4
    },
    {
     "w": "before",
-    "f": 2009,
+    "f": 2010,
     "d": 12
    },
    {
     "w": "they",
-    "f": 2021,
+    "f": 2022,
     "d": 4
    },
    {
     "w": "do",
-    "f": 2026,
+    "f": 2027,
     "d": 12
    }
   ],
