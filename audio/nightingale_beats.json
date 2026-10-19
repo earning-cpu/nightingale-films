@@ -163,19 +163,7 @@
    "frame": 601.0,
    "seconds": 20.0333,
    "beat": 30.05,
-   "event": "S3_1977_tape"
-  },
-  {
-   "frame": 601.0,
-   "seconds": 20.0333,
-   "beat": 30.05,
    "event": "S3_tw_4"
-  },
-  {
-   "frame": 603.0,
-   "seconds": 20.1,
-   "beat": 30.15,
-   "event": "S3_1977_static"
   },
   {
    "frame": 605.0,
@@ -188,6 +176,18 @@
    "seconds": 20.3,
    "beat": 30.45,
    "event": "S3_tw_6"
+  },
+  {
+   "frame": 616.0,
+   "seconds": 20.5333,
+   "beat": 30.8,
+   "event": "S3_1977_tape"
+  },
+  {
+   "frame": 618.0,
+   "seconds": 20.6,
+   "beat": 30.9,
+   "event": "S3_1977_static"
   },
   {
    "frame": 635.0,

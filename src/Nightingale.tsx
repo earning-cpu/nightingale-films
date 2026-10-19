@@ -106,13 +106,13 @@ export const S2: React.FC = () => {
 export const S3: React.FC = () => {
   const f = useCurrentFrame();
   const t = T.s3.from;
-  const archive = f >= t + 116; // hard cut to the 1977 archive shot
+  const archive = f >= t + 133;  // after the case-note typewriter finishes (615) // hard cut to the 1977 archive shot
   return (
     <Seg from={t} dur={T.s3.dur}>
       <Camera src="img/s3_hangar.jpg" from={t} dur={T.s3.dur} focusFrom={[34, 54]} focusTo={[55, 29]} scaleFrom={1.06} scaleTo={1.03} ease="inOut" handheld={0.12} rotate={0} brightness={0.9} sepia={0} narrSeg="s3" />
       {/* 1977 archival insert */}
       <AbsoluteFill style={{display: archive ? 'block' : 'none'}}>
-        <Camera src="img/extra_1977_recovery.jpg" from={t + 116} dur={T.s3.dur - 116} focusFrom={[58, 50]} focusTo={[57, 54]} scaleFrom={1.04} scaleTo={1.08} ease="inOut" handheld={0.25} rotate={0} brightness={0.85} sepia={0.45} narrSeg="s3" flicker />
+        <Camera src="img/extra_1977_recovery.jpg" from={t + 133} dur={T.s3.dur - 133} focusFrom={[58, 50]} focusTo={[57, 54]} scaleFrom={1.04} scaleTo={1.08} ease="inOut" handheld={0.25} rotate={0} brightness={0.85} sepia={0.45} narrSeg="s3" flicker />
         <Scanlines opacity={0.2} />
         <GradeBottom height="46%" strength={0.92} />
         {/* its OWN slate, so the hangar headline never sits on the crash photo */}

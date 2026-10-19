@@ -274,8 +274,8 @@ cue(503, 'S3_head', tick(0.06, 1700))
 cue(539, 'S3_cap', tick(0.05, 1500))
 cue(248, 'S1_INSERT_notes', paper(0.13), 0.25)          # prop cutaway: case notebook
 cue(581, 'S3_tw_head', tick(0.05, 2300))                # typewriter block opens
-cue(601, 'S3_1977_tape', tape_click(0.22), 0.3)         # RETIMED: J-cut 2f before flash
-cue(603, 'S3_1977_static', static_burst(0.45, 0.12))    # RETIMED to visual flash T.s3+118
+cue(616, 'S3_1977_tape', tape_click(0.22), 0.3)         # J-cut 2f before the archive cut
+cue(618, 'S3_1977_static', static_burst(0.45, 0.12))    # on the archive cut
 cue(635, 'S3_stamp', stamp_thud(0.3), 0.3)
 
 # --- S4 (695-875) control / radar ---
