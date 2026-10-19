@@ -100,15 +100,21 @@ def main(path):
     white = [i for i in range(n) if means[i] > 250.0]
 
     # ---------- 3b. dark flashes at scene boundaries ----------
+    # A real "blink" is a V-shape: the boundary frame must be darker than BOTH
+    # its immediate neighbours. A merely darker next scene is a step change and
+    # is perfectly fine (dim interiors follow bright exteriors by design).
+    INTENTIONAL_DARK = {1250: "S7 opens on 11s of blackout (story beat)",
+                        1985: "End card is black by design"}
     flashes = []
     for b in SCENE_CUTS:
-        if b <= 3 or b >= n - 3:
+        if b <= 1 or b >= n - 2:
             continue
-        here = means[b]
-        around = np.mean([means[b - 3], means[b - 2], means[b - 1],
-                          means[b + 1], means[b + 2], means[b + 3]])
-        if around > 12 and here < around * 0.72:
-            flashes.append({"frame": b, "mean": round(float(here), 1), "neighbours": round(float(around), 1)})
+        here, prev, nxt = means[b], means[b - 1], means[b + 1]
+        floor = min(prev, nxt)
+        if floor > 10 and here < floor * 0.72:
+            flashes.append({"frame": b, "mean": round(float(here), 1),
+                            "prev": round(float(prev), 1), "next": round(float(nxt), 1),
+                            "intentional": INTENTIONAL_DARK.get(b)})
 
     # ---------- 4. A->B->A returns ----------
     bounds = [0] + cuts + [n]
@@ -177,9 +183,11 @@ def main(path):
     print(f"\n  shots: {len(shots)}  cuts: {len(cuts)} (scene cuts excluded from animation check)")
     print(f"  cut frames: {cuts_soft}")
     print(f"  frozen runs: {len(frozen)}   black frames: {len(black)}   white frames: {len(white)}")
-    print(f"  boundary dark flashes: {len(flashes)}")
+    real_flashes = [f for f in flashes if not f.get("intentional")]
+    print(f"  boundary blinks: {len(real_flashes)}" + (f" (+{len(flashes)-len(real_flashes)} intentional)" if len(flashes) != len(real_flashes) else ""))
     for fl in flashes:
-        print(f"    FLASH @ {fl['frame']} mean {fl['mean']} vs neighbours {fl['neighbours']}")
+        tag = f"  [INTENTIONAL: {fl['intentional']}]" if fl.get("intentional") else ""
+        print(f"    BLINK @ {fl['frame']} mean {fl['mean']} (prev {fl['prev']} / next {fl['next']}){tag}")
     print(f"  A->B->A returns: {len(returns)}")
     for r in returns:
         print(f"    frames {r['before'][0]}-{r['before'][1]} -> {r['middle'][0]}-{r['middle'][1]} "
@@ -193,7 +201,7 @@ def main(path):
     out = path.rsplit(".", 1)[0] + "_qa.json"
     json.dump(report, open(out, "w"), indent=1)
     print(f"\n  report -> {out}")
-    blocking = len(frozen) + len(anim_hits) + len(returns) + len(flashes)
+    blocking = len(frozen) + len(anim_hits) + len(returns) + len(real_flashes)
     print(f"\n  {'✅ PASS — no blocking issues' if blocking == 0 else f'❌ {blocking} blocking issue(s)'}")
     return 0 if blocking == 0 else 1
 
