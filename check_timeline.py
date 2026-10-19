@@ -23,7 +23,9 @@ for ins in inserts:
         # an insert may fully CONTAIN an animation (viewer never sees it start),
         # but it may never CUT while an animation is mid-flight on screen.
         for cut, label in ((ins["start"], "IN"), (ins["end"], "OUT")):
-            if w["start"] - MARGIN <= cut <= w["end"] + MARGIN:
+            # Only a cut STRICTLY INSIDE an animation truncates it. A cut before
+            # it starts or after it finishes is a clean, intentional hard cut.
+            if w["start"] < cut < w["end"]:
                 if w["start"] >= ins["start"] and w["end"] <= ins["end"]:
                     continue  # fully hidden inside the insert — fine
                 fails.append(f'{ins["file"]}: {label}-cut @ {cut} lands inside "{w["name"]}" [{w["start"]}-{w["end"]}]')

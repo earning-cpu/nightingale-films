@@ -238,12 +238,6 @@
    "event": "S4_ping_2"
   },
   {
-   "frame": 779.0,
-   "seconds": 25.9667,
-   "beat": 38.95,
-   "event": "S4_glitch"
-  },
-  {
    "frame": 800.0,
    "seconds": 26.6667,
    "beat": 40.0,
@@ -388,12 +382,6 @@
    "event": "S6_INSERT_thermal"
   },
   {
-   "frame": 1151.0,
-   "seconds": 38.3667,
-   "beat": 57.55,
-   "event": "S6_glitch"
-  },
-  {
    "frame": 1195.0,
    "seconds": 39.8333,
    "beat": 59.75,
@@ -404,12 +392,6 @@
    "seconds": 41.4,
    "beat": 62.1,
    "event": "S7_BOOM"
-  },
-  {
-   "frame": 1246.0,
-   "seconds": 41.5333,
-   "beat": 62.3,
-   "event": "S7_glitch"
   },
   {
    "frame": 1258.0,
@@ -574,9 +556,9 @@
    "event": "S10_DECLASS"
   },
   {
-   "frame": 1925.0,
-   "seconds": 64.1667,
-   "beat": 96.25,
+   "frame": 1930.0,
+   "seconds": 64.3333,
+   "beat": 96.5,
    "event": "S10_INSERT_news"
   },
   {

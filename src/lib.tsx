@@ -545,8 +545,9 @@ export const Camera: React.FC<{
   const p = easeFn(ease, clamp01((frame - from) / dur));
   const fx = focusFrom[0] + (focusTo[0] - focusFrom[0]) * p;
   const fy = focusFrom[1] + (focusTo[1] - focusFrom[1]) * p;
-  const s = (scaleFrom + (scaleTo - scaleFrom) * p) * narrZoom(frame, narrSeg)
-    * (1 + 0.0016 * Math.sin(frame * 0.07));
+  // ONE continuous move per shot. No per-word pulses: professional editors treat
+  // repeated push/pull as the "cheap jump-cut" look. Motion stays imperceptible.
+  const s = (scaleFrom + (scaleTo - scaleFrom) * p) * (1 + 0.0016 * Math.sin(frame * 0.07));
   const hx = handheld * (Math.sin(frame * 0.61) * 0.09 + (prand(Math.floor(frame / 2)) - 0.5) * 0.20);
   const hy = handheld * (Math.cos(frame * 0.47) * 0.08 + (prand(Math.floor(frame / 2) + 7) - 0.5) * 0.18);
   const flick = flicker ? 1 + 0.016 * Math.sin(frame * 1.7) + 0.011 * (prand(frame + 3) - 0.5) : 1;
