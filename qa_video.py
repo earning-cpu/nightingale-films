@@ -142,7 +142,7 @@ def main(path):
         windows = json.load(open(win_path))
         for c in cuts_soft:
             for w in windows:
-                if w["start"] - ANIM_MARGIN <= c <= w["end"] + ANIM_MARGIN:
+                if w["start"] - ANIM_MARGIN <= c <= w["end"]:
                     anim_hits.append({"cut": c, "inside": w["name"], "window": [w["start"], w["end"]]})
                     break
 
