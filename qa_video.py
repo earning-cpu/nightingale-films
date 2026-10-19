@@ -99,6 +99,17 @@ def main(path):
     black = [i for i in range(n) if means[i] < 4.0]
     white = [i for i in range(n) if means[i] > 250.0]
 
+    # ---------- 3b. dark flashes at scene boundaries ----------
+    flashes = []
+    for b in SCENE_CUTS:
+        if b <= 3 or b >= n - 3:
+            continue
+        here = means[b]
+        around = np.mean([means[b - 3], means[b - 2], means[b - 1],
+                          means[b + 1], means[b + 2], means[b + 3]])
+        if around > 12 and here < around * 0.72:
+            flashes.append({"frame": b, "mean": round(float(here), 1), "neighbours": round(float(around), 1)})
+
     # ---------- 4. A->B->A returns ----------
     bounds = [0] + cuts + [n]
     shots = [(bounds[k], bounds[k + 1] - 1) for k in range(len(bounds) - 1) if bounds[k + 1] - bounds[k] > 3]
@@ -156,6 +167,7 @@ def main(path):
         "frozen_runs": frozen,
         "black_frames": {"count": len(black), "sample": black[:12]},
         "white_frames": {"count": len(white), "sample": white[:12]},
+        "boundary_flashes": flashes,
         "returns": returns,
         "cut_inside_animation": anim_hits,
         "stream": pinfo,
@@ -165,6 +177,9 @@ def main(path):
     print(f"\n  shots: {len(shots)}  cuts: {len(cuts)} (scene cuts excluded from animation check)")
     print(f"  cut frames: {cuts_soft}")
     print(f"  frozen runs: {len(frozen)}   black frames: {len(black)}   white frames: {len(white)}")
+    print(f"  boundary dark flashes: {len(flashes)}")
+    for fl in flashes:
+        print(f"    FLASH @ {fl['frame']} mean {fl['mean']} vs neighbours {fl['neighbours']}")
     print(f"  A->B->A returns: {len(returns)}")
     for r in returns:
         print(f"    frames {r['before'][0]}-{r['before'][1]} -> {r['middle'][0]}-{r['middle'][1]} "
@@ -178,7 +193,7 @@ def main(path):
     out = path.rsplit(".", 1)[0] + "_qa.json"
     json.dump(report, open(out, "w"), indent=1)
     print(f"\n  report -> {out}")
-    blocking = len(frozen) + len(anim_hits) + len(returns)
+    blocking = len(frozen) + len(anim_hits) + len(returns) + len(flashes)
     print(f"\n  {'✅ PASS — no blocking issues' if blocking == 0 else f'❌ {blocking} blocking issue(s)'}")
     return 0 if blocking == 0 else 1
 

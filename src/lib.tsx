@@ -510,19 +510,11 @@ export const BeamGlow: React.FC<{start: number}> = ({start}) => {
 /* Scene wrapper: fast crossfade between segments */
 export const Seg: React.FC<{from: number; dur: number; children: React.ReactNode}> = ({from, dur, children}) => {
   const frame = useCurrentFrame();
-  const enter = win(frame, from, 10);
-  const exit = win(frame, from + dur - 10, 10);
-  if (frame < from - 1 || frame > from + dur + 8) return null;
-  return (
-    <AbsoluteFill
-      style={{
-        opacity: easeOutCubic(enter) * (1 - easeInCubic(exit)),
-        transform: `scale(${1 + 0.025 * (1 - easeOutCubic(enter))})`,
-      }}
-    >
-      {children}
-    </AbsoluteFill>
-  );
+  // HARD CUTS ONLY. Scenes are back-to-back, so any per-scene fade-out/fade-in
+  // leaves a fully black frame at every boundary (measured: frame 875 dipped to
+  // mean luminance 9 vs 30 on both sides). Cuts land on the impact SFX instead.
+  if (frame < from || frame >= from + dur) return null;
+  return <AbsoluteFill>{children}</AbsoluteFill>;
 };
 
 /* ===================== V3 CAMERA SYSTEM (vision-guided) ===================== */
@@ -647,7 +639,7 @@ export const InsertShot: React.FC<{
   const fx = focusFrom[0] + (focusTo[0] - focusFrom[0]) * p;
   const fy = focusFrom[1] + (focusTo[1] - focusFrom[1]) * p;
   const s = scaleFrom + (scaleTo - scaleFrom) * p;
-  const opacity = Math.min(win(f, from, 3), 1 - win(f, from + dur - 3, 3)) || 0;
+  const opacity = 1; // hard cutaway: never composite two images (no ghosting)
   const flick = 1 + 0.02 * Math.sin(f * 1.9) + 0.014 * (prand(f + 11) - 0.5);
   return (
     <AbsoluteFill style={{background: '#05070A', opacity}}>
