@@ -1,7 +1,7 @@
 import React from 'react';
 import {AbsoluteFill, useCurrentFrame} from 'remotion';
 import {
-  AlarmPulse, BeamGlow, BlurWords, Clock, FreqReadout, Glitch, GradeBottom, Grain, KenBurns,
+  AlarmPulse, BeamGlow, BlurWords, CaptionTrack, Clock, FreqReadout, Glitch, GradeBottom, Grain, KenBurns,
   Letterbox, RadarSweep, RedactedBar, Scanlines, Seg, Slug, Stamp, Typewriter, Vignette, Waveform,
 } from './lib';
 import {C, F, T, clamp01, easeOutCubic, easeOutExpo, win} from './theme';
@@ -12,7 +12,7 @@ export const Title: React.FC = () => {
   return (
     <Seg from={T.title.from} dur={T.title.dur}>
       <KenBurns src="img/s10_file.jpg" from={T.title.from} dur={T.title.dur}
-        zoomFrom={1.12} zoomTo={1.2} panX={-2} brightness={0.42} sepia={0.25} />
+        zoomFrom={1.12} zoomTo={1.2} panX={-2} brightness={0.42} sepia={0.25}  narrSeg="title" />
       <GradeBottom strength={0.9} />
       <AbsoluteFill style={{justifyContent: 'center', alignItems: 'center', paddingBottom: 60}}>
         <div style={{opacity: win(f, 8, 16), fontFamily: F.mono, color: C.paperDim, letterSpacing: '0.5em', fontSize: 20, marginBottom: 26}}>
@@ -45,7 +45,7 @@ export const S1: React.FC = () => {
   return (
     <Seg from={T.s1.from} dur={T.s1.dur}>
       <KenBurns src="img/s1_approach.jpg" from={T.s1.from} dur={T.s1.dur}
-        zoomFrom={1.05} zoomTo={1.15} panX={2.2} brightness={0.92} />
+        zoomFrom={1.05} zoomTo={1.15} panX={2.2} brightness={0.92}  narrSeg="s1" />
       <GradeBottom />
       <Slug scene="SCENE 1" time="22:14 HRS" place="NEVADA HWY 375" start={T.s1.from + 6} />
       <Clock start={T.s1.from} baseSec={22 * 3600 + 14 * 60} />
@@ -83,7 +83,7 @@ export const S2: React.FC = () => {
   return (
     <Seg from={T.s2.from} dur={T.s2.dur}>
       <KenBurns src="img/s2_checkpoint.jpg" from={T.s2.from} dur={T.s2.dur}
-        zoomFrom={1.14} zoomTo={1.05} panY={1.5} brightness={0.95} />
+        zoomFrom={1.14} zoomTo={1.05} panY={1.5} brightness={0.95}  narrSeg="s2" />
       <GradeBottom />
       <AlarmPulse from={T.s2.from} dur={T.s2.dur} />
       <Slug scene="SCENE 2" time="22:31 HRS" place="CHECKPOINT ZULU" start={T.s2.from + 6} accent={C.warnGlow} />
@@ -112,11 +112,11 @@ export const S3: React.FC = () => {
   return (
     <Seg from={t} dur={T.s3.dur}>
       <KenBurns src="img/s3_hangar.jpg" from={t} dur={T.s3.dur}
-        zoomFrom={1.08} zoomTo={1.18} panX={-1.5} brightness={0.9} />
+        zoomFrom={1.08} zoomTo={1.18} panX={-1.5} brightness={0.9}  narrSeg="s3" />
       {/* 1977 archival insert */}
       <AbsoluteFill style={{opacity: flash}}>
         <KenBurns src="img/extra_1977_recovery.jpg" from={t + 118} dur={T.s3.dur - 118}
-          zoomFrom={1.16} zoomTo={1.06} panY={-1} brightness={0.85} sepia={0.45} />
+          zoomFrom={1.16} zoomTo={1.06} panY={-1} brightness={0.85} sepia={0.45}  narrSeg="s3" />
         <Scanlines opacity={0.2} />
       </AbsoluteFill>
       <GradeBottom />
@@ -153,7 +153,7 @@ export const S4: React.FC = () => {
   return (
     <Seg from={t} dur={T.s4.dur}>
       <KenBurns src="img/s4_control.jpg" from={t} dur={T.s4.dur}
-        zoomFrom={1.05} zoomTo={1.13} panX={1.2} brightness={0.88} />
+        zoomFrom={1.05} zoomTo={1.13} panX={1.2} brightness={0.88}  narrSeg="s4" />
       <GradeBottom />
       <Slug scene="SCENE 4" time="23:18 HRS" place="CONTROL — SECTOR 4" start={t + 6} accent={C.phosphor} />
       <Clock start={t} baseSec={23 * 3600 + 18 * 60} />
@@ -186,11 +186,11 @@ export const S5: React.FC = () => {
   return (
     <Seg from={t} dur={T.s5.dur}>
       <KenBurns src="img/s5_lab.jpg" from={t} dur={T.s5.dur}
-        zoomFrom={1.12} zoomTo={1.04} panY={-1.2} brightness={0.92} />
+        zoomFrom={1.12} zoomTo={1.04} panY={-1.2} brightness={0.92}  narrSeg="s5" />
       {/* macro insert of fragment */}
       <AbsoluteFill style={{opacity: win(f, t + 112, 8) * (1 - win(f, t + 156, 8))}}>
         <KenBurns src="img/extra_fragment_macro.jpg" from={t + 112} dur={60}
-          zoomFrom={1.02} zoomTo={1.14} brightness={0.95} />
+          zoomFrom={1.02} zoomTo={1.14} brightness={0.95}  narrSeg="s5" />
       </AbsoluteFill>
       <GradeBottom />
       <Slug scene="SCENE 5" time="23:42 HRS" place="MATERIALS ANALYSIS LAB" start={t + 6} accent={C.plasma} />
@@ -230,7 +230,7 @@ export const S6: React.FC = () => {
   return (
     <Seg from={t} dur={T.s6.dur}>
       <KenBurns src="img/s6_breach.jpg" from={t} dur={T.s6.dur}
-        zoomFrom={1.04} zoomTo={1.16} panY={1.8} brightness={0.95} />
+        zoomFrom={1.04} zoomTo={1.16} panY={1.8} brightness={0.95}  narrSeg="s6" />
       <GradeBottom />
       <AlarmPulse from={t} dur={T.s6.dur} />
       <Slug scene="SCENE 6" time="00:03 HRS" place="CONTAINMENT BREACH" start={t + 6} accent={C.warnGlow} />
@@ -266,7 +266,7 @@ export const S7: React.FC = () => {
   return (
     <Seg from={t} dur={T.s7.dur}>
       <KenBurns src="img/s7_beam.jpg" from={t} dur={T.s7.dur}
-        zoomFrom={1.16} zoomTo={1.03} panY={-2} brightness={0.9} />
+        zoomFrom={1.16} zoomTo={1.03} panY={-2} brightness={0.9}  narrSeg="s7" />
       <BeamGlow start={t + 8} />
       <GradeBottom strength={0.75} />
       <Slug scene="SCENE 7" time="00:07 HRS" place="THE SIGNAL" start={t + 6} accent={C.plasma} />
@@ -304,7 +304,7 @@ export const S8: React.FC = () => {
   return (
     <Seg from={t} dur={T.s8.dur}>
       <KenBurns src="img/s8_evac.jpg" from={t} dur={T.s8.dur}
-        zoomFrom={1.03} zoomTo={1.14} panX={-2} brightness={0.92} />
+        zoomFrom={1.03} zoomTo={1.14} panX={-2} brightness={0.92}  narrSeg="s8" />
       <GradeBottom />
       <Slug scene="SCENE 8" time="00:12 HRS" place="EVACUATION" start={t + 6} accent={C.warnGlow} />
       <Clock start={t} baseSec={24 * 3600 + 12 * 60} />
@@ -340,7 +340,7 @@ export const S9: React.FC = () => {
   return (
     <Seg from={t} dur={T.s9.dur}>
       <KenBurns src="img/s9_morning.jpg" from={t} dur={T.s9.dur}
-        zoomFrom={1.14} zoomTo={1.04} panY={-1} brightness={1.0} sepia={0.32} />
+        zoomFrom={1.14} zoomTo={1.04} panY={-1} brightness={1.0} sepia={0.32}  narrSeg="s9" />
       <GradeBottom />
       <Slug scene="SCENE 9" time="06:30 HRS" place="MORNING AFTER" start={t + 6} />
       <Clock start={t} baseSec={6 * 3600 + 30 * 60} />
@@ -381,7 +381,7 @@ export const S10: React.FC = () => {
   return (
     <Seg from={t} dur={T.s10.dur}>
       <KenBurns src="img/s10_file.jpg" from={t} dur={T.s10.dur}
-        zoomFrom={1.03} zoomTo={1.14} panX={1.5} panY={-1} brightness={0.75} sepia={0.15} />
+        zoomFrom={1.03} zoomTo={1.14} panX={1.5} panY={-1} brightness={0.75} sepia={0.15}  narrSeg="s10" />
       <GradeBottom />
       <Slug scene="SCENE 10" time="2004" place="FOIA RELEASE" start={t + 6} />
       <AbsoluteFill style={{justifyContent: 'flex-end', padding: '0 72px 130px'}}>
@@ -451,6 +451,7 @@ export const Nightingale: React.FC = () => (
     <S9 />
     <S10 />
     <End />
+    <CaptionTrack />
     <Vignette />
     <Grain opacity={0.14} />
   </AbsoluteFill>

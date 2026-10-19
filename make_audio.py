@@ -251,12 +251,14 @@ cue(6,   'title_slam', impact(0.6, 0.42, 1.2), 0.5)
 cue(22,  'title_w1', whoosh(0.55, 300, 2200, 0.16, -0.2))
 cue(31,  'title_w2', whoosh(0.55, 320, 2400, 0.18, 0.2))
 cue(56,  'sub_type', tick(0.06, 2000))
+cue(74,  'title_date', tick(0.055, 2200))               # MISSED BEFORE: date line (600ms gap)
 cue(98,  'STAMP_eyes', stamp_thud(0.36), 0.4)
 
 # --- S1 (140-320) approach ---
 cue(140, 'S1_cut', impact(0.85, 0.55), 0.55)
 cue(162, 'S1_noradio', radio_voice_gate(1.1, 0.13))
 cue(170, 'S1_words', tick(0.07, 1800))
+cue(184, 'S1_warn', tick(0.06, 2400))                   # MISSED BEFORE: warn line (467ms gap)
 cue(198, 'S1_cap', tick(0.05, 1600))
 cue(210, 'S1_coord', tick(0.05, 2100))
 
@@ -264,14 +266,15 @@ cue(210, 'S1_coord', tick(0.05, 2100))
 cue(320, 'S2_cut', impact(0.8, 0.5), 0.5)
 cue(338, 'S2_seclvl', stamp_thud(0.26))
 cue(372, 'S2_cap', tick(0.05, 1500))
-cue(406, 'S2_stamp', stamp_thud(0.32), 0.35)
+cue(394, 'S2_stamp', stamp_thud(0.32), 0.35)   # RETIMED to visual stamp T.s2+74
 
 # --- S3 (485-695) hangar ---
 cue(485, 'S3_cut', impact(0.85, 0.52), 0.5)
 cue(503, 'S3_head', tick(0.06, 1700))
 cue(539, 'S3_cap', tick(0.05, 1500))
-cue(587, 'S3_1977_tape', tape_click(0.22), 0.3)
-cue(589, 'S3_1977_static', static_burst(0.45, 0.12))
+cue(581, 'S3_tw_head', tick(0.05, 2300))                # typewriter block opens
+cue(601, 'S3_1977_tape', tape_click(0.22), 0.3)         # RETIMED: J-cut 2f before flash
+cue(603, 'S3_1977_static', static_burst(0.45, 0.12))    # RETIMED to visual flash T.s3+118
 cue(635, 'S3_stamp', stamp_thud(0.3), 0.3)
 
 # --- S4 (695-875) control / radar ---
@@ -279,6 +282,7 @@ cue(695, 'S4_cut', impact(0.8, 0.5), 0.5)
 for k, pf in enumerate([705, 739, 773, 807, 841]):
     cue(pf, f'S4_ping_{k}', ping(0.13 if k % 2 == 0 else 0.09))
 cue(711, 'S4_head', tick(0.06, 1700))
+cue(721, 'S4_freq', tick(0.05, 2800))                 # freq readout appears
 cue(747, 'S4_cap', tick(0.05, 1500))
 cue(779, 'S4_glitch', glitch_stutter(0.14), 0.25)
 
@@ -286,8 +290,9 @@ cue(779, 'S4_glitch', glitch_stutter(0.14), 0.25)
 cue(875, 'S5_cut', impact(0.8, 0.48), 0.5)
 cue(891, 'S5_head', tick(0.06, 1900))
 cue(925, 'S5_cap', tick(0.05, 1500))
-cue(987, 'S5_macro', chime(0.11, (659.3, 987.8, 1318.5), 1.6), 0.2)
-cue(1025, 'S5_stamp', stamp_thud(0.22))
+cue(905, 'S5_temp', tick(0.05, 3000))                 # temp counter appears (visual t+30)
+cue(915, 'S5_temp2', tick(0.04, 3120))
+cue(967, 'S5_stamp', stamp_thud(0.22))                # RETIMED to visual stamp T.s5+92
 
 # --- S6 (1055-1250) breach ---
 cue(1041, 'S6_riser', riser(0.5, 0.22), 0.5)
@@ -295,23 +300,25 @@ cue(1055, 'S6_cut', impact(1.15, 0.75, 1.2), 0.75)
 cue(1058, 'S6_klaxon', klaxon(3, 0.2), 0.35)
 cue(1071, 'S6_head', tick(0.06, 1700))
 cue(1077, 'S6_breach_stamp', stamp_thud(0.38), 0.45)
+cue(1085, 'S6_alarm', klaxon(1, 0.12))                  # MISSED BEFORE: alarm text
 cue(1107, 'S6_cap', tick(0.05, 1500))
 cue(1120, 'S6_hb', heartbeat(2, 0.26, 0.8))
 cue(1151, 'S6_glitch', glitch_stutter(0.18), 0.3)
 cue(1195, 'S6_hb2', heartbeat(2, 0.22, 0.75))
 
 # --- S7 (1250-1430) signal / blackout ---
-cue(1250, 'S7_BOOM', boom(0.85, 3.4), 0.85)
-cue(1252, 'S7_glitch', glitch_stutter(0.2), 0.3)
+cue(1242, 'S7_BOOM', boom(0.85, 3.4), 0.85)            # RETIMED to blackout cut-in
+cue(1246, 'S7_glitch', glitch_stutter(0.2), 0.3)
 cue(1266, 'S7_head', tick(0.06, 1700))
 cue(1302, 'S7_cap', tick(0.05, 1500))
-cue(1310, 'S7_beam_shimmer', chime(0.13, (880, 1174.7, 1568, 2093), 2.6))
+cue(1258, 'S7_beam_shimmer', chime(0.13, (880, 1174.7, 1568, 2093), 2.6))   # RETIMED to beam glow t+8
 
 # --- S8 (1430-1595) evacuation ---
 cue(1430, 'S8_cut', impact(0.85, 0.55), 0.55)
 cue(1446, 'S8_head', tick(0.06, 1800))
 cue(1482, 'S8_cap', tick(0.05, 1500))
 cue(1500, 'S8_hb', heartbeat(2, 0.2, 0.9))
+cue(1558, 'S8_stamp', stamp_thud(0.34), 0.4)            # MISSED BEFORE: 1.2s gap (visual T.s8+128)
 
 # --- S9 (1595-1775) morning after ---
 cue(1595, 'S9_cut', impact(0.7, 0.42), 0.45)
@@ -334,6 +341,14 @@ cue(1985, 'END_note', chime(0.2, (220, 277.2, 329.6, 440), 3.4), 0.3)
 cue(1993, 'END_w1', tick(0.05, 1600))
 cue(2017, 'END_w2', tick(0.05, 1600))
 cue(2047, 'END_final', chime(0.16, (110, 164.8, 220, 329.6), 3.0))
+
+# --- Typewriter tick clusters (text appearing/writing = audible typing) ---
+for k, tf in enumerate(range(585, 613, 4)):   # S3 typewriter note (visual t+96)
+    cue(tf, f'S3_tw_{k}', tick(0.035 if k % 2 else 0.05, 2500 + (k % 3) * 180, 0.018))
+for k, tf in enumerate(range(811, 835, 4)):   # S4 typewriter insert (visual t+112)
+    cue(tf, f'S4_tw_{k}', tick(0.035 if k % 2 else 0.05, 2600 + (k % 3) * 160, 0.018))
+for k, tf in enumerate(range(2012, 2032, 4)): # END typing line
+    cue(tf, f'END_tw_{k}', tick(0.04 if k % 2 else 0.055, 2200 + (k % 3) * 200, 0.02))
 
 # ----------------------------- place cues -----------------------------
 sfx = np.zeros((N, 2))
@@ -426,7 +441,40 @@ if fl > 0:
 
 # ----------------------------- mix -----------------------------
 bgm *= duck_env[:, None]
-mix = bgm * 1.0 + sfx * 1.05
+# ----------------------------- narration (VO) mix -----------------------------
+vo = np.zeros((N, 2))
+vo_hits = []
+if os.path.exists('src/narration.json'):
+    narr = json.load(open('src/narration.json'))
+    for seg, data in narr.items():
+        wavp = f'audio/vo/{seg}.wav'
+        if not os.path.exists(wavp):
+            continue
+        sr2, pcm = wavfile.read(wavp)
+        v = pcm.astype(np.float64) / 32768.0
+        if v.ndim == 1:
+            v = np.stack([v, v], axis=1)
+        i0 = s2n(f2s(data['start']))
+        i1 = min(N, i0 + len(v))
+        if i1 > i0:
+            vo[i0:i1] += v[:i1 - i0] * 1.5
+            vo_hits.append((i0, i1))
+# duck BGM hard under voice, SFX mildly (keep the frame-locked hits audible)
+duck2 = np.ones(N)
+for (a, b) in vo_hits:
+    pre, post = int(0.12 * SR), int(0.22 * SR)
+    a2, b2 = max(0, a - pre), min(N, b + post)
+    if b2 <= a2:
+        continue
+    sh = np.full(b2 - a2, 0.38)
+    nf = int(0.09 * SR)
+    sh[:nf] = np.linspace(1.0, 0.38, min(nf, len(sh)))
+    sh[-nf:] = np.linspace(0.38, 1.0, min(nf, len(sh)))
+    duck2[a2:b2] = np.minimum(duck2[a2:b2], sh)
+bgm *= duck2[:, None]
+sfx_duck = duck2 * 0.45 + 0.55   # shallower duck on SFX
+sfx *= sfx_duck[:, None]
+mix = bgm * 1.0 + sfx * 1.05 + vo * 1.0
 mix = hp(mix, 26, order=2)
 
 def comp(x, thresh=0.26, ratio=2.8, atk=0.006, rel=0.16):

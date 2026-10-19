@@ -34,6 +34,12 @@
    "event": "sub_type"
   },
   {
+   "frame": 74.0,
+   "seconds": 2.4667,
+   "beat": 3.7,
+   "event": "title_date"
+  },
+  {
    "frame": 98.0,
    "seconds": 3.2667,
    "beat": 4.9,
@@ -56,6 +62,12 @@
    "seconds": 5.6667,
    "beat": 8.5,
    "event": "S1_words"
+  },
+  {
+   "frame": 184.0,
+   "seconds": 6.1333,
+   "beat": 9.2,
+   "event": "S1_warn"
   },
   {
    "frame": 198.0,
@@ -88,9 +100,9 @@
    "event": "S2_cap"
   },
   {
-   "frame": 406.0,
-   "seconds": 13.5333,
-   "beat": 20.3,
+   "frame": 394.0,
+   "seconds": 13.1333,
+   "beat": 19.7,
    "event": "S2_stamp"
   },
   {
@@ -112,16 +124,64 @@
    "event": "S3_cap"
   },
   {
-   "frame": 587.0,
-   "seconds": 19.5667,
-   "beat": 29.35,
-   "event": "S3_1977_tape"
+   "frame": 581.0,
+   "seconds": 19.3667,
+   "beat": 29.05,
+   "event": "S3_tw_head"
+  },
+  {
+   "frame": 585.0,
+   "seconds": 19.5,
+   "beat": 29.25,
+   "event": "S3_tw_0"
   },
   {
    "frame": 589.0,
    "seconds": 19.6333,
    "beat": 29.45,
+   "event": "S3_tw_1"
+  },
+  {
+   "frame": 593.0,
+   "seconds": 19.7667,
+   "beat": 29.65,
+   "event": "S3_tw_2"
+  },
+  {
+   "frame": 597.0,
+   "seconds": 19.9,
+   "beat": 29.85,
+   "event": "S3_tw_3"
+  },
+  {
+   "frame": 601.0,
+   "seconds": 20.0333,
+   "beat": 30.05,
+   "event": "S3_1977_tape"
+  },
+  {
+   "frame": 601.0,
+   "seconds": 20.0333,
+   "beat": 30.05,
+   "event": "S3_tw_4"
+  },
+  {
+   "frame": 603.0,
+   "seconds": 20.1,
+   "beat": 30.15,
    "event": "S3_1977_static"
+  },
+  {
+   "frame": 605.0,
+   "seconds": 20.1667,
+   "beat": 30.25,
+   "event": "S3_tw_5"
+  },
+  {
+   "frame": 609.0,
+   "seconds": 20.3,
+   "beat": 30.45,
+   "event": "S3_tw_6"
   },
   {
    "frame": 635.0,
@@ -146,6 +206,12 @@
    "seconds": 23.7,
    "beat": 35.55,
    "event": "S4_head"
+  },
+  {
+   "frame": 721.0,
+   "seconds": 24.0333,
+   "beat": 36.05,
+   "event": "S4_freq"
   },
   {
    "frame": 739.0,
@@ -178,6 +244,42 @@
    "event": "S4_ping_3"
   },
   {
+   "frame": 811.0,
+   "seconds": 27.0333,
+   "beat": 40.55,
+   "event": "S4_tw_0"
+  },
+  {
+   "frame": 815.0,
+   "seconds": 27.1667,
+   "beat": 40.75,
+   "event": "S4_tw_1"
+  },
+  {
+   "frame": 819.0,
+   "seconds": 27.3,
+   "beat": 40.95,
+   "event": "S4_tw_2"
+  },
+  {
+   "frame": 823.0,
+   "seconds": 27.4333,
+   "beat": 41.15,
+   "event": "S4_tw_3"
+  },
+  {
+   "frame": 827.0,
+   "seconds": 27.5667,
+   "beat": 41.35,
+   "event": "S4_tw_4"
+  },
+  {
+   "frame": 831.0,
+   "seconds": 27.7,
+   "beat": 41.55,
+   "event": "S4_tw_5"
+  },
+  {
    "frame": 841.0,
    "seconds": 28.0333,
    "beat": 42.05,
@@ -196,21 +298,27 @@
    "event": "S5_head"
   },
   {
+   "frame": 905.0,
+   "seconds": 30.1667,
+   "beat": 45.25,
+   "event": "S5_temp"
+  },
+  {
+   "frame": 915.0,
+   "seconds": 30.5,
+   "beat": 45.75,
+   "event": "S5_temp2"
+  },
+  {
    "frame": 925.0,
    "seconds": 30.8333,
    "beat": 46.25,
    "event": "S5_cap"
   },
   {
-   "frame": 987.0,
-   "seconds": 32.9,
-   "beat": 49.35,
-   "event": "S5_macro"
-  },
-  {
-   "frame": 1025.0,
-   "seconds": 34.1667,
-   "beat": 51.25,
+   "frame": 967.0,
+   "seconds": 32.2333,
+   "beat": 48.35,
    "event": "S5_stamp"
   },
   {
@@ -244,6 +352,12 @@
    "event": "S6_breach_stamp"
   },
   {
+   "frame": 1085.0,
+   "seconds": 36.1667,
+   "beat": 54.25,
+   "event": "S6_alarm"
+  },
+  {
    "frame": 1107.0,
    "seconds": 36.9,
    "beat": 55.35,
@@ -268,16 +382,22 @@
    "event": "S6_hb2"
   },
   {
-   "frame": 1250.0,
-   "seconds": 41.6667,
-   "beat": 62.5,
+   "frame": 1242.0,
+   "seconds": 41.4,
+   "beat": 62.1,
    "event": "S7_BOOM"
   },
   {
-   "frame": 1252.0,
-   "seconds": 41.7333,
-   "beat": 62.6,
+   "frame": 1246.0,
+   "seconds": 41.5333,
+   "beat": 62.3,
    "event": "S7_glitch"
+  },
+  {
+   "frame": 1258.0,
+   "seconds": 41.9333,
+   "beat": 62.9,
+   "event": "S7_beam_shimmer"
   },
   {
    "frame": 1266.0,
@@ -290,12 +410,6 @@
    "seconds": 43.4,
    "beat": 65.1,
    "event": "S7_cap"
-  },
-  {
-   "frame": 1310.0,
-   "seconds": 43.6667,
-   "beat": 65.5,
-   "event": "S7_beam_shimmer"
   },
   {
    "frame": 1430.0,
@@ -320,6 +434,12 @@
    "seconds": 50.0,
    "beat": 75.0,
    "event": "S8_hb"
+  },
+  {
+   "frame": 1558.0,
+   "seconds": 51.9333,
+   "beat": 77.9,
+   "event": "S8_stamp"
   },
   {
    "frame": 1595.0,
@@ -442,10 +562,40 @@
    "event": "END_w1"
   },
   {
+   "frame": 2012.0,
+   "seconds": 67.0667,
+   "beat": 100.6,
+   "event": "END_tw_0"
+  },
+  {
+   "frame": 2016.0,
+   "seconds": 67.2,
+   "beat": 100.8,
+   "event": "END_tw_1"
+  },
+  {
    "frame": 2017.0,
    "seconds": 67.2333,
    "beat": 100.85,
    "event": "END_w2"
+  },
+  {
+   "frame": 2020.0,
+   "seconds": 67.3333,
+   "beat": 101.0,
+   "event": "END_tw_2"
+  },
+  {
+   "frame": 2024.0,
+   "seconds": 67.4667,
+   "beat": 101.2,
+   "event": "END_tw_3"
+  },
+  {
+   "frame": 2028.0,
+   "seconds": 67.6,
+   "beat": 101.4,
+   "event": "END_tw_4"
   },
   {
    "frame": 2047.0,

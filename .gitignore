@@ -3,3 +3,6 @@ out/
 qa/
 .DS_Store
 *.log
+audio/nightingale_mix.wav
+audio/nightingale_sfx.wav
+audio/nightingale_bgm.wav

@@ -1,0 +1,716 @@
+{
+ "title": {
+  "start": 6,
+  "text": "In nineteen forty seven, the desert kept a secret.",
+  "words": [
+   {
+    "w": "In",
+    "f": 9,
+    "d": 6
+   },
+   {
+    "w": "nineteen",
+    "f": 15,
+    "d": 14
+   },
+   {
+    "w": "forty",
+    "f": 29,
+    "d": 10
+   },
+   {
+    "w": "seven",
+    "f": 39,
+    "d": 12
+   },
+   {
+    "w": "the",
+    "f": 59,
+    "d": 4
+   },
+   {
+    "w": "desert",
+    "f": 64,
+    "d": 11
+   },
+   {
+    "w": "kept",
+    "f": 75,
+    "d": 8
+   },
+   {
+    "w": "a",
+    "f": 84,
+    "d": 2
+   },
+   {
+    "w": "secret",
+    "f": 86,
+    "d": 18
+   }
+  ],
+  "zoom_words": [
+   "desert",
+   "secret"
+  ]
+ },
+ "s1": {
+  "start": 146,
+  "text": "A silent craft comes down on Highway three seventy five.",
+  "words": [
+   {
+    "w": "A",
+    "f": 149,
+    "d": 4
+   },
+   {
+    "w": "silent",
+    "f": 153,
+    "d": 14
+   },
+   {
+    "w": "craft",
+    "f": 168,
+    "d": 14
+   },
+   {
+    "w": "comes",
+    "f": 183,
+    "d": 9
+   },
+   {
+    "w": "down",
+    "f": 192,
+    "d": 8
+   },
+   {
+    "w": "on",
+    "f": 201,
+    "d": 4
+   },
+   {
+    "w": "Highway",
+    "f": 205,
+    "d": 14
+   },
+   {
+    "w": "three",
+    "f": 220,
+    "d": 10
+   },
+   {
+    "w": "seventy",
+    "f": 231,
+    "d": 13
+   },
+   {
+    "w": "five",
+    "f": 244,
+    "d": 16
+   }
+  ],
+  "zoom_words": [
+   "craft",
+   "highway"
+  ]
+ },
+ "s2": {
+  "start": 330,
+  "text": "Checkpoint Zulu. Security level four. They have orders to shoot.",
+  "words": [
+   {
+    "w": "Checkpoint",
+    "f": 333,
+    "d": 17
+   },
+   {
+    "w": "Zulu",
+    "f": 351,
+    "d": 17
+   },
+   {
+    "w": "Security",
+    "f": 395,
+    "d": 19
+   },
+   {
+    "w": "level",
+    "f": 415,
+    "d": 11
+   },
+   {
+    "w": "four",
+    "f": 426,
+    "d": 15
+   },
+   {
+    "w": "They",
+    "f": 468,
+    "d": 5
+   },
+   {
+    "w": "have",
+    "f": 474,
+    "d": 6
+   },
+   {
+    "w": "orders",
+    "f": 480,
+    "d": 12
+   },
+   {
+    "w": "to",
+    "f": 492,
+    "d": 3
+   },
+   {
+    "w": "shoot",
+    "f": 496,
+    "d": 14
+   }
+  ],
+  "zoom_words": [
+   "checkpoint",
+   "shoot"
+  ]
+ },
+ "s3": {
+  "start": 495,
+  "text": "Hangar six. And the fragment is not ours. It never was.",
+  "words": [
+   {
+    "w": "Hangar",
+    "f": 498,
+    "d": 12
+   },
+   {
+    "w": "six",
+    "f": 510,
+    "d": 18
+   },
+   {
+    "w": "And",
+    "f": 556,
+    "d": 4
+   },
+   {
+    "w": "the",
+    "f": 561,
+    "d": 2
+   },
+   {
+    "w": "fragment",
+    "f": 564,
+    "d": 17
+   },
+   {
+    "w": "is",
+    "f": 581,
+    "d": 4
+   },
+   {
+    "w": "not",
+    "f": 586,
+    "d": 8
+   },
+   {
+    "w": "ours",
+    "f": 594,
+    "d": 17
+   },
+   {
+    "w": "It",
+    "f": 639,
+    "d": 5
+   },
+   {
+    "w": "never",
+    "f": 645,
+    "d": 12
+   },
+   {
+    "w": "was",
+    "f": 657,
+    "d": 16
+   }
+  ],
+  "zoom_words": [
+   "fragment",
+   "hangar"
+  ]
+ },
+ "s4": {
+  "start": 705,
+  "text": "Then, a signal. One point seven gigahertz. Repeating, for seventy nine years.",
+  "words": [
+   {
+    "w": "Then",
+    "f": 708,
+    "d": 12
+   },
+   {
+    "w": "a",
+    "f": 728,
+    "d": 2
+   },
+   {
+    "w": "signal",
+    "f": 730,
+    "d": 19
+   },
+   {
+    "w": "One",
+    "f": 776,
+    "d": 10
+   },
+   {
+    "w": "point",
+    "f": 786,
+    "d": 9
+   },
+   {
+    "w": "seven",
+    "f": 796,
+    "d": 13
+   },
+   {
+    "w": "gigahertz",
+    "f": 809,
+    "d": 25
+   },
+   {
+    "w": "Repeating",
+    "f": 861,
+    "d": 20
+   },
+   {
+    "w": "for",
+    "f": 890,
+    "d": 6
+   },
+   {
+    "w": "seventy",
+    "f": 896,
+    "d": 12
+   },
+   {
+    "w": "nine",
+    "f": 909,
+    "d": 10
+   },
+   {
+    "w": "years",
+    "f": 919,
+    "d": 18
+   }
+  ],
+  "zoom_words": [
+   "signal",
+   "gigahertz"
+  ]
+ },
+ "s5": {
+  "start": 885,
+  "text": "The lab finds no welds. No seams. The metal runs hot by itself.",
+  "words": [
+   {
+    "w": "The",
+    "f": 888,
+    "d": 5
+   },
+   {
+    "w": "lab",
+    "f": 893,
+    "d": 11
+   },
+   {
+    "w": "finds",
+    "f": 905,
+    "d": 14
+   },
+   {
+    "w": "no",
+    "f": 919,
+    "d": 7
+   },
+   {
+    "w": "welds",
+    "f": 926,
+    "d": 18
+   },
+   {
+    "w": "No",
+    "f": 972,
+    "d": 9
+   },
+   {
+    "w": "seams",
+    "f": 982,
+    "d": 22
+   },
+   {
+    "w": "The",
+    "f": 1031,
+    "d": 4
+   },
+   {
+    "w": "metal",
+    "f": 1035,
+    "d": 10
+   },
+   {
+    "w": "runs",
+    "f": 1046,
+    "d": 8
+   },
+   {
+    "w": "hot",
+    "f": 1055,
+    "d": 9
+   },
+   {
+    "w": "by",
+    "f": 1064,
+    "d": 5
+   },
+   {
+    "w": "itself",
+    "f": 1070,
+    "d": 20
+   }
+  ],
+  "zoom_words": [
+   "metal",
+   "lab"
+  ]
+ },
+ "s6": {
+  "start": 1065,
+  "text": "Then it wakes. It puts itself back together. Every single night.",
+  "words": [
+   {
+    "w": "Then",
+    "f": 1068,
+    "d": 8
+   },
+   {
+    "w": "it",
+    "f": 1076,
+    "d": 4
+   },
+   {
+    "w": "wakes",
+    "f": 1080,
+    "d": 19
+   },
+   {
+    "w": "It",
+    "f": 1126,
+    "d": 6
+   },
+   {
+    "w": "puts",
+    "f": 1132,
+    "d": 8
+   },
+   {
+    "w": "itself",
+    "f": 1140,
+    "d": 13
+   },
+   {
+    "w": "back",
+    "f": 1154,
+    "d": 8
+   },
+   {
+    "w": "together",
+    "f": 1163,
+    "d": 18
+   },
+   {
+    "w": "Every",
+    "f": 1208,
+    "d": 11
+   },
+   {
+    "w": "single",
+    "f": 1219,
+    "d": 13
+   },
+   {
+    "w": "night",
+    "f": 1233,
+    "d": 13
+   }
+  ],
+  "zoom_words": [
+   "wakes",
+   "together"
+  ]
+ },
+ "s7": {
+  "start": 1258,
+  "text": "Eleven seconds of blackout. And a beam you can see from space.",
+  "words": [
+   {
+    "w": "Eleven",
+    "f": 1261,
+    "d": 15
+   },
+   {
+    "w": "seconds",
+    "f": 1276,
+    "d": 14
+   },
+   {
+    "w": "of",
+    "f": 1291,
+    "d": 4
+   },
+   {
+    "w": "blackout",
+    "f": 1295,
+    "d": 21
+   },
+   {
+    "w": "And",
+    "f": 1343,
+    "d": 6
+   },
+   {
+    "w": "a",
+    "f": 1349,
+    "d": 2
+   },
+   {
+    "w": "beam",
+    "f": 1352,
+    "d": 10
+   },
+   {
+    "w": "you",
+    "f": 1363,
+    "d": 4
+   },
+   {
+    "w": "can",
+    "f": 1367,
+    "d": 5
+   },
+   {
+    "w": "see",
+    "f": 1373,
+    "d": 9
+   },
+   {
+    "w": "from",
+    "f": 1382,
+    "d": 6
+   },
+   {
+    "w": "space",
+    "f": 1388,
+    "d": 21
+   }
+  ],
+  "zoom_words": [
+   "beam",
+   "blackout"
+  ]
+ },
+ "s8": {
+  "start": 1440,
+  "text": "Every watch in the building loses the same eleven minutes.",
+  "words": [
+   {
+    "w": "Every",
+    "f": 1443,
+    "d": 10
+   },
+   {
+    "w": "watch",
+    "f": 1453,
+    "d": 11
+   },
+   {
+    "w": "in",
+    "f": 1465,
+    "d": 2
+   },
+   {
+    "w": "the",
+    "f": 1467,
+    "d": 3
+   },
+   {
+    "w": "building",
+    "f": 1470,
+    "d": 12
+   },
+   {
+    "w": "loses",
+    "f": 1483,
+    "d": 12
+   },
+   {
+    "w": "the",
+    "f": 1495,
+    "d": 3
+   },
+   {
+    "w": "same",
+    "f": 1498,
+    "d": 9
+   },
+   {
+    "w": "eleven",
+    "f": 1507,
+    "d": 11
+   },
+   {
+    "w": "minutes",
+    "f": 1519,
+    "d": 16
+   }
+  ],
+  "zoom_words": [
+   "watch",
+   "minutes"
+  ]
+ },
+ "s9": {
+  "start": 1605,
+  "text": "By morning, the desert is clean. Too clean.",
+  "words": [
+   {
+    "w": "By",
+    "f": 1608,
+    "d": 6
+   },
+   {
+    "w": "morning",
+    "f": 1614,
+    "d": 14
+   },
+   {
+    "w": "the",
+    "f": 1636,
+    "d": 4
+   },
+   {
+    "w": "desert",
+    "f": 1641,
+    "d": 12
+   },
+   {
+    "w": "is",
+    "f": 1653,
+    "d": 5
+   },
+   {
+    "w": "clean",
+    "f": 1658,
+    "d": 16
+   },
+   {
+    "w": "Too",
+    "f": 1702,
+    "d": 8
+   },
+   {
+    "w": "clean",
+    "f": 1710,
+    "d": 17
+   }
+  ],
+  "zoom_words": [
+   "desert",
+   "clean"
+  ]
+ },
+ "s10": {
+  "start": 1785,
+  "text": "They classified everything. But someone kept a copy.",
+  "words": [
+   {
+    "w": "They",
+    "f": 1788,
+    "d": 6
+   },
+   {
+    "w": "classified",
+    "f": 1794,
+    "d": 24
+   },
+   {
+    "w": "everything",
+    "f": 1818,
+    "d": 19
+   },
+   {
+    "w": "But",
+    "f": 1865,
+    "d": 5
+   },
+   {
+    "w": "someone",
+    "f": 1870,
+    "d": 13
+   },
+   {
+    "w": "kept",
+    "f": 1884,
+    "d": 8
+   },
+   {
+    "w": "a",
+    "f": 1892,
+    "d": 2
+   },
+   {
+    "w": "copy",
+    "f": 1895,
+    "d": 17
+   }
+  ],
+  "zoom_words": [
+   "classified",
+   "copy"
+  ]
+ },
+ "end": {
+  "start": 1993,
+  "text": "Read it before they do.",
+  "words": [
+   {
+    "w": "Read",
+    "f": 1996,
+    "d": 9
+   },
+   {
+    "w": "it",
+    "f": 2005,
+    "d": 4
+   },
+   {
+    "w": "before",
+    "f": 2009,
+    "d": 12
+   },
+   {
+    "w": "they",
+    "f": 2021,
+    "d": 4
+   },
+   {
+    "w": "do",
+    "f": 2026,
+    "d": 12
+   }
+  ],
+  "zoom_words": [
+   "read"
+  ]
+ }
+}
