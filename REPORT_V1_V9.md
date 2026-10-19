@@ -1,4 +1,9 @@
 # PROJECT NIGHTINGALE — V1 → V9
+> **Superseded in part:** §5–§8 of this report are expanded, restated and superseded by
+> **`QUALITY_SYSTEM_V2.md`** (45 pre-render gates, 35 post-render gates, 65 rules, QA toolchain map,
+> access + free-resource plan). The V1→V9 history in §1–§4 here remains authoritative.
+
+
 ## Complete Change Log, Lessons, Checkpoints & Non-Breakable Rules
 
 **Document owner:** Arena Agent
