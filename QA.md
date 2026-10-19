@@ -56,3 +56,58 @@ boundary blinks: 0
 loudness: I=-14.02 LUFS  TP=-1.07 dBTP  LRA=3.60
 ✅ PASS — no blocking issues
 ```
+
+---
+
+# qa_pro.py — broadcast-grade pass (added 2026-10-20)
+
+`qa_video.py` answers *"did the edit render correctly?"*. `qa_pro.py` answers *"would a broadcaster accept this file?"*
+It decodes the finished MP4 once per concern and emits a single JSON report; **exit 1 = blocker**.
+
+```bash
+python3 qa_pro.py PROJECT_NIGHTINGALE_full.mp4 --json qa/v9_pro.json --allow-black 66.1-67.1
+```
+
+| Code | Check | Standard |
+|---|---|---|
+| C3 | stream conformance: resolution, CFR fps, pix_fmt, faststart, channels | delivery spec |
+| G1 | colour tags (matrix / transfer / primaries / range) | BT.709 |
+| V1 | black intervals ≥ 0.2 s | no dead frames |
+| V2 | frozen runs ≥ 0.4 s | no dead frames |
+| V3 | black-floor and clip percentage, measured on the **raw Y plane** (16–235) | ≤ 8 % floor |
+| V4 | flashes per second | WCAG 2.3.1 ≤ 3 |
+| V5 | cuts/min, longest static run | rhythm window |
+| V6 | letterbox/pillarbox via cropdetect majority vote | full frame |
+| A1 | integrated LUFS, LRA, true peak | −14 / 3–8 / ≤ −1.0 |
+| A2 | silence gaps | none > 1.5 s |
+| A3 | stereo phase, with timestamps + sustained-dip detection | ≥ −0.2 sustained |
+| A4 | DC offset | < 0.02 |
+| C1 | caption CPS, chars, peak rate | ≤ 20 CPS, ≤ 84 chars |
+| C2 | duration | plan |
+
+**Two measurement traps this tool exists to avoid**
+
+1. **Never convert to `gray` before measuring levels.** swscale expands tv-range (16–235) to full range (0–255), so legal black reads as crushed black. The first version of this script reported 63 % "crush" on a clean film. Read the raw Y plane.
+2. **Never judge phase from a single minimum.** One -0.43 sample in a reverb tail is inaudible. Only a *sustained* run (< -0.2 for ≥ 0.3 s) is a mono-cancel event.
+
+## v9 result — 2026-10-20
+
+```
+C3 1920x1080 30fps h264 yuv420p aac/2ch faststart=True
+G1 ⚠ matrix=unknown transfer=iec61966-2-1 primaries=bt709 range=tv
+V1 ⚠ 1 interval 66.20–66.97 s (end-card fade-up)
+V2 0 frozen
+V3 ⚠ floor≤17 mean 10.757% p95 17.119% | ceil≥235 0.0% | hot frames 701/2067
+V4 max 3 flashes/s — PASS (6 transitions)
+V5 ~18 cuts (15.5/min) longest static 3.70 s
+V6 modal crop 1920x1080, 100% fill, no bars
+A1 I=-14.0 LUFS LRA=3.6 TP=-1.1 dBTP
+A2 0 gaps
+A3 min -0.43 @69.3 s (tail), mean 0.303, no sustained dip
+A4 DC -0.000295
+C1 12 lines, worst 15.1 CPS (s8), 0 over 20 CPS
+C2 69.67 s
+✅ no blockers · 3 warnings
+```
+
+Fix list for v10: retag bt709/bt709/tv · +2 IRE shadow lift · remove the 0.77 s black fade · tighten the tail phase.
