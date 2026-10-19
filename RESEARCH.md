@@ -118,3 +118,37 @@ YouTube requires disclosure only for *realistic synthetic* content. Our format (
 - **Physical imperfections**: gate weave (projector wobble), exposure flicker, halation glow, dust motes, light leaks, film rebate marks, grain 0.19
 - **Human props**: handwritten notebook, reel-to-reel tape deck, stopped wristwatch on an evidence table, yellowed press clipping, thermal scan
 - **Breathing moments** — 2 shots with no zoom at all (the 2026 MrBeast correction: constant subtle motion, deliberate big moments)
+
+---
+
+# 🎥 THE PREMIUM LOOK — what professional editors actually do (2026 research)
+
+## Why "zoom in/out" reads as cheap
+- **Digital zoom beyond 10–15% starts looking artificial** — editors on r/editors cap it there ([thread](https://www.reddit.com/r/editors/comments/kcfljs/digital_vs_physical_camera_pushin/)).
+- *"The trouble starts when the edit turns into a constant punch-in and pull-out sequence"* ([smoothcapture](https://www.smoothcapture.app/blog/how-to-zoom-in-videos-pro-techniques)).
+- Documentary editors: *"Subtlety is the key… slow, simple movement that is almost indiscernible is the best method"* ([r/editors](https://www.reddit.com/r/editors/comments/p14685/documentary_editors_and_others_who_work_with_a/)).
+- Georgetown film guide: *"AVOID ZOOMING… films with a lot of zooming resemble home movies"* ([Georgetown](https://guides.library.georgetown.edu/c.php?g=75854&p=491500)).
+
+## The professional grammar we now follow
+| Technique | Professional spec | Applied in v7 |
+|---|---|---|
+| **Slow push-in** | 5–10% over 5–10 s, ease-in-out, "imperceptibly slow" | 2–5% over each 3–7 s shot, single direction only |
+| **Pull-back reveal** | same rate, reversed — used *once*, for scale | S3 (tent reveal), S7 (beam→base) |
+| **Lateral track / slider** | "just barely noticeable" | S1 convoy track |
+| **Tilt-up / tilt-down** | motivated by subject reveal | S3, S5 |
+| **Rack focus / depth** | layer separation, subtle | staged via GradeBottom + halation depth |
+| **Handheld** | **0.5–0.8 px** for documentary; >2 px reads as an effect | clamped to ≤0.25 param |
+| **Zoom pulses on words** | ❌ never — this is the "cheap jump" | **removed entirely** |
+| **Glitch transitions** | social-media device, not documentary | **all 5 removed** |
+| **Hard cuts on impact SFX** | standard documentary grammar | every scene cut = hard cut + impact |
+
+## Vision: how we "watch" the video like a human
+No GPU available (2 cores, no CUDA), so a local VLM (Qwen2.5-VL etc.) isn't viable here.
+The working stack is:
+1. **PySceneDetect** (ContentDetector) → exact shot list + durations
+2. **Perceptual hashing** (imagehash phash) → catches the *same picture used twice*
+3. **Edge-energy analysis** on the caption band → catches *graphics already placed at the cut*
+4. **Dense contact sheets at 4 fps** (~280 frames for this 70 s film) → reviewed visually
+5. For deeper semantic QA, `vision_audit.py` can be pointed at a hosted VLM
+   (Qwen2.5-VL / MiniCPM-V / GPT-class vision) by adding an API key — the frame
+   extraction and prompting scaffolding is already in place.

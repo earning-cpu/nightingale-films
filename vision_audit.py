@@ -22,6 +22,8 @@ from scenedetect import open_video, SceneManager
 from scenedetect.detectors import ContentDetector
 
 FPS = 30.0
+SCENE_START = dict(title=0, s1=140, s2=320, s3=485, s4=695, s5=875, s6=1055, s7=1250,
+                   s8=1430, s9=1595, s10=1775, end=1985)
 
 
 def parse():
@@ -36,7 +38,7 @@ def parse():
 def shot_list(path):
     video = open_video(path)
     sm = SceneManager()
-    sm.add_detector(ContentDetector(threshold=24, min_scene_len=8))
+    sm.add_detector(ContentDetector(threshold=32, min_scene_len=15))
     sm.detect_scenes(video, show_progress=False)
     scenes = sm.get_scene_list()
     out = []
@@ -123,19 +125,35 @@ def main():
                          "later_edges": round(later_e, 1)})
 
     # ---------- 5. animation windows visible < 1 s / truncated ----------
+    # Screen life = from when the animation STARTS until the next cut or the next
+    # full-screen insert hides it. (Measuring the entrance animation alone is
+    # meaningless: a 0.5 s fade-in that stays 3 s is perfectly fine.)
     tiny = []
     if os.path.exists("qa_windows.json"):
         wins = json.load(open("qa_windows.json"))
+        insert_starts = []
+        try:
+            import re as _re
+            _src = open("src/Nightingale.tsx").read()
+            for _m in _re.finditer(r'<InsertShot[^>]*from=\{T\.(\w+)\.from \+ (\d+)\}', _src):
+                insert_starts.append(SCENE_START.get(_m.group(1), 0) + int(_m.group(2)))
+        except Exception:
+            pass
         for w in wins:
-            vis = 0
+            end = None
             for s in shots:
-                lo = max(w["start"], s["start"])
-                hi = min(w["end"], s["end"])
-                if hi > lo:
-                    vis += hi - lo
-            if 0 < vis < 30:
+                if s["start"] <= w["start"] <= s["end"]:
+                    end = s["end"]
+                    break
+            if end is None:
+                continue
+            for ins in insert_starts:
+                if w["start"] < ins < end:
+                    end = ins
+            life = end - w["start"]
+            if 0 < life < 30:
                 tiny.append({"name": w["name"], "window": [w["start"], w["end"]],
-                             "visible_frames": vis, "visible_sec": round(vis / FPS, 2)})
+                             "screen_life_frames": life, "screen_life_sec": round(life / FPS, 2)})
 
     # ---------- contact sheets ----------
     os.makedirs("vision", exist_ok=True)
@@ -174,12 +192,12 @@ def main():
     for r in repeats:
         print(f"    shot {r['a']['i']} ({r['a']['start']}-{r['a']['end']}) ~ shot "
               f"{r['b']['i']} ({r['b']['start']}-{r['b']['end']})  d={r['hash_distance']}")
-    print(f"  graphics already on screen at cut: {len(dead)}")
+    print(f"  graphics already on screen at cut (informational): {len(dead)}")
     for x in dead:
         print(f"    shot {x['shot']} @ {x['start']}: edges {x['start_edges']} vs later {x['later_edges']}")
-    print(f"  graphics visible < 1s  : {len(tiny)}")
+    print(f"  graphics on screen < 1s : {len(tiny)}")
     for t in tiny:
-        print(f"    {t['name']}: {t['visible_frames']}f ({t['visible_sec']}s)")
+        print(f"    {t['name']}: {t['screen_life_frames']}f ({t['screen_life_sec']}s)")
     print(f"\n  contact sheets: {', '.join(sheets)}")
     print(f"  report -> {out}")
     return 0
