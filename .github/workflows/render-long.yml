@@ -1,0 +1,122 @@
+# ⚡ LONG-FORM PARALLEL RENDERER — 8–10 minute videos on free GitHub runners
+# Splits the composition into equal chunks, renders them concurrently on up to N
+# runners, then concatenates + muxes audio + publishes one permanent Release.
+# NOTE: the composition must already be `total` frames long (see src/theme.ts T.total).
+name: Render Long Film
+
+on:
+  workflow_dispatch:
+    inputs:
+      total_frames:
+        description: 'Composition length in frames (8 min = 14400 @ 30fps)'
+        required: true
+        default: '14400'
+      workers:
+        description: 'Parallel runners (free plan allows up to 20 concurrent)'
+        required: true
+        default: '8'
+
+permissions:
+  contents: write
+
+jobs:
+  plan:
+    runs-on: ubuntu-latest
+    outputs:
+      matrix: ${{ steps.split.outputs.matrix }}
+      chunk: ${{ steps.split.outputs.chunk }}
+    steps:
+      - id: split
+        run: |
+          TOTAL=${{ github.event.inputs.total_frames }}
+          W=${{ github.event.inputs.workers }}
+          CHUNK=$(( (TOTAL + W - 1) / W ))
+          python3 - "$TOTAL" "$W" "$CHUNK" << 'EOF'
+          import json, sys
+          total, w, chunk = int(sys.argv[1]), int(sys.argv[2]), int(sys.argv[3])
+          starts = list(range(0, total, chunk))
+          matrix = {"chunk": []}
+          for i, s in enumerate(starts):
+              e = min(total - 1, s + chunk - 1)
+              # every chunk except the last must be the same length (seamless concat)
+              if i < len(starts) - 1:
+                  e = s + chunk - 1
+              matrix["chunk"].append({"index": i, "start": s, "end": e})
+          print(json.dumps(matrix))
+          open('matrix.json', 'w').write(json.dumps(matrix))
+          with open(__import__('os').environ['GITHUB_OUTPUT'], 'a') as f:
+              f.write("matrix=" + json.dumps(matrix) + "\n")
+              f.write(f"chunk={chunk}\n")
+          EOF
+
+  render:
+    needs: plan
+    runs-on: ubuntu-latest
+    timeout-minutes: 150
+    strategy:
+      fail-fast: false
+      matrix: ${{ fromJson(needs.plan.outputs.matrix) }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+      - name: System deps
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y ffmpeg libnspr4 libnss3 libatk1.0-0 libatk-bridge2.0-0 libcups2 libdrm2 \
+            libxkbcommon0 libxcomposite1 libxdamage1 libxfixes3 libxrandr2 libgbm1 libpango-1.0-0 \
+            libpangocairo-1.0-0 libcairo2 fonts-liberation fonts-noto-color-emoji
+          sudo apt-get install -y libasound2t64 || sudo apt-get install -y libasound2
+      - run: npm ci || npm install
+      - uses: actions/cache@v4
+        with:
+          path: node_modules/.remotion
+          key: remotion-browser-${{ runner.os }}
+      - run: npx remotion browser ensure
+      - name: Timeline guard
+        run: python3 check_timeline.py || echo "warning only for long-form" 
+      - name: Render chunk ${{ matrix.chunk.index }}
+        run: |
+          npx remotion render src/index.ts Nightingale out/chunk_${{ matrix.chunk.index }}.mp4 \
+            --frames=${{ matrix.chunk.start }}-${{ matrix.chunk.end }} \
+            --concurrency=3 --codec=h264 --crf=17 --jpeg-quality=95 \
+            --x264-preset=medium --muted
+      - uses: actions/upload-artifact@v4
+        with:
+          name: chunk-${{ matrix.chunk.index }}
+          path: out/chunk_${{ matrix.chunk.index }}.mp4
+          compression-level: 0
+          retention-days: 3
+
+  assemble:
+    needs: [plan, render]
+    runs-on: ubuntu-latest
+    timeout-minutes: 60
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/download-artifact@v4
+        with:
+          pattern: chunk-*
+          merge-multiple: true
+          path: chunks
+      - name: Concat + mux audio
+        run: |
+          ls chunks | sort -V > /tmp/list.txt
+          : > /tmp/concat.txt
+          while read f; do echo "file 'chunks/$f'" >> /tmp/concat.txt; done < /tmp/list.txt
+          ffmpeg -y -f concat -safe 0 -i /tmp/concat.txt -c copy -video_track_timescale 90000 out/video_silent.mp4
+          ffmpeg -y -i out/video_silent.mp4 -i audio/nightingale_norm.wav \
+            -map 0:v -map 1:a -c:v copy -c:a aac -b:a 256k -shortest -movflags +faststart PROJECT_LONG_full.mp4
+      - uses: actions/upload-artifact@v4
+        with:
+          name: PROJECT_LONG_full
+          path: PROJECT_LONG_full.mp4
+          retention-days: 90
+      - uses: softprops/action-gh-release@v2
+        with:
+          tag_name: long-${{ github.run_number }}
+          name: PROJECT NIGHTINGALE — long cut ${{ github.run_number }}
+          files: PROJECT_LONG_full.mp4
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

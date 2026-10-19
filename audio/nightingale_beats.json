@@ -1,0 +1,637 @@
+{
+ "fps": 30.0,
+ "bpm": 90.0,
+ "frame_per_beat": 20,
+ "cues": [
+  {
+   "frame": 0.0,
+   "seconds": 0.0,
+   "beat": 0.0,
+   "event": "static_open"
+  },
+  {
+   "frame": 6.0,
+   "seconds": 0.2,
+   "beat": 0.3,
+   "event": "title_slam"
+  },
+  {
+   "frame": 22.0,
+   "seconds": 0.7333,
+   "beat": 1.1,
+   "event": "title_w1"
+  },
+  {
+   "frame": 31.0,
+   "seconds": 1.0333,
+   "beat": 1.55,
+   "event": "title_w2"
+  },
+  {
+   "frame": 56.0,
+   "seconds": 1.8667,
+   "beat": 2.8,
+   "event": "sub_type"
+  },
+  {
+   "frame": 74.0,
+   "seconds": 2.4667,
+   "beat": 3.7,
+   "event": "title_date"
+  },
+  {
+   "frame": 98.0,
+   "seconds": 3.2667,
+   "beat": 4.9,
+   "event": "STAMP_eyes"
+  },
+  {
+   "frame": 140.0,
+   "seconds": 4.6667,
+   "beat": 7.0,
+   "event": "S1_cut"
+  },
+  {
+   "frame": 162.0,
+   "seconds": 5.4,
+   "beat": 8.1,
+   "event": "S1_noradio"
+  },
+  {
+   "frame": 170.0,
+   "seconds": 5.6667,
+   "beat": 8.5,
+   "event": "S1_words"
+  },
+  {
+   "frame": 184.0,
+   "seconds": 6.1333,
+   "beat": 9.2,
+   "event": "S1_warn"
+  },
+  {
+   "frame": 198.0,
+   "seconds": 6.6,
+   "beat": 9.9,
+   "event": "S1_cap"
+  },
+  {
+   "frame": 210.0,
+   "seconds": 7.0,
+   "beat": 10.5,
+   "event": "S1_coord"
+  },
+  {
+   "frame": 248.0,
+   "seconds": 8.2667,
+   "beat": 12.4,
+   "event": "S1_INSERT_notes"
+  },
+  {
+   "frame": 320.0,
+   "seconds": 10.6667,
+   "beat": 16.0,
+   "event": "S2_cut"
+  },
+  {
+   "frame": 338.0,
+   "seconds": 11.2667,
+   "beat": 16.9,
+   "event": "S2_seclvl"
+  },
+  {
+   "frame": 372.0,
+   "seconds": 12.4,
+   "beat": 18.6,
+   "event": "S2_cap"
+  },
+  {
+   "frame": 394.0,
+   "seconds": 13.1333,
+   "beat": 19.7,
+   "event": "S2_stamp"
+  },
+  {
+   "frame": 485.0,
+   "seconds": 16.1667,
+   "beat": 24.25,
+   "event": "S3_cut"
+  },
+  {
+   "frame": 503.0,
+   "seconds": 16.7667,
+   "beat": 25.15,
+   "event": "S3_head"
+  },
+  {
+   "frame": 539.0,
+   "seconds": 17.9667,
+   "beat": 26.95,
+   "event": "S3_cap"
+  },
+  {
+   "frame": 581.0,
+   "seconds": 19.3667,
+   "beat": 29.05,
+   "event": "S3_tw_head"
+  },
+  {
+   "frame": 585.0,
+   "seconds": 19.5,
+   "beat": 29.25,
+   "event": "S3_tw_0"
+  },
+  {
+   "frame": 589.0,
+   "seconds": 19.6333,
+   "beat": 29.45,
+   "event": "S3_tw_1"
+  },
+  {
+   "frame": 593.0,
+   "seconds": 19.7667,
+   "beat": 29.65,
+   "event": "S3_tw_2"
+  },
+  {
+   "frame": 597.0,
+   "seconds": 19.9,
+   "beat": 29.85,
+   "event": "S3_tw_3"
+  },
+  {
+   "frame": 601.0,
+   "seconds": 20.0333,
+   "beat": 30.05,
+   "event": "S3_1977_tape"
+  },
+  {
+   "frame": 601.0,
+   "seconds": 20.0333,
+   "beat": 30.05,
+   "event": "S3_tw_4"
+  },
+  {
+   "frame": 603.0,
+   "seconds": 20.1,
+   "beat": 30.15,
+   "event": "S3_1977_static"
+  },
+  {
+   "frame": 605.0,
+   "seconds": 20.1667,
+   "beat": 30.25,
+   "event": "S3_tw_5"
+  },
+  {
+   "frame": 609.0,
+   "seconds": 20.3,
+   "beat": 30.45,
+   "event": "S3_tw_6"
+  },
+  {
+   "frame": 635.0,
+   "seconds": 21.1667,
+   "beat": 31.75,
+   "event": "S3_stamp"
+  },
+  {
+   "frame": 695.0,
+   "seconds": 23.1667,
+   "beat": 34.75,
+   "event": "S4_cut"
+  },
+  {
+   "frame": 705.0,
+   "seconds": 23.5,
+   "beat": 35.25,
+   "event": "S4_ping_0"
+  },
+  {
+   "frame": 711.0,
+   "seconds": 23.7,
+   "beat": 35.55,
+   "event": "S4_head"
+  },
+  {
+   "frame": 721.0,
+   "seconds": 24.0333,
+   "beat": 36.05,
+   "event": "S4_freq"
+  },
+  {
+   "frame": 739.0,
+   "seconds": 24.6333,
+   "beat": 36.95,
+   "event": "S4_ping_1"
+  },
+  {
+   "frame": 747.0,
+   "seconds": 24.9,
+   "beat": 37.35,
+   "event": "S4_cap"
+  },
+  {
+   "frame": 773.0,
+   "seconds": 25.7667,
+   "beat": 38.65,
+   "event": "S4_ping_2"
+  },
+  {
+   "frame": 779.0,
+   "seconds": 25.9667,
+   "beat": 38.95,
+   "event": "S4_glitch"
+  },
+  {
+   "frame": 800.0,
+   "seconds": 26.6667,
+   "beat": 40.0,
+   "event": "S4_INSERT_radio"
+  },
+  {
+   "frame": 807.0,
+   "seconds": 26.9,
+   "beat": 40.35,
+   "event": "S4_ping_3"
+  },
+  {
+   "frame": 811.0,
+   "seconds": 27.0333,
+   "beat": 40.55,
+   "event": "S4_tw_0"
+  },
+  {
+   "frame": 815.0,
+   "seconds": 27.1667,
+   "beat": 40.75,
+   "event": "S4_tw_1"
+  },
+  {
+   "frame": 819.0,
+   "seconds": 27.3,
+   "beat": 40.95,
+   "event": "S4_tw_2"
+  },
+  {
+   "frame": 823.0,
+   "seconds": 27.4333,
+   "beat": 41.15,
+   "event": "S4_tw_3"
+  },
+  {
+   "frame": 827.0,
+   "seconds": 27.5667,
+   "beat": 41.35,
+   "event": "S4_tw_4"
+  },
+  {
+   "frame": 831.0,
+   "seconds": 27.7,
+   "beat": 41.55,
+   "event": "S4_tw_5"
+  },
+  {
+   "frame": 841.0,
+   "seconds": 28.0333,
+   "beat": 42.05,
+   "event": "S4_ping_4"
+  },
+  {
+   "frame": 875.0,
+   "seconds": 29.1667,
+   "beat": 43.75,
+   "event": "S5_cut"
+  },
+  {
+   "frame": 891.0,
+   "seconds": 29.7,
+   "beat": 44.55,
+   "event": "S5_head"
+  },
+  {
+   "frame": 905.0,
+   "seconds": 30.1667,
+   "beat": 45.25,
+   "event": "S5_temp"
+  },
+  {
+   "frame": 915.0,
+   "seconds": 30.5,
+   "beat": 45.75,
+   "event": "S5_temp2"
+  },
+  {
+   "frame": 925.0,
+   "seconds": 30.8333,
+   "beat": 46.25,
+   "event": "S5_cap"
+  },
+  {
+   "frame": 967.0,
+   "seconds": 32.2333,
+   "beat": 48.35,
+   "event": "S5_stamp"
+  },
+  {
+   "frame": 1041.0,
+   "seconds": 34.7,
+   "beat": 52.05,
+   "event": "S6_riser"
+  },
+  {
+   "frame": 1055.0,
+   "seconds": 35.1667,
+   "beat": 52.75,
+   "event": "S6_cut"
+  },
+  {
+   "frame": 1058.0,
+   "seconds": 35.2667,
+   "beat": 52.9,
+   "event": "S6_klaxon"
+  },
+  {
+   "frame": 1071.0,
+   "seconds": 35.7,
+   "beat": 53.55,
+   "event": "S6_head"
+  },
+  {
+   "frame": 1077.0,
+   "seconds": 35.9,
+   "beat": 53.85,
+   "event": "S6_breach_stamp"
+  },
+  {
+   "frame": 1085.0,
+   "seconds": 36.1667,
+   "beat": 54.25,
+   "event": "S6_alarm"
+  },
+  {
+   "frame": 1107.0,
+   "seconds": 36.9,
+   "beat": 55.35,
+   "event": "S6_cap"
+  },
+  {
+   "frame": 1120.0,
+   "seconds": 37.3333,
+   "beat": 56.0,
+   "event": "S6_hb"
+  },
+  {
+   "frame": 1150.0,
+   "seconds": 38.3333,
+   "beat": 57.5,
+   "event": "S6_INSERT_thermal"
+  },
+  {
+   "frame": 1151.0,
+   "seconds": 38.3667,
+   "beat": 57.55,
+   "event": "S6_glitch"
+  },
+  {
+   "frame": 1195.0,
+   "seconds": 39.8333,
+   "beat": 59.75,
+   "event": "S6_hb2"
+  },
+  {
+   "frame": 1242.0,
+   "seconds": 41.4,
+   "beat": 62.1,
+   "event": "S7_BOOM"
+  },
+  {
+   "frame": 1246.0,
+   "seconds": 41.5333,
+   "beat": 62.3,
+   "event": "S7_glitch"
+  },
+  {
+   "frame": 1258.0,
+   "seconds": 41.9333,
+   "beat": 62.9,
+   "event": "S7_beam_shimmer"
+  },
+  {
+   "frame": 1266.0,
+   "seconds": 42.2,
+   "beat": 63.3,
+   "event": "S7_head"
+  },
+  {
+   "frame": 1302.0,
+   "seconds": 43.4,
+   "beat": 65.1,
+   "event": "S7_cap"
+  },
+  {
+   "frame": 1430.0,
+   "seconds": 47.6667,
+   "beat": 71.5,
+   "event": "S8_cut"
+  },
+  {
+   "frame": 1446.0,
+   "seconds": 48.2,
+   "beat": 72.3,
+   "event": "S8_head"
+  },
+  {
+   "frame": 1482.0,
+   "seconds": 49.4,
+   "beat": 74.1,
+   "event": "S8_cap"
+  },
+  {
+   "frame": 1500.0,
+   "seconds": 50.0,
+   "beat": 75.0,
+   "event": "S8_hb"
+  },
+  {
+   "frame": 1534.0,
+   "seconds": 51.1333,
+   "beat": 76.7,
+   "event": "S8_INSERT_watch"
+  },
+  {
+   "frame": 1558.0,
+   "seconds": 51.9333,
+   "beat": 77.9,
+   "event": "S8_stamp"
+  },
+  {
+   "frame": 1595.0,
+   "seconds": 53.1667,
+   "beat": 79.75,
+   "event": "S9_cut"
+  },
+  {
+   "frame": 1617.0,
+   "seconds": 53.9,
+   "beat": 80.85,
+   "event": "S9_typewriter_0"
+  },
+  {
+   "frame": 1630.0,
+   "seconds": 54.3333,
+   "beat": 81.5,
+   "event": "S9_typewriter_1"
+  },
+  {
+   "frame": 1643.0,
+   "seconds": 54.7667,
+   "beat": 82.15,
+   "event": "S9_typewriter_2"
+  },
+  {
+   "frame": 1656.0,
+   "seconds": 55.2,
+   "beat": 82.8,
+   "event": "S9_typewriter_3"
+  },
+  {
+   "frame": 1669.0,
+   "seconds": 55.6333,
+   "beat": 83.45,
+   "event": "S9_typewriter_4"
+  },
+  {
+   "frame": 1682.0,
+   "seconds": 56.0667,
+   "beat": 84.1,
+   "event": "S9_typewriter_5"
+  },
+  {
+   "frame": 1687.0,
+   "seconds": 56.2333,
+   "beat": 84.35,
+   "event": "S9_reassigned"
+  },
+  {
+   "frame": 1695.0,
+   "seconds": 56.5,
+   "beat": 84.75,
+   "event": "S9_typewriter_6"
+  },
+  {
+   "frame": 1708.0,
+   "seconds": 56.9333,
+   "beat": 85.4,
+   "event": "S9_typewriter_7"
+  },
+  {
+   "frame": 1723.0,
+   "seconds": 57.4333,
+   "beat": 86.15,
+   "event": "S9_stamp"
+  },
+  {
+   "frame": 1775.0,
+   "seconds": 59.1667,
+   "beat": 88.75,
+   "event": "S10_cut"
+  },
+  {
+   "frame": 1791.0,
+   "seconds": 59.7,
+   "beat": 89.55,
+   "event": "S10_head"
+  },
+  {
+   "frame": 1833.0,
+   "seconds": 61.1,
+   "beat": 91.65,
+   "event": "S10_cap"
+  },
+  {
+   "frame": 1863.0,
+   "seconds": 62.1,
+   "beat": 93.15,
+   "event": "S10_redact1"
+  },
+  {
+   "frame": 1869.0,
+   "seconds": 62.3,
+   "beat": 93.45,
+   "event": "S10_redact2"
+  },
+  {
+   "frame": 1875.0,
+   "seconds": 62.5,
+   "beat": 93.75,
+   "event": "S10_redact3"
+  },
+  {
+   "frame": 1905.0,
+   "seconds": 63.5,
+   "beat": 95.25,
+   "event": "S10_DECLASS"
+  },
+  {
+   "frame": 1925.0,
+   "seconds": 64.1667,
+   "beat": 96.25,
+   "event": "S10_INSERT_news"
+  },
+  {
+   "frame": 1985.0,
+   "seconds": 66.1667,
+   "beat": 99.25,
+   "event": "END_note"
+  },
+  {
+   "frame": 1993.0,
+   "seconds": 66.4333,
+   "beat": 99.65,
+   "event": "END_w1"
+  },
+  {
+   "frame": 2012.0,
+   "seconds": 67.0667,
+   "beat": 100.6,
+   "event": "END_tw_0"
+  },
+  {
+   "frame": 2016.0,
+   "seconds": 67.2,
+   "beat": 100.8,
+   "event": "END_tw_1"
+  },
+  {
+   "frame": 2017.0,
+   "seconds": 67.2333,
+   "beat": 100.85,
+   "event": "END_w2"
+  },
+  {
+   "frame": 2020.0,
+   "seconds": 67.3333,
+   "beat": 101.0,
+   "event": "END_tw_2"
+  },
+  {
+   "frame": 2024.0,
+   "seconds": 67.4667,
+   "beat": 101.2,
+   "event": "END_tw_3"
+  },
+  {
+   "frame": 2028.0,
+   "seconds": 67.6,
+   "beat": 101.4,
+   "event": "END_tw_4"
+  },
+  {
+   "frame": 2047.0,
+   "seconds": 68.2333,
+   "beat": 102.35,
+   "event": "END_final"
+  }
+ ]
+}

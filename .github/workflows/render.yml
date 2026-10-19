@@ -1,0 +1,96 @@
+# Cloud render + cloud storage for PROJECT NIGHTINGALE (and future videos)
+# Runs on GitHub's 4-core runners — faster and more reliable than local sandbox.
+# Trigger: push to main, or Actions tab → "Render Nightingale" → Run workflow
+name: Render Nightingale
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+    inputs:
+      quality:
+        description: 'Render quality'
+        required: false
+        default: 'high'
+        type: choice
+        options: [high, compact]
+
+jobs:
+  render:
+    runs-on: ubuntu-latest
+    timeout-minutes: 90
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      # System deps for Chrome headless + ffmpeg
+      # Note: Ubuntu 24.04 (noble) renamed libasound2 -> libasound2t64; try both.
+      - name: Install system dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y ffmpeg libnspr4 libnss3 libatk1.0-0 libatk-bridge2.0-0 \
+            libcups2 libdrm2 libxkbcommon0 libxcomposite1 libxdamage1 libxfixes3 \
+            libxrandr2 libgbm1 libpango-1.0-0 libpangocairo-1.0-0 libcairo2 \
+            fonts-liberation fonts-noto-color-emoji
+          sudo apt-get install -y libasound2t64 || sudo apt-get install -y libasound2
+
+      - name: Install project
+        run: npm ci || npm install
+
+      - name: Cache Chrome headless shell
+        uses: actions/cache@v4
+        with:
+          path: node_modules/.remotion
+          key: remotion-browser-${{ runner.os }}
+
+      - name: Ensure browser
+        run: npx remotion browser ensure
+
+      # Blocks the render if any cut would interrupt an in-flight animation,
+      # or if any narration lines overlap. A broken cut can never be released.
+      - name: Timeline guard
+        run: python3 check_timeline.py
+
+      - name: Render (high quality)
+        if: ${{ github.event_name != 'workflow_dispatch' || inputs.quality == 'high' }}
+        run: |
+          npx remotion render src/index.ts Nightingale out/master.mp4 \
+            --concurrency=2 --codec=h264 --crf=15 --scale=1.25 --jpeg-quality=100
+          ffmpeg -y -i out/master.mp4 -vf "scale=1920:1080:flags=lanczos" \
+            -c:v libx264 -crf 16 -preset slow -pix_fmt yuv420p out/video_silent.mp4
+
+      - name: Render (compact)
+        if: ${{ github.event_name == 'workflow_dispatch' && inputs.quality == 'compact' }}
+        run: |
+          npx remotion render src/index.ts Nightingale out/video_silent.mp4 \
+            --concurrency=2 --codec=h264 --crf=20 --jpeg-quality=100
+
+      # Mix the pre-made score (audio/nightingale_norm.wav, -14 LUFS)
+      - name: Mux audio
+        run: |
+          ffmpeg -y -i out/video_silent.mp4 -i audio/nightingale_norm.wav \
+            -map 0:v -map 1:a -c:v copy -c:a aac -b:a 256k -shortest \
+            -movflags +faststart PROJECT_NIGHTINGALE_full.mp4
+
+      # 1) Artifact — easy download from the Actions run page (90 days)
+      - uses: actions/upload-artifact@v4
+        with:
+          name: PROJECT_NIGHTINGALE_full
+          path: PROJECT_NIGHTINGALE_full.mp4
+          retention-days: 90
+          compression-level: 0
+
+      # 2) Release — PERMANENT storage with a direct download URL
+      - name: Publish to GitHub Release (permanent)
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: nightingale-${{ github.run_number }}
+          name: PROJECT NIGHTINGALE — render ${{ github.run_number }}
+          files: PROJECT_NIGHTINGALE_full.mp4
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

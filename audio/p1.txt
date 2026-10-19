@@ -1,0 +1,16 @@
+        encoder         : Lavc61.19.101 pcm_s16le
+size=N/A time=00:00:13.00 bitrate=N/A speed=  26x    size=N/A time=00:00:30.50 bitrate=N/A speed=30.5x    size=N/A time=00:00:48.90 bitrate=N/A speed=32.6x    size=N/A time=00:01:07.90 bitrate=N/A speed=33.9x    [Parsed_loudnorm_0 @ 0x7fc4dc001d80] 
+{
+	"input_i" : "-15.33",
+	"input_tp" : "-0.96",
+	"input_lra" : "6.30",
+	"input_thresh" : "-26.55",
+	"output_i" : "-14.18",
+	"output_tp" : "-1.20",
+	"output_lra" : "5.30",
+	"output_thresh" : "-25.29",
+	"normalization_type" : "dynamic",
+	"target_offset" : "0.18"
+}
+[out#0/null @ 0x56091d0045c0] video:0KiB audio:54375KiB subtitle:0KiB other streams:0KiB global headers:0KiB muxing overhead: unknown
+size=N/A time=00:01:12.50 bitrate=N/A speed=34.6x    

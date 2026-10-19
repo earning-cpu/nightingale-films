@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>PROJECT NIGHTINGALE — The Nightingale File</title>
+<meta name="description" content="Area 51, 2026. One surviving fragment. One recovery that never happened. Watch the 70-second film.">
+<style>
+  :root { --amber:#D9A441; --paper:#E9E2D2; --ink:#07090D; --warn:#FF4B36; }
+  * { margin:0; padding:0; box-sizing:border-box; }
+  body { background:var(--ink); color:var(--paper); font-family:Inter,'Helvetica Neue',Arial,sans-serif; }
+  .wrap { max-width:1120px; margin:0 auto; padding:34px 20px 70px; }
+  .tag { font-family:'IBM Plex Mono','Courier New',monospace; letter-spacing:.34em; font-size:12px; color:rgba(233,226,210,.55); margin-bottom:14px; }
+  h1 { font-size:clamp(30px,5vw,54px); font-weight:800; letter-spacing:.01em; line-height:1.05; }
+  h1 .warn { color:var(--warn); }
+  .sub { margin:14px 0 26px; color:rgba(233,226,210,.72); font-size:17px; max-width:760px; line-height:1.55; }
+  .player { position:relative; border-radius:10px; overflow:hidden; background:#000; box-shadow:0 30px 90px rgba(0,0,0,.75); }
+  video { display:block; width:100%; aspect-ratio:16/9; background:#000; }
+  .bar { display:flex; flex-wrap:wrap; gap:12px; margin-top:18px; align-items:center; }
+  a.btn { display:inline-block; padding:13px 22px; border-radius:8px; text-decoration:none; font-weight:700; font-size:15px; }
+  .primary { background:var(--amber); color:#14100a; }
+  .ghost { border:1px solid rgba(233,226,210,.32); color:var(--paper); }
+  .meta { margin-top:34px; display:grid; grid-template-columns:repeat(auto-fit,minmax(210px,1fr)); gap:14px; }
+  .card { border:1px solid rgba(233,226,210,.14); border-radius:10px; padding:16px 18px; background:rgba(233,226,210,.04); }
+  .card b { display:block; font-size:13px; letter-spacing:.14em; color:var(--amber); margin-bottom:6px; }
+  .card span { font-size:14px; color:rgba(233,226,210,.75); line-height:1.5; }
+  footer { margin-top:44px; font-family:'IBM Plex Mono',monospace; font-size:11.5px; letter-spacing:.22em; color:rgba(233,226,210,.4); }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="tag">— CLASSIFIED / DECLASSIFIED / 2026 —</div>
+  <h1>PROJECT NIGHTINGALE<br><span class="warn">THE FILE IS OPEN.</span></h1>
+  <p class="sub">Area 51, 2026. One surviving fragment. One recovery that never happened.
+  Seventy seconds of evidence — narrated, frame-locked to the score. Stream it right here.</p>
+
+  <div class="player">
+    <video controls playsinline preload="metadata"
+      poster="poster.jpg"
+      src="https://github.com/earning-cpu/nightingale-films/releases/latest/download/PROJECT_NIGHTINGALE_full.mp4">
+      Your browser can't play this video — use the download button below.
+    </video>
+  </div>
+
+  <div class="bar">
+    <a class="btn primary" href="https://github.com/earning-cpu/nightingale-films/releases/latest/download/PROJECT_NIGHTINGALE_full.mp4">⬇ Download MP4</a>
+    <a class="btn ghost" href="https://github.com/earning-cpu/nightingale-films/releases">🗂 All releases</a>
+    <a class="btn ghost" href="https://github.com/earning-cpu/nightingale-films">⚙ Source &amp; pipeline</a>
+  </div>
+
+  <div class="meta">
+    <div class="card"><b>FORMAT</b><span>1920×1080 · 30 fps · H.264 + AAC · ~70s</span></div>
+    <div class="card"><b>SOUND</b><span>Narration + 100 frame-locked SFX · −14 LUFS broadcast mix</span></div>
+    <div class="card"><b>ALWAYS FRESH</b><span>This page auto-loads the newest render from the Releases.</span></div>
+    <div class="card"><b>SHARE</b><span>Send this page — it streams instantly, no download needed.</span></div>
+  </div>
+
+  <footer>PROJECT NIGHTINGALE · GROOM LAKE · 1979— · RENDERED IN THE CLOUD</footer>
+</div>
+</body>
+</html>
