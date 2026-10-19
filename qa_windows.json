@@ -80,14 +80,9 @@
   "end": 576
  },
  {
-  "name": "S3_typewriter",
+  "name": "S3_sidecard_fade",
   "start": 581,
-  "end": 616
- },
- {
-  "name": "S3_1977_archive",
-  "start": 618,
-  "end": 695
+  "end": 593
  },
  {
   "name": "S3_stamp",
@@ -148,11 +143,6 @@
   "name": "S5_stamp",
   "start": 967,
   "end": 983
- },
- {
-  "name": "S5_macro_insert",
-  "start": 987,
-  "end": 1055
  },
  {
   "name": "S6_slug",
@@ -273,11 +263,6 @@
   "name": "END_words2",
   "start": 2017,
   "end": 2040
- },
- {
-  "name": "END_type",
-  "start": 2012,
-  "end": 2032
  },
  {
   "name": "END_final",
