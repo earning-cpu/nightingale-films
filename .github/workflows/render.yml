@@ -19,6 +19,8 @@ jobs:
   render:
     runs-on: ubuntu-latest
     timeout-minutes: 90
+    permissions:
+      contents: write
     steps:
       - uses: actions/checkout@v4
 
@@ -55,7 +57,7 @@ jobs:
           npx remotion render src/index.ts Nightingale out/master.mp4 \
             --concurrency=2 --codec=h264 --crf=15 --scale=1.25 --jpeg-quality=100
           ffmpeg -y -i out/master.mp4 -vf "scale=1920:1080:flags=lanczos" \
-            -c:v libx264 -crf=16 -preset slow -pix_fmt yuv420p out/video_silent.mp4
+            -c:v libx264 -crf 16 -preset slow -pix_fmt yuv420p out/video_silent.mp4
 
       - name: Render (compact)
         if: ${{ github.event_name == 'workflow_dispatch' && inputs.quality == 'compact' }}
