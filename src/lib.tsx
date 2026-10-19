@@ -219,8 +219,10 @@ export const Slug: React.FC<{
   place: string;
   start: number;
   accent?: string;
-}> = ({scene, time, place, start, accent = C.amber}) => {
+  hidden?: boolean;
+}> = ({scene, time, place, start, accent = C.amber, hidden}) => {
   const frame = useCurrentFrame();
+  if (hidden) return null;
   const p = win(frame, start, 12);
   const e = easeOutExpo(p);
   return (
@@ -245,7 +247,8 @@ export const Slug: React.FC<{
   );
 };
 
-export const Clock: React.FC<{start: number; baseSec: number}> = ({start, baseSec}) => {
+export const Clock: React.FC<{start: number; baseSec: number; hidden?: boolean}> = ({start, baseSec, hidden}) => {
+  if (hidden) return null;
   const frame = useCurrentFrame();
   const t = baseSec + Math.max(0, frame - start) / 30;
   const hh = Math.floor(t / 3600) % 24;
@@ -271,6 +274,7 @@ export const Clock: React.FC<{start: number; baseSec: number}> = ({start, baseSe
 };
 
 export const Stamp: React.FC<{
+  hidden?: boolean;
   text: string;
   start: number;
   x: number;
@@ -278,8 +282,9 @@ export const Stamp: React.FC<{
   rot?: number;
   color?: string;
   size?: number;
-}> = ({text, start, x, y, rot = -8, color = C.warnGlow, size = 40}) => {
+}> = ({text, start, x, y, rot = -8, color = C.warnGlow, size = 40, hidden}) => {
   const frame = useCurrentFrame();
+  if (hidden) return null;
   const p = win(frame, start, 9);
   const e = easeOutExpo(p);
   return (

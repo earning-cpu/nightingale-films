@@ -106,19 +106,29 @@ export const S2: React.FC = () => {
 export const S3: React.FC = () => {
   const f = useCurrentFrame();
   const t = T.s3.from;
-  const flash = win(f, t + 118, 6); // cut to 1977 archive
+  const archive = f >= t + 116; // hard cut to the 1977 archive shot
   return (
     <Seg from={t} dur={T.s3.dur}>
       <Camera src="img/s3_hangar.jpg" from={t} dur={T.s3.dur} focusFrom={[34, 54]} focusTo={[55, 29]} scaleFrom={1.06} scaleTo={1.03} ease="inOut" handheld={0.12} rotate={0} brightness={0.9} sepia={0} narrSeg="s3" />
       {/* 1977 archival insert */}
-      <AbsoluteFill style={{opacity: flash}}>
+      <AbsoluteFill style={{display: archive ? 'block' : 'none'}}>
         <Camera src="img/extra_1977_recovery.jpg" from={t + 116} dur={T.s3.dur - 116} focusFrom={[58, 50]} focusTo={[57, 54]} scaleFrom={1.04} scaleTo={1.08} ease="inOut" handheld={0.25} rotate={0} brightness={0.85} sepia={0.45} narrSeg="s3" flicker />
         <Scanlines opacity={0.2} />
+        <GradeBottom height="46%" strength={0.92} />
+        {/* its OWN slate, so the hangar headline never sits on the crash photo */}
+        <div style={{position: 'absolute', left: 72, right: 72, bottom: 132}}>
+          <div style={{fontFamily: F.mono, fontSize: 20, color: C.amber, letterSpacing: '0.30em', marginBottom: 12}}>
+            ARCHIVE — PAPOOSE LAKE · 16 MAY 1977
+          </div>
+          <div style={{fontFamily: F.sans, fontSize: 54, fontWeight: 800, color: C.white, lineHeight: 1.06}}>
+            THE RECOVERY <span style={{color: C.warnGlow}}>THAT NEVER HAPPENED.</span>
+          </div>
+        </div>
       </AbsoluteFill>
       <GradeBottom />
-      <Slug scene="SCENE 3" time="23:05 HRS" place="HANGAR 6" start={t + 6} />
-      <Clock start={t} baseSec={23 * 3600 + 5 * 60} />
-      <AbsoluteFill style={{justifyContent: 'flex-end', padding: '0 72px 130px'}}>
+      <Slug scene="SCENE 3" time="23:05 HRS" place="HANGAR 6" start={t + 6}  hidden={archive} />
+      <Clock start={t} baseSec={23 * 3600 + 5 * 60}  hidden={archive} />
+      <AbsoluteFill style={{justifyContent: 'flex-end', padding: '0 72px 130px', display: archive ? 'none' : 'flex'}}>
         <BlurWords words={['IT’S', 'NOT', 'THE', 'FRAGMENT.']} start={t + 18} stagger={5} dur={13}
           accentIndex={3} accentColor={C.plasma}
           style={{fontFamily: F.sans, fontSize: 88, fontWeight: 800}} />
@@ -130,13 +140,13 @@ export const S3: React.FC = () => {
       </AbsoluteFill>
       <div style={{
         position: 'absolute', right: 72, top: 120, textAlign: 'right',
-        fontFamily: F.type, fontSize: 26, color: flash > 0.5 ? C.amber : C.paperDim,
+        fontFamily: F.type, fontSize: 26, color: archive ? C.amber : C.paperDim,
         letterSpacing: '0.12em', lineHeight: 1.8, opacity: win(f, t + 96, 12),
       }}>
         ARCHIVE // RECOVERY 1977<br />
         <span style={{fontSize: 19, color: C.paperDim}}>PAPOOSE LAKE BED — SITE 4</span>
       </div>
-      <Stamp text="PROTOTYPE — TEST UNIT #12" start={t + 150} x={760} y={420} rot={-3} size={28} color={C.plasma} />
+      <Stamp text="PROTOTYPE — TEST UNIT #12" start={t + 150} hidden={archive} x={760} y={420} rot={-3} size={28} color={C.plasma} />
       <Letterbox />
     </Seg>
   );
@@ -446,7 +456,7 @@ export const Nightingale: React.FC = () => (
         label="THERMAL SCAN — CONTAINMENT" focusFrom={[50, 50]} focusTo={[54, 56]} scaleFrom={1.04} scaleTo={1.06} rot={0} />
       <InsertShot src="img/insert_watch.jpg" from={T.s8.from + 104} dur={61}
         label="EXHIBIT 12 — STOPPED 00:11" focusFrom={[54, 46]} focusTo={[46, 52]} scaleFrom={1.04} scaleTo={1.06} rot={0} />
-      <InsertShot src="img/insert_newspaper.jpg" from={T.s10.from + 155} dur={55}
+      <InsertShot src="img/insert_newspaper.jpg" from={T.s10.from + 161} dur={49}
         label="PRESS CLIPPING — MAY 1979" focusFrom={[44, 60]} focusTo={[52, 46]} scaleFrom={1.04} scaleTo={1.06} rot={0} />
       <LightLeak from={T.s3.from + 10} dur={40} />
       <LightLeak from={T.s9.from + 30} dur={60} />

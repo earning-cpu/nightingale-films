@@ -77,6 +77,25 @@ jobs:
             -map 0:v -map 1:a -c:v copy -c:a aac -b:a 256k -shortest \
             -movflags +faststart PROJECT_NIGHTINGALE_full.mp4
 
+      # Frame-by-frame + 4 fps vision audit on the finished file.
+      # Non-blocking for publishing, but the report is attached to the run.
+      - name: Vision audit (4 fps, ~280 frames/min)
+        if: always()
+        run: |
+          python3 -m pip install --quiet numpy opencv-python-headless pillow imagehash scenedetect
+          python3 qa_video.py PROJECT_NIGHTINGALE_full.mp4 || true
+          python3 vision_audit.py PROJECT_NIGHTINGALE_full.mp4 --fps 4 --sheets 6 || true
+
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: qa-report
+          path: |
+            *_qa.json
+            *_vision.json
+            vision/
+          retention-days: 30
+
       # 1) Artifact — easy download from the Actions run page (90 days)
       - uses: actions/upload-artifact@v4
         with:
