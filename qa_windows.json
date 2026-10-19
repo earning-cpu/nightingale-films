@@ -1,0 +1,292 @@
+[
+ {
+  "name": "title_words",
+  "start": 22,
+  "end": 47
+ },
+ {
+  "name": "title_sub",
+  "start": 56,
+  "end": 72
+ },
+ {
+  "name": "title_date",
+  "start": 74,
+  "end": 88
+ },
+ {
+  "name": "title_stamp",
+  "start": 98,
+  "end": 114
+ },
+ {
+  "name": "S1_slug",
+  "start": 146,
+  "end": 166
+ },
+ {
+  "name": "S1_head",
+  "start": 162,
+  "end": 187
+ },
+ {
+  "name": "S1_box",
+  "start": 170,
+  "end": 180
+ },
+ {
+  "name": "S1_warn",
+  "start": 184,
+  "end": 194
+ },
+ {
+  "name": "S1_blurbs",
+  "start": 198,
+  "end": 238
+ },
+ {
+  "name": "S2_slug",
+  "start": 326,
+  "end": 346
+ },
+ {
+  "name": "S2_head",
+  "start": 338,
+  "end": 363
+ },
+ {
+  "name": "S2_blurbs",
+  "start": 372,
+  "end": 410
+ },
+ {
+  "name": "S2_stamp",
+  "start": 394,
+  "end": 410
+ },
+ {
+  "name": "S3_slug",
+  "start": 491,
+  "end": 511
+ },
+ {
+  "name": "S3_head",
+  "start": 503,
+  "end": 531
+ },
+ {
+  "name": "S3_blurbs",
+  "start": 539,
+  "end": 576
+ },
+ {
+  "name": "S3_typewriter",
+  "start": 581,
+  "end": 615
+ },
+ {
+  "name": "S3_1977_flash",
+  "start": 601,
+  "end": 612
+ },
+ {
+  "name": "S3_stamp",
+  "start": 635,
+  "end": 651
+ },
+ {
+  "name": "S4_slug",
+  "start": 701,
+  "end": 721
+ },
+ {
+  "name": "S4_radar",
+  "start": 705,
+  "end": 760
+ },
+ {
+  "name": "S4_head",
+  "start": 711,
+  "end": 739
+ },
+ {
+  "name": "S4_freq",
+  "start": 721,
+  "end": 745
+ },
+ {
+  "name": "S4_wave",
+  "start": 735,
+  "end": 760
+ },
+ {
+  "name": "S4_blurbs",
+  "start": 747,
+  "end": 784
+ },
+ {
+  "name": "S4_glitch",
+  "start": 779,
+  "end": 791
+ },
+ {
+  "name": "S5_slug",
+  "start": 881,
+  "end": 901
+ },
+ {
+  "name": "S5_head",
+  "start": 891,
+  "end": 919
+ },
+ {
+  "name": "S5_temp",
+  "start": 905,
+  "end": 1025
+ },
+ {
+  "name": "S5_blurbs",
+  "start": 925,
+  "end": 962
+ },
+ {
+  "name": "S5_stamp",
+  "start": 967,
+  "end": 983
+ },
+ {
+  "name": "S5_macro_insert",
+  "start": 987,
+  "end": 1047
+ },
+ {
+  "name": "S6_slug",
+  "start": 1061,
+  "end": 1081
+ },
+ {
+  "name": "S6_head",
+  "start": 1071,
+  "end": 1104
+ },
+ {
+  "name": "S6_stamp",
+  "start": 1077,
+  "end": 1093
+ },
+ {
+  "name": "S6_alarm",
+  "start": 1085,
+  "end": 1093
+ },
+ {
+  "name": "S6_blurbs",
+  "start": 1107,
+  "end": 1140
+ },
+ {
+  "name": "S7_beam",
+  "start": 1258,
+  "end": 1272
+ },
+ {
+  "name": "S7_head",
+  "start": 1266,
+  "end": 1294
+ },
+ {
+  "name": "S7_blurbs",
+  "start": 1302,
+  "end": 1334
+ },
+ {
+  "name": "S7_fade",
+  "start": 1290,
+  "end": 1302
+ },
+ {
+  "name": "S8_slug",
+  "start": 1436,
+  "end": 1456
+ },
+ {
+  "name": "S8_head",
+  "start": 1446,
+  "end": 1471
+ },
+ {
+  "name": "S8_watch",
+  "start": 1460,
+  "end": 1470
+ },
+ {
+  "name": "S8_blurbs",
+  "start": 1484,
+  "end": 1524
+ },
+ {
+  "name": "S9_slug",
+  "start": 1601,
+  "end": 1621
+ },
+ {
+  "name": "S9_card",
+  "start": 1605,
+  "end": 1619
+ },
+ {
+  "name": "S9_typewriter",
+  "start": 1617,
+  "end": 1743
+ },
+ {
+  "name": "S9_reassigned",
+  "start": 1687,
+  "end": 1699
+ },
+ {
+  "name": "S9_stamp",
+  "start": 1723,
+  "end": 1739
+ },
+ {
+  "name": "S10_slug",
+  "start": 1781,
+  "end": 1801
+ },
+ {
+  "name": "S10_head",
+  "start": 1791,
+  "end": 1819
+ },
+ {
+  "name": "S10_redactions",
+  "start": 1833,
+  "end": 1875
+ },
+ {
+  "name": "S10_stamp",
+  "start": 1905,
+  "end": 1921
+ },
+ {
+  "name": "END_words",
+  "start": 1993,
+  "end": 2021
+ },
+ {
+  "name": "END_words2",
+  "start": 2017,
+  "end": 2040
+ },
+ {
+  "name": "END_type",
+  "start": 2012,
+  "end": 2032
+ },
+ {
+  "name": "END_final",
+  "start": 2047,
+  "end": 2062
+ }
+]

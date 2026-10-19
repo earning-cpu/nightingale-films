@@ -51,6 +51,11 @@ jobs:
       - name: Ensure browser
         run: npx remotion browser ensure
 
+      # Blocks the render if any cut would interrupt an in-flight animation,
+      # or if any narration lines overlap. A broken cut can never be released.
+      - name: Timeline guard
+        run: python3 check_timeline.py
+
       - name: Render (high quality)
         if: ${{ github.event_name != 'workflow_dispatch' || inputs.quality == 'high' }}
         run: |

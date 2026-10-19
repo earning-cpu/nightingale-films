@@ -74,6 +74,8 @@ jobs:
           path: node_modules/.remotion
           key: remotion-browser-${{ runner.os }}
       - run: npx remotion browser ensure
+      - name: Timeline guard
+        run: python3 check_timeline.py || echo "warning only for long-form" 
       - name: Render chunk ${{ matrix.chunk.index }}
         run: |
           npx remotion render src/index.ts Nightingale out/chunk_${{ matrix.chunk.index }}.mp4 \

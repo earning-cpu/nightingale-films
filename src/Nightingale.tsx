@@ -440,16 +440,17 @@ export const Nightingale: React.FC = () => (
       <S9 />
       <S10 />
       <End />
-      {/* prop cutaways — keep the eye moving between the big shots */}
-      <InsertShot src="img/insert_notes.jpg" from={T.s3.from + 60} dur={40}
-        label="CASE NOTE 77-B" focusFrom={[40, 62]} focusTo={[46, 50]} scaleFrom={1.06} scaleTo={1.18} rot={-1.2} />
-      <InsertShot src="img/insert_radio.jpg" from={T.s4.from + 28} dur={42}
+      {/* prop cutaways — each one placed ONLY inside a verified animation gap.
+          Timeline guard (check_timeline.py) blocks the render if this ever changes. */}
+      <InsertShot src="img/insert_notes.jpg" from={T.s1.from + 108} dur={64}
+        label="CASE NOTE 77-B — PAPOOSE LAKE" focusFrom={[40, 62]} focusTo={[46, 50]} scaleFrom={1.06} scaleTo={1.18} rot={-1.2} />
+      <InsertShot src="img/insert_radio.jpg" from={T.s4.from + 105} dur={66}
         label="SIGNAL INTERCEPT — 1.7 GHz" focusFrom={[52, 58]} focusTo={[46, 46]} scaleFrom={1.10} scaleTo={1.02} rot={0.8} />
-      <InsertShot src="img/insert_thermal.jpg" from={T.s5.from + 44} dur={42}
-        label="THERMAL SCAN — SAMPLE A-51-F" focusFrom={[50, 50]} focusTo={[52, 54]} scaleFrom={1.04} scaleTo={1.16} rot={0} />
-      <InsertShot src="img/insert_watch.jpg" from={T.s8.from + 60} dur={44}
+      <InsertShot src="img/insert_thermal.jpg" from={T.s6.from + 95} dur={94}
+        label="THERMAL SCAN — CONTAINMENT" focusFrom={[50, 50]} focusTo={[54, 56]} scaleFrom={1.04} scaleTo={1.20} rot={0} />
+      <InsertShot src="img/insert_watch.jpg" from={T.s8.from + 104} dur={52}
         label="EXHIBIT 12 — STOPPED 00:11" focusFrom={[54, 46]} focusTo={[46, 52]} scaleFrom={1.08} scaleTo={1.20} rot={1.4} />
-      <InsertShot src="img/insert_newspaper.jpg" from={T.s10.from + 66} dur={44}
+      <InsertShot src="img/insert_newspaper.jpg" from={T.s10.from + 155} dur={47}
         label="PRESS CLIPPING — MAY 1979" focusFrom={[44, 60]} focusTo={[52, 46]} scaleFrom={1.05} scaleTo={1.17} rot={-0.9} />
       <LightLeak from={T.s3.from + 10} dur={40} />
       <LightLeak from={T.s9.from + 30} dur={60} />
