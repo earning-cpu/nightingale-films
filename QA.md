@@ -194,3 +194,59 @@ the bitrate is a genuinely clean picture, not a compromise.
 > and the page must be regression-tested at 350 kbps. A 6 Mbps master is a download, not a stream.
 > (Q36)
 
+---
+
+## Semantic audit — first run (2026-10-20, Cloudflare Llama 3.2 Vision)
+
+`tools/cf_vlm_audit.py docs/film_720.mp4 --narr src/narration.json --fps 3`
+209 frames · 4 min 5 s · **~3,900 neurons of the 10,000 daily free allowance**
+
+```
+scored      188 / 209
+mean match  1.93 / 2.0
+mismatches  6   (all false positives — see below)
+unparsed    21
+```
+
+### What it is genuinely good at
+
+- **Presence checks.** It reliably reports what is *in* a frame ("old paper with top secret
+  stamp", "desert with military vehicles and buildings"). That survives resizing and gradability
+  and is useful for cutting on subject matter.
+- **Catching an empty or broken frame** — a black or garbled plate scores 0 without fail.
+
+### What it is NOT good at — verified, not assumed
+
+I checked the six mismatches against the actual frames:
+
+| t | Model said | Ground truth (I looked) | Verdict |
+|---|---|---|---|
+| 42.33 s | 0 — "beam not visible" | light beam rising from a desert town, captioned *Eleven* | **model wrong** |
+| 49.33 s | 0 — "no eleven minutes" | soldiers, caption *8 MINUTES MISSING* | model misread burned-in text |
+| 66.33 s | 0 — "only the word THE" | end card, one frame into a fade-up | correctly flagged, but it is a designed fade |
+
+So: **it hallucinates on faint detail, misreads small burned-in type, and is harsh on fades.**
+Its "SEE=" field also sometimes echoes the narration instead of describing the picture — a
+classic small-model failure, and the reason a 0 from this model is a *hint*, not a verdict.
+
+### The unparsed cluster at 43–51 s
+
+21 of 209 came back unparsed, 17 of them inside an 8-second window. That is a burst
+rate-limit, not a content signal: `llama-3.2-11b-vision-instruct` is capped at
+**720 requests/minute**, and the retry path triples traffic exactly when the model is slow.
+Fix applied: the audit now **throttles to 2 req/s and retries with backoff**, so later runs
+should return 0 unparsed.
+
+### What this changes
+
+The semantic pass stays in the gate list, but with its role corrected:
+
+> **Q34 (semantic match) is a triage tool, not a ship-blocker.** It may flag a frame for human
+> review; only a human (or a frontier vision model) may fail a build on "wrong image for the line".
+> Presence checks and empty-frame detection remain automated.
+
+The honest upgrade path, in effort order:
+1. **Google AI Studio / Gemini free tier** — stronger vision reasoning, same job, ~10 min to wire.
+2. **Denser sampling (4 fps) only on flagged windows**, so cost stays flat.
+3. **Two-model agreement:** flag only when Llama *and* a second model both score 0.
+

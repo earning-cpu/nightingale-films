@@ -29,6 +29,7 @@ VISION_MODELS = [
     "@cf/llava-hf/llava-1.5-7b-hf",
 ]
 MODEL = VISION_MODELS[0]
+MIN_INTERVAL = 0.5          # seconds between frames (720 req/min cap -> stay well under)
 API = "https://api.cloudflare.com/client/v4/accounts/{acct}/ai/run/{model}"
 
 SYSTEM = (
@@ -38,14 +39,17 @@ SYSTEM = (
     "a mood shot can support a line; a mismatched subject cannot."
 )
 
-PROMPT = """Narration at this moment (t={t:.2f}s): "{line}"
+PROMPT = """Narration at t={t:.2f}s: "{line}"
 
-Answer with ONLY a JSON object, no prose:
-{{"match": 2|1|0, "subject": "<what you actually see, 8 words max>", "issues": ["<short issue>", ...]}}
+Look at the image, then reply on ONE line in exactly this shape:
 
-match = 2 the image clearly supports the line
-match = 1 partly / generically related
-match = 0 wrong image for this line, or unreadable (blur, black, garbled text)"""
+SCORE=<2 or 1 or 0> ; SEE=<what you see, max 8 words> ; BAD=<problems, or none>
+
+SCORE 2 = the image clearly supports the narration.
+SCORE 1 = only partly or generically related.
+SCORE 0 = wrong image for this line, or unreadable.
+Nothing before SCORE=. Nothing after BAD=. One line only."""
+
 
 
 def sh(cmd):
@@ -53,11 +57,11 @@ def sh(cmd):
     return p.stdout
 
 
-def frames(path, fps, width=640):
+def frames(path, fps, width=512):
     """Yield (timestamp_seconds, jpeg_bytes) via one ffmpeg pass."""
     tmp = tempfile.mkdtemp(prefix="cfvlm_")
     subprocess.run(["ffmpeg", "-v", "error", "-y", "-i", path,
-                    "-vf", f"fps={fps},scale={width}:-2", "-q:v", "5",
+                    "-vf", f"fps={fps},scale={width}:-2", "-q:v", "6",
                     os.path.join(tmp, "f_%06d.jpg")], check=True)
     names = sorted(os.listdir(tmp))
     for i, n in enumerate(names):
@@ -115,6 +119,19 @@ def agree(token, acct, model):
         return False
 
 
+def vision_payload(model, prompt, jpg_bytes, system=None):
+    """Cloudflare's vision endpoints do not share one payload shape.
+    llama-3.2-11b-vision-instruct: {"prompt": str, "image": [int, ...]}   (raw bytes)
+    llava / gemma:                {"messages": [...], "image": "data:...;base64,..."}
+    Verified against the live API 2026-10-20."""
+    if "llama-3.2-11b-vision" in model:
+        return {"prompt": prompt, "image": list(jpg_bytes), "max_tokens": 200, "temperature": 0.1}
+    return {"messages": ([{"role": "system", "content": system}] if system else []) +
+                        [{"role": "user", "content": prompt}],
+            "image": "data:image/jpeg;base64," + base64.b64encode(jpg_bytes).decode(),
+            "max_tokens": 200, "temperature": 0.1}
+
+
 def call_ai(token, acct, model, payload, retries=3):
     url = API.format(acct=acct, model=model)
     body = json.dumps(payload).encode()
@@ -137,6 +154,8 @@ def call_ai(token, acct, model, payload, retries=3):
                 if agree(token, acct, model):
                     continue
                 raise ModelUnavailable(f"licence not accepted: {msg}")
+            if "5018" in msg or "not allowed to access" in low:
+                raise ModelUnavailable(f"account not permitted: {msg}")
             if "5035" in msg or "5007" in msg or "paid plan" in low or "upgrade" in low:
                 raise ModelUnavailable(f"needs Workers Paid: {msg}")
             if e.code in (400, 404):
@@ -144,14 +163,34 @@ def call_ai(token, acct, model, payload, retries=3):
             raise SystemExit(f"HTTP {e.code}: {msg}")
 
 
-def parse_json(text):
-    m = re.search(r"\{.*\}", text, re.S)
+def parse_verdict(text):
+    """Anchor on SCORE= . A small model will echo JSON templates or number its own
+    lines; an explicit key=value on one line survives both."""
+    if isinstance(text, dict):
+        text = text.get("response") or json.dumps(text)
+    t = str(text)
+    m = re.search(r"SCORE\s*[=:]\s*([0-2])", t, re.I)
     if not m:
         return None
-    try:
-        return json.loads(m.group(0))
-    except json.JSONDecodeError:
-        return None
+    see = re.search(r"SEE\s*[=:]\s*([^;\n]*)", t, re.I)
+    bad = re.search(r"BAD\s*[=:]\s*([^;\n]*)", t, re.I)
+    issues = []
+    if bad and bad.group(1).strip().lower() not in ("", "none", "no", "-"):
+        issues = [bad.group(1).strip()[:90]]
+    return {"match": int(m.group(1)),
+            "subject": (see.group(1).strip() if see else "")[:80],
+            "issues": issues}
+
+
+def parse_json(text):
+    """Take the FIRST complete JSON object - small models like to keep
+    emitting extra ones (one per imagined frame) and a greedy match fails."""
+    for m in re.finditer(r"\{[^{}]*\}", text, re.S):
+        try:
+            return json.loads(m.group(0))
+        except json.JSONDecodeError:
+            continue
+    return None
 
 
 def main():
@@ -181,10 +220,7 @@ def main():
     _pt, pjpg = probe
     for m in models:
         try:
-            call_ai(token, acct, m, {
-                "messages": [{"role": "user", "content": "Reply with one word: ok"}],
-                "image": "data:image/jpeg;base64," + base64.b64encode(pjpg).decode(),
-                "max_tokens": 8, "temperature": 0})
+            call_ai(token, acct, m, vision_payload(m, "Reply with one word: ok", pjpg))
             chosen = m
             print(f"using {m}")
             break
@@ -194,20 +230,16 @@ def main():
         sys.exit("no vision model available on this account - see messages above")
 
     rows, bad, n = [], [], 0
+    last_call = 0.0
     for t, jpg in frames(a.video, a.fps):
         if a.limit and n >= a.limit:
             break
         line = line_at(lines, t)
-        data_uri = "data:image/jpeg;base64," + base64.b64encode(jpg).decode()
-        payload = {
-            "messages": [
-                {"role": "system", "content": SYSTEM},
-                {"role": "user", "content": PROMPT.format(t=t, line=line)},
-            ],
-            "image": data_uri,
-            "max_tokens": 160,
-            "temperature": 0.1,
-        }
+        payload = vision_payload(chosen, PROMPT.format(t=t, line=line), jpg, SYSTEM)
+        wait = MIN_INTERVAL - (time.time() - last_call)
+        if wait > 0:
+            time.sleep(wait)
+        last_call = time.time()
         res = call_ai(token, acct, chosen, payload)
         text = ""
         r = res.get("result", {})
@@ -215,7 +247,13 @@ def main():
             text = r.get("response") or r.get("description") or json.dumps(r)[:400]
         else:
             text = str(r)
-        verdict = parse_json(text) or {"match": None, "subject": "", "issues": ["unparsed"]}
+        verdict = parse_verdict(text)
+        if verdict is None:                       # one retry, then give up on this frame
+            res = call_ai(token, acct, chosen,
+                          vision_payload(chosen, f'Narration: "{line}". Reply exactly: SCORE=<0,1,2> ; SEE=<words> ; BAD=<none>', jpg))
+            rr = res.get("result", {})
+            t2 = rr.get("response") if isinstance(rr, dict) else rr
+            verdict = parse_verdict(t2) or {"match": None, "subject": "", "issues": ["unparsed"]}
         verdict.update({"t": round(t, 2), "line": line})
         rows.append(verdict)
         n += 1
