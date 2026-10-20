@@ -78,7 +78,23 @@ def c_github(t):
 def c_cloudflare(t):
     st, body = req("https://api.cloudflare.com/client/v4/user/tokens/verify", {"Authorization": f"Bearer {t}"})
     d = json.loads(body)
-    return f"token {d.get('result',{}).get('status')}"
+    status = d.get("result", {}).get("status")
+    acct = ENV.get("CLOUDFLARE_ACCOUNT_ID", "")
+    if not acct:
+        return f"token {status} · CLOUDFLARE_ACCOUNT_ID missing"
+    # does this token actually have Workers AI? a 1-token text call is the cheapest proof
+    try:
+        st2, b2 = req(f"https://api.cloudflare.com/client/v4/accounts/{acct}/ai/run/@cf/meta/llama-3.2-1b-instruct",
+                      {"Authorization": f"Bearer {t}"},
+                      data={"messages": [{"role": "user", "content": "hi"}], "max_tokens": 1})
+        d2 = json.loads(b2)
+        ai = "workers-ai ✓" if d2.get("success", True) else f"workers-ai ✗ {str(d2.get('errors'))[:80]}"
+    except urllib.error.HTTPError as e:
+        body2 = e.read().decode("utf-8", "replace")[:120]
+        ai = f"workers-ai ✗ HTTP {e.code}"
+        if e.code == 403:
+            ai += " (licence or scope)"
+    return f"token {status} · account {acct[:8]}… · {ai}"
 
 def c_hf(t):
     st, body = req("https://huggingface.co/api/whoami-v2", {"Authorization": f"Bearer {t}"})
