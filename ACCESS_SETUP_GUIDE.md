@@ -64,21 +64,26 @@ So one edit of two permissions and the watch page goes live — with the same ke
 2. Find the token you already gave me (it will show a "last used" timestamp from today — that's me) and **click its name** — not the delete bin. The name opens the detail page.
 3. Click **Edit** (top right).
 4. Leave resource owner and repositories alone — it's already `earning-cpu` → `nightingale-films`.
-5. Scroll to **Repository permissions** and change these two:
+5. Scroll to **Repository permissions**. You will see *only the permissions already granted*
+   (Actions, Administration, Contents, Metadata, Workflows). **Pages is missing because it hasn't been added yet.**
 
-   | Permission | Set to |
+   Click **“Add permissions”** — the button at the top-right of that section, above the permission rows.
+   A search list opens. Type **`Pages`**. Tick it, set the dropdown to **Read and write**, then confirm.
+
+   Final state should be exactly:
+
+   | Permission | Value |
    |---|---|
-   | **Pages** | **Read and write** |
-   | **Administration** | **Read and write** |
-
-   And confirm these are already present (they are, from my probes):
-
-   | Permission | Should be |
-   |---|---|
-   | Contents | Read and write |
    | Actions | Read and write |
+   | Contents | Read and write |
    | Workflows | Read and write |
-   | Metadata | Read-only (auto) |
+   | **Pages** | **Read and write** ← the one to add |
+   | Metadata | Read-only (**required**, cannot be changed — this is normal, ignore it) |
+   | Administration | **No access** ← set this back; we do **not** need it |
+
+   > **Correction to what I said earlier:** the API header reads `pages=write,administration=write`,
+   > which means *either one* satisfies the endpoint. `Pages: write` alone is enough — and
+   > `Administration` also covers repository **deletion**, so we keep it at *No access*. Least privilege.
 
 6. *(Optional but sensible)* set **Expiration** to 90 days instead of none.
 7. Click **Update token** / **Save changes** at the bottom.
@@ -92,11 +97,25 @@ So one edit of two permissions and the watch page goes live — with the same ke
 3. Add a "Watch" button on the repo README that plays inline
 4. Add the Pages deploy step to `.github/workflows/render.yml` so every render publishes itself
 
-### If the "Pages" permission row is missing or greyed out
+### If “Pages” is not in the Add-permissions search at all
 
-- You're on the wrong resource owner — it must be **earning-cpu** (your user), not an organisation.
-- Or the account needs to be an admin of the repo — you are.
-- Fallback: flip it by hand in **repo → Settings → Pages → Source: Deploy from a branch → main / `/docs` → Save**, and skip the token edit. Everything else still works; I just can't do it for you next time.
+Two possible causes, then the escape hatch that makes this moot:
+
+- Wrong **resource owner** — it must be **earning-cpu** (your user), not an organisation.
+- Or you're editing a token created before Pages existed as a permission. In that case a new token
+  *is* required — same settings, just created fresh.
+
+**The escape hatch (6 clicks, no token at all):**
+1. Repo → **Settings** (top bar)
+2. Left sidebar → **Pages** (under *Code and automation*)
+3. *Build and deployment* → **Source: Deploy from a branch**
+4. **Branch: `main`**, **Folder: `/docs`**
+5. **Save**
+6. Wait ~60 s → **https://earning-cpu.github.io/nightingale-films/**
+
+That is permanent: with *Deploy from a branch*, every `git push` republishes the page by itself —
+**no token is needed for future deploys.** The Pages permission only lets *me* flip that switch
+for you instead of you clicking five times.
 
 ---
 
