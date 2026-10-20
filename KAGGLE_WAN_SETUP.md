@@ -44,18 +44,26 @@ Kaggle **refuses GPU until your phone is verified.**
 > Indian numbers work. If the SMS never arrives, try once more after 5 minutes; the
 > verifier is flaky but the quota is worth it.
 
-### Step 3 — create the API token (optional but useful for me)
-1. Same **Settings** page → scroll to **API**
-2. Click **Create New Token**
-3. A file `kaggle.json` downloads containing:
-   ```json
-   {"username":"yourname","key":"a1b2c3d4e5f6..."}
-   ```
-4. Send me those two values, or drop them in `.env.local`:
-   ```
-   KAGGLE_USERNAME=yourname
-   KAGGLE_KEY=a1b2c3d4e5f6...
-   ```
+### Step 3 — create the API token ✅ done
+
+You created a **token** (`KGAT_…`), not a legacy key — that's the right choice: the legacy
+`kaggle.json` pair is the path that produces `OSError: Could not find kaggle.json`.
+
+**Verified live from here:**
+
+```
+GET /api/v1/hello       200  {"userName":"earningcpu"}
+GET /api/v1/kernels     200  (list access confirmed)
+```
+
+Both `Authorization: Bearer <token>` and `user:token` basic auth work. Note the username is
+`earningcpu` (Kaggle strips punctuation) — that matters, because kernel paths are
+`earningcpu/<slug>`.
+
+**What this token can do:** read the API, list kernels and datasets, and — through the
+`kaggle` CLI — push and run notebooks. **What it cannot do:** create a dataset directly via
+the REST endpoint (returns `403`). Use the browser for the one-time dataset upload; the CLI
+handles it fine once a dataset exists.
 
 ### Step 4 — check your quota
 **Settings → Accelerator** (or the notebook's session panel) shows the weekly GPU
@@ -225,12 +233,18 @@ should already have fixed.
 
 ## What to send me
 
-Nothing is required — this runs on your account, in your browser. Send me either:
+**Credentials are already in place** (`KAGGLE_API_TOKEN` + username `earningcpu` in
+`.env.local`). So I can:
 
-1. **The `kaggle.json` values** (`KAGGLE_USERNAME`, `KAGGLE_KEY`) and I can push
-   notebooks and datasets to your account from here, or
-2. **Just the finished clips** (drop them in chat) and I'll conform, grade, QA and cut
-   them into the film.
+1. **Push the notebook for you** — `tools/kaggle_push.py` is written; once you've confirmed
+   the token can push kernels, I'll create `earningcpu/nightingale-wan` with the Wan script
+   pre-loaded and the GPU flag set.
+2. **Receive clips** — drop finished mp4s in chat and I conform, grade, QA and cut them.
+
+**One thing only you can do, because it needs a browser and takes 10 seconds:** follow
+Part 1, Step 2 and verify your phone at
+**https://www.kaggle.com/settings** → *Phone Verification*. Without it the accelerator
+dropdown stays greyed out and no amount of API access will start a GPU.
 
 ---
 
