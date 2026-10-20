@@ -18,8 +18,8 @@ import argparse, base64, json, os, re, subprocess, sys, tempfile, time
 import urllib.error, urllib.request
 
 ENDPOINT = "https://generativelanguage.googleapis.com/v1beta/models/{model}:generateContent?key={key}"
-MODELS = ["gemini-3.5-flash", "gemini-2.5-flash", "gemini-3.5-flash-lite"]
-MIN_INTERVAL = 0.4
+MODELS = ["gemini-3.5-flash", "gemini-3.1-flash-lite", "gemini-3.8-flash"]
+MIN_INTERVAL = 6.5   # measured free tier: ~10 RPM -> 6.5 s keeps us under
 
 PROMPT = """Narration at t={t:.2f}s: "{line}"
 
@@ -64,11 +64,11 @@ def line_at(lines, t, pad=0.6):
     return min(lines, key=lambda l: abs((l[0] + l[1]) / 2 - t))[2] if lines else "(no narration)"
 
 
-def ask(key, model, prompt, jpg, retries=3):
+def ask(key, model, prompt, jpg, retries=5):
     body = json.dumps({"contents": [{"parts": [
         {"text": prompt},
         {"inline_data": {"mime_type": "image/jpeg", "data": base64.b64encode(jpg).decode()}},
-    ]}], "generationConfig": {"temperature": 0.1, "maxOutputTokens": 200}}).encode()
+    ]}], "generationConfig": {"temperature": 0.1, "maxOutputTokens": 400}}).encode()
     url = ENDPOINT.format(model=model, key=key)
     for attempt in range(retries):
         r = urllib.request.Request(url, data=body, method="POST",
@@ -83,7 +83,10 @@ def ask(key, model, prompt, jpg, retries=3):
                 return "".join(p.get("text", "") for p in parts)
         except urllib.error.HTTPError as e:
             msg = e.read().decode("utf-8", "replace")[:200]
-            if e.code in (429, 500, 503) and attempt < retries - 1:
+            if e.code == 429:
+                time.sleep(62)          # free-tier window is per minute; wait it out
+                continue
+            if e.code in (500, 503) and attempt < retries - 1:
                 time.sleep(2 ** attempt + 1)
                 continue
             raise RuntimeError(f"HTTP {e.code}: {msg}")
@@ -111,6 +114,8 @@ def main():
     ap.add_argument("--model", default="")
     ap.add_argument("--limit", type=int, default=0)
     ap.add_argument("--compare", default="", help="a previous audit json to intersect with")
+    ap.add_argument("--times", default="",
+                    help="comma list of exact timestamps to check, e.g. 42.33,49.33,66.33")
     a = ap.parse_args()
 
     key = os.environ.get("GEMINI_API_KEY", "")
@@ -135,7 +140,19 @@ def main():
 
     lines = narration_lines(a.narr)
     rows, n, last = [], 0, 0.0
-    for t, jpg in frames(a.video, a.fps):
+
+    if a.times:
+        wanted = [float(x) for x in a.times.split(",") if x.strip()]
+        pairs = []
+        for t in wanted:
+            tmp = tempfile.mktemp(suffix=".jpg")
+            subprocess.run(["ffmpeg", "-v", "error", "-y", "-ss", str(t), "-i", a.video,
+                            "-frames:v", "1", "-vf", "scale=640:-2", "-q:v", "4", tmp], check=True)
+            pairs.append((t, open(tmp, "rb").read()))
+    else:
+        pairs = frames(a.video, a.fps)
+
+    for t, jpg in pairs:
         if a.limit and n >= a.limit:
             break
         wait = MIN_INTERVAL - (time.time() - last)

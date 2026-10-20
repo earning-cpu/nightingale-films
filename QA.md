@@ -250,3 +250,46 @@ The honest upgrade path, in effort order:
 2. **Denser sampling (4 fps) only on flagged windows**, so cost stays flat.
 3. **Two-model agreement:** flag only when Llama *and* a second model both score 0.
 
+---
+
+## Gemini audit — what the free tier actually allows (2026-10-20)
+
+**Key works.** Note the format: Google now issues keys starting `AQ.` (not `AIza...`).
+Both `?key=` and `x-goog-api-key` headers accept it; `Authorization: Bearer` returns 401.
+
+### Model reality check (probed live, not assumed)
+
+| Model | Result |
+|---|---|
+| `gemini-2.5-flash` / `gemini-2.5-flash-lite` | **404 — "no longer available to new users"** |
+| `gemini-3.7-flash` | hangs (25 s timeout) |
+| `gemini-3.8-flash` | works but slow (8.6 s) and spends thinking tokens |
+| **`gemini-3.5-flash`** | **works, 1.2 s** ← primary |
+| **`gemini-3.1-flash-lite`** | **works, 0.7 s** ← fallback |
+
+### The blocker: free-tier RPM
+
+A 3-frame smoke test scored cleanly (mean 1.33, 0 mismatches, subject descriptions visibly
+better than Llama's). Then a 1 fps sweep (70 frames) **died at request ~11 with HTTP 429**.
+Measured ceiling: **≈10 requests/minute**.
+
+A 209-frame audit therefore needs ~21 minutes of wall clock minimum, plus 62-second waits for
+every rate-limit hit. A 0.5 fps attempt ran 28 minutes without finishing. **The free tier is not
+built for frame sweeps** — it is built for interactive use.
+
+### What this means in practice
+
+| Job | Tool |
+|---|---|
+| Full-film sweep (209 frames) | **Cloudflare Llama** — 4 min, 3,900 neurons, no rate problem |
+| Adjudicating a disputed frame | **Gemini** — one call, 1–2 s, noticeably better eyes |
+| Two-model agreement | run Llama everywhere, Gemini on the flagged timestamps only |
+
+That hybrid costs nothing and uses each provider for what it is actually good at.
+`tools/gemini_audit.py --times 42.33,49.33,66.33` is the adjudication mode.
+
+### If we ever want Gemini at sweep speed
+
+Gemini API billing is **prepay, $5 minimum, credits valid 12 months**. At Flash pricing a
+209-frame audit is cents. Optional; the hybrid above already works.
+
