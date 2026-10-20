@@ -21,7 +21,14 @@ from __future__ import annotations
 import argparse, base64, json, os, re, subprocess, sys, tempfile, time
 import urllib.error, urllib.request
 
-MODEL = "@cf/meta/llama-3.2-11b-vision-instruct"
+# Vision models, best first. The first needs a one-time licence acceptance,
+# which is an API call, not a dashboard button (see agree()).
+VISION_MODELS = [
+    "@cf/meta/llama-3.2-11b-vision-instruct",
+    "@cf/google/gemma-3-12b-it",
+    "@cf/llava-hf/llava-1.5-7b-hf",
+]
+MODEL = VISION_MODELS[0]
 API = "https://api.cloudflare.com/client/v4/accounts/{acct}/ai/run/{model}"
 
 SYSTEM = (
@@ -87,6 +94,27 @@ def line_at(lines, t, pad=0.6):
     return "(no narration)"
 
 
+class ModelUnavailable(Exception):
+    """Model is gated, deprecated, or not permitted on this plan."""
+
+
+def agree(token, acct, model):
+    """Accept the licence. Cloudflare requires one request containing {"prompt":"agree"}.
+    The dashboard's licence link only shows the text - there is no Accept button."""
+    url = API.format(acct=acct, model=model)
+    req = urllib.request.Request(url, data=json.dumps({"prompt": "agree"}).encode(),
+                                 method="POST", headers={"Authorization": f"Bearer {token}",
+                                                         "Content-Type": "application/json"})
+    try:
+        with urllib.request.urlopen(req, timeout=60) as r:
+            r.read()
+        print(f"  licence accepted for {model}")
+        return True
+    except urllib.error.HTTPError as e:
+        print(f"  agree failed on {model}: HTTP {e.code}")
+        return False
+
+
 def call_ai(token, acct, model, payload, retries=3):
     url = API.format(acct=acct, model=model)
     body = json.dumps(payload).encode()
@@ -104,10 +132,15 @@ def call_ai(token, acct, model, payload, retries=3):
             if e.code in (429, 500, 502, 503, 504) and attempt < retries - 1:
                 time.sleep(2 ** attempt + 1)
                 continue
-            if e.code == 403 and "licen" in msg.lower():
-                sys.exit("\nCloudflare: licence not accepted.\n"
-                         "Open https://dash.cloudflare.com → Workers & Pages → AI → "
-                         "Meta Llama 3.2 11B Vision → Accept licence, then re-run.\n")
+            low = msg.lower()
+            if e.code == 403 and ("licen" in low or "agree" in low or "terms" in low):
+                if agree(token, acct, model):
+                    continue
+                raise ModelUnavailable(f"licence not accepted: {msg}")
+            if "5035" in msg or "5007" in msg or "paid plan" in low or "upgrade" in low:
+                raise ModelUnavailable(f"needs Workers Paid: {msg}")
+            if e.code in (400, 404):
+                raise ModelUnavailable(f"model rejected input: {msg}")
             raise SystemExit(f"HTTP {e.code}: {msg}")
 
 
@@ -140,6 +173,26 @@ def main():
                  "Dry run only: pass --limit 0 with a video and no key to preview the pairing.")
 
     lines = narration_lines(a.narr)
+
+    models = [a.model] if a.model != MODEL else list(VISION_MODELS)
+    chosen, probe = None, next(frames(a.video, max(0.5, a.fps / 8)), None)
+    if probe is None:
+        sys.exit("could not extract a frame from " + a.video)
+    _pt, pjpg = probe
+    for m in models:
+        try:
+            call_ai(token, acct, m, {
+                "messages": [{"role": "user", "content": "Reply with one word: ok"}],
+                "image": "data:image/jpeg;base64," + base64.b64encode(pjpg).decode(),
+                "max_tokens": 8, "temperature": 0})
+            chosen = m
+            print(f"using {m}")
+            break
+        except ModelUnavailable as e:
+            print(f"skip {m}: {e}")
+    if not chosen:
+        sys.exit("no vision model available on this account - see messages above")
+
     rows, bad, n = [], [], 0
     for t, jpg in frames(a.video, a.fps):
         if a.limit and n >= a.limit:
@@ -155,7 +208,7 @@ def main():
             "max_tokens": 160,
             "temperature": 0.1,
         }
-        res = call_ai(token, acct, a.model, payload)
+        res = call_ai(token, acct, chosen, payload)
         text = ""
         r = res.get("result", {})
         if isinstance(r, dict):
@@ -175,7 +228,7 @@ def main():
             bad.append(verdict)
 
     os.makedirs(os.path.dirname(a.out) or ".", exist_ok=True)
-    json.dump({"model": a.model, "frames": rows, "mismatches": bad}, open(a.out, "w"), indent=1)
+    json.dump({"model": chosen, "frames": rows, "mismatches": bad}, open(a.out, "w"), indent=1)
     scored = [r for r in rows if r.get("match") is not None]
     print("\n" + "=" * 60)
     print(f"{len(rows)} frames · {len(scored)} scored · {len(bad)} mismatches (match=0)")

@@ -31,25 +31,37 @@ only once. If you lose it, delete it and make another; nothing breaks.
 
 ---
 
-## Step 2 — accept the Llama licence (this step is why most people get a 403)
+## Step 2 — the Llama licence (there is NO accept button — this is not your mistake)
 
-Cloudflare requires each account to accept Meta's licence before the vision model will run.
-Skip this and every call returns `403 Forbidden` — the error looks like a permissions problem
-but isn't.
+You opened the model page and found only a licence link that redirects to GitHub. That is the
+**exact** behaviour today: Cloudflare removed the "Accept" button. The licence is accepted by
+**sending one API request**:
 
-1. Left sidebar → **Workers & Pages**
-2. Top tab → **AI** *(in some dashboards: "AI" appears as its own sidebar item)*
-3. Click **Models** *(or "Browse models")*
-4. Search: **`llama-3.2-11b-vision-instruct`**
-5. Open it → click **Accept licence** / **Agree & continue**
-6. While you're here, accept the licence for **`@cf/openai/whisper`** too if it shows one —
-   same one-click pattern
+```bash
+curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/ai/run/@cf/meta/llama-3.2-11b-vision-instruct \
+  -X POST -H "Authorization: Bearer $CF_TOKEN" -d '{"prompt":"agree"}'
+```
 
-> You can also skip ahead and just try it: the model page has a **Playground / Try it** box.
-> Paste a photo and ask "what is in this image?". If it answers, the licence is accepted.
-> If it says forbidden, go back and accept.
+**You do not need to do this.** My script sends that call automatically the first time it hits a
+403, then retries the same frame. So skip straight to Step 3 — the licence will be accepted for
+you the moment the token exists.
 
----
+> Why it matters anyway: without that one call, every vision request returns `403`, and the error
+> text looks like a permissions problem — which is why people rebuild tokens for an hour chasing
+> the wrong cause. `tools/cf_vlm_audit.py` handles it; `tools/verify_keys.py` now reports
+> `vision ✓ licence accepted` so you can see it happen.
+
+### If a model refuses with `5035` / "requires Workers Paid"
+
+Cloudflare moved some models off the free plan (Kimi K2.6, GLM-5.2, Kimi K2.7 Code as of mid-2026).
+`llama-3.2-11b-vision-instruct` is still on free. If it ever moves, the audit script automatically
+falls back in order:
+
+1. `@cf/meta/llama-3.2-11b-vision-instruct`
+2. `@cf/google/gemma-3-12b-it`
+3. `@cf/llava-hf/llava-1.5-7b-hf`
+
+and prints which one it used. No action needed from you.
 
 ## Step 3 — create the API token
 

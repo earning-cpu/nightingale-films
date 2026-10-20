@@ -82,19 +82,35 @@ def c_cloudflare(t):
     acct = ENV.get("CLOUDFLARE_ACCOUNT_ID", "")
     if not acct:
         return f"token {status} · CLOUDFLARE_ACCOUNT_ID missing"
-    # does this token actually have Workers AI? a 1-token text call is the cheapest proof
+    # does this token actually have Workers AI? a 1-token call is the cheapest proof
+    base = f"https://api.cloudflare.com/client/v4/accounts/{acct}/ai/run"
     try:
-        st2, b2 = req(f"https://api.cloudflare.com/client/v4/accounts/{acct}/ai/run/@cf/meta/llama-3.2-1b-instruct",
-                      {"Authorization": f"Bearer {t}"},
+        st2, b2 = req(f"{base}/@cf/meta/llama-3.2-1b-instruct", {"Authorization": f"Bearer {t}"},
                       data={"messages": [{"role": "user", "content": "hi"}], "max_tokens": 1})
-        d2 = json.loads(b2)
-        ai = "workers-ai ✓" if d2.get("success", True) else f"workers-ai ✗ {str(d2.get('errors'))[:80]}"
+        ai = "workers-ai ✓"
     except urllib.error.HTTPError as e:
-        body2 = e.read().decode("utf-8", "replace")[:120]
-        ai = f"workers-ai ✗ HTTP {e.code}"
+        m = e.read().decode("utf-8", "replace")[:160]
+        ai = "workers-ai ✗ " + (f"HTTP {e.code} {m[:70]}" if e.code != 403 else f"403 {m[:60]}")
         if e.code == 403:
-            ai += " (licence or scope)"
-    return f"token {status} · account {acct[:8]}… · {ai}"
+            return f"token {status} · account {acct[:8]}… · {ai}"
+    # vision: accept the licence if needed (that IS the documented mechanism), then confirm
+    model = "@cf/meta/llama-3.2-11b-vision-instruct"
+    vis = "vision ?"
+    for attempt in (0, 1):
+        try:
+            req(f"{base}/{model}", {"Authorization": f"Bearer {t}"},
+                data={"prompt": "agree"} if attempt == 0 else
+                     {"messages": [{"role": "user", "content": "ok"}], "max_tokens": 4})
+            vis = "vision ✓ licence accepted" if attempt == 0 else "vision ✓"
+            if attempt == 0:
+                continue          # do the real call once more so the ✓ is honest
+            break
+        except urllib.error.HTTPError as e:
+            msg = e.read().decode("utf-8", "replace")[:160]
+            vis = f"vision ✗ HTTP {e.code} {msg[:60]}"
+            if e.code != 403:
+                break
+    return f"token {status} · account {acct[:8]}… · {ai} · {vis}"
 
 def c_hf(t):
     st, body = req("https://huggingface.co/api/whoami-v2", {"Authorization": f"Bearer {t}"})
