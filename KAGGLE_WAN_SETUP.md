@@ -76,14 +76,67 @@ hours. It's usually ~30 h/week. It resets weekly and is not published anywhere e
 ### Step 1 — create it
 Go to **https://www.kaggle.com/code** → **New Notebook**
 
-### Step 2 — turn on the GPU (this is the step people miss)
-In the right-hand panel:
-1. **Session options** → expand
-2. **Accelerator** → **GPU T4 ×2**
-3. **Internet** → **On**  ← without this, `pip install` fails
-4. Click **Save**
+### ⚡ Skip all of this — the notebook is already made for you
 
-If "Accelerator" is greyed out, your phone isn't verified — go back to Part 1, Step 2.
+I pushed a ready notebook to your account with **GPU and internet pre-set**:
+
+**https://www.kaggle.com/code/earningcpu/nightingale-wan-2-2-b-roll**
+
+Open it, click **Run All**, done. If the session panel shows the accelerator as *None*, use the
+steps below — they explain exactly where the controls live and why there is no Save button.
+
+---
+
+### Step 2 — turn on the GPU (and why you could not find "Save")
+
+**There is no Save button.** This is the single most confusing thing about Kaggle's editor.
+Session settings apply **automatically when a session starts** — there is nothing to confirm.
+
+The Save button you found lives inside the **Schedule** dialog. That is a completely different
+feature (running the notebook on a repeating schedule), and its complaint about turning off the
+GPU is about scheduled runs, not about your interactive session. **Close that dialog.**
+
+> **Also not what you want:** the blue **Save Version** button (top right). That commits a
+> snapshot of the notebook. It is not needed to run anything.
+
+#### Where the controls actually are
+
+In the notebook editor, look at the **far right edge**. There is a narrow vertical strip of icons.
+One of them is **Session options** (it looks like a small panel/sliders icon; on some builds the
+panel is already open and titled *"Session options"*).
+
+If you don't see the strip: click the **⋮ / »** at the top-right of the editor to expand the
+right sidebar, or use the **View** menu → *Show session panel*.
+
+Inside **Session options** you will find exactly three things:
+
+| Control | Set it to |
+|---|---|
+| **Accelerator** | **GPU T4 ×2** |
+| **Internet** | **On** |
+| Persistence / files | leave as-is |
+
+There is no confirm button. The values are stored on the notebook immediately.
+
+#### The catch: a running session ignores the change
+
+Kaggle starts a session the moment you run any cell. If a session is already live — GPU *or* CPU —
+changing the dropdown does nothing until that session is replaced.
+
+1. In the **Session options** panel, find the session state. If it says *Running* / shows a green dot,
+   click **Stop session** (or the ⏻ icon next to it).
+2. Wait for it to read *Stopped* (~10 s).
+3. Now set **Accelerator → GPU T4 ×2** and **Internet → On**. They will stick.
+4. Run the first cell. A new session boots with the GPU attached — takes 20–40 s.
+
+#### If the Accelerator dropdown is greyed out
+
+| Greyed out when… | Meaning | Fix |
+|---|---|---|
+| You just signed up | **Phone not verified** | kaggle.com/settings → Phone Verification |
+| You already used ~30 h this week | Weekly GPU quota exhausted | Wait for the weekly reset |
+| The notebook has never been saved | Kaggle needs a version first | Press **Save Version** → *Quick Save*, then reopen |
+| You're on a phone/tablet browser | The editor hides parts of the panel | Use a desktop browser |
 
 ### Step 3 — verify you actually have a GPU
 New cell, run:
