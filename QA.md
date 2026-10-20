@@ -293,3 +293,39 @@ That hybrid costs nothing and uses each provider for what it is actually good at
 Gemini API billing is **prepay, $5 minimum, credits valid 12 months**. At Flash pricing a
 209-frame audit is cents. Optional; the hybrid above already works.
 
+---
+
+## Free image generation — measured (2026-10-20)
+
+**Google AI Studio web UI ≠ Google API.** You can generate images in the browser for free;
+the API is a separate entitlement.
+
+Proof from the live key, all four image models:
+
+```
+gemini-3.1-flash-image   429 · generate_content_free_tier_requests, limit: 0
+gemini-2.5-flash-image   429 · limit: 0
+gemini-3-pro-image       429 · limit: 0
+nano-banana-pro-preview  429 · limit: 0
+```
+
+`limit: 0` means "not on your plan at all" — not "you used them up". Prepaying $5 on the
+Gemini API unlocks them; the Cloudflare key already gives us the same capability free.
+
+### What works instead: `@cf/black-forest-labs/flux-1-schnell`
+
+| Property | Measured |
+|---|---|
+| Latency | **2.5 s** per image |
+| Output | 1024×1024, base64 PNG in the JSON response |
+| Cost | a few neurons of the 10,000/day free allowance |
+| Payload | **`{"prompt", "steps"}` only** — width/height/seed return `400 Additional or unevaluated properties` |
+
+`tools/flux_stills.py` wraps it with five period-correct style tails
+(`archive`, `evidence`, `atmosphere`, `plate`, `recon`) and rescales locally to
+1280×720. First test — "empty guard tower at a desert perimeter fence before dawn" —
+produced a grainy 1979 documentary frame that sits correctly next to the real plates.
+
+**Caveat carried over from P11:** everything generated is still inspected at 100 % for
+AI tells (hands, printed text, faces) before it enters the timeline.
+
