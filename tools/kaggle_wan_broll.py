@@ -37,7 +37,7 @@ def parse():
     ap.add_argument("--steps", type=int, default=30)
     ap.add_argument("--guidance", type=float, default=5.0)
     ap.add_argument("--size", default="704x1280",
-                    help="704x1280 landscape, 1280x704 portrait (native), 480x832 draft")
+                    help="WIDTHxHEIGHT. 704x1280 = 9:16 portrait, 1280x704 = 16:9 landscape, 480x832 = fast draft")
     ap.add_argument("--seed", type=int, default=7)
     ap.add_argument("--bf16", action="store_true")
     ap.add_argument("--dry-run", action="store_true")
