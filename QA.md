@@ -149,3 +149,48 @@ Fix list for v10: retag bt709/bt709/tv · +2 IRE shadow lift · remove the 0.77 
 > on any console error, non-`video/mp4` content type, missing Range support, or player
 > geometry that is not the source aspect ratio.
 
+---
+
+## Delivery: adaptive bitrate (2026-10-20)
+
+**Problem reported:** the film buffers on a normal connection.
+**Cause:** the only source was the 1080p master — **5.72 Mbps video / 6.0 Mbps total**, 52 MB for 70 s.
+That needs a sustained ~6.5 Mbps. On a 3 Mbps line it can never play without stalling.
+
+### The ladder (same cut, same audio, same VUI tags)
+
+| Rendition | Resolution | Bitrate | Size | SSIM vs master | PSNR |
+|---|---|---|---|---|---|
+| master | 1920×1080 | 6,000 kbps | 50 MB | 1.000 | — |
+| `film_720.mp4` | 1280×720 | **946 kbps** | 7.1 MB | **0.984** | 40.4 dB |
+| `film_480.mp4` | 854×480 | **468 kbps** | 3.9 MB | **0.976** | 38.4 dB |
+| `film_360.mp4` | 640×360 | **257 kbps** | 2.1 MB | **0.966** | 36.8 dB |
+
+The film compresses this well because it is slow-paced, dark, and grain-light. SSIM 0.98 at 1/6th
+the bitrate is a genuinely clean picture, not a compromise.
+
+### Selection logic on the page
+
+1. `navigator.connection.downlink` / `effectiveType` where available (Chrome, Android).
+2. Otherwise a **timing probe**: fetch 120 KB of the 360p file with `Range` and measure `performance.now()`.
+3. Thresholds: ≥ 1.5 Mbps → 720p · ≥ 0.65 Mbps → 480p · else 360p.
+4. Re-picks on `connection.change`.
+5. **Safety net:** two `waiting` events in auto mode drop one rung, keeping the position.
+6. Manual override buttons (Auto / 720 / 480 / 360) + a 1080p master download link.
+
+### Throttled playback test (Chromium, mobile viewport 390×844, CDP network emulation, 12 s each)
+
+| Simulated link | Chosen | Played | Stalls | Buffered ahead |
+|---|---|---|---|---|
+| WiFi 10 Mbps | 720p | 11.9 s | 0 | 50.4 s |
+| 4G 4 Mbps | 720p | 12.0 s | 0 | 40.2 s |
+| 3G 1.5 Mbps | 480p | 12.0 s | 0 | 41.6 s |
+| Slow 3G 750 kbps | 480p | 11.3 s | 0 | 19.9 s |
+| **2G 350 kbps** | **360p** | **11.2 s** | **1** | **18.4 s** |
+
+### Rule added
+
+> **Never ship a single-bitrate source.** Every delivered film gets at least 720p / 480p / 360p,
+> and the page must be regression-tested at 350 kbps. A 6 Mbps master is a download, not a stream.
+> (Q36)
+
