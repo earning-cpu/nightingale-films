@@ -308,3 +308,54 @@ already own** (`tools/make_parallax.py`). It produces real camera movement with 
 fabrication, takes ~2 min per still, and costs the same nothing. Shots with genuine
 depth read as *filmed*; generated fog reads as *added*. Do the depth first, then use
 Wan only for atmosphere the shoot could never have captured.
+
+---
+
+## "Is it eating credits?" — no. Here is the actual accounting
+
+Kaggle has **no tokens and no credits**. The only currency is **GPU-hours per week** (~30 h on the
+free tier, resets weekly, shown in your account settings).
+
+| What you did | Real cost |
+|---|---|
+| 258 s of a running notebook | **4.3 minutes of wall clock** |
+| …on GPU T4 ×2 (two GPUs count separately) | **≈ 8.6 GPU-minutes** |
+| As a share of the weekly 30 h allowance | **0.5 %** |
+
+For scale:
+
+| Job | Wall time | GPU-hours (T4×2) | How many fit in 30 h/week |
+|---|---|---|---|
+| 480p draft (49 frames, 20 steps) | 3–5 min | 0.2–0.3 | **~100–150** |
+| 720p final (81 frames, 30 steps) | 10–15 min | 0.35–0.5 | **~60–85** |
+
+The quota is not the constraint. Wall-clock patience is.
+
+### Why "Output 0 B" and 258 seconds
+
+Both are normal at that point.
+
+1. **First run downloads ~10 GB of weights** — Diffusers fetches the Wan 2.2 text encoder, DiT and
+   VAE. That is 2–4 minutes on Kaggle's link before the model even starts.
+2. **`pip install` of torch/diffusers takes 1–2 minutes** on a cold container.
+3. **`Output 0 B` is the *version* output**, not your live session. Files only appear in
+   `/kaggle/working` when a cell writes them — i.e. when the render finishes.
+
+### Where to actually watch progress
+
+- **Cell output**, not the *Logs* tab. Under cell 1 you should see `CUDA: True 2 GPU(s)` and the
+  `nvidia-smi` table. Under the render cell you should see tqdm bars like
+  `Fetching 12 files: 100%` then `  0%|          | 0/30 [00:00<?, ?it/s]`.
+- If the render cell shows a step counter climbing (30 steps total), it is working.
+- Nothing at all for 10+ minutes with no tqdm = the download is stalled; stop the session and rerun
+  (it resumes from cache on the same session).
+
+### Hard limits worth knowing
+
+| Limit | Value |
+|---|---|
+| Session length | **12 hours**, then it stops regardless |
+| GPU quota | ~30 h/week (T4×2 consumes double) |
+| Idle timeout | interactive sessions die after ~40 min idle |
+| Disk | 20 GB working, and `/kaggle/working` is **only 20 GB** — purge clips you have downloaded |
+
