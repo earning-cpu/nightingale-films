@@ -111,3 +111,41 @@ C2 69.67 s
 ```
 
 Fix list for v10: retag bt709/bt709/tv · +2 IRE shadow lift · remove the 0.77 s black fade · tighten the tail phase.
+
+---
+
+## Delivery: GitHub Pages watch page (2026-10-20)
+
+**Live:** https://earning-cpu.github.io/nightingale-films/ · source `main` / `docs` · HTTPS enforced
+
+| Check | Result |
+|---|---|
+| Page build | `status: built` in 21 s |
+| `GET /` | 200 · 3,827 B · 0.14 s |
+| `poster.jpg` | 200 · 133,120 B · `image/jpeg` |
+| `film.mp4` | 200 · 52,167,248 B · **`video/mp4`** · `Accept-Ranges: bytes` · 206 on range |
+| Chromium desktop | `readyState 4` · played 2.34 s · seek to 30 s OK |
+| Chromium mobile (390×844, touch) | `readyState 4` · played 2.39 s · seek to 30 s OK |
+| Console / page errors | 0 |
+| Player geometry | 1080 × 607.5 = exact 16:9 |
+
+### Two delivery bugs found and fixed
+
+1. **iOS Safari would not have played the film.** GitHub Release assets are served as
+   `application/octet-stream` + `Content-Disposition: attachment` behind a signed redirect.
+   Chrome sniffs the bytes and plays; Safari obeys the declared type and shows a dead
+   player — so on every iPhone the page would have been broken while working fine on desktop.
+   *Fix:* the same 52 MB file is committed to `docs/film.mp4`, so Pages serves it as
+   `video/mp4` with Range support. The release URL stays as a `<source>` fallback + JS swap.
+
+2. **The player rendered square (1080×1080).** `width="1920" height="1080"` attributes act as
+   presentational hints; with no CSS `height` declared, the attribute won and `aspect-ratio`
+   was ignored. *Fix:* `height:auto` on `video`. Measured after: 607.5 px.
+
+### Rule added
+
+> **A watch page must be verified in a mobile viewport, not by looking at it on desktop.**
+> `qa_page.py` (Playwright) is now a Q35 gate: it loads the page, plays 2 s, seeks, and fails
+> on any console error, non-`video/mp4` content type, missing Range support, or player
+> geometry that is not the source aspect ratio.
+
