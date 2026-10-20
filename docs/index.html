@@ -5,6 +5,15 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>PROJECT NIGHTINGALE — The Nightingale File</title>
 <meta name="description" content="Area 51, 2026. One surviving fragment. One recovery that never happened. Watch the 70-second film.">
+<meta property="og:type" content="video.other">
+<meta property="og:title" content="PROJECT NIGHTINGALE — The File Is Open">
+<meta property="og:description" content="One surviving fragment. One recovery that never happened. 70 seconds.">
+<meta property="og:image" content="https://earning-cpu.github.io/nightingale-films/poster.jpg">
+<meta property="og:video" content="https://earning-cpu.github.io/nightingale-films/film.mp4">
+<meta property="og:video:type" content="video/mp4">
+<meta name="twitter:card" content="player">
+<meta name="twitter:image" content="https://earning-cpu.github.io/nightingale-films/poster.jpg">
+<link rel="preload" as="image" href="poster.jpg">
 <style>
   :root { --amber:#D9A441; --paper:#E9E2D2; --ink:#07090D; --warn:#FF4B36; }
   * { margin:0; padding:0; box-sizing:border-box; }
@@ -35,15 +44,35 @@
   Seventy seconds of evidence — narrated, frame-locked to the score. Stream it right here.</p>
 
   <div class="player">
-    <video controls playsinline preload="metadata"
+    <video id="player" controls playsinline preload="metadata"
       poster="poster.jpg"
-      src="https://github.com/earning-cpu/nightingale-films/releases/latest/download/PROJECT_NIGHTINGALE_full.mp4">
+      src="film.mp4"
+      width="1920" height="1080">
+      <source src="film.mp4" type="video/mp4">
+      <source src="https://github.com/earning-cpu/nightingale-films/releases/latest/download/PROJECT_NIGHTINGALE_full.mp4" type="video/mp4">
       Your browser can't play this video — use the download button below.
     </video>
   </div>
 
+  <script>
+    (function () {
+      var v = document.getElementById('player');
+      var swapped = false;
+      function fallback() {
+        if (swapped) return;
+        swapped = true;
+        v.src = 'https://github.com/earning-cpu/nightingale-films/releases/latest/download/PROJECT_NIGHTINGALE_full.mp4';
+        v.load();
+      }
+      v.addEventListener('error', fallback, true);
+      v.addEventListener('stalled', function () { setTimeout(function () {
+        if (v.readyState === 0) fallback();
+      }, 4000); }, { once: true });
+    })();
+  </script>
+
   <div class="bar">
-    <a class="btn primary" href="https://github.com/earning-cpu/nightingale-films/releases/latest/download/PROJECT_NIGHTINGALE_full.mp4">⬇ Download MP4</a>
+    <a class="btn primary" href="film.mp4" download="PROJECT_NIGHTINGALE.mp4">⬇ Download MP4</a>
     <a class="btn ghost" href="https://github.com/earning-cpu/nightingale-films/releases">🗂 All releases</a>
     <a class="btn ghost" href="https://github.com/earning-cpu/nightingale-films">⚙ Source &amp; pipeline</a>
   </div>
