@@ -4,78 +4,118 @@
 
 ---
 
-## 1. How to re-run — three ways, easiest first
+## 1. How to re-run
 
-### A. Run All in the browser (30 seconds)
+### The button moved — there is no triangle in the top right any more
 
-Open **https://www.kaggle.com/code/earningcpu/nightingale-wan-2-2-b-roll**
+Kaggle renamed it. The top-right control is now **Save Version** (circular-arrow icon), and
+"run everything" lives inside it.
 
-Click **Run All** (top right, triangle icon), then **Run Anyway** in the dialog.
+| What you want | Where it is |
+|---|---|
+| Run **one** cell | the **▶ play icon in the left gutter** of that cell — it appears only when the cell is selected |
+| Run **the whole notebook** | top right **Save Version** → **"Save & Run All (Commit)"** → **Save** |
+| Wipe state and start clean | **⋯ menu → Restart & Run All** |
 
-That's it. Everything reruns from the top. If the notebook is already open and you changed
-nothing, use **⋮ → Restart & Run All** to wipe the old session state first.
+**Use "Save & Run All (Commit)".** It opens a fresh session, runs top to bottom (so the
+`pip install` cell runs first, which matters), and keeps running **even after you close the tab** —
+unlike the old Run All.
 
-> **Free-tip:** after a session has downloaded the weights once, rerunning *in the same session*
-> skips the 10 GB download and starts generating in seconds.
+### Phone or desktop?
 
-### B. Change the prompt and rerun (the one you want)
+| | Works? | Notes |
+|---|---|---|
+| Desktop browser | ✅ | the only comfortable option |
+| Tablet, landscape | ✅ mostly | cells work, the output panel eats the screen |
+| Phone | ⚠️ loads, painful | the editor does run in mobile Chrome, but the gutter play button is ~12 px, pasting a long prompt is miserable, and Save Version hides under an overflow menu |
 
-1. In the notebook, scroll to **cell 1**, near the top:
-   ```python
-   PROMPTS = [
-       "thin fog drifting through a beam of light in a dark warehouse, no people, no text",
-   ]
-   ```
-2. Edit the text between the quotes. Keep the `, no people, no text` tail — it stops the model
-   inventing faces and captions.
-3. **Run All** again.
-4. Outputs appear in `/kaggle/working/out/`, visible in the **Output** panel on the right.
+**One desktop click is all this needs.** It must be a human click — the Kaggle API can *push*
+a notebook but **cannot start a run**. So: I push the code → you open it once → Save & Run All →
+close the tab and come back later.
 
-### C. Rerun from here (no browser)
+### Changing the prompt
+
+1. Scroll to the cell that starts `PROMPT_SCENE = (`.
+2. Edit the text. Keep the `no people, no text` tail — it stops the model inventing faces.
+3. **Save Version → Save & Run All (Commit)**.
+
+### From the terminal
 
 ```bash
 export KAGGLE_API_TOKEN=KGAT_...
-python tools/kaggle_push.py --rerun earningcpu/nightingale-wan-2-2-b-roll
+python tools/kaggle_push.py --push-notebook   # new version, does not run it
 ```
 
-*(not yet wired — say the word and I'll add it to the script)*
+There is no public Kaggle endpoint that starts a session. The click is unavoidable.
 
----
 
-## 2. Can we use both? Yes — one notebook, three models
-
-I repushed your notebook to run **Wan, LTX and FLUX-parallax on the same prompts**, one after
-another, so you compare them honestly:
+## 2. Can we use both? Yes — and it is already wired
 
 **https://www.kaggle.com/code/earningcpu/nightingale-b-roll-wan-ltx-flux-parallax**
 
-*(If that URL 404s, use the original: `earningcpu/nightingale-wan-2-2-b-roll` — the push updated
-it; Kaggle sometimes gives a new slug on title change.)*
+*(the old `nightingale-wan-2-2-b-roll` URL was renamed — same kernel, id 139816491)*
 
-Outputs for each prompt:
+One notebook, **one click**, four clips. Nothing to edit unless you want a new prompt.
+
+Two prompts go through two models, same seed, same size, same step count, so the only variable
+is the model:
+
+| | Prompt | Why |
+|---|---|---|
+| **scene** | 1979 airfield, dense fog, sodium lamps on wet tarmac, slow drift right, heavy grain, B&W, no people, no text | the shot we actually need |
+| **control** | fog in a beam of light, dark empty room, no location | if *this* fails, the model is the fault, not the prompt |
+
+Outputs:
 
 ```
-out/wan_p01.mp4        Wan 2.2 5B          ← teal, slow, weakest
-out/ltx_p01.mp4        LTX-Video           ← faster, cleaner, has audio
-out/flux_p01.png       FLUX.1-schnell      ← a still
-out/parallax_p01.mp4   + 2.5D depth move   ← the still, moving with real depth
+out/wan_scene.mp4      Wan 2.2 TI2V-5B
+out/wan_control.mp4
+out/ltx_scene.mp4      LTX-Video
+out/ltx_control.mp4
 ```
 
-**Cost per prompt:** ~12–20 min total on a T4. Two prompts ≈ 40 min ≈ 1.5 GPU-hours (5% of the
-weekly allowance).
+Then compare them, side by side, locally:
 
-You need `wan.py` and `make_parallax.py` in `/kaggle/working/`. Add two cells at the top of the
-notebook and paste each file's contents:
-
-```python
-%%writefile wan.py
-# paste tools/kaggle_wan_broll.py
-
-%%writefile make_parallax.py
-# paste tools/make_parallax.py
+```bash
+python3 tools/compare_clips.py qa/clips \
+    --labels "Wan scene","LTX scene","Wan control","LTX control" \
+    --out qa/cmp --height 640
 ```
+
+That writes `qa/cmp.mp4` (all four playing at once) and `qa/cmp.png` (one frame from each).
+Both are real deliverables — the still above is that tool, run on a Wan-style clip vs a graded one.
+
+**FLUX was dropped from the Kaggle notebook**, deliberately: `FLUX.1-schnell` is 12 B parameters
+= ~24 GB in bf16, and a T4 has no bf16 and Kaggle gives 20 GB of disk. It cannot fit. It does not
+need to — `tools/flux_stills.py` already generates FLUX plates free through Cloudflare, and
+`tools/make_parallax.py` turns those plates into camera moves on ordinary CPU. Generous hardware
+is not required for the part that actually improves the film.
+
+> **Disk discipline:** the notebook deletes the Wan weights before loading LTX. If you add a third
+> model yourself, do the same — 20 GB goes fast.
 
 ---
+
+## 2b. Adding more models — how many can we honestly run?
+
+**All of them? No. Not at once, not on a T4, not in 20 GB.** The limits are physical:
+
+| Constraint | Value | What it means |
+|---|---|---|
+| GPU VRAM | 16 GB (T4 ×2, 16 GB each) | one 7–14 B video model at a time |
+| Working disk | 20 GB | 2–3 model weight sets, if you delete as you go |
+| Session length | 12 h | a batch job, not a farm |
+| Weekly quota | ~30 GPU-hours | ~60 clips at 5 min each, max |
+
+**What fits, one after another in the same session** (each deletes the last):
+
+1. **LTX-Video** — 9 GB — fastest, only one with audio
+2. **Wan 2.2 TI2V-5B** — 10 GB — works, weak palette
+3. **CogVideoX-5B** — 12 GB — dated
+4. **Depth-Anything V2 + parallax** — 0.4 GB — no generation, pure craft
+
+**What does not fit, ever, on a T4:** Mochi (24 GB), Open-Sora (24 GB+), Wan 14B at full precision,
+FLUX.1 (24 GB bf16), HunyuanVideo full. Do not waste a session trying.
 
 ## 3. What fits a T4 (16 GB) — measured, not guessed
 
@@ -130,24 +170,24 @@ is 60-second bursts; you cannot render a b-roll pack on it.
 
 ---
 
-## 5. What's next — ranked
+## 5. What's next — ranked, with times
 
 | # | Action | Why | Time |
 |---|---|---|---|
-| **1** | **Grade the draft you already made** | proves the whole "AI look" problem is a colour-and-grain problem | 2 min |
-| **2** | **Rerun Wan at final settings** (`704x1280`, 81 frames, 30 steps) | the 480p/49-frame draft was its worst mode | 15 min |
-| **3** | **Run the three-model notebook** | honest side-by-side: Wan vs LTX vs parallax | 40 min |
-| **4** | **Parallax on the 18 stills we own** | the biggest real upgrade, zero fabrication | 30 min |
-| **5** | **v10 render** — bt709 retag, +2 IRE shadow lift, kill the 0.77 s black hole | fixes every defect `qa_pro.py` found | 20 min |
+| **1** | **Open the notebook → Save Version → Save & Run All (Commit)** | it is already written, prompts included; costs you one click and ~45 min of unattended GPU | 1 min |
+| **2** | **Download the 4 clips → `compare_clips.py`** | the answer to "is the model the problem or the prompt" | 5 min |
+| **3** | **Grade the winner** `--preset noir` | if graded Wan looks like archive, generation is solved | 2 min |
+| **4** | **Parallax the 18 plates we own** | zero fabrication, works today, no GPU, biggest quality jump per minute spent | 30 min |
+| **5** | **v10 render** — bt709 retag, +2 IRE shadow lift, kill the 0.77 s black hole | clears every defect the frame-by-frame audit found | 20 min |
 | **6** | **9:16 vertical cut** | distribution | 1 render |
 | **7** | Cloudflare Pages deploy | unmetered bandwidth for the watch page | 20 min |
 
-**My recommendation:** 1 → 2 → 5. Grade the draft tonight, see if the look problem disappears.
-If it does, generation is a solved problem and the remaining work is craft. If it doesn't, the
-shot doesn't belong in the film and we spend the time on parallax instead — which cannot fail,
-because every pixel still comes from a photograph we already own.
+**Do 1 and 4 today.** They are independent: 1 answers the model question with no effort from you,
+4 improves the film regardless of what 1 says.
 
----
+**Setup I would not do yet:** Groq, Cloudinary, Apify, Remove.bg, fal, Replicate, Runware, Modal,
+Supabase, Vercel. Every one of them is another key to manage, and none of them is on the critical
+path to a better film. The ranking in `ACCESS_PLAYBOOK.md` still holds — get the film right first.
 
 ## 6. The one instruction that matters with these models
 
