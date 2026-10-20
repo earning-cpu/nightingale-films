@@ -514,7 +514,7 @@ The two weakest levers are also the two cheapest to fix. That is what v10 should
 
 | # | Fix | Acceptance criterion | Gate |
 |---|---|---|---|
-| 1 | Retag colour on mux | `ffprobe` shows `bt709 / bt709 / bt709 / tv` | Q03 |
+| 1 | Retag colour on mux — use `-x264-params colorprim=bt709:transfer=bt709:colormatrix=bt709:range=tv` (the `-color_primaries`-style flags are dropped by libx264; verified 2026-10-20) | `ffprobe` shows `bt709 / bt709 / bt709 / tv` | Q03 |
 | 2 | Shadow lift +2 IRE with a soft toe (no milky blacks) | floor pixels ≤ 8 % mean, ≤ 12 % p95, contrast unchanged within 1 % | Q09 |
 | 3 | Kill the 0.77 s black hole at 66.2 s | hard cut to card, ≤ 0.3 s of near-black | Q07/R41 |
 | 4 | Tighten tail phase | no phase sample < −0.35 anywhere | Q25 |
