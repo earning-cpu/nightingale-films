@@ -40,11 +40,19 @@ def probe(path):
     return json.loads(out[out.index("{"):])
 
 
-def y_frames(path, w=320, h=180):
+def y_frames(path, w=320, h=180, crop=None):
     """Yield the raw Y plane of every frame, in SOURCE range (16-235 if tv).
-    No colour conversion -> no range expansion -> crush/clip measured on real data."""
+    No colour conversion -> no range expansion -> crush/clip measured on real data.
+
+    `crop` = (cw, ch, cx, cy) in source pixels; the picture area is cropped out
+    BEFORE the downscale, so letterbox bars never reach the measurement."""
+    pre = ""
+    if crop:
+        cw, ch, cx, cy = crop
+        if cw > 0 and ch > 0:
+            pre = f"crop={cw}:{ch}:{cx}:{cy},"
     cmd = ["ffmpeg", "-v", "error", "-i", path,
-           "-vf", f"scale={w}:{h}:flags=area+accurate_rnd+full_chroma_int",
+           "-vf", f"{pre}scale={w}:{h}:flags=area+accurate_rnd+full_chroma_int",
            "-pix_fmt", "yuv420p", "-f", "rawvideo", "-"]
     p = subprocess.Popen(cmd, stdout=subprocess.PIPE, stderr=subprocess.DEVNULL)
     n = w * h
@@ -89,13 +97,37 @@ def detectors(path):
 
 
 # ------------------------------------------------------------------ V3 levels
-def levels(path, fps=30.0, black_win=(), allow_win=(), rng="tv"):
-    """Legal-range crush/clip measured on the raw Y plane (16-235 for tv)."""
+def picture_area(path, fallback=None):
+    """Detect the letterbox/pillarbox bars and return (w, h, x, y) of the picture.
+
+    Bars are intentionally pure black. Measuring them as "shadow crush" is a
+    false positive that punishes every letterboxed film, so V3 crops them out
+    before counting floor pixels. Falls back to the full frame.
+    """
+    try:
+        p = subprocess.run(
+            ["ffmpeg", "-hide_banner", "-i", path, "-vf", "cropdetect=24:2:0",
+             "-an", "-f", "null", "-"], capture_output=True, text=True)
+        hits = re.findall(r"crop=(\d+):(\d+):(\d+):(\d+)", p.stderr)
+        if not hits:
+            return fallback
+        w, h, x, y = (int(v) for v in hits[-1])
+        return (w - w % 2, h - h % 2, x, y)
+    except Exception:                                        # noqa: BLE001
+        return fallback
+
+
+def levels(path, fps=30.0, black_win=(), allow_win=(), rng="tv", crop=None):
+    """Legal-range crush/clip measured on the raw Y plane (16-235 for tv).
+
+    `crop` = (w, h, x, y) picture area; the letterbox bars are excluded so a
+    correctly black bar is never reported as a crushed shadow.
+    """
     lo = 17 if rng == "tv" else 2
     hi = 235 if rng == "tv" else 253
     crush_pct, clip_pct, frames = [], [], 0
     t = 0.0
-    for f in y_frames(path):
+    for f in y_frames(path, crop=crop):
         in_black = any(a <= t <= b for a, b in black_win)
         t += 1.0 / fps
         if in_black:
@@ -307,9 +339,12 @@ def main():
     for part in filter(None, a.allow_black.split(",")):
         lo, hi = part.split("-")
         allow.append((float(lo), float(hi)))
-    lv = levels(a.video, fps, [(b["start"], b["end"]) for b in black], allow)
+    pic = picture_area(a.video)
+    lv = levels(a.video, fps, [(b["start"], b["end"]) for b in black], allow, crop=pic)
     res["V3_levels"] = lv
     if lv:
+        if pic:
+            print(f"[V3] picture     {pic[0]}x{pic[1]} at +{pic[2]}+{pic[3]} (letterbox excluded)")
         print(f"[V3] levels      floor(≤{lv['floor']}) mean {lv['crush_mean_pct']}% p95 {lv['crush_p95_pct']}%  "
               f"ceil(≥{lv['ceiling']}) mean {lv['clip_mean_pct']}% p95 {lv['clip_p95_pct']}%  "
               f"hot frames: crush {lv['crush_frames_over_12pct']} / clip {lv['clip_frames_over_2pct']}")

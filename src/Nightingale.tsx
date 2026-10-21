@@ -5,7 +5,7 @@ import {
   FreqReadout, GateWeave, GradeBottom, Grain, Halation, InsertShot, KenBurns, Letterbox,
   LightLeak, RadarSweep, RedactedBar, Scanlines, Seg, Slug, Stamp, Typewriter, Vignette, Waveform,
 } from './lib';
-import {C, F, T, clamp01, easeOutCubic, easeOutExpo, win} from './theme';
+import {C, F, T, clamp01, easeInOutCubic, easeOutCubic, easeOutExpo, win} from './theme';
 
 /* ------------------------------- TITLE ------------------------------- */
 export const Title: React.FC = () => {
@@ -401,6 +401,7 @@ export const S10: React.FC = () => {
           <span>REDACTED — (b)(1) NATIONAL SECURITY</span>
         </div>
       </AbsoluteFill>
+      <ExhibitCard from={t + 40} dur={118} />
       <Stamp text="DECLASSIFIED 2004-01-12" start={t + 130} x={1020} y={190} rot={-7} size={32} />
       <Letterbox />
     </Seg>
@@ -414,14 +415,19 @@ export const End: React.FC = () => {
   return (
     <Seg from={t} dur={T.end.dur}>
       <AbsoluteFill style={{background: C.black, justifyContent: 'center', alignItems: 'center'}}>
-        <BlurWords words={['THE', 'FILE', 'WAS', 'RELEASED.']} start={t + 8} stagger={5} dur={13} rise={20}
+        <AbsoluteFill style={{
+          background: 'radial-gradient(120% 90% at 50% 46%, rgba(233,226,210,0.055) 0%, rgba(233,226,210,0.018) 42%, rgba(7,9,13,0) 72%)',
+          pointerEvents: 'none',
+        }} />
+        <AbsoluteFill style={{opacity: 0.5, pointerEvents: 'none'}}><Grain /></AbsoluteFill>
+        <BlurWords words={['THE', 'FILE', 'WAS', 'RELEASED.']} start={t + 2} stagger={4} dur={12} rise={20}
           style={{fontFamily: F.sans, fontSize: 64, fontWeight: 700, letterSpacing: '0.02em'}} />
-        <BlurWords words={['THE', 'REDACTIONS', 'REMAIN.']} start={t + 32} stagger={5} dur={13} rise={20}
+        <BlurWords words={['THE', 'REDACTIONS', 'REMAIN.']} start={t + 26} stagger={5} dur={13} rise={20}
           accentIndex={1} accentColor={C.warnGlow}
           style={{fontFamily: F.sans, fontSize: 64, fontWeight: 700, letterSpacing: '0.02em', marginTop: 10}} />
         <div style={{
           marginTop: 44, fontFamily: F.mono, fontSize: 20, color: C.paperDim,
-          letterSpacing: '0.34em', opacity: easeOutCubic(win(f, t + 62, 14)),
+          letterSpacing: '0.34em', opacity: easeOutCubic(win(f, t + 54, 14)),
         }}>
           PROJECT NIGHTINGALE · GROOM LAKE · 1979—
         </div>
@@ -430,11 +436,100 @@ export const End: React.FC = () => {
   );
 };
 
+
+/* --------------------------- ARCHIVE SLATE ---------------------------
+   Period-correct head slate. Academy-leader language, no invented numbers:
+   only what the film already asserts elsewhere in its own text. ------- */
+const ArchiveSlate: React.FC<{from: number; dur: number}> = ({from, dur}) => {
+  const f = useCurrentFrame();
+  const local = f - from;
+  if (local < 0 || local > dur) return null;
+  const inP = easeOutCubic(clamp01(local / 7));
+  const outP = easeOutCubic(clamp01((local - (dur - 14)) / 14));
+  const sweep = clamp01((local - 6) / 34);          // slow bar sweep, no bounce
+  return (
+    <AbsoluteFill style={{opacity: inP * (1 - outP), pointerEvents: 'none'}}>
+      <AbsoluteFill style={{background: 'rgba(7,9,13,0.975)'}} />
+      <div style={{position: 'absolute', left: 120, top: 150, right: 120}}>
+        <div style={{fontFamily: F.mono, fontSize: 17, letterSpacing: '0.42em', color: C.paperDim}}>
+          REEL 01 — UNCLASSIFIED WORKPRINT
+        </div>
+        <div style={{
+          marginTop: 16, height: 2, width: '100%',
+          background: `linear-gradient(to right, ${C.amber} 0 ${sweep * 100}%, rgba(233,226,210,0.14) ${sweep * 100}% 100%)`,
+        }} />
+        <div style={{marginTop: 34, fontFamily: F.type, fontSize: 30, lineHeight: 1.65, color: C.paper}}>
+          SUBJECT: GROOM LAKE TEST FACILITY<br />
+          DATE OF INCIDENT: 14 JUL 1979<br />
+          SOURCE: FOIA RELEASE 2004-01-12
+        </div>
+        <div style={{
+          marginTop: 40, fontFamily: F.mono, fontSize: 16, letterSpacing: '0.30em',
+          color: C.paperDim, opacity: clamp01((local - 18) / 12),
+        }}>
+          FRAME 0001 · 24 FPS · OPTICAL SOUND
+        </div>
+      </div>
+      <Letterbox />
+      <Grain opacity={0.22} />
+    </AbsoluteFill>
+  );
+};
+
+/* ------------------------------ EXHIBIT -------------------------------
+   The one motion-graphic idiom that belongs in a documentary: a card that
+   shows the artefact instead of decorating over it. Mono, paper, one
+   accent. A cursor-like highlight drifts across it — no bounce, expo out. */
+const ExhibitCard: React.FC<{from: number; dur: number}> = ({from, dur}) => {
+  const f = useCurrentFrame();
+  const local = f - from;
+  if (local < 0 || local > dur) return null;
+  const rise = easeOutExpo(clamp01(local / 16));
+  const out = clamp01((local - (dur - 16)) / 16);
+  const scan = easeInOutCubic(clamp01((local - 20) / (dur - 46)));
+  return (
+    <div style={{
+      position: 'absolute', right: 64, top: 132, width: 496, padding: '26px 30px 30px',
+      background: 'rgba(233,226,210,0.955)', color: '#191510',
+      fontFamily: F.mono, fontSize: 19, lineHeight: 1.62,
+      boxShadow: '0 30px 70px rgba(0,0,0,0.62)',
+      transform: `translateY(${(1 - rise) * 26}px) rotate(0.5deg)`,
+      opacity: rise * (1 - out),
+    }}>
+      <div style={{fontSize: 13, letterSpacing: '0.34em', color: '#6B5D42'}}>EXHIBIT A</div>
+      <div style={{marginTop: 12, fontSize: 22, fontFamily: F.type}}>
+        TEST UNIT #12
+      </div>
+      <div style={{marginTop: 14, height: 1, background: 'rgba(25,21,16,0.28)'}} />
+      <div style={{marginTop: 14}}>
+        HULL ......... INTACT<br />
+        OCCUPANT ..... <span style={{color: '#8A2B1E'}}>NONE</span><br />
+        MARKINGS ..... NONE<br />
+        PROPULSION ... REMOVED
+      </div>
+      <div style={{
+        marginTop: 16, paddingTop: 12, borderTop: '1px solid rgba(25,21,16,0.28)',
+        fontSize: 15, letterSpacing: '0.14em', color: '#4A3F2C',
+      }}>
+        SHEET {String(2 + Math.floor(scan * 3)).padStart(2, '0')} OF 05
+      </div>
+      {/* drifting focus band — the "cursor" that makes a still document feel read */}
+      <div style={{
+        position: 'absolute', left: 0, right: 0, height: 34,
+        top: `${18 + scan * 62}%`,
+        background: 'linear-gradient(to bottom, rgba(217,164,65,0) 0%, rgba(217,164,65,0.20) 50%, rgba(217,164,65,0) 100%)',
+        pointerEvents: 'none',
+      }} />
+    </div>
+  );
+};
+
 /* --------------------------- MAIN COMPOSITION --------------------------- */
 export const Nightingale: React.FC = () => (
   <AbsoluteFill style={{background: C.black}}>
     <GateWeave>
       <Title />
+      <ArchiveSlate from={T.title.from} dur={66} />
       <S1 />
       <S2 />
       <S3 />

@@ -127,7 +127,7 @@ export const KenBurns: React.FC<{
           height: '100%',
           objectFit: 'cover',
           transform: `scale(${scale}) translate(${tx}%, ${ty}%)`,
-          filter: `brightness(${brightness}) saturate(0.82) contrast(1.08) sepia(${sepia})`,
+          filter: `brightness(${brightness * 1.025}) saturate(0.82) contrast(1.02) sepia(${sepia})`,
         }}
       />
     </AbsoluteFill>
