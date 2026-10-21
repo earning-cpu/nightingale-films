@@ -13,24 +13,42 @@ import json, os, sys, urllib.error, urllib.request
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SLUG = "earningcpu/wow-signal-film-and-vertical-cut"
-TITLE = "Wow! signal — 72 SECONDS: master + 9:16 vertical cut"
+TITLE = "Wow! signal - 72 SECONDS: master and vertical cut"
 TOKEN = os.environ.get("KAGGLE_API_TOKEN", "")
 
 BASE = "https://earning-cpu.github.io/nightingale-films"
 
-FETCH = '''import os, subprocess, urllib.request, json, textwrap
+FETCH = '''import os, subprocess, urllib.request, json
 
-BASE = "%s"
+# Two mirrors of the same file: GitHub Pages (what the site serves) and the raw
+# repo path. Pages can lag a push by a few minutes, so fall back rather than fail.
+MIRRORS = [
+    "__BASE__",
+    "https://raw.githubusercontent.com/earning-cpu/nightingale-films/main/docs",
+]
 OUT = "/kaggle/working"
 os.makedirs(OUT, exist_ok=True)
 
 def grab(name):
-    url = BASE + "/" + name
     dst = os.path.join(OUT, name)
-    if not os.path.exists(dst):
-        print("downloading", url)
-        urllib.request.urlretrieve(url, dst)
-    print("%-22s %%8.2f MB" %% (name, os.path.getsize(dst) / 1e6))
+    if os.path.exists(dst) and os.path.getsize(dst) > 10000:
+        pass
+    else:
+        last = None
+        for base in MIRRORS:
+            url = base + "/" + name
+            try:
+                print("downloading", url)
+                urllib.request.urlretrieve(url, dst + ".part")
+                os.replace(dst + ".part", dst)
+                last = None
+                break
+            except Exception as e:
+                print("  failed:", e)
+                last = e
+        if last:
+            raise SystemExit("could not fetch %s from any mirror" % name)
+    print("%-22s %8.2f MB" % (name, os.path.getsize(dst) / 1e6))
     return dst
 
 master = grab("wow2_1080.mp4")
@@ -40,12 +58,12 @@ probe = json.loads(subprocess.check_output(["ffprobe", "-v", "error", "-show_for
     "-show_streams", "-of", "json", master]))
 v = [s for s in probe["streams"] if s["codec_type"] == "video"][0]
 a = [s for s in probe["streams"] if s["codec_type"] == "audio"][0]
-print("video  %%sx%%s  %%s  %%s fps  %%s frames" %% (
+print("video  %sx%s  %s  %s fps  %s frames" % (
     v["width"], v["height"], v["codec_name"], v["r_frame_rate"], v.get("nb_frames")))
-print("audio  %%s  %%s Hz  %%s ch  %%s kbps" %% (
+print("audio  %s  %s Hz  %s ch  %s kbps" % (
     a["codec_name"], a["sample_rate"], a["channels"], int(a.get("bit_rate", 0)) // 1000))
-print("length %%.2f s" %% float(probe["format"]["duration"]))
-''' % (BASE,)
+print("length %.2f s" % float(probe["format"]["duration"]))
+'''.replace("__BASE__", BASE)
 
 VERTICAL = '''import subprocess
 
