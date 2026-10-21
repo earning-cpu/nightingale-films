@@ -12,3 +12,8 @@ audio/nightingale_sfx.wav
 audio/nightingale_bgm.wav
 tools/.playwright/
 audio/nightingale_norm.wav
+
+# large intermediates (rebuilt by make_wow_v2.py)
+public/wow_mix_v2.wav
+public/wow_mix_v2_norm.wav
+audio/wow/vo/*.wav

@@ -3,14 +3,14 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>PROJECT NIGHTINGALE — The Nightingale File</title>
-<meta name="description" content="Area 51, 2026. One surviving fragment. One recovery that never happened. Watch the 70-second film.">
+<title>72 SECONDS — the Wow! signal · Nightingale Films</title>
+<meta name="description" content="15 August 1977. A radio telescope in Ohio heard something for 72 seconds. It has never been heard again. An 86-second film.">
 <meta property="og:type" content="video.other">
-<meta property="og:title" content="PROJECT NIGHTINGALE — The File Is Open">
-<meta property="og:description" content="One surviving fragment. One recovery that never happened. 70 seconds.">
-<meta property="og:image" content="https://earning-cpu.github.io/nightingale-films/poster.jpg">
+<meta property="og:title" content="72 SECONDS — the Wow! signal">
+<meta property="og:description" content="72 seconds of signal. 49 years of silence. Watch the film.">
+<meta property="og:image" content="https://earning-cpu.github.io/nightingale-films/wow2_poster.jpg">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:image" content="https://earning-cpu.github.io/nightingale-films/poster.jpg">
+<meta name="twitter:image" content="https://earning-cpu.github.io/nightingale-films/wow2_poster.jpg">
 <style>
   :root { --amber:#D9A441; --paper:#E9E2D2; --ink:#07090D; --warn:#FF4B36; }
   * { margin:0; padding:0; box-sizing:border-box; }
@@ -19,11 +19,10 @@
   .tag { font-family:'IBM Plex Mono','Courier New',monospace; letter-spacing:.34em; font-size:12px; color:rgba(233,226,210,.55); margin-bottom:14px; }
   h1 { font-size:clamp(30px,5vw,54px); font-weight:800; letter-spacing:.01em; line-height:1.05; }
   h1 .warn { color:var(--warn); }
-  .sub { margin:14px 0 26px; color:rgba(233,226,210,.72); font-size:17px; max-width:760px; line-height:1.55; }
+  h2 { font-size:clamp(20px,3vw,30px); font-weight:800; margin:0 0 6px; }
+  .sub { margin:14px 0 26px; color:rgba(233,226,210,.72); font-size:17px; max-width:780px; line-height:1.55; }
   .player { position:relative; border-radius:10px; overflow:hidden; background:#000; box-shadow:0 30px 90px rgba(0,0,0,.75); }
   video { display:block; width:100%; height:auto; aspect-ratio:16/9; background:#000; }
-
-  /* quality selector */
   .qbar { display:flex; flex-wrap:wrap; align-items:center; gap:8px; margin-top:12px; }
   .qlabel { font-family:'IBM Plex Mono',monospace; font-size:11px; letter-spacing:.22em; color:rgba(233,226,210,.45); margin-right:4px; }
   .q { font:inherit; font-size:13px; font-weight:600; padding:7px 13px; border-radius:999px; cursor:pointer;
@@ -33,7 +32,6 @@
   .q[aria-pressed="true"] { background:var(--amber); border-color:var(--amber); color:#14100a; }
   .q.dl { border-style:dashed; }
   .hint { margin-top:9px; font-size:13px; color:rgba(233,226,210,.5); }
-
   .bar { display:flex; flex-wrap:wrap; gap:12px; margin-top:18px; align-items:center; }
   a.btn { display:inline-block; padding:13px 22px; border-radius:8px; text-decoration:none; font-weight:700; font-size:15px; }
   .primary { background:var(--amber); color:#14100a; }
@@ -42,32 +40,34 @@
   .card { border:1px solid rgba(233,226,210,.14); border-radius:10px; padding:16px 18px; background:rgba(233,226,210,.04); }
   .card b { display:block; font-size:13px; letter-spacing:.14em; color:var(--amber); margin-bottom:6px; }
   .card span { font-size:14px; color:rgba(233,226,210,.75); line-height:1.5; }
+  .rule { height:1px; background:rgba(233,226,210,.14); margin:54px 0 34px; }
+  .vertical { max-width:340px; }
   footer { margin-top:44px; font-family:'IBM Plex Mono',monospace; font-size:11.5px; letter-spacing:.22em; color:rgba(233,226,210,.4); }
 </style>
 </head>
 <body>
 <div class="wrap">
-  <div class="tag">— CLASSIFIED / DECLASSIFIED / 2026 —</div>
-  <h1>PROJECT NIGHTINGALE<br><span class="warn">THE FILE IS OPEN.</span></h1>
-  <p class="sub">Area 51, 2026. One surviving fragment. One recovery that never happened.
-  Seventy seconds of evidence — narrated, frame-locked to the score. Stream it right here.</p>
+  <div class="tag">— NEW FILM / 21 OCT 2026 —</div>
+  <h1>72 SECONDS<br><span class="warn">THE WOW! SIGNAL.</span></h1>
+  <p class="sub">15 August 1977. A radio telescope in Delaware, Ohio, heard something for
+  72 seconds — the hydrogen line, thirty times above the noise. It has never been heard again.
+  Every frame is animated, every line is captioned, the whole thing runs in 86 seconds.</p>
 
   <div class="player">
-    <video id="player" controls playsinline preload="metadata"
-      poster="poster.jpg" width="1920" height="1080">
-      Your browser can't play this video — use the download button below.
+    <video id="p1" controls playsinline preload="metadata" poster="wow2_poster.jpg" width="1920" height="1080">
+      Your browser can't play this video — use a download button below.
     </video>
   </div>
 
-  <div class="qbar" id="qbar" role="group" aria-label="Video quality">
+  <div class="qbar" data-for="p1">
     <span class="qlabel">QUALITY</span>
     <button class="q" data-q="auto" aria-pressed="true">Auto</button>
-    <button class="q" data-q="720" aria-pressed="false">720p · 7 MB</button>
-    <button class="q" data-q="480" aria-pressed="false">480p · 3 MB</button>
-    <button class="q" data-q="360" aria-pressed="false">360p · 2 MB</button>
-    <a class="q dl" href="https://github.com/earning-cpu/nightingale-films/releases/latest/download/PROJECT_NIGHTINGALE_full.mp4">1080p master · 50 MB ↓</a>
+    <button class="q" data-q="720" aria-pressed="false">720p · 4.9 MB</button>
+    <button class="q" data-q="480" aria-pressed="false">480p · 2.4 MB</button>
+    <button class="q" data-q="360" aria-pressed="false">360p · 1.4 MB</button>
+    <a class="q dl" href="wow2_1080.mp4">1080p · 18 MB ↓</a>
   </div>
-  <p class="hint" id="hint">Auto picks the best quality your connection can hold — no stalling.</p>
+  <p class="hint" id="hint1">Auto picks the best quality your connection can hold — no stalling.</p>
 
   <div class="bar" style="margin-top:22px">
     <a class="btn ghost" href="v10_A.mp4">◻ NIGHTINGALE — A (repair)</a>
@@ -78,122 +78,84 @@
   <p class="hint">A, B and v9 are the same 70 seconds. A fixes only defects. B also changes what is on screen.</p>
 
   <div class="bar">
-    <a class="btn primary" href="https://github.com/earning-cpu/nightingale-films/releases/latest/download/PROJECT_NIGHTINGALE_full.mp4">⬇ Download 1080p</a>
+    <a class="btn primary" href="wow2_1080.mp4">⬇ Download 1080p</a>
+    <a class="btn ghost" href="wow2_vertical_720.mp4">▯ 9:16 vertical cut</a>
     <a class="btn ghost" href="https://github.com/earning-cpu/nightingale-films/releases">🗂 All releases</a>
-    <a class="btn ghost" href="https://github.com/earning-cpu/nightingale-films">⚙ Source &amp; pipeline</a>
   </div>
 
   <div class="meta">
-    <div class="card"><b>FORMAT</b><span>1920×1080 · 30 fps · H.264 + AAC · ~70 s<br>Streams at 360p → 1080p</span></div>
-    <div class="card"><b>SOUND</b><span>Narration + 100 frame-locked SFX<br>−14 LUFS broadcast mix</span></div>
-    <div class="card"><b>DATA</b><span>From 2 MB (360p) to 50 MB (master)<br>Auto adapts to your speed</span></div>
-    <div class="card"><b>SHARE</b><span>Send this page — it streams instantly,<br>no download needed.</span></div>
+    <div class="card"><b>FORMAT</b><span>1920×1080 · 30 fps · H.264 + AAC · 1:26<br>Captions burned in · 9:16 cut available</span></div>
+    <div class="card"><b>SOUND</b><span>Single-voice narration · boom + printer SFX<br>−14.2 LUFS, −1.5 dBTP broadcast master</span></div>
+    <div class="card"><b>DATA</b><span>1.4 MB (360p) → 18 MB (1080p)<br>Vertical cut is 720×1280, 3.5 MB</span></div>
+    <div class="card"><b>MADE WITH</b><span>AI-generated plates (Cloudflare FLUX),<br>2.5D depth parallax, Remotion render</span></div>
   </div>
 
-  <footer>PROJECT NIGHTINGALE · GROOM LAKE · 1979– · RENDERED IN THE CLOUD</footer>
+  <div class="rule"></div>
+
+  <h2>Also on this site</h2>
+  <p class="sub" style="margin-bottom:18px">PROJECT NIGHTINGALE — the Area 51 film, in two cuts.</p>
+  <div class="bar">
+    <a class="btn ghost" href="v10_A.mp4">◻ NIGHTINGALE — A (repair)</a>
+    <a class="btn ghost" href="v10_B.mp4">◼ NIGHTINGALE — B (rebuild)</a>
+    <a class="btn ghost" href="v9_reference.mp4">◌ NIGHTINGALE — v9 (original)</a>
+  </div>
+  <p class="hint">A, B and v9 are the same 70 seconds. A fixes only defects. B also changes what is on screen.</p>
+
+  <footer style="margin-top:52px">NIGHTINGALE FILMS · 1977 SIGNAL · RENDERED LOCALLY, DELIVERED STATICALLY</footer>
 </div>
 
 <script>
 (function () {
-  var v = document.getElementById('player');
-  var hint = document.getElementById('hint');
-  var SRC = { '720': 'film_720.mp4', '480': 'film_480.mp4', '360': 'film_360.mp4' };
-  var LABEL = { '720': '720p', '480': '480p', '360': '360p' };
-  var mode = 'auto';
+  var SRC = { '720': 'wow2_720.mp4', '480': 'wow2_480.mp4', '360': 'wow2_360.mp4' };
 
-  /* Estimate the link. navigator.connection is reliable on Chrome/Android;
-     Safari/Firefox don't expose it, so we fall back to a timing probe. */
-  function estimatedMbps(cb) {
+  function estimate(cb) {
     var c = navigator.connection || {};
-    if (typeof c.downlink === 'number' && isFinite(c.downlink) && c.downlink > 0) {
-      return cb(c.downlink);
-    }
-    var type = c.effectiveType;
-    if (type) {
-      var map = { 'slow-2g': 0.15, '2g': 0.35, '3g': 1.1, '4g': 6 };
-      if (map[type]) return cb(map[type]);
-    }
-    /* probe: pull the first 120 KB of the smallest file and time it */
+    if (typeof c.downlink === 'number' && isFinite(c.downlink) && c.downlink > 0) return cb(c.downlink);
+    var map = { 'slow-2g': 0.15, '2g': 0.35, '3g': 1.1, '4g': 6 };
+    if (map[c.effectiveType]) return cb(map[c.effectiveType]);
     var t0 = performance.now();
-    fetch('film_360.mp4', { headers: { Range: 'bytes=0-122879' }, cache: 'no-store' })
+    fetch('wow2_360.mp4', { headers: { Range: 'bytes=0-122879' }, cache: 'no-store' })
       .then(function (r) { return r.arrayBuffer(); })
       .then(function (b) {
         var secs = (performance.now() - t0) / 1000;
-        var mbps = (b.byteLength * 8) / (secs * 1e6);
-        cb(Math.max(0.05, mbps));
+        cb(Math.max(0.05, (b.byteLength * 8) / (secs * 1e6)));
       })
       .catch(function () { cb(1.0); });
   }
 
-  function chooseFor(mbps) {
-    if (mbps >= 1.5) return '720';
-    if (mbps >= 0.65) return '480';
-    return '360';
-  }
+  function pick(mbps) { return mbps >= 1.5 ? '720' : mbps >= 0.65 ? '480' : '360'; }
 
-  function setQuality(q, keepPosition) {
-    var t = keepPosition ? v.currentTime : 0;
-    var wasPlaying = keepPosition && !v.paused;
+  var v = document.getElementById('p1');
+  var bar = document.querySelector('.qbar[data-for="p1"]');
+  var buttons = bar ? bar.querySelectorAll('button.q') : [];
+  var chosen = null;
+
+  function setQuality(q, keep) {
+    chosen = q;
+    var t = keep ? v.currentTime : 0;
+    var playing = keep && !v.paused;
     v.src = SRC[q];
     v.load();
     if (t > 0) {
       v.addEventListener('loadedmetadata', function once() {
         v.removeEventListener('loadedmetadata', once);
         v.currentTime = t;
-        if (wasPlaying) v.play().catch(function () {});
+        if (playing) v.play().catch(function () {});
       });
     }
-    document.querySelectorAll('.q[data-q]').forEach(function (b) {
-      b.setAttribute('aria-pressed', String(b.dataset.q === (mode === 'auto' ? 'auto' : q)));
+    buttons.forEach(function (b) {
+      b.setAttribute('aria-pressed', String(b.dataset.q === q || (q === 'auto' && b.dataset.q === 'auto')));
     });
   }
 
-  function applyAuto(first) {
-    estimatedMbps(function (mbps) {
-      var q = chooseFor(mbps);
-      setQuality(q, !first);
-      var slow = mbps < 1.5;
-      hint.textContent = 'Detected ≈' + mbps.toFixed(1) + ' Mbps — playing ' + LABEL[q] +
-        (slow ? ' so it will not stall. Fast connection? Pick 720p above.' : '.');
-    });
-  }
-
-  document.getElementById('qbar').addEventListener('click', function (e) {
-    var b = e.target.closest('.q[data-q]');
-    if (!b) return;
-    mode = b.dataset.q;
-    if (mode === 'auto') {
-      applyAuto(false);
-    } else {
-      setQuality(mode, true);
-      hint.textContent = 'Locked to ' + LABEL[mode] + '.';
-    }
-    document.querySelectorAll('.q[data-q]').forEach(function (x) {
-      x.setAttribute('aria-pressed', String(x.dataset.q === mode));
+  buttons.forEach(function (b) {
+    b.addEventListener('click', function () {
+      if (b.dataset.q === 'auto') { estimate(function (m) { setQuality(pick(m), true); }); }
+      else { setQuality(b.dataset.q, true); }
     });
   });
 
-  /* Re-pick when the network changes (Chrome/Android). */
-  var c = navigator.connection;
-  if (c && c.addEventListener) {
-    c.addEventListener('change', function () { if (mode === 'auto') applyAuto(false); });
-  }
-
-  /* If playback still stalls, drop a rung rather than freeze. */
-  var stalls = 0, order = ['720', '480', '360'];
-  v.addEventListener('waiting', function () {
-    stalls++;
-    if (mode !== 'auto' || stalls < 2) return;
-    var cur = order.findIndex(function (q) { return v.src.indexOf(SRC[q]) > -1; });
-    if (cur > -1 && cur < order.length - 1) {
-      var next = order[cur + 1];
-      setQuality(next, true);
-      hint.textContent = 'Buffering — dropped to ' + LABEL[next] + ' to keep it playing.';
-    }
-  });
-  v.addEventListener('playing', function () { stalls = 0; });
-
-  applyAuto(true);
+  estimate(function (mbps) { setQuality(pick(mbps), false); });
 })();
 </script>
 </body>

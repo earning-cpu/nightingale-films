@@ -553,14 +553,20 @@ export const Camera: React.FC<{
   // ONE continuous move per shot. No per-word pulses: professional editors treat
   // repeated push/pull as the "cheap jump-cut" look. Motion stays imperceptible.
   const s = (scaleFrom + (scaleTo - scaleFrom) * p) * (1 + 0.0016 * Math.sin(frame * 0.07));
-  const hx = handheld * (Math.sin(frame * 0.61) * 0.09 + (prand(Math.floor(frame / 2)) - 0.5) * 0.20);
-  const hy = handheld * (Math.cos(frame * 0.47) * 0.08 + (prand(Math.floor(frame / 2) + 7) - 0.5) * 0.18);
+  // The plate is scaled by s; the safe pan budget is (s - 1) / 2 of the frame.
+  // Anything beyond that pulls the edge into shot — the "moving edge" artefact.
+  const budget = ((s - 1) / 2) * 100;
+  const clampPan = (v: number) => Math.max(-budget, Math.min(budget, v));
+  const hx = clampPan(handheld * (Math.sin(frame * 0.61) * 0.09 + (prand(Math.floor(frame / 2)) - 0.5) * 0.20));
+  const hy = clampPan(handheld * (Math.cos(frame * 0.47) * 0.08 + (prand(Math.floor(frame / 2) + 7) - 0.5) * 0.18));
+  const px = clampPan((50 - fx) + hx);
+  const py = clampPan((50 - fy) + hy);
   const flick = flicker ? 1 + 0.016 * Math.sin(frame * 1.7) + 0.011 * (prand(frame + 3) - 0.5) : 1;
   return (
     <AbsoluteFill style={{overflow: 'hidden'}}>
       <Img src={staticFile(src)} style={{
         width: '100%', height: '100%', objectFit: 'cover',
-        transform: `scale(${s}) translate(${(50 - fx) + hx}%, ${(50 - fy) + hy}%) rotate(${rotate}deg)`,
+        transform: `scale(${s}) translate(${px}%, ${py}%) rotate(${rotate}deg)`,
         filter: `brightness(${brightness * flick}) saturate(0.84) contrast(1.07) sepia(${sepia})`,
       }} />
     </AbsoluteFill>

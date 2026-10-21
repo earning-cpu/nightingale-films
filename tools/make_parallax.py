@@ -19,7 +19,7 @@ edge-replicated borders produces no holes at the 2-5 % move sizes our rules
 allow (see QUALITY_SYSTEM_V2.md P14/P21).
 """
 from __future__ import annotations
-import argparse, os, subprocess, sys
+import argparse, os, shutil, subprocess, sys
 import numpy as np
 
 def load_depth(path, model_id="depth-anything/Depth-Anything-V2-Small-hf"):
@@ -132,6 +132,7 @@ def main():
            "-x264-params", "colorprim=bt709:transfer=bt709:colormatrix=bt709:range=tv",
            a.out]
     subprocess.run(cmd, check=True)
+    shutil.rmtree(tmp, ignore_errors=True)   # 200MB of PNGs per clip otherwise
     print("wrote", a.out, f"({n} frames, {n/a.fps:.2f}s)")
     return 0
 

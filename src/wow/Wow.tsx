@@ -1,59 +1,27 @@
 import React from 'react';
-import {AbsoluteFill, Audio, staticFile, useCurrentFrame} from 'remotion';
-import {Camera, Grain, Letterbox, Vignette} from '../lib';
-import {C, F, clamp01, easeInOutCubic, easeOutCubic, easeOutExpo, prand, win} from '../theme';
+import {AbsoluteFill, Audio, OffthreadVideo, staticFile, useCurrentFrame} from 'remotion';
+import {Camera, Letterbox, Vignette} from '../lib';
+import {C, F, clamp01, easeInOutCubic, easeOutCubic, easeOutExpo, prand} from '../theme';
 import TL from './timeline.json';
 
-/* ===================== helpers ===================== */
+/* ============================ types ============================ */
 
-type Scene = {
-  id: string; text: string; plate: string | null;
-  from: number; dur: number; voStart: number; voDur: number;
-  words: {w: string; f: number}[];
+type Word = {w: string; f: number};
+type Shot = {
+  kind: 'img' | 'vid'; src: string;
+  start?: number; from: number; dur: number;
+  focusFrom?: [number, number]; focusTo?: [number, number];
+  scale?: [number, number]; b?: number; sep?: number;
 };
+type Scene = {id: string; text: string; from: number; dur: number;
+  voStart: number; voDur: number; words: Word[]; shots: Shot[]};
 
-const S: Record<string, Scene> = Object.fromEntries(
+const SC: Record<string, Scene> = Object.fromEntries(
   (TL.scenes as Scene[]).map((s) => [s.id, s]));
+const TOTAL = TL.total as number;
 
-const At: React.FC<{from: number; dur: number; children: React.ReactNode}> = ({from, dur, children}) => {
-  const f = useCurrentFrame();
-  if (f < from || f >= from + dur) return null;
-  return <AbsoluteFill>{children}</AbsoluteFill>;
-};
+/* ============================ texture ============================ */
 
-/** Word timing helper: the frame a given word is spoken. */
-const wordF = (sid: string, needle: string, fallback = 0): number => {
-  const s = S[sid];
-  if (!s) return fallback;
-  const w = s.words.find((x) => x.w.toLowerCase().replace(/[^a-z0-9]/g, '')
-    === needle.toLowerCase().replace(/[^a-z0-9]/g, ''));
-  return w ? w.f : fallback;
-};
-
-const Slug: React.FC<{text: string; from: number; color?: string}> = ({text, from, color = C.paperDim}) => {
-  const f = useCurrentFrame();
-  const o = easeOutCubic(clamp01((f - from) / 12));
-  return (
-    <div style={{
-      position: 'absolute', left: 118, top: 118, fontFamily: F.mono, fontSize: 17,
-      letterSpacing: '0.40em', color, opacity: o * 0.9,
-    }}>{text}</div>
-  );
-};
-
-/** Fade in and out around a frame window — used for every caption. */
-const Fade: React.FC<{start: number; end: number; children: React.ReactNode;
-  style?: React.CSSProperties}> = ({start, end, children, style}) => {
-  const f = useCurrentFrame();
-  const o = clamp01((f - start) / 10) * (1 - clamp01((f - (end - 10)) / 10));
-  if (o <= 0) return null;
-  return <div style={{opacity: o, ...style}}>{children}</div>;
-};
-
-
-
-/** Real film grain MOVES frame to frame. A static overlay is what makes a
-    still shot read as a frozen image — and it is what freezedetect catches. */
 const FilmGrain: React.FC<{opacity?: number}> = ({opacity = 0.20}) => {
   const f = useCurrentFrame();
   const ox = Math.round(prand(f * 1.7) * 512);
@@ -68,273 +36,336 @@ const FilmGrain: React.FC<{opacity?: number}> = ({opacity = 0.20}) => {
   );
 };
 
-/** Continuous, sub-perceptual drift so no card is ever a frozen frame. */
-const Drift: React.FC<{from: number; dur: number; children: React.ReactNode; amount?: number}> =
-  ({from, dur, children, amount = 0.045}) => {
-    const f = useCurrentFrame();
-    const p = clamp01((f - from) / dur);
-    const sc = 1 + amount * p;
-    const dy = -14 * p;
-    const dx = 8 * Math.sin(p * 3.1);
-    return (
-      <AbsoluteFill style={{transform: `scale(${sc}) translate(${dx}px, ${dy}px)`}}>
-        {children}
-      </AbsoluteFill>
-    );
-  };
+const Scanlines: React.FC<{opacity?: number}> = ({opacity = 0.10}) => (
+  <AbsoluteFill style={{
+    pointerEvents: 'none', opacity,
+    background: 'repeating-linear-gradient(180deg, rgba(0,0,0,0.55) 0 1px, rgba(0,0,0,0) 1px 3px)',
+  }} />
+);
 
-/* ===================== scene: still + slug ===================== */
-const Still: React.FC<{sid: string; src: string; slug: string; slugAt?: number;
-  focusFrom?: [number, number]; focusTo?: [number, number];
-  scaleFrom?: number; scaleTo?: number; brightness?: number; sepia?: number}> = ({
-  sid, src, slug, slugAt = 0, focusFrom = [50, 50], focusTo = [52, 52],
-  scaleFrom = 1.04, scaleTo = 1.09, brightness = 0.9, sepia = 0.1}) => {
-  const s = S[sid];
+/* ============================ captions ============================ */
+
+/** Three words at a time, word-accurate, lower third, inside the safe zone. */
+const Captions: React.FC = () => {
+  const f = useCurrentFrame();
+  const scene = (TL.scenes as Scene[]).find((s) => f >= s.from && f < s.from + s.dur);
+  if (!scene) return null;
+  const words = scene.words;
+  if (!words.length) return null;
+
+  const GROUPS = 3;
+  let idx = -1;
+  for (let i = 0; i < words.length; i += GROUPS) {
+    const start = words[i].f;
+    const end = i + GROUPS < words.length ? words[i + GROUPS].f : scene.from + scene.dur;
+    if (f >= start - 3 && f < end + 2) { idx = i; break; }
+  }
+  if (idx < 0) return null;
+
+  const group = words.slice(idx, idx + GROUPS);
   return (
-    <At from={s.from} dur={s.dur}>
-      <Camera src={src} from={s.from} dur={s.dur} focusFrom={focusFrom} focusTo={focusTo}
-        scaleFrom={scaleFrom} scaleTo={scaleTo} ease="inOut" handheld={0.14}
-        brightness={brightness} sepia={sepia} />
-      <AbsoluteFill style={{background: 'linear-gradient(to top, rgba(6,8,12,0.86) 0%, rgba(6,8,12,0.30) 34%, rgba(6,8,12,0) 62%)'}} />
-      <Slug text={slug} from={s.from + slugAt} />
-      <Vignette />
-      <Grain opacity={0.15} />
-      <FilmGrain opacity={0.17} />
-      <Letterbox />
-    </At>
+    <AbsoluteFill style={{justifyContent: 'flex-end', alignItems: 'center', paddingBottom: 214}}>
+      <div style={{
+        display: 'flex', gap: '0.34em', fontFamily: F.sans, fontWeight: 800,
+        fontSize: 50, letterSpacing: '0.005em',
+        background: 'rgba(4,6,10,0.42)', padding: '10px 22px 12px', borderRadius: 3,
+        textShadow: '0 2px 16px rgba(0,0,0,0.95), 0 0 40px rgba(0,0,0,0.75)',
+      }}>
+        {group.map((w, k) => {
+          const on = f >= w.f;
+          const a = easeOutCubic(clamp01((f - w.f + 4) / 6));
+          return (
+            <span key={idx + k} style={{
+              color: C.white,
+              opacity: (on ? 1 : 0.42) * (0.55 + 0.45 * a),
+            }}>{w.w.replace(/[.,;:]$/, '')}</span>
+          );
+        })}
+      </div>
+    </AbsoluteFill>
   );
 };
 
-/* ===================== d: the frequency ===================== */
-const Frequency: React.FC = () => {
-  const s = S.d;
+/* ============================ shots ============================ */
+
+const StillShot: React.FC<{shot: Shot; scene: Scene}> = ({shot, scene}) => {
+  const [fx0, fy0] = shot.focusFrom ?? [50, 50];
+  const [fx1, fy1] = shot.focusTo ?? [50, 50];
+  const [s0, s1] = shot.scale ?? [1.04, 1.10];
+  return (
+    <Camera
+      src={shot.src} from={shot.from} dur={shot.dur}
+      focusFrom={[fx0, fy0]} focusTo={[fx1, fy1]}
+      scaleFrom={s0} scaleTo={s1} ease="inOut" handheld={0.16}
+      brightness={shot.b ?? 0.9} sepia={shot.sep ?? 0.08}
+    />
+  );
+};
+
+/** A real 2.5D parallax clip: depth-warped from one plate, not a pan-and-zoom. */
+const VidShot: React.FC<{shot: Shot}> = ({shot}) => {
   const f = useCurrentFrame();
-  const local = f - s.from;
-  if (local < 0 || local > s.dur) return null;
-  const lock = wordF('d', 'megahertz', s.voStart + 60);
+  const local = f - shot.from;
+  const off = Math.round(((shot.start ?? 0) * 30 + local));
+  return (
+    <AbsoluteFill style={{overflow: 'hidden'}}>
+      <OffthreadVideo
+        src={staticFile(shot.src)}
+        startFrom={off}
+        muted
+        style={{width: '100%', height: '100%', objectFit: 'cover',
+          filter: 'brightness(0.94) saturate(0.8) contrast(1.06)'}}
+      />
+    </AbsoluteFill>
+  );
+};
+
+const Shots: React.FC<{scene: Scene}> = ({scene}) => {
+  const f = useCurrentFrame();
+  const shot = scene.shots.find((s) => f >= s.from && f < s.from + s.dur);
+  if (!shot) return null;
+  return (
+    <AbsoluteFill>
+      {shot.kind === 'vid' ? <VidShot shot={shot} /> : <StillShot shot={shot} scene={scene} />}
+      <AbsoluteFill style={{
+        background: 'linear-gradient(to top, rgba(5,7,11,0.88) 0%, rgba(5,7,11,0.28) 30%, rgba(5,7,11,0) 58%)',
+      }} />
+    </AbsoluteFill>
+  );
+};
+
+/* ============================ graphics ============================ */
+
+const Slug: React.FC<{text: string; at: number; color?: string}> = ({text, at, color = 'rgba(233,226,210,0.55)'}) => {
+  const f = useCurrentFrame();
+  const o = easeOutCubic(clamp01((f - at) / 10));
+  if (o <= 0) return null;
+  return (
+    <div style={{position: 'absolute', left: 112, top: 116, fontFamily: F.mono,
+      fontSize: 17, letterSpacing: '0.40em', color, opacity: o * 0.92}}>{text}</div>
+  );
+};
+
+/* ---- the hook: three bars that slam in on the words ---- */
+const HookBars: React.FC = () => {
+  const s = SC.hook;
+  const f = useCurrentFrame();
+  if (f < s.from || f > s.from + s.dur) return null;
+  const w72 = s.words.find((w) => /72|seventy/i.test(w.w));
+  const at = w72 ? w72.f : s.from + 60;
+  const p = easeOutExpo(clamp01((f - at) / 9));
+  const rule = easeOutCubic(clamp01((f - s.from - 2) / 12));
+  return (
+    <AbsoluteFill style={{padding: '132px 0 0 112px'}}>
+      <div style={{opacity: p, transform: `translateY(${(1 - p) * 18}px)`}}>
+        <div style={{
+          fontFamily: F.mono, fontSize: 148, fontWeight: 700, color: C.white,
+          letterSpacing: '-0.045em', lineHeight: 0.86,
+          textShadow: '0 12px 70px rgba(0,0,0,0.95)',
+        }}>72</div>
+        <div style={{
+          fontFamily: F.mono, fontSize: 22, letterSpacing: '0.66em',
+          color: C.amber, marginTop: 12, paddingLeft: 6,
+        }}>SECONDS</div>
+        <div style={{
+          height: 3, width: 128, marginTop: 16, background: C.warn,
+          transform: `scaleX(${rule})`, transformOrigin: 'left center',
+        }} />
+      </div>
+    </AbsoluteFill>
+  );
+};
+
+/* ---- d: the frequency ---- */
+const Frequency: React.FC = () => {
+  const s = SC.d;
+  const f = useCurrentFrame();
+  if (f < s.from || f > s.from + s.dur) return null;
+  const lock = s.words.find((w) => /megahertz/i.test(w.w))?.f ?? s.voStart + 70;
   const p = easeInOutCubic(clamp01((f - s.voStart) / Math.max(1, lock - s.voStart)));
   const val = 1300 + 120.4556 * p;
   const sweep = clamp01((f - s.voStart) / s.voDur);
   return (
-    <Drift from={s.from} dur={s.dur}><AbsoluteFill style={{background: '#05070A'}}>
-      {/* faint spectral floor */}
-      <svg width="100%" height="100%" style={{position: 'absolute', opacity: 0.5}}>
+    <AbsoluteFill style={{background: 'rgba(5,7,10,0.72)'}}>
+      <svg width="100%" height="100%" style={{position: 'absolute', opacity: 0.55}}>
         {Array.from({length: 96}).map((_, i) => {
-          const h = 6 + prand(i * 3.1) * 46 * (1 + 2.4 * Math.exp(-Math.pow((i - 68) / 7, 2)));
-          return <rect key={i} x={`${i * 1.045}%`} y={640 - h} width="0.42%" height={h}
+          const h = 8 + prand(i * 3.1) * 52 * (1 + 2.6 * Math.exp(-Math.pow((i - 68) / 6.5, 2)));
+          return <rect key={i} x={`${i * 1.045}%`} y={676 - h} width="0.42%" height={h}
             fill={Math.abs(i - 68) < 4 ? '#D9A441' : 'rgba(233,226,210,0.20)'} />;
         })}
       </svg>
-      <div style={{position: 'absolute', left: 118, top: 128, fontFamily: F.mono,
-        fontSize: 16, letterSpacing: '0.40em', color: C.paperDim}}>BIG EAR · RECEIVER BAND</div>
-
       <AbsoluteFill style={{justifyContent: 'center', alignItems: 'center'}}>
-        <div style={{fontFamily: F.mono, fontSize: 132, fontWeight: 600, color: C.white,
-          letterSpacing: '-0.02em', fontVariantNumeric: 'tabular-nums'}}>
+        <div style={{fontFamily: F.mono, fontSize: 150, fontWeight: 600, color: C.white,
+          letterSpacing: '-0.02em', fontVariantNumeric: 'tabular-nums',
+          textShadow: '0 8px 50px rgba(0,0,0,0.9)'}}>
           {val.toFixed(4)}
         </div>
-        <div style={{fontFamily: F.mono, fontSize: 30, letterSpacing: '0.62em',
-          color: C.amber, marginTop: 6}}>MHz</div>
-        <div style={{height: 2, width: 720, marginTop: 30,
-          background: `linear-gradient(to right, rgba(217,164,65,0) 0 ${sweep * 46}%, ${C.amber} ${sweep * 46}%, rgba(217,164,65,0) ${sweep * 46 + 4}%, rgba(233,226,210,0.10) ${sweep * 46 + 4}% 100%)`}} />
-        <div style={{fontFamily: F.type, fontSize: 30, color: C.paper, marginTop: 34,
-          opacity: clamp01((f - lock - 8) / 12)}}>
-          the hydrogen line
-        </div>
+        <div style={{fontFamily: F.mono, fontSize: 32, letterSpacing: '0.62em', color: C.amber, marginTop: 4}}>MHz</div>
+        <div style={{height: 2, width: 760, marginTop: 26,
+          background: `linear-gradient(to right, rgba(217,164,65,0) 0 ${sweep * 46}%, ${C.amber} ${sweep * 46}%, rgba(217,164,65,0) ${sweep * 46 + 3}%, rgba(233,226,210,0.10) ${sweep * 46 + 3}% 100%)`}} />
+        <div style={{fontFamily: F.type, fontSize: 34, color: C.paper, marginTop: 30,
+          opacity: clamp01((f - lock - 6) / 10)}}>the hydrogen line</div>
       </AbsoluteFill>
-      <FilmGrain opacity={0.22} />
-      <Letterbox />
-    </AbsoluteFill></Drift>
+    </AbsoluteFill>
   );
 };
 
-/* ===================== e: the printout ===================== */
+/* ---- e: the six characters ---- */
 const CHARS = ['6', 'E', 'Q', 'U', 'J', '5'];
-const MEANING = ['6×', '14×', '26×', '30×', '19×', '5×'];
+const MEANING = ['6x', '14x', '26x', '30x', '19x', '5x'];
 
 const Printout: React.FC = () => {
-  const s = S.e;
+  const s = SC.e;
   const f = useCurrentFrame();
   if (f < s.from || f > s.from + s.dur) return null;
-  const startChars = s.voStart + 12;
-  const step = 9;
-  const bg = easeOutCubic(clamp01((f - s.from) / 20));
+  const first = s.words.find((w) => w.w === '6')?.f ?? s.voStart + 60;
+  const step = Math.max(8, Math.round((s.voDur * 0.42) / 6));
+  const bg = easeOutCubic(clamp01((f - s.from) / 16));
   const slide = easeInOutCubic(clamp01((f - s.from) / s.dur));
-  const ROWS = 90;
   return (
-    <Drift from={s.from} dur={s.dur} amount={0.03}><AbsoluteFill style={{background: '#080A0E'}}>
-      {/* one column of the printer's output, running past the top and bottom */}
-      <div style={{
-        position: 'absolute', left: '9%', width: '23%', top: 0, bottom: 0,
-        background: 'linear-gradient(#E7DFCD, #D8CEB6)',
-        opacity: 0.96 * bg,
-        transform: `perspective(1600px) rotateX(${5 - 3 * bg}deg) translateY(${-slide * 260}px)`,
-        boxShadow: '0 50px 140px rgba(0,0,0,0.85)',
-        overflow: 'hidden',
-      }}>
-        <div style={{fontFamily: F.mono, fontSize: 15, lineHeight: 1.62,
-          color: 'rgba(40,34,24,0.34)', padding: '0 18px', filter: 'blur(1.0px)'}}>
-          {Array.from({length: ROWS}).map((_, r) => (
-            <div key={r}>{Array.from({length: 3}).map((__, c) => (
-              <span key={c} style={{marginRight: 16}}>
-                {Array.from({length: 7}).map((___, k) =>
-                  `${Math.floor(prand(r * 131 + c * 17 + k) * 9)}`).join('')}
-              </span>
-            ))}</div>
-          ))}
-        </div>
-      </div>
-
-      {/* the six real characters, revealed on their spoken words */}
-      <div style={{position: 'absolute', right: '8%', top: '50%',
-        transform: 'translateY(-50%)', width: '52%'}}>
+    <AbsoluteFill style={{background: 'rgba(6,8,12,0.90)'}}>
+      <div style={{position: 'absolute', right: '7%', top: '50%', transform: 'translateY(-50%)', width: '55%'}}>
         <div style={{display: 'flex', gap: 22, justifyContent: 'flex-end'}}>
           {CHARS.map((ch, i) => {
-            const at = startChars + i * step;
-            const o = easeOutExpo(clamp01((f - at) / 8));
+            const at = first + i * step;
+            const o = easeOutExpo(clamp01((f - at) / 7));
             const hot = ch === 'U';
             return (
               <div key={ch} style={{
-                width: 118, height: 152, display: 'flex', flexDirection: 'column',
+                width: 116, height: 150, display: 'flex', flexDirection: 'column',
                 alignItems: 'center', justifyContent: 'center',
                 background: o > 0 ? (hot ? '#C4382B' : '#E9E2D2') : 'transparent',
-                border: `2px solid ${hot ? '#C4382B' : '#E9E2D2'}`,
-                borderRadius: 6, opacity: o, transform: `translateY(${(1 - o) * 18}px)`,
+                border: `2px solid ${hot ? '#C4382B' : '#E9E2D2'}`, borderRadius: 5,
+                opacity: o, transform: `translateY(${(1 - o) * 22}px) scale(${0.92 + 0.08 * o})`,
               }}>
-                <div style={{fontFamily: F.mono, fontSize: 84, fontWeight: 700,
+                <div style={{fontFamily: F.mono, fontSize: 82, fontWeight: 700,
                   color: hot ? '#F4F1EA' : '#141118', lineHeight: 1}}>{ch}</div>
-                <div style={{fontFamily: F.mono, fontSize: 17, letterSpacing: '0.14em',
-                  color: hot ? 'rgba(244,241,234,0.85)' : 'rgba(20,17,24,0.62)', marginTop: 6}}>
+                <div style={{fontFamily: F.mono, fontSize: 16, letterSpacing: '0.14em',
+                  color: hot ? 'rgba(244,241,234,0.85)' : 'rgba(20,17,24,0.62)', marginTop: 5}}>
                   {MEANING[i]}
                 </div>
               </div>
             );
           })}
         </div>
-        <Fade start={startChars + 54} end={s.from + s.dur}>
-          <div style={{fontFamily: F.type, fontSize: 27, color: C.paper,
-            marginTop: 34, textAlign: 'right'}}>
-            intensity above the noise, per ten seconds
-          </div>
-        </Fade>
       </div>
-      <FilmGrain opacity={0.18} />
-      <Letterbox />
-    </AbsoluteFill></Drift>
+    </AbsoluteFill>
   );
 };
 
-/* ===================== f: the card ===================== */
+/* ---- f: the card ---- */
 const WowCard: React.FC = () => {
-  const s = S.f;
+  const s = SC.f;
   const f = useCurrentFrame();
   if (f < s.from || f > s.from + s.dur) return null;
-  const wowAt = wordF('f', 'wow', s.voStart + 60);
-  const circleP = easeInOutCubic(clamp01((f - wowAt + 10) / 26));
-  const inkP = easeOutExpo(clamp01((f - wowAt) / 10));
-  const rise = easeOutExpo(clamp01((f - s.from) / 18));
+  const wowAt = s.words.find((w) => /wow/i.test(w.w))?.f ?? s.voStart + 60;
+  const circleP = easeInOutCubic(clamp01((f - wowAt + 12) / 24));
+  const inkP = easeOutExpo(clamp01((f - wowAt) / 8));
+  const rise = easeOutExpo(clamp01((f - s.from) / 15));
+  const push = 1 + 0.05 * clamp01((f - s.from) / s.dur);
   return (
-    <Drift from={s.from} dur={s.dur} amount={0.035}><AbsoluteFill style={{background: '#0A0C10', justifyContent: 'center', alignItems: 'center'}}>
+    <AbsoluteFill style={{background: 'rgba(7,9,13,0.92)', justifyContent: 'center', alignItems: 'center'}}>
       <div style={{
-        position: 'relative', width: 1180, padding: '54px 64px 62px',
-        background: '#E9E2D2', boxShadow: '0 40px 110px rgba(0,0,0,0.75)',
-        transform: `rotate(-0.7deg) translateY(${(1 - rise) * 26}px)`, opacity: rise,
+        position: 'relative', width: 1240, padding: '50px 60px 58px', marginBottom: 96,
+        background: '#E9E2D2', boxShadow: '0 40px 110px rgba(0,0,0,0.8)',
+        transform: `rotate(-0.7deg) translateY(${(1 - rise) * 24}px) scale(${push})`, opacity: rise,
       }}>
         <div style={{fontFamily: F.mono, fontSize: 16, letterSpacing: '0.34em', color: '#6B5D42'}}>
           OHIO STATE UNIVERSITY · BIG EAR · 15 AUG 1977
         </div>
-        <div style={{fontFamily: F.mono, fontSize: 34, color: '#141118', marginTop: 26,
-          letterSpacing: '0.16em'}}>CHANNEL 2 · RECEIVER B</div>
-
-        <div style={{position: 'relative', marginTop: 30, display: 'inline-block'}}>
-          <div style={{fontFamily: F.mono, fontSize: 168, fontWeight: 700,
-            letterSpacing: '0.10em', color: '#141118', lineHeight: 1}}>6EQUJ5</div>
-          <svg width="760" height="300" style={{position: 'absolute', left: -46, top: -74,
-            pointerEvents: 'none'}}>
-            <ellipse cx="380" cy="150" rx="352" ry="126" fill="none" stroke="#B5342A"
-              strokeWidth="5" strokeLinecap="round"
-              strokeDasharray="1600" strokeDashoffset={1600 * (1 - circleP)}
-              transform="rotate(-3 380 150)" />
+        <div style={{fontFamily: F.mono, fontSize: 32, color: '#141118', marginTop: 22, letterSpacing: '0.16em'}}>
+          CHANNEL 2 · RECEIVER B
+        </div>
+        <div style={{position: 'relative', marginTop: 26, display: 'inline-block'}}>
+          <div style={{fontFamily: F.mono, fontSize: 176, fontWeight: 700, letterSpacing: '0.10em',
+            color: '#141118', lineHeight: 1}}>6EQUJ5</div>
+          <svg width="820" height="320" style={{position: 'absolute', left: -52, top: -78, pointerEvents: 'none'}}>
+            <ellipse cx="410" cy="160" rx="382" ry="132" fill="none" stroke="#B5342A" strokeWidth="5"
+              strokeLinecap="round" strokeDasharray="1700" strokeDashoffset={1700 * (1 - circleP)}
+              transform="rotate(-3 410 160)" />
           </svg>
         </div>
-
-        <div style={{
-          position: 'absolute', right: 74, top: 96, fontFamily: F.type, fontSize: 132,
-          color: '#B5342A', opacity: inkP, transform: `rotate(-9deg) scale(${0.86 + 0.14 * inkP})`,
-        }}>Wow!</div>
-
-        <div style={{fontFamily: F.type, fontSize: 25, color: '#4A3F2C', marginTop: 34,
-          opacity: clamp01((f - wowAt - 22) / 14)}}>
-          written in the margin by Jerry R. Ehman, a few days later
-        </div>
+        <div style={{position: 'absolute', right: 44, top: 24, fontFamily: F.type, fontSize: 128,
+          color: '#B5342A', opacity: inkP, transform: `rotate(-8deg) scale(${0.84 + 0.16 * inkP})`,
+          transformOrigin: 'top right'}}>Wow!</div>
       </div>
-      <FilmGrain opacity={0.20} />
-      <Letterbox />
-    </AbsoluteFill></Drift>
+    </AbsoluteFill>
   );
 };
 
-/* ===================== k: end card ===================== */
+/* ---- k: end ---- */
 const EndCard: React.FC = () => {
-  const s = S.k;
+  const s = SC.k;
   const f = useCurrentFrame();
   if (f < s.from || f > s.from + s.dur) return null;
-  const a = easeOutExpo(clamp01((f - s.from - 6) / 22));
-  const b = clamp01((f - s.from - 70) / 20);
-  const c = clamp01((f - s.from - 120) / 20);
-  const p = clamp01((f - s.from) / s.dur);
+  const a = easeOutExpo(clamp01((f - s.from - 4) / 18));
+  const b = clamp01((f - s.from - 52) / 16);
+  const c = clamp01((f - s.from - 92) / 16);
   return (
-    <Drift from={s.from} dur={s.dur} amount={0.05}>
-    <AbsoluteFill style={{background: '#12151C'}}>
-      {/* a low, warm ground — the observatory's horizon, out of focus */}
+    <AbsoluteFill style={{background: 'rgba(6,8,12,0.94)', justifyContent: 'center', alignItems: 'center'}}>
       <AbsoluteFill style={{background:
-        'linear-gradient(to top, rgba(217,164,65,0.30) 0%, rgba(160,118,58,0.14) 18%, rgba(18,21,28,0) 52%)'}} />
-      <FilmGrain opacity={0.22} />
-
+        'linear-gradient(to top, rgba(217,164,65,0.30) 0%, rgba(160,118,58,0.12) 18%, rgba(6,8,12,0) 54%)'}} />
       <AbsoluteFill style={{justifyContent: 'center', alignItems: 'center'}}>
-        <div style={{fontFamily: F.mono, fontSize: 112, letterSpacing: '0.14em',
-          color: C.white, opacity: a, transform: `translateY(${(1 - a) * 16}px)`}}>6EQUJ5</div>
-        <div style={{height: 2, width: 560, marginTop: 26, background: 'rgba(233,226,210,0.26)'}} />
-        <div style={{fontFamily: F.sans, fontSize: 42, fontWeight: 700, letterSpacing: '0.18em',
-          color: C.amber, marginTop: 30, opacity: b}}>UNEXPLAINED</div>
-        <div style={{fontFamily: F.mono, fontSize: 17, letterSpacing: '0.24em',
-          color: 'rgba(233,226,210,0.52)', marginTop: 48, opacity: c, textAlign: 'center',
-          lineHeight: 1.95}}>
+        <div style={{fontFamily: F.mono, fontSize: 118, letterSpacing: '0.14em', color: C.white,
+          opacity: a, transform: `translateY(${(1 - a) * 14}px)`}}>6EQUJ5</div>
+        <div style={{height: 2, width: 560, marginTop: 24, background: 'rgba(233,226,210,0.26)'}} />
+        <div style={{fontFamily: F.sans, fontSize: 44, fontWeight: 700, letterSpacing: '0.18em',
+          color: C.amber, marginTop: 28, opacity: b}}>UNEXPLAINED</div>
+        <div style={{fontFamily: F.mono, fontSize: 16, letterSpacing: '0.24em',
+          color: 'rgba(233,226,210,0.50)', marginTop: 44, opacity: c, textAlign: 'center', lineHeight: 1.95}}>
           BIG EAR RADIO OBSERVATORY · DELAWARE, OHIO<br />
           ARECIBO / PLANETARY HABITABILITY LAB ANALYSIS, 2024<br />
           SOURCES: ARXIV 2408.08513 · WIKIPEDIA · NASA
         </div>
       </AbsoluteFill>
-      <Letterbox />
     </AbsoluteFill>
-    </Drift>
   );
 };
 
-/* ===================== composition ===================== */
+/* ============================ composition ============================ */
+
+const SceneLayer: React.FC<{id: string}> = ({id}) => {
+  const s = SC[id];
+  const f = useCurrentFrame();
+  if (f < s.from || f >= s.from + s.dur) return null;
+  return (
+    <AbsoluteFill>
+      <Shots scene={s} />
+      {id === 'hook' && <HookBars />}
+      {id === 'd' && <Frequency />}
+      {id === 'e' && <Printout />}
+      {id === 'f' && <WowCard />}
+      {id === 'k' && <EndCard />}
+      {id !== 'hook' && <Slug text={SLUG[id] ?? ''} at={s.from + 6} />}
+    </AbsoluteFill>
+  );
+};
+
+const SLUG: Record<string, string> = {
+  a: 'NEVER HEARD AGAIN',
+  b: 'DELAWARE, OHIO · DRIFT SCAN',
+  c: 'NO TRACKING · 72 SECONDS OF BEAM',
+  d: 'RECEIVER B · 1420 MHz',
+  e: 'PRINTOUT · CHANNEL 2',
+  f: 'THE MARGIN',
+  g: '51 YEARS OF SILENCE',
+  hook: '15 AUG 1977 · BIG EAR · OHIO',
+  h: 'CANDIDATE · 2024',
+  i: 'HYPOTHESIS · HYDROGEN MASER',
+  j: 'STILL UNEXPLAINED',
+  k: '72 SECONDS',
+};
+
 export const Wow: React.FC = () => (
   <AbsoluteFill style={{background: '#05070A'}}>
-    <Audio src={staticFile('wow_mix_norm.wav')} />
-
-    <Still sid="a" src="wow/img/w_04.png" slug="15 AUG 1977 · DELAWARE, OHIO"
-      focusFrom={[50, 62]} focusTo={[50, 54]} scaleFrom={1.05} scaleTo={1.01} brightness={0.82} sepia={0.12} />
-    <Still sid="b" src="wow/img/radio_01.png" slug="T + 72 SECONDS"
-      focusFrom={[38, 58]} focusTo={[62, 52]} scaleFrom={1.02} scaleTo={1.10} brightness={1.0} sepia={0} />
-    <Still sid="c" src="wow/img/w_07.png" slug="DRIFT SCAN · NO TRACKING"
-      focusFrom={[56, 40]} focusTo={[44, 56]} scaleFrom={1.08} scaleTo={1.02} brightness={1.05} sepia={0} />
-    <Frequency />
-    <Printout />
-    <WowCard />
-    <Still sid="g" src="wow/img/w_04.png" slug="51 YEARS OF SILENCE"
-      focusFrom={[46, 44]} focusTo={[54, 52]} scaleFrom={1.03} scaleTo={1.11} brightness={0.95} sepia={0.05} />
-    <Still sid="h" src="wow/img/w_03.png" slug="2024 · ARECIBO ARCHIVE"
-      focusFrom={[52, 50]} focusTo={[46, 54]} scaleFrom={1.02} scaleTo={1.09} brightness={0.9} sepia={0.1} />
-    <Still sid="i" src="wow/img/w_06.png" slug="HYPOTHESIS · HYDROGEN MASER"
-      focusFrom={[44, 56]} focusTo={[56, 44]} scaleFrom={1.06} scaleTo={1.02} brightness={0.88} sepia={0.18} />
-    <Still sid="j" src="wow/img/w_02.png" slug="STILL UNEXPLAINED"
-      focusFrom={[50, 48]} focusTo={[50, 56]} scaleFrom={1.02} scaleTo={1.08} brightness={0.72} sepia={0.2} />
-    <EndCard />
-
+    <Audio src={staticFile('wow_mix_v2_norm.mp3')} />
+    {Object.keys(SC).map((id) => <SceneLayer key={id} id={id} />)}
     <Vignette />
+    <Scanlines opacity={0.05} />
+    <FilmGrain opacity={0.19} />
+    <Letterbox />
+    <Captions />
   </AbsoluteFill>
 );
+
+export const WOW_TOTAL = TOTAL;
