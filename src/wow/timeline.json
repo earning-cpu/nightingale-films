@@ -1,0 +1,964 @@
+{
+ "fps": 30,
+ "total": 3597,
+ "scenes": [
+  {
+   "id": "a",
+   "text": "On the fifteenth of August, nineteen seventy seven, a radio telescope in Delaware, Ohio, heard something it had never heard before.",
+   "plate": "wow/img/w_04.png",
+   "from": 0,
+   "dur": 354,
+   "voStart": 40,
+   "voDur": 280,
+   "words": [
+    {
+     "w": "On",
+     "f": 43
+    },
+    {
+     "w": "the",
+     "f": 49
+    },
+    {
+     "w": "fifteenth",
+     "f": 52
+    },
+    {
+     "w": "of",
+     "f": 69
+    },
+    {
+     "w": "August",
+     "f": 73
+    },
+    {
+     "w": "nineteen",
+     "f": 95
+    },
+    {
+     "w": "seventy",
+     "f": 111
+    },
+    {
+     "w": "seven",
+     "f": 123
+    },
+    {
+     "w": "a",
+     "f": 145
+    },
+    {
+     "w": "radio",
+     "f": 146
+    },
+    {
+     "w": "telescope",
+     "f": 158
+    },
+    {
+     "w": "in",
+     "f": 179
+    },
+    {
+     "w": "Delaware, Ohio",
+     "f": 184
+    },
+    {
+     "w": "heard",
+     "f": 231
+    },
+    {
+     "w": "something",
+     "f": 237
+    },
+    {
+     "w": "it",
+     "f": 249
+    },
+    {
+     "w": "had",
+     "f": 251
+    },
+    {
+     "w": "never",
+     "f": 257
+    },
+    {
+     "w": "heard",
+     "f": 266
+    },
+    {
+     "w": "before",
+     "f": 274
+    }
+   ]
+  },
+  {
+   "id": "b",
+   "text": "It lasted seventy two seconds. Then it was gone.",
+   "plate": "wow/img/radio_01.png",
+   "from": 354,
+   "dur": 194,
+   "voStart": 366,
+   "voDur": 152,
+   "words": [
+    {
+     "w": "It",
+     "f": 369
+    },
+    {
+     "w": "lasted",
+     "f": 375
+    },
+    {
+     "w": "seventy",
+     "f": 391
+    },
+    {
+     "w": "two",
+     "f": 404
+    },
+    {
+     "w": "seconds",
+     "f": 411
+    },
+    {
+     "w": "Then",
+     "f": 460
+    },
+    {
+     "w": "it",
+     "f": 468
+    },
+    {
+     "w": "was",
+     "f": 470
+    },
+    {
+     "w": "gone",
+     "f": 476
+    }
+   ]
+  },
+  {
+   "id": "c",
+   "text": "The telescope could not steer. The turning Earth carried the sky across its beam, and whatever it was passed through, and set.",
+   "plate": "wow/img/w_07.png",
+   "from": 548,
+   "dur": 314,
+   "voStart": 560,
+   "voDur": 276,
+   "words": [
+    {
+     "w": "The",
+     "f": 563
+    },
+    {
+     "w": "telescope",
+     "f": 568
+    },
+    {
+     "w": "could",
+     "f": 589
+    },
+    {
+     "w": "not",
+     "f": 594
+    },
+    {
+     "w": "steer",
+     "f": 602
+    },
+    {
+     "w": "The",
+     "f": 646
+    },
+    {
+     "w": "turning",
+     "f": 651
+    },
+    {
+     "w": "Earth",
+     "f": 663
+    },
+    {
+     "w": "carried",
+     "f": 672
+    },
+    {
+     "w": "the",
+     "f": 683
+    },
+    {
+     "w": "sky",
+     "f": 686
+    },
+    {
+     "w": "across",
+     "f": 697
+    },
+    {
+     "w": "its",
+     "f": 710
+    },
+    {
+     "w": "beam",
+     "f": 716
+    },
+    {
+     "w": "and",
+     "f": 736
+    },
+    {
+     "w": "whatever",
+     "f": 740
+    },
+    {
+     "w": "it",
+     "f": 752
+    },
+    {
+     "w": "was",
+     "f": 755
+    },
+    {
+     "w": "passed",
+     "f": 760
+    },
+    {
+     "w": "through",
+     "f": 772
+    },
+    {
+     "w": "and",
+     "f": 789
+    },
+    {
+     "w": "set",
+     "f": 795
+    }
+   ]
+  },
+  {
+   "id": "d",
+   "text": "It arrived at one thousand four hundred twenty megahertz. The hydrogen line. The frequency physicists had argued any civilisation would choose.",
+   "plate": null,
+   "from": 862,
+   "dur": 382,
+   "voStart": 872,
+   "voDur": 342,
+   "words": [
+    {
+     "w": "It",
+     "f": 875
+    },
+    {
+     "w": "arrived",
+     "f": 880
+    },
+    {
+     "w": "at",
+     "f": 895
+    },
+    {
+     "w": "one",
+     "f": 897
+    },
+    {
+     "w": "thousand",
+     "f": 905
+    },
+    {
+     "w": "four",
+     "f": 921
+    },
+    {
+     "w": "hundred",
+     "f": 929
+    },
+    {
+     "w": "twenty",
+     "f": 939
+    },
+    {
+     "w": "megahertz",
+     "f": 948
+    },
+    {
+     "w": "The",
+     "f": 999
+    },
+    {
+     "w": "hydrogen",
+     "f": 1004
+    },
+    {
+     "w": "line",
+     "f": 1024
+    },
+    {
+     "w": "The",
+     "f": 1065
+    },
+    {
+     "w": "frequency",
+     "f": 1069
+    },
+    {
+     "w": "physicists",
+     "f": 1087
+    },
+    {
+     "w": "had",
+     "f": 1110
+    },
+    {
+     "w": "argued",
+     "f": 1116
+    },
+    {
+     "w": "any",
+     "f": 1129
+    },
+    {
+     "w": "civilisation",
+     "f": 1136
+    },
+    {
+     "w": "would",
+     "f": 1163
+    },
+    {
+     "w": "choose",
+     "f": 1168
+    }
+   ]
+  },
+  {
+   "id": "e",
+   "text": "Six characters came off the printer. Six. E. Q. U. J. Five. Intensity climbing thirty times above the noise, then falling away.",
+   "plate": null,
+   "from": 1244,
+   "dur": 482,
+   "voStart": 1258,
+   "voDur": 434,
+   "words": [
+    {
+     "w": "Six",
+     "f": 1261
+    },
+    {
+     "w": "characters",
+     "f": 1275
+    },
+    {
+     "w": "came",
+     "f": 1292
+    },
+    {
+     "w": "off",
+     "f": 1299
+    },
+    {
+     "w": "the",
+     "f": 1306
+    },
+    {
+     "w": "printer",
+     "f": 1309
+    },
+    {
+     "w": "Six",
+     "f": 1352
+    },
+    {
+     "w": "E",
+     "f": 1402
+    },
+    {
+     "w": "Q",
+     "f": 1417
+    },
+    {
+     "w": "U",
+     "f": 1435
+    },
+    {
+     "w": "J",
+     "f": 1449
+    },
+    {
+     "w": "Five",
+     "f": 1492
+    },
+    {
+     "w": "Intensity",
+     "f": 1540
+    },
+    {
+     "w": "climbing",
+     "f": 1561
+    },
+    {
+     "w": "thirty",
+     "f": 1574
+    },
+    {
+     "w": "times",
+     "f": 1585
+    },
+    {
+     "w": "above",
+     "f": 1597
+    },
+    {
+     "w": "the",
+     "f": 1607
+    },
+    {
+     "w": "noise",
+     "f": 1609
+    },
+    {
+     "w": "then",
+     "f": 1631
+    },
+    {
+     "w": "falling",
+     "f": 1639
+    },
+    {
+     "w": "away",
+     "f": 1651
+    }
+   ]
+  },
+  {
+   "id": "f",
+   "text": "Jerry Ehman circled them in red pen, and wrote one word in the margin. Wow.",
+   "plate": null,
+   "from": 1726,
+   "dur": 260,
+   "voStart": 1738,
+   "voDur": 202,
+   "words": [
+    {
+     "w": "Jerry",
+     "f": 1741
+    },
+    {
+     "w": "Ehman",
+     "f": 1755
+    },
+    {
+     "w": "circled",
+     "f": 1765
+    },
+    {
+     "w": "them",
+     "f": 1778
+    },
+    {
+     "w": "in",
+     "f": 1783
+    },
+    {
+     "w": "red",
+     "f": 1787
+    },
+    {
+     "w": "pen",
+     "f": 1795
+    },
+    {
+     "w": "and",
+     "f": 1814
+    },
+    {
+     "w": "wrote",
+     "f": 1821
+    },
+    {
+     "w": "one",
+     "f": 1829
+    },
+    {
+     "w": "word",
+     "f": 1838
+    },
+    {
+     "w": "in",
+     "f": 1848
+    },
+    {
+     "w": "the",
+     "f": 1850
+    },
+    {
+     "w": "margin",
+     "f": 1852
+    },
+    {
+     "w": "Wow",
+     "f": 1896
+    }
+   ]
+  },
+  {
+   "id": "g",
+   "text": "It was never heard again. Not in fifty years of listening.",
+   "plate": "wow/img/w_02.png",
+   "from": 1986,
+   "dur": 207,
+   "voStart": 1998,
+   "voDur": 161,
+   "words": [
+    {
+     "w": "It",
+     "f": 2001
+    },
+    {
+     "w": "was",
+     "f": 2006
+    },
+    {
+     "w": "never",
+     "f": 2012
+    },
+    {
+     "w": "heard",
+     "f": 2022
+    },
+    {
+     "w": "again",
+     "f": 2029
+    },
+    {
+     "w": "Not",
+     "f": 2071
+    },
+    {
+     "w": "in",
+     "f": 2082
+    },
+    {
+     "w": "fifty",
+     "f": 2086
+    },
+    {
+     "w": "years",
+     "f": 2099
+    },
+    {
+     "w": "of",
+     "f": 2109
+    },
+    {
+     "w": "listening",
+     "f": 2113
+    }
+   ]
+  },
+  {
+   "id": "h",
+   "text": "In twenty twenty four, astronomers found a candidate. A sudden flare of radiation striking a cold cloud of hydrogen, making it blaze at exactly that frequency.",
+   "plate": "wow/img/w_03.png",
+   "from": 2193,
+   "dur": 395,
+   "voStart": 2205,
+   "voDur": 349,
+   "words": [
+    {
+     "w": "In",
+     "f": 2208
+    },
+    {
+     "w": "twenty",
+     "f": 2214
+    },
+    {
+     "w": "twenty",
+     "f": 2225
+    },
+    {
+     "w": "four",
+     "f": 2235
+    },
+    {
+     "w": "astronomers",
+     "f": 2255
+    },
+    {
+     "w": "found",
+     "f": 2275
+    },
+    {
+     "w": "a",
+     "f": 2284
+    },
+    {
+     "w": "candidate",
+     "f": 2286
+    },
+    {
+     "w": "A",
+     "f": 2333
+    },
+    {
+     "w": "sudden",
+     "f": 2337
+    },
+    {
+     "w": "flare",
+     "f": 2349
+    },
+    {
+     "w": "of",
+     "f": 2361
+    },
+    {
+     "w": "radiation",
+     "f": 2364
+    },
+    {
+     "w": "striking",
+     "f": 2385
+    },
+    {
+     "w": "a",
+     "f": 2399
+    },
+    {
+     "w": "cold",
+     "f": 2401
+    },
+    {
+     "w": "cloud",
+     "f": 2413
+    },
+    {
+     "w": "of",
+     "f": 2423
+    },
+    {
+     "w": "hydrogen",
+     "f": 2425
+    },
+    {
+     "w": "making",
+     "f": 2452
+    },
+    {
+     "w": "it",
+     "f": 2461
+    },
+    {
+     "w": "blaze",
+     "f": 2465
+    },
+    {
+     "w": "at",
+     "f": 2477
+    },
+    {
+     "w": "exactly",
+     "f": 2480
+    },
+    {
+     "w": "that",
+     "f": 2497
+    },
+    {
+     "w": "frequency",
+     "f": 2503
+    }
+   ]
+  },
+  {
+   "id": "i",
+   "text": "A natural maser. Not a message. A coincidence of physics, arriving on the one channel we happened to be listening to.",
+   "plate": "wow/img/w_05.png",
+   "from": 2588,
+   "dur": 346,
+   "voStart": 2600,
+   "voDur": 294,
+   "words": [
+    {
+     "w": "A",
+     "f": 2603
+    },
+    {
+     "w": "natural",
+     "f": 2606
+    },
+    {
+     "w": "maser",
+     "f": 2622
+    },
+    {
+     "w": "Not",
+     "f": 2667
+    },
+    {
+     "w": "a",
+     "f": 2677
+    },
+    {
+     "w": "message",
+     "f": 2678
+    },
+    {
+     "w": "A",
+     "f": 2725
+    },
+    {
+     "w": "coincidence",
+     "f": 2729
+    },
+    {
+     "w": "of",
+     "f": 2751
+    },
+    {
+     "w": "physics",
+     "f": 2754
+    },
+    {
+     "w": "arriving",
+     "f": 2779
+    },
+    {
+     "w": "on",
+     "f": 2793
+    },
+    {
+     "w": "the",
+     "f": 2797
+    },
+    {
+     "w": "one",
+     "f": 2800
+    },
+    {
+     "w": "channel",
+     "f": 2809
+    },
+    {
+     "w": "we",
+     "f": 2821
+    },
+    {
+     "w": "happened",
+     "f": 2825
+    },
+    {
+     "w": "to",
+     "f": 2837
+    },
+    {
+     "w": "be",
+     "f": 2839
+    },
+    {
+     "w": "listening",
+     "f": 2843
+    },
+    {
+     "w": "to",
+     "f": 2858
+    }
+   ]
+  },
+  {
+   "id": "j",
+   "text": "But it is not proven. The Wow signal is still unexplained. The best evidence we have that we might not be alone, and the best evidence that we are only hearing our own universe.",
+   "plate": "wow/img/w_01.png",
+   "from": 2934,
+   "dur": 447,
+   "voStart": 2946,
+   "voDur": 385,
+   "words": [
+    {
+     "w": "But",
+     "f": 2949
+    },
+    {
+     "w": "it",
+     "f": 2955
+    },
+    {
+     "w": "is",
+     "f": 2958
+    },
+    {
+     "w": "not",
+     "f": 2963
+    },
+    {
+     "w": "proven",
+     "f": 2972
+    },
+    {
+     "w": "The",
+     "f": 3016
+    },
+    {
+     "w": "Wow",
+     "f": 3021
+    },
+    {
+     "w": "signal",
+     "f": 3030
+    },
+    {
+     "w": "is",
+     "f": 3046
+    },
+    {
+     "w": "still",
+     "f": 3050
+    },
+    {
+     "w": "unexplained",
+     "f": 3061
+    },
+    {
+     "w": "The",
+     "f": 3114
+    },
+    {
+     "w": "best",
+     "f": 3119
+    },
+    {
+     "w": "evidence",
+     "f": 3130
+    },
+    {
+     "w": "we",
+     "f": 3143
+    },
+    {
+     "w": "have",
+     "f": 3147
+    },
+    {
+     "w": "that",
+     "f": 3154
+    },
+    {
+     "w": "we",
+     "f": 3159
+    },
+    {
+     "w": "might",
+     "f": 3162
+    },
+    {
+     "w": "not",
+     "f": 3171
+    },
+    {
+     "w": "be",
+     "f": 3177
+    },
+    {
+     "w": "alone",
+     "f": 3181
+    },
+    {
+     "w": "and",
+     "f": 3205
+    },
+    {
+     "w": "the",
+     "f": 3208
+    },
+    {
+     "w": "best",
+     "f": 3211
+    },
+    {
+     "w": "evidence",
+     "f": 3222
+    },
+    {
+     "w": "that",
+     "f": 3237
+    },
+    {
+     "w": "we",
+     "f": 3241
+    },
+    {
+     "w": "are",
+     "f": 3245
+    },
+    {
+     "w": "only",
+     "f": 3250
+    },
+    {
+     "w": "hearing",
+     "f": 3259
+    },
+    {
+     "w": "our",
+     "f": 3270
+    },
+    {
+     "w": "own",
+     "f": 3276
+    },
+    {
+     "w": "universe",
+     "f": 3282
+    }
+   ]
+  },
+  {
+   "id": "k",
+   "text": "Seventy two seconds. Fifty years of silence.",
+   "plate": null,
+   "from": 3381,
+   "dur": 216,
+   "voStart": 3397,
+   "voDur": 156,
+   "words": [
+    {
+     "w": "Seventy",
+     "f": 3400
+    },
+    {
+     "w": "two",
+     "f": 3417
+    },
+    {
+     "w": "seconds",
+     "f": 3425
+    },
+    {
+     "w": "Fifty",
+     "f": 3474
+    },
+    {
+     "w": "years",
+     "f": 3489
+    },
+    {
+     "w": "of",
+     "f": 3499
+    },
+    {
+     "w": "silence",
+     "f": 3503
+    }
+   ]
+  }
+ ],
+ "cues": {
+  "tone": 1025,
+  "hit1": 1256,
+  "hit2": 1893
+ }
+}
