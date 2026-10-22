@@ -8,9 +8,9 @@
 <meta property="og:type" content="video.other">
 <meta property="og:title" content="72 SECONDS — the Wow! signal">
 <meta property="og:description" content="72 seconds of signal. 49 years of silence. Watch the film.">
-<meta property="og:image" content="https://earning-cpu.github.io/nightingale-films/wow2_poster.jpg">
+<meta property="og:image" content="https://earning-cpu.github.io/nightingale-films/wow3_poster.jpg">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:image" content="https://earning-cpu.github.io/nightingale-films/wow2_poster.jpg">
+<meta name="twitter:image" content="https://earning-cpu.github.io/nightingale-films/wow3_poster.jpg">
 <style>
   :root { --amber:#D9A441; --paper:#E9E2D2; --ink:#07090D; --warn:#FF4B36; }
   * { margin:0; padding:0; box-sizing:border-box; }
@@ -47,14 +47,14 @@
 </head>
 <body>
 <div class="wrap">
-  <div class="tag">— NEW FILM / 21 OCT 2026 —</div>
+  <div class="tag">— FILM v3 / 22 OCT 2026 —</div>
   <h1>72 SECONDS<br><span class="warn">THE WOW! SIGNAL.</span></h1>
   <p class="sub">15 August 1977. A radio telescope in Delaware, Ohio, heard something for
-  72 seconds — the hydrogen line, thirty times above the noise. It has never been heard again.
-  Every frame is animated, every line is captioned, the whole thing runs in 86 seconds.</p>
+  72 seconds on the hydrogen line, thirty times above the noise. It has never been heard again.
+  44 shots in 96 seconds — people, hands, paper, dials and sky, each cut for a reason. Every line is captioned.</p>
 
   <div class="player">
-    <video id="p1" controls playsinline preload="metadata" poster="wow2_poster.jpg" width="1920" height="1080">
+    <video id="p1" controls playsinline preload="metadata" poster="wow3_poster.jpg" width="1920" height="1080">
       Your browser can't play this video — use a download button below.
     </video>
   </div>
@@ -62,10 +62,10 @@
   <div class="qbar" data-for="p1">
     <span class="qlabel">QUALITY</span>
     <button class="q" data-q="auto" aria-pressed="true">Auto</button>
-    <button class="q" data-q="720" aria-pressed="false">720p · 4.9 MB</button>
-    <button class="q" data-q="480" aria-pressed="false">480p · 2.4 MB</button>
-    <button class="q" data-q="360" aria-pressed="false">360p · 1.4 MB</button>
-    <a class="q dl" href="wow2_1080.mp4">1080p · 18 MB ↓</a>
+    <button class="q" data-q="720" aria-pressed="false">720p · 6.4 MB</button>
+    <button class="q" data-q="480" aria-pressed="false">480p · 3.0 MB</button>
+    <button class="q" data-q="360" aria-pressed="false">360p · 1.7 MB</button>
+    <a class="q dl" href="wow3_1080.mp4">1080p · 33 MB ↓</a>
   </div>
   <p class="hint" id="hint1">Auto picks the best quality your connection can hold — no stalling.</p>
 
@@ -78,16 +78,16 @@
   <p class="hint">A, B and v9 are the same 70 seconds. A fixes only defects. B also changes what is on screen.</p>
 
   <div class="bar">
-    <a class="btn primary" href="wow2_1080.mp4">⬇ Download 1080p</a>
-    <a class="btn ghost" href="wow2_vertical_720.mp4">▯ 9:16 vertical cut</a>
+    <a class="btn primary" href="wow3_1080.mp4">⬇ Download 1080p</a>
+    <a class="btn ghost" href="wow3_vertical_720.mp4">▯ 9:16 vertical cut</a>
     <a class="btn ghost" href="https://github.com/earning-cpu/nightingale-films/releases">🗂 All releases</a>
   </div>
 
   <div class="meta">
-    <div class="card"><b>FORMAT</b><span>1920×1080 · 30 fps · H.264 + AAC · 1:26<br>Captions burned in · 9:16 cut available</span></div>
+    <div class="card"><b>FORMAT</b><span>1920×1080 · 30 fps · H.264 + AAC · 1:36<br>Captions burned in · 9:16 cut available</span></div>
     <div class="card"><b>SOUND</b><span>Single-voice narration · boom + printer SFX<br>−14.2 LUFS, −1.5 dBTP broadcast master</span></div>
-    <div class="card"><b>DATA</b><span>1.4 MB (360p) → 18 MB (1080p)<br>Vertical cut is 720×1280, 3.5 MB</span></div>
-    <div class="card"><b>MADE WITH</b><span>AI-generated plates (Cloudflare FLUX),<br>2.5D depth parallax, Remotion render</span></div>
+    <div class="card"><b>DATA</b><span>1.7 MB (360p) → 33 MB (1080p)<br>Vertical cut is 720×1280, 5.2 MB</span></div>
+    <div class="card"><b>MADE WITH</b><span>AI plates (Cloudflare FLUX) split into 3 real depth layers,<br>44 shots, Remotion render</span></div>
   </div>
 
   <div class="rule"></div>
@@ -106,7 +106,7 @@
 
 <script>
 (function () {
-  var SRC = { '720': 'wow2_720.mp4', '480': 'wow2_480.mp4', '360': 'wow2_360.mp4' };
+  var SRC = { '720': 'wow3_720.mp4', '480': 'wow3_480.mp4', '360': 'wow3_360.mp4' };
 
   function estimate(cb) {
     var c = navigator.connection || {};
@@ -114,7 +114,7 @@
     var map = { 'slow-2g': 0.15, '2g': 0.35, '3g': 1.1, '4g': 6 };
     if (map[c.effectiveType]) return cb(map[c.effectiveType]);
     var t0 = performance.now();
-    fetch('wow2_360.mp4', { headers: { Range: 'bytes=0-122879' }, cache: 'no-store' })
+    fetch('wow3_360.mp4', { headers: { Range: 'bytes=0-122879' }, cache: 'no-store' })
       .then(function (r) { return r.arrayBuffer(); })
       .then(function (b) {
         var secs = (performance.now() - t0) / 1000;

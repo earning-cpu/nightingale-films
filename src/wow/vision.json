@@ -1,0 +1,174 @@
+{
+ "b_01.png": {
+  "subject": "Large radio telescope dish and trailer",
+  "thirds": "centre-middle",
+  "angle": "low",
+  "light": "practical",
+  "depth": "illuminated trailer / dark horizon",
+  "empty": "top",
+  "move": "push-in",
+  "why": "Advanced technology monitors the vast and silent cosmos"
+ },
+ "b_03.png": {
+  "error": "<HTTPError 429: 'Too Many Requests'>"
+ },
+ "b_04.png": {
+  "subject": "Illuminated clock on vintage control panel",
+  "thirds": "centre-middle",
+  "angle": "eye-level",
+  "light": "practical",
+  "depth": "foreground switches / receding control consoles",
+  "empty": "top",
+  "move": "drift-right",
+  "why": "Est"
+ },
+ "b_05.png": {
+  "subject": "Industrial crane structure against sky",
+  "thirds": "centre-middle",
+  "angle": "low",
+  "light": "behind",
+  "depth": "crane steel framework / bright sky",
+  "empty": "top",
+  "move": "tilt-up",
+  "why": "Establishes a stark, towering industrial"
+ },
+ "b_06.png": {
+  "error": "<HTTPError 429: 'Too Many Requests'>"
+ },
+ "b_07.png": {
+  "error": "<HTTPError 429: 'Too Many Requests'>"
+ },
+ "b_09.png": {
+  "error": "<HTTPError 429: 'Too Many Requests'>"
+ },
+ "b_10.png": {
+  "error": "<HTTPError 429: 'Too Many Requests'>"
+ },
+ "b_11.png": {
+  "error": "<HTTPError 429: 'Too Many Requests'>"
+ },
+ "b_12.png": {
+  "error": "<HTTPError 429: 'Too Many Requests'>"
+ },
+ "c_01.png": {
+  "error": "<HTTPError 429: 'Too Many Requests'>"
+ },
+ "c_02.png": {
+  "error": "<HTTPError 429: 'Too Many Requests'>"
+ },
+ "c_03.png": {
+  "error": "<HTTPError 429: 'Too Many Requests'>"
+ },
+ "c_04.png": {
+  "error": "<HTTPError 429: 'Too Many Requests'>"
+ },
+ "c_05.png": {
+  "error": "<HTTPError 429: 'Too Many Requests'>"
+ },
+ "c_06.png": {
+  "error": "<HTTPError 429: 'Too Many Requests'>"
+ },
+ "c_07.png": {
+  "error": "<HTTPError 429: 'Too Many Requests'>"
+ },
+ "c_08.png": {
+  "error": "<HTTPError 429: 'Too Many Requests'>"
+ },
+ "c_09.png": {
+  "error": "<HTTPError 429: 'Too Many Requests'>"
+ },
+ "c_10.png": {
+  "error": "<HTTPError 429: 'Too Many Requests'>"
+ },
+ "c_11.png": {
+  "error": "<HTTPError 429: 'Too Many Requests'>"
+ },
+ "c_12.png": {
+  "error": "<HTTPError 429: 'Too Many Requests'>"
+ },
+ "c_13.png": {
+  "error": "<HTTPError 429: 'Too Many Requests'>"
+ },
+ "c_14.png": {
+  "error": "<HTTPError 429: 'Too Many Requests'>"
+ },
+ "c_15.png": {
+  "error": "<HTTPError 429: 'Too Many Requests'>"
+ },
+ "d_01.png": {
+  "error": "<HTTPError 429: 'Too Many Requests'>"
+ },
+ "d_02.png": {
+  "error": "<HTTPError 429: 'Too Many Requests'>"
+ },
+ "d_03.png": {
+  "error": "<HTTPError 429: 'Too Many Requests'>"
+ },
+ "d_04.png": {
+  "error": "<HTTPError 429: 'Too Many Requests'>"
+ },
+ "d_05.png": {
+  "error": "<HTTPError 429: 'Too Many Requests'>"
+ },
+ "d_06.png": {
+  "error": "<HTTPError 429: 'Too Many Requests'>"
+ },
+ "d_07.png": {
+  "error": "<HTTPError 429: 'Too Many Requests'>"
+ },
+ "d_08.png": {
+  "error": "<HTTPError 429: 'Too Many Requests'>"
+ },
+ "d_09.png": {
+  "error": "<HTTPError 429: 'Too Many Requests'>"
+ },
+ "d_10.png": {
+  "error": "<HTTPError 429: 'Too Many Requests'>"
+ },
+ "d_11.png": {
+  "error": "<HTTPError 429: 'Too Many Requests'>"
+ },
+ "d_12.png": {
+  "error": "<HTTPError 429: 'Too Many Requests'>"
+ },
+ "d_13.png": {
+  "error": "<HTTPError 429: 'Too Many Requests'>"
+ },
+ "d_14.png": {
+  "error": "<HTTPError 429: 'Too Many Requests'>"
+ },
+ "d_15.png": {
+  "error": "<HTTPError 429: 'Too Many Requests'>"
+ },
+ "radio_01.png": {
+  "error": "<HTTPError 429: 'Too Many Requests'>"
+ },
+ "t_01.png": {
+  "error": "<HTTPError 429: 'Too Many Requests'>"
+ },
+ "t_02.png": {
+  "error": "<HTTPError 429: 'Too Many Requests'>"
+ },
+ "t_03.png": {
+  "error": "<HTTPError 429: 'Too Many Requests'>"
+ },
+ "w_01.png": {
+  "error": "<HTTPError 429: 'Too Many Requests'>"
+ },
+ "w_02.png": {
+  "error": "<HTTPError 429: 'Too Many Requests'>"
+ },
+ "w_03.png": {
+  "error": "<HTTPError 429: 'Too Many Requests'>"
+ },
+ "w_04.png": {
+  "error": "<HTTPError 429: 'Too Many Requests'>"
+ },
+ "w_05.png": {
+  "error": "<HTTPError 429: 'Too Many Requests'>"
+ },
+ "w_06.png": {},
+ "w_07.png": {},
+ "x_01.png": {},
+ "x_02.png": {}
+}

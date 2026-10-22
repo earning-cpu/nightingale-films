@@ -1,0 +1,1220 @@
+{
+ "hook": {
+  "start": 3,
+  "text": "Nineteen seventy seven",
+  "rate": "+6%",
+  "words": [
+   {
+    "w": "Nineteen",
+    "f": 3,
+    "d": 16
+   },
+   {
+    "w": "seventy",
+    "f": 19,
+    "d": 11
+   },
+   {
+    "w": "seven",
+    "f": 30,
+    "d": 37
+   }
+  ]
+ },
+ "hook_1": {
+  "start": 67,
+  "text": "Something called out",
+  "rate": "+6%",
+  "words": [
+   {
+    "w": "Something",
+    "f": 67,
+    "d": 15
+   },
+   {
+    "w": "called",
+    "f": 82,
+    "d": 9
+   },
+   {
+    "w": "out",
+    "f": 91,
+    "d": 38
+   }
+  ]
+ },
+ "hook2": {
+  "start": 136,
+  "text": "Seventy two seconds",
+  "rate": "+6%",
+  "words": [
+   {
+    "w": "Seventy",
+    "f": 136,
+    "d": 14
+   },
+   {
+    "w": "two",
+    "f": 150,
+    "d": 7
+   },
+   {
+    "w": "seconds",
+    "f": 157,
+    "d": 43
+   }
+  ]
+ },
+ "hook2_1": {
+  "start": 200,
+  "text": "Then nothing",
+  "rate": "+6%",
+  "words": [
+   {
+    "w": "Then",
+    "f": 200,
+    "d": 9
+   },
+   {
+    "w": "nothing",
+    "f": 209,
+    "d": 42
+   }
+  ]
+ },
+ "a": {
+  "start": 260,
+  "text": "A radio telescope",
+  "rate": "+6%",
+  "words": [
+   {
+    "w": "A",
+    "f": 260,
+    "d": 4
+   },
+   {
+    "w": "radio",
+    "f": 264,
+    "d": 11
+   },
+   {
+    "w": "telescope",
+    "f": 275,
+    "d": 19
+   }
+  ]
+ },
+ "a_1": {
+  "start": 294,
+  "text": "in Ohio It",
+  "rate": "+6%",
+  "words": [
+   {
+    "w": "in",
+    "f": 294,
+    "d": 4
+   },
+   {
+    "w": "Ohio",
+    "f": 298,
+    "d": 42
+   },
+   {
+    "w": "It",
+    "f": 340,
+    "d": 5
+   }
+  ]
+ },
+ "a_2": {
+  "start": 345,
+  "text": "could not steer",
+  "rate": "+6%",
+  "words": [
+   {
+    "w": "could",
+    "f": 345,
+    "d": 5
+   },
+   {
+    "w": "not",
+    "f": 350,
+    "d": 6
+   },
+   {
+    "w": "steer",
+    "f": 356,
+    "d": 51
+   }
+  ]
+ },
+ "b": {
+  "start": 416,
+  "text": "The Earth turned",
+  "rate": "+6%",
+  "words": [
+   {
+    "w": "The",
+    "f": 416,
+    "d": 4
+   },
+   {
+    "w": "Earth",
+    "f": 420,
+    "d": 10
+   },
+   {
+    "w": "turned",
+    "f": 430,
+    "d": 39
+   }
+  ]
+ },
+ "b_1": {
+  "start": 469,
+  "text": "The sky crawled",
+  "rate": "+6%",
+  "words": [
+   {
+    "w": "The",
+    "f": 469,
+    "d": 4
+   },
+   {
+    "w": "sky",
+    "f": 473,
+    "d": 10
+   },
+   {
+    "w": "crawled",
+    "f": 483,
+    "d": 12
+   }
+  ]
+ },
+ "b_2": {
+  "start": 495,
+  "text": "across the beam",
+  "rate": "+6%",
+  "words": [
+   {
+    "w": "across",
+    "f": 495,
+    "d": 10
+   },
+   {
+    "w": "the",
+    "f": 505,
+    "d": 4
+   },
+   {
+    "w": "beam",
+    "f": 509,
+    "d": 48
+   }
+  ]
+ },
+ "c": {
+  "start": 566,
+  "text": "For seventy two",
+  "rate": "+6%",
+  "words": [
+   {
+    "w": "For",
+    "f": 566,
+    "d": 7
+   },
+   {
+    "w": "seventy",
+    "f": 573,
+    "d": 11
+   },
+   {
+    "w": "two",
+    "f": 584,
+    "d": 7
+   }
+  ]
+ },
+ "c_1": {
+  "start": 591,
+  "text": "seconds something was",
+  "rate": "+6%",
+  "words": [
+   {
+    "w": "seconds",
+    "f": 591,
+    "d": 22
+   },
+   {
+    "w": "something",
+    "f": 613,
+    "d": 11
+   },
+   {
+    "w": "was",
+    "f": 624,
+    "d": 5
+   }
+  ]
+ },
+ "c_2": {
+  "start": 629,
+  "text": "in it",
+  "rate": "+6%",
+  "words": [
+   {
+    "w": "in",
+    "f": 629,
+    "d": 4
+   },
+   {
+    "w": "it",
+    "f": 633,
+    "d": 46
+   }
+  ]
+ },
+ "d": {
+  "start": 688,
+  "text": "August fifteenth Ten",
+  "rate": "+6%",
+  "words": [
+   {
+    "w": "August",
+    "f": 688,
+    "d": 13
+   },
+   {
+    "w": "fifteenth",
+    "f": 701,
+    "d": 43
+   },
+   {
+    "w": "Ten",
+    "f": 744,
+    "d": 9
+   }
+  ]
+ },
+ "d_1": {
+  "start": 753,
+  "text": "sixteen at night",
+  "rate": "+6%",
+  "words": [
+   {
+    "w": "sixteen",
+    "f": 753,
+    "d": 16
+   },
+   {
+    "w": "at",
+    "f": 769,
+    "d": 3
+   },
+   {
+    "w": "night",
+    "f": 772,
+    "d": 48
+   }
+  ]
+ },
+ "e": {
+  "start": 829,
+  "text": "One man on",
+  "rate": "+6%",
+  "words": [
+   {
+    "w": "One",
+    "f": 829,
+    "d": 8
+   },
+   {
+    "w": "man",
+    "f": 837,
+    "d": 8
+   },
+   {
+    "w": "on",
+    "f": 845,
+    "d": 3
+   }
+  ]
+ },
+ "e_1": {
+  "start": 848,
+  "text": "the night shift",
+  "rate": "+6%",
+  "words": [
+   {
+    "w": "the",
+    "f": 848,
+    "d": 2
+   },
+   {
+    "w": "night",
+    "f": 850,
+    "d": 7
+   },
+   {
+    "w": "shift",
+    "f": 857,
+    "d": 19
+   }
+  ]
+ },
+ "e_2": {
+  "start": 876,
+  "text": "and a printer",
+  "rate": "+6%",
+  "words": [
+   {
+    "w": "and",
+    "f": 876,
+    "d": 4
+   },
+   {
+    "w": "a",
+    "f": 880,
+    "d": 2
+   },
+   {
+    "w": "printer",
+    "f": 882,
+    "d": 50
+   }
+  ]
+ },
+ "f": {
+  "start": 941,
+  "text": "Paper came out",
+  "rate": "+6%",
+  "words": [
+   {
+    "w": "Paper",
+    "f": 941,
+    "d": 11
+   },
+   {
+    "w": "came",
+    "f": 952,
+    "d": 7
+   },
+   {
+    "w": "out",
+    "f": 959,
+    "d": 4
+   }
+  ]
+ },
+ "f_1": {
+  "start": 963,
+  "text": "of the machine",
+  "rate": "+6%",
+  "words": [
+   {
+    "w": "of",
+    "f": 963,
+    "d": 2
+   },
+   {
+    "w": "the",
+    "f": 965,
+    "d": 2
+   },
+   {
+    "w": "machine",
+    "f": 967,
+    "d": 40
+   }
+  ]
+ },
+ "f_2": {
+  "start": 1007,
+  "text": "Six characters",
+  "rate": "+6%",
+  "words": [
+   {
+    "w": "Six",
+    "f": 1007,
+    "d": 12
+   },
+   {
+    "w": "characters",
+    "f": 1019,
+    "d": 58
+   }
+  ]
+ },
+ "g": {
+  "start": 1086,
+  "text": "One thousand four",
+  "rate": "+6%",
+  "words": [
+   {
+    "w": "One",
+    "f": 1086,
+    "d": 9
+   },
+   {
+    "w": "thousand",
+    "f": 1095,
+    "d": 13
+   },
+   {
+    "w": "four",
+    "f": 1108,
+    "d": 8
+   }
+  ]
+ },
+ "g_1": {
+  "start": 1116,
+  "text": "hundred twenty point",
+  "rate": "+6%",
+  "words": [
+   {
+    "w": "hundred",
+    "f": 1116,
+    "d": 8
+   },
+   {
+    "w": "twenty",
+    "f": 1124,
+    "d": 9
+   },
+   {
+    "w": "point",
+    "f": 1133,
+    "d": 9
+   }
+  ]
+ },
+ "g_2": {
+  "start": 1142,
+  "text": "four five five",
+  "rate": "+6%",
+  "words": [
+   {
+    "w": "four",
+    "f": 1142,
+    "d": 10
+   },
+   {
+    "w": "five",
+    "f": 1152,
+    "d": 10
+   },
+   {
+    "w": "five",
+    "f": 1162,
+    "d": 10
+   }
+  ]
+ },
+ "g_3": {
+  "start": 1172,
+  "text": "six",
+  "rate": "+6%",
+  "words": [
+   {
+    "w": "six",
+    "f": 1172,
+    "d": 54
+   }
+  ]
+ },
+ "h": {
+  "start": 1235,
+  "text": "The hydrogen line",
+  "rate": "+6%",
+  "words": [
+   {
+    "w": "The",
+    "f": 1235,
+    "d": 4
+   },
+   {
+    "w": "hydrogen",
+    "f": 1239,
+    "d": 17
+   },
+   {
+    "w": "line",
+    "f": 1256,
+    "d": 36
+   }
+  ]
+ },
+ "h_1": {
+  "start": 1292,
+  "text": "The frequency of",
+  "rate": "+6%",
+  "words": [
+   {
+    "w": "The",
+    "f": 1292,
+    "d": 4
+   },
+   {
+    "w": "frequency",
+    "f": 1296,
+    "d": 18
+   },
+   {
+    "w": "of",
+    "f": 1314,
+    "d": 3
+   }
+  ]
+ },
+ "h_2": {
+  "start": 1317,
+  "text": "cold gas",
+  "rate": "+6%",
+  "words": [
+   {
+    "w": "cold",
+    "f": 1317,
+    "d": 9
+   },
+   {
+    "w": "gas",
+    "f": 1326,
+    "d": 53
+   }
+  ]
+ },
+ "i": {
+  "start": 1388,
+  "text": "Six E Q",
+  "rate": "+6%",
+  "words": [
+   {
+    "w": "Six",
+    "f": 1388,
+    "d": 44
+   },
+   {
+    "w": "E",
+    "f": 1432,
+    "d": 12
+   },
+   {
+    "w": "Q",
+    "f": 1444,
+    "d": 16
+   }
+  ]
+ },
+ "i_1": {
+  "start": 1460,
+  "text": "U J Five",
+  "rate": "+6%",
+  "words": [
+   {
+    "w": "U",
+    "f": 1460,
+    "d": 12
+   },
+   {
+    "w": "J",
+    "f": 1472,
+    "d": 38
+   },
+   {
+    "w": "Five",
+    "f": 1510,
+    "d": 42
+   }
+  ]
+ },
+ "i_2": {
+  "start": 1552,
+  "text": "Thirty times above",
+  "rate": "+6%",
+  "words": [
+   {
+    "w": "Thirty",
+    "f": 1552,
+    "d": 9
+   },
+   {
+    "w": "times",
+    "f": 1561,
+    "d": 11
+   },
+   {
+    "w": "above",
+    "f": 1572,
+    "d": 10
+   }
+  ]
+ },
+ "i_3": {
+  "start": 1582,
+  "text": "the noise",
+  "rate": "+6%",
+  "words": [
+   {
+    "w": "the",
+    "f": 1582,
+    "d": 2
+   },
+   {
+    "w": "noise",
+    "f": 1584,
+    "d": 58
+   }
+  ]
+ },
+ "j": {
+  "start": 1651,
+  "text": "He circled it",
+  "rate": "+6%",
+  "words": [
+   {
+    "w": "He",
+    "f": 1651,
+    "d": 5
+   },
+   {
+    "w": "circled",
+    "f": 1656,
+    "d": 13
+   },
+   {
+    "w": "it",
+    "f": 1669,
+    "d": 3
+   }
+  ]
+ },
+ "j_1": {
+  "start": 1672,
+  "text": "in red and",
+  "rate": "+6%",
+  "words": [
+   {
+    "w": "in",
+    "f": 1672,
+    "d": 4
+   },
+   {
+    "w": "red",
+    "f": 1676,
+    "d": 16
+   },
+   {
+    "w": "and",
+    "f": 1692,
+    "d": 6
+   }
+  ]
+ },
+ "j_2": {
+  "start": 1698,
+  "text": "wrote one word",
+  "rate": "+6%",
+  "words": [
+   {
+    "w": "wrote",
+    "f": 1698,
+    "d": 6
+   },
+   {
+    "w": "one",
+    "f": 1704,
+    "d": 8
+   },
+   {
+    "w": "word",
+    "f": 1712,
+    "d": 59
+   }
+  ]
+ },
+ "k": {
+  "start": 1780,
+  "text": "They looked again",
+  "rate": "+6%",
+  "words": [
+   {
+    "w": "They",
+    "f": 1780,
+    "d": 5
+   },
+   {
+    "w": "looked",
+    "f": 1785,
+    "d": 7
+   },
+   {
+    "w": "again",
+    "f": 1792,
+    "d": 37
+   }
+  ]
+ },
+ "k_1": {
+  "start": 1829,
+  "text": "And again For",
+  "rate": "+6%",
+  "words": [
+   {
+    "w": "And",
+    "f": 1829,
+    "d": 6
+   },
+   {
+    "w": "again",
+    "f": 1835,
+    "d": 37
+   },
+   {
+    "w": "For",
+    "f": 1872,
+    "d": 8
+   }
+  ]
+ },
+ "k_2": {
+  "start": 1880,
+  "text": "fifty years",
+  "rate": "+6%",
+  "words": [
+   {
+    "w": "fifty",
+    "f": 1880,
+    "d": 11
+   },
+   {
+    "w": "years",
+    "f": 1891,
+    "d": 51
+   }
+  ]
+ },
+ "l": {
+  "start": 1951,
+  "text": "Nothing Not one",
+  "rate": "+6%",
+  "words": [
+   {
+    "w": "Nothing",
+    "f": 1951,
+    "d": 40
+   },
+   {
+    "w": "Not",
+    "f": 1991,
+    "d": 8
+   },
+   {
+    "w": "one",
+    "f": 1999,
+    "d": 8
+   }
+  ]
+ },
+ "l_1": {
+  "start": 2007,
+  "text": "repeat",
+  "rate": "+6%",
+  "words": [
+   {
+    "w": "repeat",
+    "f": 2007,
+    "d": 56
+   }
+  ]
+ },
+ "m": {
+  "start": 2072,
+  "text": "Then in twenty",
+  "rate": "+6%",
+  "words": [
+   {
+    "w": "Then",
+    "f": 2072,
+    "d": 8
+   },
+   {
+    "w": "in",
+    "f": 2080,
+    "d": 4
+   },
+   {
+    "w": "twenty",
+    "f": 2084,
+    "d": 9
+   }
+  ]
+ },
+ "m_1": {
+  "start": 2093,
+  "text": "twenty four a",
+  "rate": "+6%",
+  "words": [
+   {
+    "w": "twenty",
+    "f": 2093,
+    "d": 8
+   },
+   {
+    "w": "four",
+    "f": 2101,
+    "d": 17
+   },
+   {
+    "w": "a",
+    "f": 2118,
+    "d": 3
+   }
+  ]
+ },
+ "m_2": {
+  "start": 2121,
+  "text": "candidate",
+  "rate": "+6%",
+  "words": [
+   {
+    "w": "candidate",
+    "f": 2121,
+    "d": 53
+   }
+  ]
+ },
+ "n": {
+  "start": 2183,
+  "text": "A magnetar flare",
+  "rate": "+6%",
+  "words": [
+   {
+    "w": "A",
+    "f": 2183,
+    "d": 3
+   },
+   {
+    "w": "magnetar",
+    "f": 2186,
+    "d": 18
+   },
+   {
+    "w": "flare",
+    "f": 2204,
+    "d": 20
+   }
+  ]
+ },
+ "n_1": {
+  "start": 2224,
+  "text": "hitting a cold",
+  "rate": "+6%",
+  "words": [
+   {
+    "w": "hitting",
+    "f": 2224,
+    "d": 7
+   },
+   {
+    "w": "a",
+    "f": 2231,
+    "d": 2
+   },
+   {
+    "w": "cold",
+    "f": 2233,
+    "d": 11
+   }
+  ]
+ },
+ "n_2": {
+  "start": 2244,
+  "text": "cloud of hydrogen",
+  "rate": "+6%",
+  "words": [
+   {
+    "w": "cloud",
+    "f": 2244,
+    "d": 10
+   },
+   {
+    "w": "of",
+    "f": 2254,
+    "d": 3
+   },
+   {
+    "w": "hydrogen",
+    "f": 2257,
+    "d": 54
+   }
+  ]
+ },
+ "o": {
+  "start": 2320,
+  "text": "A natural laser",
+  "rate": "+6%",
+  "words": [
+   {
+    "w": "A",
+    "f": 2320,
+    "d": 3
+   },
+   {
+    "w": "natural",
+    "f": 2323,
+    "d": 14
+   },
+   {
+    "w": "laser",
+    "f": 2337,
+    "d": 38
+   }
+  ]
+ },
+ "o_1": {
+  "start": 2375,
+  "text": "Not a voice",
+  "rate": "+6%",
+  "words": [
+   {
+    "w": "Not",
+    "f": 2375,
+    "d": 8
+   },
+   {
+    "w": "a",
+    "f": 2383,
+    "d": 2
+   },
+   {
+    "w": "voice",
+    "f": 2385,
+    "d": 55
+   }
+  ]
+ },
+ "p": {
+  "start": 2449,
+  "text": "It is still",
+  "rate": "+6%",
+  "words": [
+   {
+    "w": "It",
+    "f": 2449,
+    "d": 4
+   },
+   {
+    "w": "is",
+    "f": 2453,
+    "d": 4
+   },
+   {
+    "w": "still",
+    "f": 2457,
+    "d": 8
+   }
+  ]
+ },
+ "p_1": {
+  "start": 2465,
+  "text": "not proven That",
+  "rate": "+6%",
+  "words": [
+   {
+    "w": "not",
+    "f": 2465,
+    "d": 6
+   },
+   {
+    "w": "proven",
+    "f": 2471,
+    "d": 39
+   },
+   {
+    "w": "That",
+    "f": 2510,
+    "d": 8
+   }
+  ]
+ },
+ "p_2": {
+  "start": 2518,
+  "text": "is the problem",
+  "rate": "+6%",
+  "words": [
+   {
+    "w": "is",
+    "f": 2518,
+    "d": 3
+   },
+   {
+    "w": "the",
+    "f": 2521,
+    "d": 3
+   },
+   {
+    "w": "problem",
+    "f": 2524,
+    "d": 53
+   }
+  ]
+ },
+ "q": {
+  "start": 2586,
+  "text": "The best evidence",
+  "rate": "+6%",
+  "words": [
+   {
+    "w": "The",
+    "f": 2586,
+    "d": 4
+   },
+   {
+    "w": "best",
+    "f": 2590,
+    "d": 10
+   },
+   {
+    "w": "evidence",
+    "f": 2600,
+    "d": 11
+   }
+  ]
+ },
+ "q_1": {
+  "start": 2611,
+  "text": "we are not",
+  "rate": "+6%",
+  "words": [
+   {
+    "w": "we",
+    "f": 2611,
+    "d": 4
+   },
+   {
+    "w": "are",
+    "f": 2615,
+    "d": 3
+   },
+   {
+    "w": "not",
+    "f": 2618,
+    "d": 6
+   }
+  ]
+ },
+ "q_2": {
+  "start": 2624,
+  "text": "alone and the",
+  "rate": "+6%",
+  "words": [
+   {
+    "w": "alone",
+    "f": 2624,
+    "d": 18
+   },
+   {
+    "w": "and",
+    "f": 2642,
+    "d": 3
+   },
+   {
+    "w": "the",
+    "f": 2645,
+    "d": 3
+   }
+  ]
+ },
+ "q_3": {
+  "start": 2648,
+  "text": "best evidence we",
+  "rate": "+6%",
+  "words": [
+   {
+    "w": "best",
+    "f": 2648,
+    "d": 9
+   },
+   {
+    "w": "evidence",
+    "f": 2657,
+    "d": 12
+   },
+   {
+    "w": "we",
+    "f": 2669,
+    "d": 5
+   }
+  ]
+ },
+ "q_4": {
+  "start": 2674,
+  "text": "are",
+  "rate": "+6%",
+  "words": [
+   {
+    "w": "are",
+    "f": 2674,
+    "d": 46
+   }
+  ]
+ },
+ "r": {
+  "start": 2729,
+  "text": "Seventy two seconds",
+  "rate": "+6%",
+  "words": [
+   {
+    "w": "Seventy",
+    "f": 2729,
+    "d": 14
+   },
+   {
+    "w": "two",
+    "f": 2743,
+    "d": 7
+   },
+   {
+    "w": "seconds",
+    "f": 2750,
+    "d": 43
+   }
+  ]
+ },
+ "r_1": {
+  "start": 2793,
+  "text": "Fifty years of",
+  "rate": "+6%",
+  "words": [
+   {
+    "w": "Fifty",
+    "f": 2793,
+    "d": 13
+   },
+   {
+    "w": "years",
+    "f": 2806,
+    "d": 9
+   },
+   {
+    "w": "of",
+    "f": 2815,
+    "d": 3
+   }
+  ]
+ },
+ "r_2": {
+  "start": 2818,
+  "text": "silence",
+  "rate": "+6%",
+  "words": [
+   {
+    "w": "silence",
+    "f": 2818,
+    "d": 70
+   }
+  ]
+ }
+}

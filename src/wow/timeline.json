@@ -1,14 +1,14 @@
 {
  "fps": 30,
- "total": 2577,
+ "total": 2888,
  "scenes": [
   {
    "id": "hook",
-   "text": "Nineteen seventy seven. Something called out. Seventy two seconds.",
+   "text": "Nineteen seventy seven. Something called out.",
    "from": 0,
-   "dur": 211,
+   "dur": 129,
    "voStart": 0,
-   "voDur": 193,
+   "voDur": 125,
    "words": [
     {
      "w": "Nineteen",
@@ -20,1181 +20,1261 @@
     },
     {
      "w": "seven",
-     "f": 31
+     "f": 30
     },
     {
      "w": "Something",
-     "f": 69
+     "f": 67
     },
     {
      "w": "called",
-     "f": 83
+     "f": 82
     },
     {
      "w": "out",
-     "f": 92
-    },
-    {
-     "w": "Seventy",
-     "f": 127
-    },
-    {
-     "w": "two",
-     "f": 142
-    },
-    {
-     "w": "seconds",
-     "f": 149
+     "f": 91
     }
    ],
    "shots": [
     {
      "kind": "img",
-     "src": "wow/img/b_01.png",
-     "focusFrom": [
-      50,
-      54
-     ],
-     "focusTo": [
-      43,
-      45
-     ],
-     "scale": [
-      1.15,
-      1.24
-     ],
-     "b": 1.02,
+     "src": "wow/img/c_10.png",
+     "move": "push-in",
+     "b": 1.12,
      "sep": 0,
      "from": 0,
-     "dur": 88
+     "dur": 54
+    },
+    {
+     "kind": "layer",
+     "src": "wow/img/c_01.png",
+     "move": "push-in",
+     "b": 1.12,
+     "from": 54,
+     "dur": 42
     },
     {
      "kind": "img",
-     "src": "wow/img/b_07.png",
-     "focusFrom": [
-      50,
-      62
-     ],
-     "focusTo": [
-      52,
-      44
-     ],
-     "scale": [
-      1.12,
-      1.2
-     ],
+     "src": "wow/img/d_01.png",
+     "move": "push-in",
      "b": 1.05,
      "sep": 0,
-     "from": 88,
-     "dur": 69
+     "from": 96,
+     "dur": 33
+    }
+   ]
+  },
+  {
+   "id": "hook2",
+   "text": "Seventy two seconds. Then nothing.",
+   "from": 129,
+   "dur": 122,
+   "voStart": 133,
+   "voDur": 114,
+   "words": [
+    {
+     "w": "Seventy",
+     "f": 136
     },
     {
-     "kind": "vid",
-     "src": "wow/clip/par_b_07.mp4",
-     "start": 0.0,
-     "from": 157,
-     "dur": 54
+     "w": "two",
+     "f": 150
+    },
+    {
+     "w": "seconds",
+     "f": 157
+    },
+    {
+     "w": "Then",
+     "f": 200
+    },
+    {
+     "w": "nothing",
+     "f": 209
+    }
+   ],
+   "shots": [
+    {
+     "kind": "img",
+     "src": "wow/img/d_04.png",
+     "move": "tilt-up",
+     "b": 1.05,
+     "sep": 0,
+     "from": 129,
+     "dur": 65
+    },
+    {
+     "kind": "img",
+     "src": "wow/img/d_10.png",
+     "move": "push-in",
+     "b": 1.15,
+     "sep": 0,
+     "from": 194,
+     "dur": 57
     }
    ]
   },
   {
    "id": "a",
-   "text": "And nobody ever heard it again.",
-   "from": 211,
-   "dur": 104,
-   "voStart": 223,
-   "voDur": 76,
+   "text": "A radio telescope in Ohio. It could not steer.",
+   "from": 251,
+   "dur": 156,
+   "voStart": 257,
+   "voDur": 138,
    "words": [
     {
-     "w": "And",
-     "f": 226
+     "w": "A",
+     "f": 260
     },
     {
-     "w": "nobody",
-     "f": 232
+     "w": "radio",
+     "f": 264
     },
     {
-     "w": "ever",
-     "f": 244
+     "w": "telescope",
+     "f": 275
     },
     {
-     "w": "heard",
-     "f": 252
+     "w": "in",
+     "f": 294
     },
     {
-     "w": "it",
-     "f": 258
+     "w": "Ohio",
+     "f": 298
     },
     {
-     "w": "again",
-     "f": 261
+     "w": "It",
+     "f": 340
+    },
+    {
+     "w": "could",
+     "f": 345
+    },
+    {
+     "w": "not",
+     "f": 350
+    },
+    {
+     "w": "steer",
+     "f": 356
     }
    ],
    "shots": [
     {
-     "kind": "img",
-     "src": "wow/img/b_11.png",
-     "focusFrom": [
-      46,
-      58
-     ],
-     "focusTo": [
-      54,
-      48
-     ],
-     "scale": [
-      1.14,
-      1.22
-     ],
+     "kind": "layer",
+     "src": "wow/img/c_09.png",
+     "move": "tilt-up",
      "b": 1.0,
-     "sep": 0,
-     "from": 211,
-     "dur": 57
+     "from": 251,
+     "dur": 84
     },
     {
-     "kind": "vid",
-     "src": "wow/clip/par_b_01.mp4",
-     "start": 0.0,
-     "from": 268,
-     "dur": 47
+     "kind": "img",
+     "src": "wow/img/d_07.png",
+     "move": "push-in",
+     "b": 1.0,
+     "sep": 0,
+     "from": 335,
+     "dur": 72
     }
    ]
   },
   {
    "id": "b",
-   "text": "August fifteenth. A radio telescope in Delaware, Ohio, sweeping the sky.",
-   "from": 315,
-   "dur": 219,
-   "voStart": 327,
-   "voDur": 191,
+   "text": "The Earth turned. The sky crawled across the beam.",
+   "from": 407,
+   "dur": 150,
+   "voStart": 413,
+   "voDur": 132,
    "words": [
     {
-     "w": "August",
-     "f": 330
+     "w": "The",
+     "f": 416
     },
     {
-     "w": "fifteenth",
-     "f": 343
+     "w": "Earth",
+     "f": 420
     },
     {
-     "w": "A",
-     "f": 388
+     "w": "turned",
+     "f": 430
     },
     {
-     "w": "radio",
-     "f": 391
-    },
-    {
-     "w": "telescope",
-     "f": 402
-    },
-    {
-     "w": "in",
-     "f": 421
-    },
-    {
-     "w": "Delaware, Ohio",
-     "f": 425
-    },
-    {
-     "w": "sweeping",
-     "f": 463
-    },
-    {
-     "w": "the",
-     "f": 476
+     "w": "The",
+     "f": 469
     },
     {
      "w": "sky",
-     "f": 478
+     "f": 473
+    },
+    {
+     "w": "crawled",
+     "f": 483
+    },
+    {
+     "w": "across",
+     "f": 495
+    },
+    {
+     "w": "the",
+     "f": 505
+    },
+    {
+     "w": "beam",
+     "f": 509
     }
    ],
    "shots": [
     {
      "kind": "img",
-     "src": "wow/img/b_05.png",
-     "focusFrom": [
-      42,
-      56
-     ],
-     "focusTo": [
-      56,
-      46
-     ],
-     "scale": [
-      1.16,
-      1.26
-     ],
-     "b": 0.84,
+     "src": "wow/img/b_07.png",
+     "move": "drift-left",
+     "b": 1.0,
      "sep": 0,
-     "from": 315,
-     "dur": 91
+     "from": 407,
+     "dur": 63
     },
     {
-     "kind": "vid",
-     "src": "wow/clip/par_b_02.mp4",
-     "start": 0.0,
-     "from": 406,
-     "dur": 72
+     "kind": "layer",
+     "src": "wow/img/b_01.png",
+     "move": "drift-right",
+     "b": 1.0,
+     "from": 470,
+     "dur": 49
     },
     {
      "kind": "img",
-     "src": "wow/img/b_04.png",
-     "focusFrom": [
-      38,
-      50
-     ],
-     "focusTo": [
-      58,
-      52
-     ],
-     "scale": [
-      1.18,
-      1.28
-     ],
-     "b": 1.05,
-     "sep": 0.06,
-     "from": 478,
-     "dur": 56
+     "src": "wow/img/d_05.png",
+     "move": "push-in",
+     "b": 1.0,
+     "sep": 0,
+     "from": 519,
+     "dur": 38
     }
    ]
   },
   {
    "id": "c",
-   "text": "It could not steer. The turning Earth carried the sky across its beam, and whatever it was passed through, and set.",
-   "from": 534,
-   "dur": 254,
-   "voStart": 544,
-   "voDur": 228,
+   "text": "For seventy two seconds, something was in it.",
+   "from": 557,
+   "dur": 122,
+   "voStart": 563,
+   "voDur": 100,
    "words": [
     {
-     "w": "It",
-     "f": 547
+     "w": "For",
+     "f": 566
     },
     {
-     "w": "could",
-     "f": 552
+     "w": "seventy",
+     "f": 573
     },
     {
-     "w": "not",
-     "f": 557
+     "w": "two",
+     "f": 584
     },
     {
-     "w": "steer",
-     "f": 564
+     "w": "seconds",
+     "f": 591
     },
     {
-     "w": "The",
-     "f": 603
-    },
-    {
-     "w": "turning",
-     "f": 607
-    },
-    {
-     "w": "Earth",
-     "f": 618
-    },
-    {
-     "w": "carried",
-     "f": 626
-    },
-    {
-     "w": "the",
-     "f": 636
-    },
-    {
-     "w": "sky",
-     "f": 639
-    },
-    {
-     "w": "across",
-     "f": 648
-    },
-    {
-     "w": "its",
-     "f": 660
-    },
-    {
-     "w": "beam",
-     "f": 665
-    },
-    {
-     "w": "and",
-     "f": 683
-    },
-    {
-     "w": "whatever",
-     "f": 686
-    },
-    {
-     "w": "it",
-     "f": 697
+     "w": "something",
+     "f": 613
     },
     {
      "w": "was",
-     "f": 700
+     "f": 624
     },
     {
-     "w": "passed",
-     "f": 704
+     "w": "in",
+     "f": 629
     },
     {
-     "w": "through",
-     "f": 715
-    },
-    {
-     "w": "and",
-     "f": 730
-    },
-    {
-     "w": "set",
-     "f": 735
+     "w": "it",
+     "f": 633
     }
    ],
    "shots": [
     {
-     "kind": "vid",
-     "src": "wow/clip/par_b_11.mp4",
-     "start": 0.0,
-     "from": 534,
-     "dur": 106
-    },
-    {
-     "kind": "img",
-     "src": "wow/img/b_06.png",
-     "focusFrom": [
-      50,
-      44
-     ],
-     "focusTo": [
-      50,
-      58
-     ],
-     "scale": [
-      1.14,
-      1.24
-     ],
-     "b": 0.88,
-     "sep": 0,
-     "from": 640,
-     "dur": 83
-    },
-    {
-     "kind": "img",
-     "src": "wow/img/b_01.png",
-     "focusFrom": [
-      60,
-      40
-     ],
-     "focusTo": [
-      38,
-      58
-     ],
-     "scale": [
-      1.2,
-      1.12
-     ],
-     "b": 0.98,
-     "sep": 0,
-     "from": 723,
+     "kind": "layer",
+     "src": "wow/img/c_01.png",
+     "move": "push-in",
+     "b": 1.0,
+     "from": 557,
      "dur": 65
+    },
+    {
+     "kind": "img",
+     "src": "wow/img/c_10.png",
+     "move": "rack",
+     "b": 1.0,
+     "sep": 0,
+     "from": 622,
+     "dur": 57
     }
    ]
   },
   {
    "id": "d",
-   "text": "One thousand four hundred twenty megahertz. The hydrogen line.",
-   "from": 788,
-   "dur": 181,
-   "voStart": 798,
-   "voDur": 155,
+   "text": "August fifteenth. Ten sixteen at night.",
+   "from": 679,
+   "dur": 141,
+   "voStart": 685,
+   "voDur": 123,
    "words": [
     {
-     "w": "One",
-     "f": 801
+     "w": "August",
+     "f": 688
     },
     {
-     "w": "thousand",
-     "f": 810
+     "w": "fifteenth",
+     "f": 701
     },
     {
-     "w": "four",
-     "f": 824
+     "w": "Ten",
+     "f": 744
     },
     {
-     "w": "hundred",
-     "f": 832
+     "w": "sixteen",
+     "f": 753
     },
     {
-     "w": "twenty",
-     "f": 840
+     "w": "at",
+     "f": 769
     },
     {
-     "w": "megahertz",
-     "f": 849
-    },
-    {
-     "w": "The",
-     "f": 895
-    },
-    {
-     "w": "hydrogen",
-     "f": 898
-    },
-    {
-     "w": "line",
-     "f": 916
+     "w": "night",
+     "f": 772
     }
    ],
    "shots": [
     {
-     "kind": "vid",
-     "src": "wow/clip/par_b_07.mp4",
-     "start": 0.5,
-     "from": 788,
-     "dur": 181
+     "kind": "img",
+     "src": "wow/img/c_07.png",
+     "move": "push-in",
+     "b": 1.0,
+     "sep": 0,
+     "from": 679,
+     "dur": 76
+    },
+    {
+     "kind": "img",
+     "src": "wow/img/b_04.png",
+     "move": "drift-right",
+     "b": 1.0,
+     "sep": 0,
+     "from": 755,
+     "dur": 65
     }
    ]
   },
   {
    "id": "e",
-   "text": "Six characters came off the printer. Six E Q U J five. Thirty times above the noise.",
-   "from": 969,
-   "dur": 272,
-   "voStart": 981,
-   "voDur": 240,
+   "text": "One man on the night shift, and a printer.",
+   "from": 820,
+   "dur": 112,
+   "voStart": 826,
+   "voDur": 94,
    "words": [
     {
-     "w": "Six",
-     "f": 984
+     "w": "One",
+     "f": 829
     },
     {
-     "w": "characters",
-     "f": 996
+     "w": "man",
+     "f": 837
     },
     {
-     "w": "came",
-     "f": 1011
-    },
-    {
-     "w": "off",
-     "f": 1018
+     "w": "on",
+     "f": 845
     },
     {
      "w": "the",
-     "f": 1024
+     "f": 848
+    },
+    {
+     "w": "night",
+     "f": 850
+    },
+    {
+     "w": "shift",
+     "f": 857
+    },
+    {
+     "w": "and",
+     "f": 876
+    },
+    {
+     "w": "a",
+     "f": 880
     },
     {
      "w": "printer",
-     "f": 1026
-    },
-    {
-     "w": "Six",
-     "f": 1064
-    },
-    {
-     "w": "E",
-     "f": 1077
-    },
-    {
-     "w": "Q",
-     "f": 1084
-    },
-    {
-     "w": "U",
-     "f": 1093
-    },
-    {
-     "w": "J",
-     "f": 1099
-    },
-    {
-     "w": "five",
-     "f": 1107
-    },
-    {
-     "w": "Thirty",
-     "f": 1148
-    },
-    {
-     "w": "times",
-     "f": 1158
-    },
-    {
-     "w": "above",
-     "f": 1169
-    },
-    {
-     "w": "the",
-     "f": 1178
-    },
-    {
-     "w": "noise",
-     "f": 1181
+     "f": 882
     }
    ],
    "shots": [
     {
-     "kind": "vid",
-     "src": "wow/clip/par_b_12.mp4",
-     "start": 0.0,
-     "from": 969,
-     "dur": 149
+     "kind": "layer",
+     "src": "wow/img/c_02.png",
+     "move": "push-in",
+     "b": 1.0,
+     "from": 820,
+     "dur": 60
     },
     {
      "kind": "img",
-     "src": "wow/img/b_06.png",
-     "focusFrom": [
-      44,
-      52
-     ],
-     "focusTo": [
-      58,
-      50
-     ],
-     "scale": [
-      1.16,
-      1.26
-     ],
-     "b": 0.9,
+     "src": "wow/img/c_14.png",
+     "move": "pull-out",
+     "b": 1.0,
      "sep": 0,
-     "from": 1118,
-     "dur": 123
+     "from": 880,
+     "dur": 52
     }
    ]
   },
   {
    "id": "f",
-   "text": "Jerry Ehman circled them, and wrote one word in the margin. Wow.",
-   "from": 1241,
-   "dur": 192,
-   "voStart": 1251,
-   "voDur": 158,
+   "text": "Paper came out of the machine. Six characters.",
+   "from": 932,
+   "dur": 145,
+   "voStart": 938,
+   "voDur": 127,
    "words": [
     {
-     "w": "Jerry",
-     "f": 1254
+     "w": "Paper",
+     "f": 941
     },
     {
-     "w": "Ehman",
-     "f": 1266
+     "w": "came",
+     "f": 952
     },
     {
-     "w": "circled",
-     "f": 1275
+     "w": "out",
+     "f": 959
     },
     {
-     "w": "them",
-     "f": 1286
-    },
-    {
-     "w": "and",
-     "f": 1299
-    },
-    {
-     "w": "wrote",
-     "f": 1303
-    },
-    {
-     "w": "one",
-     "f": 1311
-    },
-    {
-     "w": "word",
-     "f": 1319
-    },
-    {
-     "w": "in",
-     "f": 1327
+     "w": "of",
+     "f": 963
     },
     {
      "w": "the",
-     "f": 1329
+     "f": 965
     },
     {
-     "w": "margin",
-     "f": 1331
+     "w": "machine",
+     "f": 967
     },
     {
-     "w": "Wow",
-     "f": 1371
+     "w": "Six",
+     "f": 1007
+    },
+    {
+     "w": "characters",
+     "f": 1019
     }
    ],
    "shots": [
     {
-     "kind": "vid",
-     "src": "wow/clip/par_b_06.mp4",
-     "start": 0.0,
-     "from": 1241,
-     "dur": 192
+     "kind": "layer",
+     "src": "wow/img/b_06.png",
+     "move": "pull-out",
+     "b": 1.0,
+     "from": 932,
+     "dur": 78
+    },
+    {
+     "kind": "img",
+     "src": "wow/img/c_12.png",
+     "move": "drift-left",
+     "b": 1.0,
+     "sep": 0,
+     "from": 1010,
+     "dur": 67
     }
    ]
   },
   {
    "id": "g",
-   "text": "It was never heard again. Not in fifty years of listening.",
-   "from": 1433,
-   "dur": 169,
-   "voStart": 1443,
-   "voDur": 143,
+   "text": "One thousand four hundred twenty point four five five six.",
+   "from": 1077,
+   "dur": 149,
+   "voStart": 1083,
+   "voDur": 129,
    "words": [
     {
-     "w": "It",
-     "f": 1446
+     "w": "One",
+     "f": 1086
     },
     {
-     "w": "was",
-     "f": 1451
+     "w": "thousand",
+     "f": 1095
     },
     {
-     "w": "never",
-     "f": 1455
+     "w": "four",
+     "f": 1108
     },
     {
-     "w": "heard",
-     "f": 1465
+     "w": "hundred",
+     "f": 1116
     },
     {
-     "w": "again",
-     "f": 1471
+     "w": "twenty",
+     "f": 1124
     },
     {
-     "w": "Not",
-     "f": 1508
+     "w": "point",
+     "f": 1133
     },
     {
-     "w": "in",
-     "f": 1517
+     "w": "four",
+     "f": 1142
     },
     {
-     "w": "fifty",
-     "f": 1521
+     "w": "five",
+     "f": 1152
     },
     {
-     "w": "years",
-     "f": 1533
+     "w": "five",
+     "f": 1162
     },
     {
-     "w": "of",
-     "f": 1542
-    },
-    {
-     "w": "listening",
-     "f": 1545
+     "w": "six",
+     "f": 1172
     }
    ],
    "shots": [
     {
      "kind": "img",
-     "src": "wow/img/b_04.png",
-     "focusFrom": [
-      56,
-      46
-     ],
-     "focusTo": [
-      40,
-      54
-     ],
-     "scale": [
-      1.16,
-      1.26
-     ],
-     "b": 1.0,
-     "sep": 0.05,
-     "from": 1433,
-     "dur": 92
+     "src": "wow/img/d_09.png",
+     "move": "drift-right",
+     "b": 0.9,
+     "sep": 0,
+     "from": 1077,
+     "dur": 80
     },
     {
      "kind": "img",
-     "src": "wow/img/b_11.png",
-     "focusFrom": [
-      50,
-      46
-     ],
-     "focusTo": [
-      50,
-      60
-     ],
-     "scale": [
-      1.12,
-      1.22
-     ],
-     "b": 1.0,
+     "src": "wow/img/c_05.png",
+     "move": "drift-left",
+     "b": 0.9,
      "sep": 0,
-     "from": 1525,
-     "dur": 77
+     "from": 1157,
+     "dur": 69
     }
    ]
   },
   {
    "id": "h",
-   "text": "In twenty twenty four, astronomers found a candidate. A sudden flare striking a cold cloud of hydrogen.",
-   "from": 1602,
-   "dur": 248,
-   "voStart": 1614,
-   "voDur": 220,
+   "text": "The hydrogen line. The frequency of cold gas.",
+   "from": 1226,
+   "dur": 153,
+   "voStart": 1232,
+   "voDur": 135,
    "words": [
     {
-     "w": "In",
-     "f": 1617
-    },
-    {
-     "w": "twenty",
-     "f": 1622
-    },
-    {
-     "w": "twenty",
-     "f": 1632
-    },
-    {
-     "w": "four",
-     "f": 1641
-    },
-    {
-     "w": "astronomers",
-     "f": 1658
-    },
-    {
-     "w": "found",
-     "f": 1676
-    },
-    {
-     "w": "a",
-     "f": 1684
-    },
-    {
-     "w": "candidate",
-     "f": 1686
-    },
-    {
-     "w": "A",
-     "f": 1728
-    },
-    {
-     "w": "sudden",
-     "f": 1731
-    },
-    {
-     "w": "flare",
-     "f": 1742
-    },
-    {
-     "w": "striking",
-     "f": 1752
-    },
-    {
-     "w": "a",
-     "f": 1765
-    },
-    {
-     "w": "cold",
-     "f": 1768
-    },
-    {
-     "w": "cloud",
-     "f": 1779
-    },
-    {
-     "w": "of",
-     "f": 1788
+     "w": "The",
+     "f": 1235
     },
     {
      "w": "hydrogen",
-     "f": 1790
+     "f": 1239
+    },
+    {
+     "w": "line",
+     "f": 1256
+    },
+    {
+     "w": "The",
+     "f": 1292
+    },
+    {
+     "w": "frequency",
+     "f": 1296
+    },
+    {
+     "w": "of",
+     "f": 1314
+    },
+    {
+     "w": "cold",
+     "f": 1317
+    },
+    {
+     "w": "gas",
+     "f": 1326
     }
    ],
    "shots": [
     {
-     "kind": "img",
-     "src": "wow/img/b_03.png",
-     "focusFrom": [
-      44,
-      52
-     ],
-     "focusTo": [
-      58,
-      48
-     ],
-     "scale": [
-      1.14,
-      1.24
-     ],
-     "b": 0.94,
-     "sep": 0,
-     "from": 1602,
-     "dur": 136
+     "kind": "layer",
+     "src": "wow/img/d_09.png",
+     "move": "push-in",
+     "b": 1.0,
+     "from": 1226,
+     "dur": 82
     },
     {
-     "kind": "vid",
-     "src": "wow/clip/par_b_08.mp4",
-     "start": 0.0,
-     "from": 1738,
-     "dur": 112
+     "kind": "img",
+     "src": "wow/img/b_11.png",
+     "move": "tilt-up",
+     "b": 1.0,
+     "sep": 0,
+     "from": 1308,
+     "dur": 71
     }
    ]
   },
   {
    "id": "i",
-   "text": "A natural maser. Not a message. A coincidence of physics, on the one channel we happened to be listening to.",
-   "from": 1850,
-   "dur": 274,
-   "voStart": 1862,
-   "voDur": 246,
+   "text": "Six. E. Q. U. J. Five. Thirty times above the noise.",
+   "from": 1379,
+   "dur": 263,
+   "voStart": 1385,
+   "voDur": 239,
    "words": [
     {
-     "w": "A",
-     "f": 1865
+     "w": "Six",
+     "f": 1388
     },
     {
-     "w": "natural",
-     "f": 1868
+     "w": "E",
+     "f": 1432
     },
     {
-     "w": "maser",
-     "f": 1882
+     "w": "Q",
+     "f": 1444
     },
     {
-     "w": "Not",
-     "f": 1921
+     "w": "U",
+     "f": 1460
     },
     {
-     "w": "a",
-     "f": 1930
+     "w": "J",
+     "f": 1472
     },
     {
-     "w": "message",
-     "f": 1931
+     "w": "Five",
+     "f": 1510
     },
     {
-     "w": "A",
-     "f": 1973
+     "w": "Thirty",
+     "f": 1552
     },
     {
-     "w": "coincidence",
-     "f": 1977
+     "w": "times",
+     "f": 1561
     },
     {
-     "w": "of",
-     "f": 1996
-    },
-    {
-     "w": "physics",
-     "f": 1999
-    },
-    {
-     "w": "on",
-     "f": 2018
+     "w": "above",
+     "f": 1572
     },
     {
      "w": "the",
-     "f": 2022
+     "f": 1582
     },
     {
-     "w": "one",
-     "f": 2025
-    },
-    {
-     "w": "channel",
-     "f": 2033
-    },
-    {
-     "w": "we",
-     "f": 2043
-    },
-    {
-     "w": "happened",
-     "f": 2047
-    },
-    {
-     "w": "to",
-     "f": 2058
-    },
-    {
-     "w": "be",
-     "f": 2060
-    },
-    {
-     "w": "listening",
-     "f": 2064
-    },
-    {
-     "w": "to",
-     "f": 2077
+     "w": "noise",
+     "f": 1584
     }
    ],
    "shots": [
     {
      "kind": "img",
-     "src": "wow/img/b_12.png",
-     "focusFrom": [
-      60,
-      50
-     ],
-     "focusTo": [
-      42,
-      52
-     ],
-     "scale": [
-      1.18,
-      1.26
-     ],
-     "b": 1.0,
+     "src": "wow/img/c_12.png",
+     "move": "pull-out",
+     "b": 0.8,
      "sep": 0,
-     "from": 1850,
-     "dur": 150
+     "from": 1379,
+     "dur": 142
     },
     {
-     "kind": "vid",
-     "src": "wow/clip/par_b_02.mp4",
-     "start": 0.7,
-     "from": 2000,
-     "dur": 124
+     "kind": "img",
+     "src": "wow/img/d_01.png",
+     "move": "push-in",
+     "b": 0.75,
+     "sep": 0,
+     "from": 1521,
+     "dur": 121
     }
    ]
   },
   {
    "id": "j",
-   "text": "But it is not proven. The best evidence we have that we might not be alone, and the best evidence that we are only hearing our own universe.",
-   "from": 2124,
-   "dur": 283,
-   "voStart": 2134,
-   "voDur": 255,
+   "text": "He circled it in red, and wrote one word.",
+   "from": 1642,
+   "dur": 129,
+   "voStart": 1648,
+   "voDur": 99,
    "words": [
     {
-     "w": "But",
-     "f": 2137
+     "w": "He",
+     "f": 1651
+    },
+    {
+     "w": "circled",
+     "f": 1656
     },
     {
      "w": "it",
-     "f": 2142
+     "f": 1669
     },
     {
-     "w": "is",
-     "f": 2145
+     "w": "in",
+     "f": 1672
     },
     {
-     "w": "not",
-     "f": 2149
-    },
-    {
-     "w": "proven",
-     "f": 2157
-    },
-    {
-     "w": "The",
-     "f": 2196
-    },
-    {
-     "w": "best",
-     "f": 2201
-    },
-    {
-     "w": "evidence",
-     "f": 2211
-    },
-    {
-     "w": "we",
-     "f": 2222
-    },
-    {
-     "w": "have",
-     "f": 2226
-    },
-    {
-     "w": "that",
-     "f": 2232
-    },
-    {
-     "w": "we",
-     "f": 2236
-    },
-    {
-     "w": "might",
-     "f": 2239
-    },
-    {
-     "w": "not",
-     "f": 2246
-    },
-    {
-     "w": "be",
-     "f": 2252
-    },
-    {
-     "w": "alone",
-     "f": 2256
+     "w": "red",
+     "f": 1676
     },
     {
      "w": "and",
-     "f": 2277
+     "f": 1692
     },
     {
-     "w": "the",
-     "f": 2279
+     "w": "wrote",
+     "f": 1698
     },
     {
-     "w": "best",
-     "f": 2282
+     "w": "one",
+     "f": 1704
     },
     {
-     "w": "evidence",
-     "f": 2292
-    },
-    {
-     "w": "that",
-     "f": 2305
-    },
-    {
-     "w": "we",
-     "f": 2309
-    },
-    {
-     "w": "are",
-     "f": 2313
-    },
-    {
-     "w": "only",
-     "f": 2317
-    },
-    {
-     "w": "hearing",
-     "f": 2325
-    },
-    {
-     "w": "our",
-     "f": 2335
-    },
-    {
-     "w": "own",
-     "f": 2340
-    },
-    {
-     "w": "universe",
-     "f": 2346
+     "w": "word",
+     "f": 1712
     }
    ],
    "shots": [
     {
      "kind": "img",
-     "src": "wow/img/b_09.png",
-     "focusFrom": [
-      56,
-      60
-     ],
-     "focusTo": [
-      44,
-      46
-     ],
-     "scale": [
-      1.14,
-      1.24
-     ],
-     "b": 1.0,
+     "src": "wow/img/d_03.png",
+     "move": "push-in",
+     "b": 0.85,
      "sep": 0,
-     "from": 2124,
-     "dur": 118
+     "from": 1642,
+     "dur": 69
     },
     {
      "kind": "img",
-     "src": "wow/img/b_10.png",
-     "focusFrom": [
-      44,
-      50
-     ],
-     "focusTo": [
-      58,
-      54
-     ],
-     "scale": [
-      1.15,
-      1.25
-     ],
-     "b": 1.0,
-     "sep": 0,
-     "from": 2242,
-     "dur": 93
-    },
-    {
-     "kind": "vid",
-     "src": "wow/clip/par_b_06.mp4",
-     "start": 0.6,
-     "from": 2335,
-     "dur": 72
+     "src": "wow/img/c_04.png",
+     "move": "rack",
+     "b": 0.55,
+     "from": 1711,
+     "dur": 60
     }
    ]
   },
   {
    "id": "k",
-   "text": "Seventy two seconds. Fifty years of silence.",
-   "from": 2407,
-   "dur": 170,
-   "voStart": 2417,
-   "voDur": 138,
+   "text": "They looked again. And again. For fifty years.",
+   "from": 1771,
+   "dur": 171,
+   "voStart": 1777,
+   "voDur": 153,
    "words": [
     {
-     "w": "Seventy",
-     "f": 2420
+     "w": "They",
+     "f": 1780
     },
     {
-     "w": "two",
-     "f": 2435
+     "w": "looked",
+     "f": 1785
     },
     {
-     "w": "seconds",
-     "f": 2442
+     "w": "again",
+     "f": 1792
     },
     {
-     "w": "Fifty",
-     "f": 2486
+     "w": "And",
+     "f": 1829
+    },
+    {
+     "w": "again",
+     "f": 1835
+    },
+    {
+     "w": "For",
+     "f": 1872
+    },
+    {
+     "w": "fifty",
+     "f": 1880
     },
     {
      "w": "years",
-     "f": 2499
-    },
-    {
-     "w": "of",
-     "f": 2508
-    },
-    {
-     "w": "silence",
-     "f": 2511
+     "f": 1891
     }
    ],
    "shots": [
     {
-     "kind": "vid",
-     "src": "wow/clip/par_b_11.mp4",
-     "start": 0.4,
-     "from": 2407,
-     "dur": 93
+     "kind": "img",
+     "src": "wow/img/c_06.png",
+     "move": "push-in",
+     "b": 1.0,
+     "sep": 0,
+     "from": 1771,
+     "dur": 71
     },
     {
      "kind": "img",
-     "src": "wow/img/b_01.png",
-     "focusFrom": [
-      50,
-      52
-     ],
-     "focusTo": [
-      50,
-      44
-     ],
-     "scale": [
-      1.12,
-      1.2
-     ],
-     "b": 0.95,
+     "src": "wow/img/d_15.png",
+     "move": "drift-left",
+     "b": 1.0,
      "sep": 0,
-     "from": 2500,
-     "dur": 77
+     "from": 1842,
+     "dur": 56
+    },
+    {
+     "kind": "img",
+     "src": "wow/img/d_02.png",
+     "move": "pull-out",
+     "b": 1.0,
+     "sep": 0,
+     "from": 1898,
+     "dur": 44
+    }
+   ]
+  },
+  {
+   "id": "l",
+   "text": "Nothing. Not one repeat.",
+   "from": 1942,
+   "dur": 121,
+   "voStart": 1948,
+   "voDur": 97,
+   "words": [
+    {
+     "w": "Nothing",
+     "f": 1951
+    },
+    {
+     "w": "Not",
+     "f": 1991
+    },
+    {
+     "w": "one",
+     "f": 1999
+    },
+    {
+     "w": "repeat",
+     "f": 2007
+    }
+   ],
+   "shots": [
+    {
+     "kind": "img",
+     "src": "wow/img/d_06.png",
+     "move": "drift-right",
+     "b": 1.0,
+     "sep": 0,
+     "from": 1942,
+     "dur": 65
+    },
+    {
+     "kind": "img",
+     "src": "wow/img/c_13.png",
+     "move": "push-in",
+     "b": 0.72,
+     "sep": 0,
+     "from": 2007,
+     "dur": 56
+    }
+   ]
+  },
+  {
+   "id": "m",
+   "text": "Then in twenty twenty four, a candidate.",
+   "from": 2063,
+   "dur": 111,
+   "voStart": 2069,
+   "voDur": 93,
+   "words": [
+    {
+     "w": "Then",
+     "f": 2072
+    },
+    {
+     "w": "in",
+     "f": 2080
+    },
+    {
+     "w": "twenty",
+     "f": 2084
+    },
+    {
+     "w": "twenty",
+     "f": 2093
+    },
+    {
+     "w": "four",
+     "f": 2101
+    },
+    {
+     "w": "a",
+     "f": 2118
+    },
+    {
+     "w": "candidate",
+     "f": 2121
+    }
+   ],
+   "shots": [
+    {
+     "kind": "img",
+     "src": "wow/img/c_15.png",
+     "move": "push-in",
+     "b": 1.0,
+     "sep": 0,
+     "from": 2063,
+     "dur": 59
+    },
+    {
+     "kind": "img",
+     "src": "wow/img/c_11.png",
+     "move": "drift-right",
+     "b": 1.0,
+     "sep": 0,
+     "from": 2122,
+     "dur": 52
+    }
+   ]
+  },
+  {
+   "id": "n",
+   "text": "A magnetar flare, hitting a cold cloud of hydrogen.",
+   "from": 2174,
+   "dur": 137,
+   "voStart": 2180,
+   "voDur": 119,
+   "words": [
+    {
+     "w": "A",
+     "f": 2183
+    },
+    {
+     "w": "magnetar",
+     "f": 2186
+    },
+    {
+     "w": "flare",
+     "f": 2204
+    },
+    {
+     "w": "hitting",
+     "f": 2224
+    },
+    {
+     "w": "a",
+     "f": 2231
+    },
+    {
+     "w": "cold",
+     "f": 2233
+    },
+    {
+     "w": "cloud",
+     "f": 2244
+    },
+    {
+     "w": "of",
+     "f": 2254
+    },
+    {
+     "w": "hydrogen",
+     "f": 2257
+    }
+   ],
+   "shots": [
+    {
+     "kind": "img",
+     "src": "wow/img/d_05.png",
+     "move": "push-in",
+     "b": 1.0,
+     "sep": 0,
+     "from": 2174,
+     "dur": 73
+    },
+    {
+     "kind": "img",
+     "src": "wow/img/d_14.png",
+     "move": "push-in",
+     "b": 1.0,
+     "sep": 0,
+     "from": 2247,
+     "dur": 64
+    }
+   ]
+  },
+  {
+   "id": "o",
+   "text": "A natural laser. Not a voice.",
+   "from": 2311,
+   "dur": 129,
+   "voStart": 2317,
+   "voDur": 109,
+   "words": [
+    {
+     "w": "A",
+     "f": 2320
+    },
+    {
+     "w": "natural",
+     "f": 2323
+    },
+    {
+     "w": "laser",
+     "f": 2337
+    },
+    {
+     "w": "Not",
+     "f": 2375
+    },
+    {
+     "w": "a",
+     "f": 2383
+    },
+    {
+     "w": "voice",
+     "f": 2385
+    }
+   ],
+   "shots": [
+    {
+     "kind": "img",
+     "src": "wow/img/d_11.png",
+     "move": "push-in",
+     "b": 0.62,
+     "sep": 0,
+     "from": 2311,
+     "dur": 69
+    },
+    {
+     "kind": "img",
+     "src": "wow/img/c_08.png",
+     "move": "pull-out",
+     "b": 1.0,
+     "sep": 0,
+     "from": 2380,
+     "dur": 60
+    }
+   ]
+  },
+  {
+   "id": "p",
+   "text": "It is still not proven. That is the problem.",
+   "from": 2440,
+   "dur": 137,
+   "voStart": 2446,
+   "voDur": 119,
+   "words": [
+    {
+     "w": "It",
+     "f": 2449
+    },
+    {
+     "w": "is",
+     "f": 2453
+    },
+    {
+     "w": "still",
+     "f": 2457
+    },
+    {
+     "w": "not",
+     "f": 2465
+    },
+    {
+     "w": "proven",
+     "f": 2471
+    },
+    {
+     "w": "That",
+     "f": 2510
+    },
+    {
+     "w": "is",
+     "f": 2518
+    },
+    {
+     "w": "the",
+     "f": 2521
+    },
+    {
+     "w": "problem",
+     "f": 2524
+    }
+   ],
+   "shots": [
+    {
+     "kind": "layer",
+     "src": "wow/img/c_02.png",
+     "move": "push-in",
+     "b": 1.0,
+     "from": 2440,
+     "dur": 73
+    },
+    {
+     "kind": "img",
+     "src": "wow/img/d_13.png",
+     "move": "push-in",
+     "b": 1.0,
+     "sep": 0,
+     "from": 2513,
+     "dur": 64
+    }
+   ]
+  },
+  {
+   "id": "q",
+   "text": "The best evidence we are not alone, and the best evidence we are.",
+   "from": 2577,
+   "dur": 143,
+   "voStart": 2583,
+   "voDur": 125,
+   "words": [
+    {
+     "w": "The",
+     "f": 2586
+    },
+    {
+     "w": "best",
+     "f": 2590
+    },
+    {
+     "w": "evidence",
+     "f": 2600
+    },
+    {
+     "w": "we",
+     "f": 2611
+    },
+    {
+     "w": "are",
+     "f": 2615
+    },
+    {
+     "w": "not",
+     "f": 2618
+    },
+    {
+     "w": "alone",
+     "f": 2624
+    },
+    {
+     "w": "and",
+     "f": 2642
+    },
+    {
+     "w": "the",
+     "f": 2645
+    },
+    {
+     "w": "best",
+     "f": 2648
+    },
+    {
+     "w": "evidence",
+     "f": 2657
+    },
+    {
+     "w": "we",
+     "f": 2669
+    },
+    {
+     "w": "are",
+     "f": 2674
+    }
+   ],
+   "shots": [
+    {
+     "kind": "layer",
+     "src": "wow/img/c_01.png",
+     "move": "push-in",
+     "b": 1.0,
+     "from": 2577,
+     "dur": 60
+    },
+    {
+     "kind": "img",
+     "src": "wow/img/d_12.png",
+     "move": "drift-left",
+     "b": 1.0,
+     "sep": 0,
+     "from": 2637,
+     "dur": 47
+    },
+    {
+     "kind": "img",
+     "src": "wow/img/c_03.png",
+     "move": "push-in",
+     "b": 1.0,
+     "sep": 0,
+     "from": 2684,
+     "dur": 36
+    }
+   ]
+  },
+  {
+   "id": "r",
+   "text": "Seventy two seconds. Fifty years of silence.",
+   "from": 2720,
+   "dur": 168,
+   "voStart": 2726,
+   "voDur": 136,
+   "words": [
+    {
+     "w": "Seventy",
+     "f": 2729
+    },
+    {
+     "w": "two",
+     "f": 2743
+    },
+    {
+     "w": "seconds",
+     "f": 2750
+    },
+    {
+     "w": "Fifty",
+     "f": 2793
+    },
+    {
+     "w": "years",
+     "f": 2806
+    },
+    {
+     "w": "of",
+     "f": 2815
+    },
+    {
+     "w": "silence",
+     "f": 2818
+    }
+   ],
+   "shots": [
+    {
+     "kind": "img",
+     "src": "wow/img/b_11.png",
+     "move": "tilt-down",
+     "b": 1.0,
+     "sep": 0,
+     "from": 2720,
+     "dur": 90
+    },
+    {
+     "kind": "layer",
+     "src": "wow/img/d_04.png",
+     "move": "pull-out",
+     "b": 1.0,
+     "from": 2810,
+     "dur": 78
     }
    ]
   }
  ],
  "cues": {
-  "wow": 1371,
-  "number": 849,
-  "code": 995
+  "number": 1095,
+  "wow": 1698,
+  "six": 1007
  }
 }

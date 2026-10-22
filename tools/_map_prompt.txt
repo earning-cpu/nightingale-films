@@ -1,0 +1,12 @@
+Describe this photograph as a cinematographer. Reply with ONE line only, eight fields separated by " | ", no other text:
+
+subject | thirds | angle | light | near-far | empty | move | why
+
+subject  = what it is, max 6 words
+thirds   = left/centre/right + top/middle/bottom
+angle    = eye-level/low/high/macro/aerial
+light    = left/right/top/behind/flat/practical
+near-far = what is NEAR, slash, what is FAR
+empty    = left/right/top/bottom/none
+move     = push-in/pull-out/drift-left/drift-right/tilt-up/tilt-down/static
+why      = what a viewer learns from it, max 8 words
