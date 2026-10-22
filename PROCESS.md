@@ -272,3 +272,147 @@ more than anything else per rupee) → **grain after upscale** (one line) →
 4. Cut to the music: 8-bar structure, cut on the downbeat, keep the words landing
    between cuts instead of the reverse.
 5. Re-QC, republish, and put the A/B in Kaggle.
+
+---
+
+# v4 — what actually changed, and the vocabulary behind it
+
+v3 was a well-lit slideshow with good plates. v4 is built from the five things
+that separate a film from a slideshow: pacing, sound, music, easing, and the
+cut that the audio crosses.
+
+## 10. Pacing — ASL and "enter late, leave early"
+
+**ASL** = average shot length. Under 3 s reads as urgency; 3–6 s as natural;
+over 10 s as weight. Modern features sit near 2.5 s; trailers and short-form
+openers under 2 s. v3 measured 2.19 s over 44 shots; v4 measures **1.91 s over
+46 shots in 88 s** — deliberately under two seconds, because this is a hook-led
+short, not a scene.
+
+The single highest-leverage pacing rule is **enter late, leave early**: start
+each shot after the action has begun and cut before it finishes. Every cut in
+v4 is therefore on a *word*, not on a grid, and the picture is allowed to lead
+or lag that word by up to 6 frames — which turns the join into a J-cut or an
+L-cut instead of a butt-join.
+
+Other pacing levers in use:
+
+- **Cut on emotion first** (Murch's rule of six: emotion 51 %, story 23 %,
+  rhythm 10 %, eye-trace 7 %, 2D plane 5 %, 3D space 4 %). If a cut serves
+  rhythm but breaks the emotion, it is the wrong cut.
+- **Cut on a beat, a gesture, or a breath** — never on an arbitrary frame.
+- **Watch it with the sound off.** If the picture alone does not tell the
+  story, the graphics are doing work the edit should be doing.
+
+## 11. Roll and cut vocabulary
+
+- **A-roll** — the spine: the narration and the shots that carry it.
+- **B-roll** — coverage that illustrates: establishing plates, cutaways,
+  inserts, process shots, archival.
+- **C-roll** — tertiary texture: atmosphere, abstract motion, graphics.
+- **D-roll / L-roll are not editing terms.** The ask almost certainly meant
+  **J-cut and L-cut**:
+  - **J-cut** — the *next* scene's audio arrives before its picture. The sound
+    pulls you into the cut.
+  - **L-cut** — the *current* audio runs on over the next picture. The voice
+    carries you across the cut.
+  Both are audio bridges, and both are why a film feels continuous rather than
+  stitched.
+
+## 12. Sound — five layers, each with one job
+
+| layer | what it is | job | v4 level |
+|---|---|---|---|
+| **DX** dialogue | the narration | carries story | −16 LUFS short-term |
+| **AMB** ambience | room tone, air, wind | glues cuts, hides edits | −34 LUFS |
+| **SFX** hard effects | printer, paper, clicks | sync to visible action | peaks −8 to −12 |
+| **FX** designed | impacts, risers, braams, stingers | emotion and transitions | momentary |
+| **MX** music | the score | pace and lift | bed −28, ducked |
+
+Rules that matter more than the levels:
+
+- **An impact is three layers**: transient (the click), body (the low hit),
+  tail (the decay). A single sample on a grid is what "boring SFX" sounds like.
+- **Ducking**: music is sidechained to the voice, not turned down globally, so
+  it breathes back up in the gaps.
+- **Negative space** before a hit — v4 drops 0.55 s of near-silence before the
+  climax. Silence is the loudest edit.
+- **Diegetic vs non-diegetic** is a decision, made per sound, not an accident.
+- **Foley** is performed sync sound; **hard effects** are real objects;
+  **designed effects** are impossible things (a magnetar flare).
+- Whoosh through a cut = a **sound bridge**, the audio equivalent of an L-cut.
+
+## 13. Music — three acts, one motif
+
+- **Act 1 setup** (0–22 s): drone, a bell motif, no pulse. Establishes D minor.
+- **Act 2 escalation** (22–62 s): an **ostinato** in eighth notes grouped
+  **3-3-2**, a half-time kick, a rising pad.
+- **Act 3 climax** (62–88 s): taiko, braams, then the last line on a bare
+  drone. Final hit plus a long tail.
+
+Tempo: **100 BPM**, so one beat = 0.6 s = exactly **18 frames** at 30 fps and
+one bar = 2.4 s = 72 frames. That is why cuts can be snapped to bars without
+ever landing on a fractional frame. 100 BPM sits in the "slow build" band
+(90–110); 60–80 would be gravity/solitude, 130–160 action.
+
+The score is **synthesised from scratch in numpy** (`tools/synth_score.py`):
+detuned-saw pads, a sub drone, a bell lead, an eighth-note ostinato, taiko,
+braams, and a `tanh` limiter. No samples, no licensed music.
+
+## 14. Keyframing — the easing vocabulary
+
+Linear interpolation is the single biggest amateur tell. v4 uses:
+
+| curve | cubic-bezier | use |
+|---|---|---|
+| snappy entrance | `(0.16, 1, 0.3, 1)` | type in, cards in |
+| accelerating exit | `(0.70, 0, 0.84, 0)` | anything leaving |
+| symmetric move | `(0.65, 0, 0.35, 1)` | on-screen camera moves |
+| overshoot settle | `(0.34, 1.56, 0.64, 1)` | playful arrivals, counters |
+
+- **Anticipation** — 2–3 frames of counter-move before the main action.
+- **Overshoot** — 1 frame past the target, then 4–6 frames to settle.
+- **Follow-through / overlapping action** — trailing parts arrive 40–80 ms
+  after the leading part.
+- **Secondary motion** — a small rotation or scale breath on top of the main
+  move, so nothing is mathematically still.
+
+In `src/wow/Wow.tsx` these are `outBack` (overshoot), `outCubic`/`outQuint`
+(decelerating), `inExpo` (accelerating exit), and `P(f, at, dur)` for
+normalised progress.
+
+## 15. Cutout animation types in v4
+
+Each one is a *rig*, not a transition, and each carries a drop shadow with a
+real offset so it sits in the plate instead of sliding over it:
+
+1. **Hinge / pivot rotate** — the paper corner swings on an off-centre origin.
+2. **Paper drop** — falls in, overshoots, settles with a 2-frame bounce.
+3. **Card slide-up** — enters from below with overshoot, exits early (enter
+   late, leave early).
+4. **Counter roll** — digits count to 1420.4556 with an overshoot at lock.
+5. **Tile flip** — the six characters land one per spoken letter.
+6. **Parallax sway** — far/mid/near planes move at 0.15× / 0.45× / 1.0×.
+7. **Radial reveal** — circle drawn round the logbook string.
+8. **Mask wipe** — the split screen wipes between two plates.
+9. **Type-on** — lower thirds, slugs.
+10. **Spring scale** — kinetic type punch-in.
+
+Effects riding on top: **drop shadow** (offset, soft), **rim light** (a bloom
+duplicate screened back), **halation** (highlights blurred and tinted), **depth
+of field per plane** (far plane softer), **dust and light interplay**
+(screen-blend particles + a travelling anamorphic sweep).
+
+## 16. The finish order (build_v4.sh)
+
+1. technical: bt709, lanczos upscale from the 60 % render, 1920×1080
+2. look: curve lift, gamma, saturation
+3. **halation**: highlights split, blurred σ=26, tinted red-orange, screened
+   back at 30 % — only in the highlights, or it reads cheap
+4. texture: grain **after** the upscale, so it is 1 px at delivery size
+5. letterbox: 84 px bars drawn **last**, so the grade can never grey them
+
+Colour vocabulary used: **lift / gamma / gain** (shadows / mids / highlights),
+the ASC CDL equivalents **offset / slope / power**, a **qualifier** (key by
+luma to isolate highlights for the halation), and **film emulation** (lifted
+blacks, gate weave from the grain loop, dust).

@@ -1,14 +1,14 @@
 {
  "fps": 30,
- "total": 2888,
+ "total": 2639,
  "scenes": [
   {
    "id": "hook",
-   "text": "Nineteen seventy seven. Something called out.",
    "from": 0,
-   "dur": 129,
-   "voStart": 0,
-   "voDur": 125,
+   "dur": 167,
+   "slug": "15 AUG 1977",
+   "cut": -4,
+   "kind": "L-cut",
    "words": [
     {
      "w": "Nineteen",
@@ -16,23 +16,43 @@
     },
     {
      "w": "seventy",
-     "f": 19
+     "f": 20
     },
     {
      "w": "seven",
-     "f": 30
+     "f": 31
     },
     {
      "w": "Something",
-     "f": 67
+     "f": 70
     },
     {
      "w": "called",
-     "f": 82
+     "f": 85
     },
     {
      "w": "out",
-     "f": 91
+     "f": 94
+    },
+    {
+     "w": "Seventy",
+     "f": 129
+    },
+    {
+     "w": "two",
+     "f": 144
+    },
+    {
+     "w": "seconds",
+     "f": 151
+    },
+    {
+     "w": "of",
+     "f": 164
+    },
+    {
+     "w": "it",
+     "f": 167
     }
    ],
    "shots": [
@@ -40,57 +60,72 @@
      "kind": "img",
      "src": "wow/img/c_10.png",
      "move": "push-in",
-     "b": 1.12,
+     "b": 1.3,
      "sep": 0,
      "from": 0,
-     "dur": 54
+     "dur": 70,
+     "luma": 10.0
     },
     {
      "kind": "layer",
      "src": "wow/img/c_01.png",
      "move": "push-in",
-     "b": 1.12,
-     "from": 54,
-     "dur": 42
+     "b": 0.75,
+     "from": 70,
+     "dur": 55,
+     "luma": 40.0
     },
     {
      "kind": "img",
      "src": "wow/img/d_01.png",
      "move": "push-in",
-     "b": 1.05,
+     "b": 1.3,
      "sep": 0,
-     "from": 96,
-     "dur": 33
+     "from": 125,
+     "dur": 42,
+     "luma": 21.0
     }
    ]
   },
   {
    "id": "hook2",
-   "text": "Seventy two seconds. Then nothing.",
-   "from": 129,
-   "dur": 122,
-   "voStart": 133,
-   "voDur": 114,
+   "from": 167,
+   "dur": 103,
+   "slug": "72 SECONDS",
+   "cut": 3,
+   "kind": "J-cut",
    "words": [
     {
-     "w": "Seventy",
-     "f": 136
+     "w": "of",
+     "f": 164
     },
     {
-     "w": "two",
-     "f": 150
-    },
-    {
-     "w": "seconds",
-     "f": 157
+     "w": "it",
+     "f": 167
     },
     {
      "w": "Then",
-     "f": 200
+     "f": 198
     },
     {
      "w": "nothing",
-     "f": 209
+     "f": 206
+    },
+    {
+     "w": "ever",
+     "f": 226
+    },
+    {
+     "w": "again",
+     "f": 235
+    },
+    {
+     "w": "A",
+     "f": 273
+    },
+    {
+     "w": "radio",
+     "f": 277
     }
    ],
    "shots": [
@@ -98,65 +133,77 @@
      "kind": "img",
      "src": "wow/img/d_04.png",
      "move": "tilt-up",
-     "b": 1.05,
+     "b": 0.75,
      "sep": 0,
-     "from": 129,
-     "dur": 65
+     "from": 167,
+     "dur": 43,
+     "luma": 40.0
     },
     {
      "kind": "img",
      "src": "wow/img/d_10.png",
      "move": "push-in",
-     "b": 1.15,
+     "b": 1.111,
      "sep": 0,
-     "from": 194,
-     "dur": 57
+     "from": 210,
+     "dur": 33,
+     "luma": 27.0
+    },
+    {
+     "kind": "img",
+     "src": "wow/img/d_13.png",
+     "move": "drift-left",
+     "b": 1.3,
+     "sep": 0,
+     "from": 243,
+     "dur": 27,
+     "luma": 13.0
     }
    ]
   },
   {
    "id": "a",
-   "text": "A radio telescope in Ohio. It could not steer.",
-   "from": 251,
-   "dur": 156,
-   "voStart": 257,
-   "voDur": 138,
+   "from": 270,
+   "dur": 101,
+   "slug": "DELAWARE, OHIO",
+   "cut": -3,
+   "kind": "L-cut",
    "words": [
     {
      "w": "A",
-     "f": 260
+     "f": 273
     },
     {
      "w": "radio",
-     "f": 264
+     "f": 277
     },
     {
      "w": "telescope",
-     "f": 275
+     "f": 289
     },
     {
      "w": "in",
-     "f": 294
+     "f": 309
     },
     {
      "w": "Ohio",
-     "f": 298
+     "f": 313
     },
     {
      "w": "It",
-     "f": 340
+     "f": 357
     },
     {
      "w": "could",
-     "f": 345
+     "f": 362
     },
     {
      "w": "not",
-     "f": 350
+     "f": 367
     },
     {
      "w": "steer",
-     "f": 356
+     "f": 374
     }
    ],
    "shots": [
@@ -164,64 +211,94 @@
      "kind": "layer",
      "src": "wow/img/c_09.png",
      "move": "tilt-up",
-     "b": 1.0,
-     "from": 251,
-     "dur": 84
+     "b": 0.811,
+     "from": 270,
+     "dur": 54,
+     "luma": 37.0
     },
     {
      "kind": "img",
      "src": "wow/img/d_07.png",
      "move": "push-in",
-     "b": 1.0,
+     "b": 1.111,
      "sep": 0,
-     "from": 335,
-     "dur": 72
+     "from": 324,
+     "dur": 47,
+     "luma": 27.0
     }
    ]
   },
   {
    "id": "b",
-   "text": "The Earth turned. The sky crawled across the beam.",
-   "from": 407,
-   "dur": 150,
-   "voStart": 413,
-   "voDur": 132,
+   "from": 371,
+   "dur": 152,
+   "slug": "DRIFT SCAN",
+   "cut": 4,
+   "kind": "J-cut",
    "words": [
     {
+     "w": "It",
+     "f": 357
+    },
+    {
+     "w": "could",
+     "f": 362
+    },
+    {
+     "w": "not",
+     "f": 367
+    },
+    {
+     "w": "steer",
+     "f": 374
+    },
+    {
      "w": "The",
-     "f": 416
+     "f": 414
     },
     {
      "w": "Earth",
-     "f": 420
+     "f": 418
     },
     {
      "w": "turned",
-     "f": 430
+     "f": 427
     },
     {
-     "w": "The",
-     "f": 469
+     "w": "and",
+     "f": 445
     },
     {
-     "w": "sky",
-     "f": 473
-    },
-    {
-     "w": "crawled",
-     "f": 483
-    },
-    {
-     "w": "across",
-     "f": 495
+     "w": "dragged",
+     "f": 450
     },
     {
      "w": "the",
-     "f": 505
+     "f": 461
+    },
+    {
+     "w": "sky",
+     "f": 464
+    },
+    {
+     "w": "across",
+     "f": 474
+    },
+    {
+     "w": "its",
+     "f": 486
     },
     {
      "w": "beam",
-     "f": 509
+     "f": 491
+    },
+    {
+     "w": "For",
+     "f": 528
+    },
+    {
+     "w": "seventy",
+     "f": 535
     }
    ],
    "shots": [
@@ -229,69 +306,80 @@
      "kind": "img",
      "src": "wow/img/b_07.png",
      "move": "drift-left",
-     "b": 1.0,
+     "b": 0.833,
      "sep": 0,
-     "from": 407,
-     "dur": 63
+     "from": 371,
+     "dur": 63,
+     "luma": 36.0
     },
     {
      "kind": "layer",
      "src": "wow/img/b_01.png",
      "move": "drift-right",
-     "b": 1.0,
-     "from": 470,
-     "dur": 49
+     "b": 0.72,
+     "from": 434,
+     "dur": 50,
+     "luma": 131.0
     },
     {
      "kind": "img",
      "src": "wow/img/d_05.png",
      "move": "push-in",
-     "b": 1.0,
+     "b": 0.882,
      "sep": 0,
-     "from": 519,
-     "dur": 38
+     "from": 484,
+     "dur": 39,
+     "luma": 34.0
     }
    ]
   },
   {
    "id": "c",
-   "text": "For seventy two seconds, something was in it.",
-   "from": 557,
-   "dur": 122,
-   "voStart": 563,
-   "voDur": 100,
+   "from": 523,
+   "dur": 118,
+   "slug": "THE BEAM",
+   "cut": -5,
+   "kind": "L-cut",
    "words": [
     {
      "w": "For",
-     "f": 566
+     "f": 528
     },
     {
      "w": "seventy",
-     "f": 573
+     "f": 535
     },
     {
      "w": "two",
-     "f": 584
+     "f": 547
     },
     {
      "w": "seconds",
-     "f": 591
+     "f": 554
     },
     {
      "w": "something",
-     "f": 613
+     "f": 577
     },
     {
      "w": "was",
-     "f": 624
+     "f": 588
     },
     {
-     "w": "in",
-     "f": 629
+     "w": "inside",
+     "f": 593
     },
     {
      "w": "it",
-     "f": 633
+     "f": 607
+    },
+    {
+     "w": "August",
+     "f": 638
+    },
+    {
+     "w": "fifteenth",
+     "f": 651
     }
    ],
    "shots": [
@@ -299,52 +387,74 @@
      "kind": "layer",
      "src": "wow/img/c_01.png",
      "move": "push-in",
-     "b": 1.0,
-     "from": 557,
-     "dur": 65
+     "b": 0.75,
+     "from": 523,
+     "dur": 63,
+     "luma": 40.0
     },
     {
      "kind": "img",
      "src": "wow/img/c_10.png",
      "move": "rack",
-     "b": 1.0,
+     "b": 1.3,
      "sep": 0,
-     "from": 622,
-     "dur": 57
+     "from": 586,
+     "dur": 55,
+     "luma": 10.0
     }
    ]
   },
   {
    "id": "d",
-   "text": "August fifteenth. Ten sixteen at night.",
-   "from": 679,
-   "dur": 141,
-   "voStart": 685,
-   "voDur": 123,
+   "from": 641,
+   "dur": 133,
+   "slug": "22:16 EST",
+   "cut": 3,
+   "kind": "J-cut",
    "words": [
     {
      "w": "August",
-     "f": 688
+     "f": 638
     },
     {
      "w": "fifteenth",
-     "f": 701
+     "f": 651
     },
     {
      "w": "Ten",
-     "f": 744
+     "f": 696
     },
     {
      "w": "sixteen",
-     "f": 753
+     "f": 705
     },
     {
      "w": "at",
-     "f": 769
+     "f": 722
     },
     {
      "w": "night",
-     "f": 772
+     "f": 725
+    },
+    {
+     "w": "One",
+     "f": 762
+    },
+    {
+     "w": "man",
+     "f": 771
+    },
+    {
+     "w": "on",
+     "f": 778
+    },
+    {
+     "w": "the",
+     "f": 782
+    },
+    {
+     "w": "night",
+     "f": 784
     }
    ],
    "shots": [
@@ -352,64 +462,96 @@
      "kind": "img",
      "src": "wow/img/c_07.png",
      "move": "push-in",
-     "b": 1.0,
+     "b": 1.3,
      "sep": 0,
-     "from": 679,
-     "dur": 76
+     "from": 641,
+     "dur": 55,
+     "luma": 12.0
     },
     {
      "kind": "img",
      "src": "wow/img/b_04.png",
      "move": "drift-right",
-     "b": 1.0,
+     "b": 0.882,
      "sep": 0,
-     "from": 755,
-     "dur": 65
+     "from": 696,
+     "dur": 43,
+     "luma": 34.0
+    },
+    {
+     "kind": "img",
+     "src": "wow/img/c_03.png",
+     "move": "pull-out",
+     "b": 0.72,
+     "sep": 0,
+     "from": 739,
+     "dur": 35,
+     "luma": 140.0
     }
    ]
   },
   {
    "id": "e",
-   "text": "One man on the night shift, and a printer.",
-   "from": 820,
-   "dur": 112,
-   "voStart": 826,
-   "voDur": 94,
+   "from": 774,
+   "dur": 96,
+   "slug": "NIGHT SHIFT",
+   "cut": -4,
+   "kind": "L-cut",
    "words": [
     {
      "w": "One",
-     "f": 829
+     "f": 762
     },
     {
      "w": "man",
-     "f": 837
+     "f": 771
     },
     {
      "w": "on",
-     "f": 845
+     "f": 778
     },
     {
      "w": "the",
-     "f": 848
+     "f": 782
     },
     {
      "w": "night",
-     "f": 850
+     "f": 784
     },
     {
      "w": "shift",
-     "f": 857
+     "f": 791
     },
     {
      "w": "and",
-     "f": 876
+     "f": 811
     },
     {
      "w": "a",
-     "f": 880
+     "f": 815
     },
     {
      "w": "printer",
+     "f": 817
+    },
+    {
+     "w": "Paper",
+     "f": 856
+    },
+    {
+     "w": "came",
+     "f": 868
+    },
+    {
+     "w": "out",
+     "f": 875
+    },
+    {
+     "w": "of",
+     "f": 879
+    },
+    {
+     "w": "the",
      "f": 882
     }
    ],
@@ -418,60 +560,62 @@
      "kind": "layer",
      "src": "wow/img/c_02.png",
      "move": "push-in",
-     "b": 1.0,
-     "from": 820,
-     "dur": 60
+     "b": 1.3,
+     "from": 774,
+     "dur": 51,
+     "luma": 22.0
     },
     {
      "kind": "img",
      "src": "wow/img/c_14.png",
      "move": "pull-out",
-     "b": 1.0,
+     "b": 0.938,
      "sep": 0,
-     "from": 880,
-     "dur": 52
+     "from": 825,
+     "dur": 45,
+     "luma": 32.0
     }
    ]
   },
   {
    "id": "f",
-   "text": "Paper came out of the machine. Six characters.",
-   "from": 932,
-   "dur": 145,
-   "voStart": 938,
-   "voDur": 127,
+   "from": 870,
+   "dur": 65,
+   "slug": "PRINTOUT",
+   "cut": 2,
+   "kind": "J-cut",
    "words": [
     {
      "w": "Paper",
-     "f": 941
+     "f": 856
     },
     {
      "w": "came",
-     "f": 952
+     "f": 868
     },
     {
      "w": "out",
-     "f": 959
+     "f": 875
     },
     {
      "w": "of",
-     "f": 963
+     "f": 879
     },
     {
      "w": "the",
-     "f": 965
+     "f": 882
     },
     {
      "w": "machine",
-     "f": 967
+     "f": 884
     },
     {
      "w": "Six",
-     "f": 1007
+     "f": 925
     },
     {
      "w": "characters",
-     "f": 1019
+     "f": 938
     }
    ],
    "shots": [
@@ -479,68 +623,91 @@
      "kind": "layer",
      "src": "wow/img/b_06.png",
      "move": "pull-out",
-     "b": 1.0,
-     "from": 932,
-     "dur": 78
+     "b": 0.72,
+     "sat": 0.5,
+     "from": 870,
+     "dur": 35,
+     "luma": 228.0
     },
     {
      "kind": "img",
      "src": "wow/img/c_12.png",
      "move": "drift-left",
-     "b": 1.0,
+     "b": 1.111,
      "sep": 0,
-     "from": 1010,
-     "dur": 67
+     "from": 905,
+     "dur": 30,
+     "luma": 27.0
     }
    ]
   },
   {
    "id": "g",
-   "text": "One thousand four hundred twenty point four five five six.",
-   "from": 1077,
-   "dur": 149,
-   "voStart": 1083,
-   "voDur": 129,
+   "from": 935,
+   "dur": 200,
+   "slug": "RECEIVER B",
+   "cut": -3,
+   "kind": "L-cut",
    "words": [
     {
+     "w": "Six",
+     "f": 925
+    },
+    {
+     "w": "characters",
+     "f": 938
+    },
+    {
      "w": "One",
-     "f": 1086
+     "f": 985
     },
     {
      "w": "thousand",
-     "f": 1095
+     "f": 994
     },
     {
      "w": "four",
-     "f": 1108
+     "f": 1008
     },
     {
      "w": "hundred",
-     "f": 1116
+     "f": 1016
     },
     {
      "w": "twenty",
-     "f": 1124
+     "f": 1024
     },
     {
      "w": "point",
-     "f": 1133
+     "f": 1033
     },
     {
      "w": "four",
-     "f": 1142
+     "f": 1042
     },
     {
      "w": "five",
-     "f": 1152
+     "f": 1053
     },
     {
      "w": "five",
-     "f": 1162
+     "f": 1064
     },
     {
      "w": "six",
-     "f": 1172
+     "f": 1075
+    },
+    {
+     "w": "megahertz",
+     "f": 1085
+    },
+    {
+     "w": "The",
+     "f": 1131
+    },
+    {
+     "w": "hydrogen",
+     "f": 1135
     }
    ],
    "shots": [
@@ -548,134 +715,150 @@
      "kind": "img",
      "src": "wow/img/d_09.png",
      "move": "drift-right",
-     "b": 0.9,
+     "b": 0.72,
      "sep": 0,
-     "from": 1077,
-     "dur": 80
+     "from": 935,
+     "dur": 108,
+     "luma": 62.0
     },
     {
      "kind": "img",
      "src": "wow/img/c_05.png",
      "move": "drift-left",
-     "b": 0.9,
+     "b": 0.72,
      "sep": 0,
-     "from": 1157,
-     "dur": 69
+     "from": 1043,
+     "dur": 92,
+     "luma": 112.0
     }
    ]
   },
   {
    "id": "h",
-   "text": "The hydrogen line. The frequency of cold gas.",
-   "from": 1226,
-   "dur": 153,
-   "voStart": 1232,
-   "voDur": 135,
+   "from": 1135,
+   "dur": 129,
+   "slug": "HYDROGEN LINE",
+   "cut": 4,
+   "kind": "J-cut",
    "words": [
     {
      "w": "The",
-     "f": 1235
+     "f": 1131
     },
     {
      "w": "hydrogen",
-     "f": 1239
+     "f": 1135
     },
     {
      "w": "line",
-     "f": 1256
+     "f": 1153
     },
     {
      "w": "The",
-     "f": 1292
+     "f": 1190
     },
     {
      "w": "frequency",
-     "f": 1296
+     "f": 1195
     },
     {
      "w": "of",
-     "f": 1314
+     "f": 1213
     },
     {
      "w": "cold",
-     "f": 1317
+     "f": 1216
     },
     {
      "w": "gas",
-     "f": 1326
+     "f": 1226
+    },
+    {
+     "w": "Six",
+     "f": 1268
     }
    ],
    "shots": [
     {
      "kind": "layer",
-     "src": "wow/img/d_09.png",
+     "src": "wow/img/d_04.png",
      "move": "push-in",
-     "b": 1.0,
-     "from": 1226,
-     "dur": 82
+     "b": 0.75,
+     "from": 1135,
+     "dur": 69,
+     "luma": 40.0
     },
     {
      "kind": "img",
      "src": "wow/img/b_11.png",
      "move": "tilt-up",
-     "b": 1.0,
+     "b": 1.3,
      "sep": 0,
-     "from": 1308,
-     "dur": 71
+     "from": 1204,
+     "dur": 60,
+     "luma": 20.0
     }
    ]
   },
   {
    "id": "i",
-   "text": "Six. E. Q. U. J. Five. Thirty times above the noise.",
-   "from": 1379,
-   "dur": 263,
-   "voStart": 1385,
-   "voDur": 239,
+   "from": 1264,
+   "dur": 251,
+   "slug": "CHANNEL 2",
+   "cut": -4,
+   "kind": "L-cut",
    "words": [
     {
      "w": "Six",
-     "f": 1388
+     "f": 1268
     },
     {
      "w": "E",
-     "f": 1432
+     "f": 1314
     },
     {
      "w": "Q",
-     "f": 1444
+     "f": 1327
     },
     {
      "w": "U",
-     "f": 1460
+     "f": 1343
     },
     {
      "w": "J",
-     "f": 1472
+     "f": 1355
     },
     {
      "w": "Five",
-     "f": 1510
+     "f": 1395
     },
     {
      "w": "Thirty",
-     "f": 1552
+     "f": 1438
     },
     {
      "w": "times",
-     "f": 1561
+     "f": 1448
     },
     {
      "w": "above",
-     "f": 1572
+     "f": 1459
     },
     {
      "w": "the",
-     "f": 1582
+     "f": 1469
     },
     {
      "w": "noise",
-     "f": 1584
+     "f": 1472
+    },
+    {
+     "w": "He",
+     "f": 1513
+    },
+    {
+     "w": "circled",
+     "f": 1518
     }
    ],
    "shots": [
@@ -683,65 +866,79 @@
      "kind": "img",
      "src": "wow/img/c_12.png",
      "move": "pull-out",
-     "b": 0.8,
+     "b": 1.111,
      "sep": 0,
-     "from": 1379,
-     "dur": 142
+     "from": 1264,
+     "dur": 135,
+     "luma": 27.0
     },
     {
      "kind": "img",
      "src": "wow/img/d_01.png",
      "move": "push-in",
-     "b": 0.75,
+     "b": 1.3,
      "sep": 0,
-     "from": 1521,
-     "dur": 121
+     "from": 1399,
+     "dur": 116,
+     "luma": 21.0
     }
    ]
   },
   {
    "id": "j",
-   "text": "He circled it in red, and wrote one word.",
-   "from": 1642,
-   "dur": 129,
-   "voStart": 1648,
-   "voDur": 99,
+   "from": 1515,
+   "dur": 69,
+   "slug": "THE MARGIN",
+   "cut": 2,
+   "kind": "J-cut",
    "words": [
     {
      "w": "He",
-     "f": 1651
+     "f": 1513
     },
     {
      "w": "circled",
-     "f": 1656
+     "f": 1518
     },
     {
      "w": "it",
-     "f": 1669
+     "f": 1532
     },
     {
      "w": "in",
-     "f": 1672
+     "f": 1535
     },
     {
      "w": "red",
-     "f": 1676
+     "f": 1539
     },
     {
      "w": "and",
-     "f": 1692
+     "f": 1555
     },
     {
      "w": "wrote",
-     "f": 1698
+     "f": 1561
     },
     {
      "w": "one",
-     "f": 1704
+     "f": 1567
     },
     {
      "w": "word",
-     "f": 1712
+     "f": 1576
+    },
+    {
+     "w": "in",
+     "f": 1584
+    },
+    {
+     "w": "the",
+     "f": 1587
+    },
+    {
+     "w": "margin",
+     "f": 1588
     }
    ],
    "shots": [
@@ -749,60 +946,86 @@
      "kind": "img",
      "src": "wow/img/d_03.png",
      "move": "push-in",
-     "b": 0.85,
+     "b": 0.72,
      "sep": 0,
-     "from": 1642,
-     "dur": 69
+     "from": 1515,
+     "dur": 37,
+     "luma": 227.0
     },
     {
      "kind": "img",
      "src": "wow/img/c_04.png",
      "move": "rack",
-     "b": 0.55,
-     "from": 1711,
-     "dur": 60
+     "b": 1.3,
+     "from": 1552,
+     "dur": 32,
+     "luma": 17.0
     }
    ]
   },
   {
    "id": "k",
-   "text": "They looked again. And again. For fifty years.",
-   "from": 1771,
-   "dur": 171,
-   "voStart": 1777,
-   "voDur": 153,
+   "from": 1584,
+   "dur": 243,
+   "slug": "THE SEARCH",
+   "cut": -3,
+   "kind": "L-cut",
    "words": [
     {
+     "w": "word",
+     "f": 1576
+    },
+    {
+     "w": "in",
+     "f": 1584
+    },
+    {
+     "w": "the",
+     "f": 1587
+    },
+    {
+     "w": "margin",
+     "f": 1588
+    },
+    {
+     "w": "Wow",
+     "f": 1629
+    },
+    {
      "w": "They",
-     "f": 1780
+     "f": 1668
     },
     {
      "w": "looked",
-     "f": 1785
+     "f": 1673
     },
     {
      "w": "again",
-     "f": 1792
+     "f": 1681
     },
     {
      "w": "And",
-     "f": 1829
+     "f": 1720
     },
     {
      "w": "again",
-     "f": 1835
+     "f": 1725
     },
     {
      "w": "For",
-     "f": 1872
+     "f": 1764
     },
     {
      "w": "fifty",
-     "f": 1880
+     "f": 1772
     },
     {
      "w": "years",
-     "f": 1891
+     "f": 1784
+    },
+    {
+     "w": "Nothing",
+     "f": 1824
     }
    ],
    "shots": [
@@ -810,54 +1033,85 @@
      "kind": "img",
      "src": "wow/img/c_06.png",
      "move": "push-in",
-     "b": 1.0,
+     "b": 1.154,
      "sep": 0,
-     "from": 1771,
-     "dur": 71
+     "from": 1584,
+     "dur": 102,
+     "luma": 26.0
     },
     {
      "kind": "img",
      "src": "wow/img/d_15.png",
      "move": "drift-left",
-     "b": 1.0,
+     "b": 0.968,
      "sep": 0,
-     "from": 1842,
-     "dur": 56
+     "from": 1686,
+     "dur": 80,
+     "luma": 31.0
     },
     {
      "kind": "img",
      "src": "wow/img/d_02.png",
      "move": "pull-out",
-     "b": 1.0,
+     "b": 1.154,
      "sep": 0,
-     "from": 1898,
-     "dur": 44
+     "from": 1766,
+     "dur": 61,
+     "luma": 26.0
     }
    ]
   },
   {
    "id": "l",
-   "text": "Nothing. Not one repeat.",
-   "from": 1942,
-   "dur": 121,
-   "voStart": 1948,
-   "voDur": 97,
+   "from": 1827,
+   "dur": 138,
+   "slug": "NO REPEAT",
+   "cut": 3,
+   "kind": "J-cut",
    "words": [
     {
      "w": "Nothing",
-     "f": 1951
+     "f": 1824
     },
     {
      "w": "Not",
-     "f": 1991
+     "f": 1866
     },
     {
      "w": "one",
-     "f": 1999
+     "f": 1875
     },
     {
      "w": "repeat",
-     "f": 2007
+     "f": 1882
+    },
+    {
+     "w": "Then",
+     "f": 1922
+    },
+    {
+     "w": "in",
+     "f": 1930
+    },
+    {
+     "w": "twenty",
+     "f": 1934
+    },
+    {
+     "w": "twenty",
+     "f": 1944
+    },
+    {
+     "w": "four",
+     "f": 1952
+    },
+    {
+     "w": "a",
+     "f": 1969
+    },
+    {
+     "w": "candidate",
+     "f": 1972
     }
    ],
    "shots": [
@@ -865,10 +1119,11 @@
      "kind": "img",
      "src": "wow/img/d_06.png",
      "move": "drift-right",
-     "b": 1.0,
+     "b": 1.154,
      "sep": 0,
-     "from": 1942,
-     "dur": 65
+     "from": 1827,
+     "dur": 74,
+     "luma": 26.0
     },
     {
      "kind": "img",
@@ -876,46 +1131,67 @@
      "move": "push-in",
      "b": 0.72,
      "sep": 0,
-     "from": 2007,
-     "dur": 56
+     "from": 1901,
+     "dur": 64,
+     "luma": 125.0
     }
    ]
   },
   {
    "id": "m",
-   "text": "Then in twenty twenty four, a candidate.",
-   "from": 2063,
-   "dur": 111,
-   "voStart": 2069,
-   "voDur": 93,
+   "from": 1965,
+   "dur": 127,
+   "slug": "2024",
+   "cut": -4,
+   "kind": "L-cut",
    "words": [
     {
-     "w": "Then",
-     "f": 2072
-    },
-    {
-     "w": "in",
-     "f": 2080
-    },
-    {
-     "w": "twenty",
-     "f": 2084
-    },
-    {
-     "w": "twenty",
-     "f": 2093
-    },
-    {
      "w": "four",
-     "f": 2101
+     "f": 1952
     },
     {
      "w": "a",
-     "f": 2118
+     "f": 1969
     },
     {
      "w": "candidate",
-     "f": 2121
+     "f": 1972
+    },
+    {
+     "w": "A",
+     "f": 2015
+    },
+    {
+     "w": "magnetar",
+     "f": 2019
+    },
+    {
+     "w": "flare",
+     "f": 2037
+    },
+    {
+     "w": "hitting",
+     "f": 2057
+    },
+    {
+     "w": "a",
+     "f": 2065
+    },
+    {
+     "w": "cold",
+     "f": 2067
+    },
+    {
+     "w": "cloud",
+     "f": 2078
+    },
+    {
+     "w": "of",
+     "f": 2089
+    },
+    {
+     "w": "hydrogen",
+     "f": 2092
     }
    ],
    "shots": [
@@ -923,65 +1199,79 @@
      "kind": "img",
      "src": "wow/img/c_15.png",
      "move": "push-in",
-     "b": 1.0,
+     "b": 0.72,
      "sep": 0,
-     "from": 2063,
-     "dur": 59
+     "from": 1965,
+     "dur": 68,
+     "luma": 101.0
     },
     {
      "kind": "img",
      "src": "wow/img/c_11.png",
      "move": "drift-right",
-     "b": 1.0,
+     "b": 0.72,
      "sep": 0,
-     "from": 2122,
-     "dur": 52
+     "from": 2033,
+     "dur": 59,
+     "luma": 99.0
     }
    ]
   },
   {
    "id": "n",
-   "text": "A magnetar flare, hitting a cold cloud of hydrogen.",
-   "from": 2174,
-   "dur": 137,
-   "voStart": 2180,
-   "voDur": 119,
+   "from": 2092,
+   "dur": 155,
+   "slug": "CANDIDATE",
+   "cut": 3,
+   "kind": "J-cut",
    "words": [
     {
-     "w": "A",
-     "f": 2183
-    },
-    {
-     "w": "magnetar",
-     "f": 2186
-    },
-    {
-     "w": "flare",
-     "f": 2204
-    },
-    {
-     "w": "hitting",
-     "f": 2224
-    },
-    {
-     "w": "a",
-     "f": 2231
-    },
-    {
-     "w": "cold",
-     "f": 2233
-    },
-    {
      "w": "cloud",
-     "f": 2244
+     "f": 2078
     },
     {
      "w": "of",
-     "f": 2254
+     "f": 2089
     },
     {
      "w": "hydrogen",
-     "f": 2257
+     "f": 2092
+    },
+    {
+     "w": "A",
+     "f": 2135
+    },
+    {
+     "w": "natural",
+     "f": 2138
+    },
+    {
+     "w": "laser",
+     "f": 2153
+    },
+    {
+     "w": "Not",
+     "f": 2193
+    },
+    {
+     "w": "a",
+     "f": 2201
+    },
+    {
+     "w": "voice",
+     "f": 2203
+    },
+    {
+     "w": "It",
+     "f": 2245
+    },
+    {
+     "w": "is",
+     "f": 2250
+    },
+    {
+     "w": "still",
+     "f": 2253
     }
    ],
    "shots": [
@@ -989,53 +1279,80 @@
      "kind": "img",
      "src": "wow/img/d_05.png",
      "move": "push-in",
-     "b": 1.0,
+     "b": 0.882,
      "sep": 0,
-     "from": 2174,
-     "dur": 73
+     "from": 2092,
+     "dur": 83,
+     "luma": 34.0
     },
     {
      "kind": "img",
      "src": "wow/img/d_14.png",
      "move": "push-in",
-     "b": 1.0,
+     "b": 1.3,
      "sep": 0,
-     "from": 2247,
-     "dur": 64
+     "sat": 0.05,
+     "from": 2175,
+     "dur": 72,
+     "luma": 6.0
     }
    ]
   },
   {
    "id": "o",
-   "text": "A natural laser. Not a voice.",
-   "from": 2311,
-   "dur": 129,
-   "voStart": 2317,
-   "voDur": 109,
+   "from": 2247,
+   "dur": 122,
+   "slug": "NATURAL MASER",
+   "cut": -3,
+   "kind": "L-cut",
    "words": [
     {
-     "w": "A",
-     "f": 2320
+     "w": "It",
+     "f": 2245
     },
     {
-     "w": "natural",
-     "f": 2323
+     "w": "is",
+     "f": 2250
     },
     {
-     "w": "laser",
-     "f": 2337
+     "w": "still",
+     "f": 2253
     },
     {
-     "w": "Not",
-     "f": 2375
+     "w": "not",
+     "f": 2262
     },
     {
-     "w": "a",
-     "f": 2383
+     "w": "proven",
+     "f": 2269
     },
     {
-     "w": "voice",
-     "f": 2385
+     "w": "That",
+     "f": 2309
+    },
+    {
+     "w": "is",
+     "f": 2317
+    },
+    {
+     "w": "the",
+     "f": 2321
+    },
+    {
+     "w": "problem",
+     "f": 2324
+    },
+    {
+     "w": "The",
+     "f": 2365
+    },
+    {
+     "w": "best",
+     "f": 2369
+    },
+    {
+     "w": "evidence",
+     "f": 2380
     }
    ],
    "shots": [
@@ -1043,65 +1360,75 @@
      "kind": "img",
      "src": "wow/img/d_11.png",
      "move": "push-in",
-     "b": 0.62,
+     "b": 0.72,
      "sep": 0,
-     "from": 2311,
-     "dur": 69
+     "from": 2247,
+     "dur": 65,
+     "luma": 173.0
     },
     {
      "kind": "img",
      "src": "wow/img/c_08.png",
      "move": "pull-out",
-     "b": 1.0,
+     "b": 1.3,
      "sep": 0,
-     "from": 2380,
-     "dur": 60
+     "from": 2312,
+     "dur": 57,
+     "luma": 15.0
     }
    ]
   },
   {
    "id": "p",
-   "text": "It is still not proven. That is the problem.",
-   "from": 2440,
-   "dur": 137,
-   "voStart": 2446,
-   "voDur": 119,
+   "from": 2369,
+   "dur": 59,
+   "slug": "UNPROVEN",
+   "cut": 4,
+   "kind": "J-cut",
    "words": [
     {
-     "w": "It",
-     "f": 2449
+     "w": "The",
+     "f": 2365
     },
     {
-     "w": "is",
-     "f": 2453
+     "w": "best",
+     "f": 2369
     },
     {
-     "w": "still",
-     "f": 2457
+     "w": "evidence",
+     "f": 2380
+    },
+    {
+     "w": "that",
+     "f": 2392
+    },
+    {
+     "w": "we",
+     "f": 2396
+    },
+    {
+     "w": "are",
+     "f": 2400
     },
     {
      "w": "not",
-     "f": 2465
+     "f": 2403
     },
     {
-     "w": "proven",
-     "f": 2471
+     "w": "alone",
+     "f": 2410
     },
     {
-     "w": "That",
-     "f": 2510
-    },
-    {
-     "w": "is",
-     "f": 2518
+     "w": "and",
+     "f": 2429
     },
     {
      "w": "the",
-     "f": 2521
+     "f": 2432
     },
     {
-     "w": "problem",
-     "f": 2524
+     "w": "best",
+     "f": 2435
     }
    ],
    "shots": [
@@ -1109,80 +1436,86 @@
      "kind": "layer",
      "src": "wow/img/c_02.png",
      "move": "push-in",
-     "b": 1.0,
-     "from": 2440,
-     "dur": 73
+     "b": 1.3,
+     "from": 2369,
+     "dur": 31,
+     "luma": 22.0
     },
     {
      "kind": "img",
      "src": "wow/img/d_13.png",
      "move": "push-in",
-     "b": 1.0,
+     "b": 1.3,
      "sep": 0,
-     "from": 2513,
-     "dur": 64
+     "from": 2400,
+     "dur": 28,
+     "luma": 13.0
     }
    ]
   },
   {
    "id": "q",
-   "text": "The best evidence we are not alone, and the best evidence we are.",
-   "from": 2577,
-   "dur": 143,
-   "voStart": 2583,
-   "voDur": 125,
+   "from": 2428,
+   "dur": 168,
+   "slug": "EITHER WAY",
+   "cut": -4,
+   "kind": "L-cut",
    "words": [
     {
-     "w": "The",
-     "f": 2586
-    },
-    {
-     "w": "best",
-     "f": 2590
-    },
-    {
-     "w": "evidence",
-     "f": 2600
-    },
-    {
-     "w": "we",
-     "f": 2611
-    },
-    {
-     "w": "are",
-     "f": 2615
-    },
-    {
-     "w": "not",
-     "f": 2618
-    },
-    {
-     "w": "alone",
-     "f": 2624
-    },
-    {
      "w": "and",
-     "f": 2642
+     "f": 2429
     },
     {
      "w": "the",
-     "f": 2645
+     "f": 2432
     },
     {
      "w": "best",
-     "f": 2648
+     "f": 2435
     },
     {
      "w": "evidence",
-     "f": 2657
+     "f": 2445
+    },
+    {
+     "w": "that",
+     "f": 2458
     },
     {
      "w": "we",
-     "f": 2669
+     "f": 2462
     },
     {
      "w": "are",
-     "f": 2674
+     "f": 2467
+    },
+    {
+     "w": "Seventy",
+     "f": 2502
+    },
+    {
+     "w": "two",
+     "f": 2517
+    },
+    {
+     "w": "seconds",
+     "f": 2524
+    },
+    {
+     "w": "Fifty",
+     "f": 2569
+    },
+    {
+     "w": "years",
+     "f": 2582
+    },
+    {
+     "w": "of",
+     "f": 2591
+    },
+    {
+     "w": "silence",
+     "f": 2594
     }
    ],
    "shots": [
@@ -1190,65 +1523,52 @@
      "kind": "layer",
      "src": "wow/img/c_01.png",
      "move": "push-in",
-     "b": 1.0,
-     "from": 2577,
-     "dur": 60
+     "b": 0.75,
+     "from": 2428,
+     "dur": 70,
+     "luma": 40.0
     },
     {
      "kind": "img",
      "src": "wow/img/d_12.png",
      "move": "drift-left",
-     "b": 1.0,
+     "b": 0.72,
      "sep": 0,
-     "from": 2637,
-     "dur": 47
+     "from": 2498,
+     "dur": 55,
+     "luma": 157.0
     },
     {
      "kind": "img",
      "src": "wow/img/c_03.png",
      "move": "push-in",
-     "b": 1.0,
+     "b": 0.72,
      "sep": 0,
-     "from": 2684,
-     "dur": 36
+     "from": 2553,
+     "dur": 43,
+     "luma": 140.0
     }
    ]
   },
   {
    "id": "r",
-   "text": "Seventy two seconds. Fifty years of silence.",
-   "from": 2720,
-   "dur": 168,
-   "voStart": 2726,
-   "voDur": 136,
+   "from": 2596,
+   "dur": 43,
+   "slug": "72 SECONDS",
+   "cut": 2,
+   "kind": "J-cut",
    "words": [
     {
-     "w": "Seventy",
-     "f": 2729
-    },
-    {
-     "w": "two",
-     "f": 2743
-    },
-    {
-     "w": "seconds",
-     "f": 2750
-    },
-    {
-     "w": "Fifty",
-     "f": 2793
-    },
-    {
      "w": "years",
-     "f": 2806
+     "f": 2582
     },
     {
      "w": "of",
-     "f": 2815
+     "f": 2591
     },
     {
      "w": "silence",
-     "f": 2818
+     "f": 2594
     }
    ],
    "shots": [
@@ -1256,25 +1576,1329 @@
      "kind": "img",
      "src": "wow/img/b_11.png",
      "move": "tilt-down",
-     "b": 1.0,
+     "b": 1.3,
      "sep": 0,
-     "from": 2720,
-     "dur": 90
+     "from": 2596,
+     "dur": 23,
+     "luma": 20.0
     },
     {
      "kind": "layer",
      "src": "wow/img/d_04.png",
      "move": "pull-out",
-     "b": 1.0,
-     "from": 2810,
-     "dur": 78
+     "b": 0.75,
+     "from": 2619,
+     "dur": 20,
+     "luma": 40.0
     }
    ]
   }
  ],
+ "words": [
+  {
+   "w": "Nineteen",
+   "f": 3
+  },
+  {
+   "w": "seventy",
+   "f": 20
+  },
+  {
+   "w": "seven",
+   "f": 31
+  },
+  {
+   "w": "Something",
+   "f": 70
+  },
+  {
+   "w": "called",
+   "f": 85
+  },
+  {
+   "w": "out",
+   "f": 94
+  },
+  {
+   "w": "Seventy",
+   "f": 129
+  },
+  {
+   "w": "two",
+   "f": 144
+  },
+  {
+   "w": "seconds",
+   "f": 151
+  },
+  {
+   "w": "of",
+   "f": 164
+  },
+  {
+   "w": "it",
+   "f": 167
+  },
+  {
+   "w": "Then",
+   "f": 198
+  },
+  {
+   "w": "nothing",
+   "f": 206
+  },
+  {
+   "w": "ever",
+   "f": 226
+  },
+  {
+   "w": "again",
+   "f": 235
+  },
+  {
+   "w": "A",
+   "f": 273
+  },
+  {
+   "w": "radio",
+   "f": 277
+  },
+  {
+   "w": "telescope",
+   "f": 289
+  },
+  {
+   "w": "in",
+   "f": 309
+  },
+  {
+   "w": "Ohio",
+   "f": 313
+  },
+  {
+   "w": "It",
+   "f": 357
+  },
+  {
+   "w": "could",
+   "f": 362
+  },
+  {
+   "w": "not",
+   "f": 367
+  },
+  {
+   "w": "steer",
+   "f": 374
+  },
+  {
+   "w": "The",
+   "f": 414
+  },
+  {
+   "w": "Earth",
+   "f": 418
+  },
+  {
+   "w": "turned",
+   "f": 427
+  },
+  {
+   "w": "and",
+   "f": 445
+  },
+  {
+   "w": "dragged",
+   "f": 450
+  },
+  {
+   "w": "the",
+   "f": 461
+  },
+  {
+   "w": "sky",
+   "f": 464
+  },
+  {
+   "w": "across",
+   "f": 474
+  },
+  {
+   "w": "its",
+   "f": 486
+  },
+  {
+   "w": "beam",
+   "f": 491
+  },
+  {
+   "w": "For",
+   "f": 528
+  },
+  {
+   "w": "seventy",
+   "f": 535
+  },
+  {
+   "w": "two",
+   "f": 547
+  },
+  {
+   "w": "seconds",
+   "f": 554
+  },
+  {
+   "w": "something",
+   "f": 577
+  },
+  {
+   "w": "was",
+   "f": 588
+  },
+  {
+   "w": "inside",
+   "f": 593
+  },
+  {
+   "w": "it",
+   "f": 607
+  },
+  {
+   "w": "August",
+   "f": 638
+  },
+  {
+   "w": "fifteenth",
+   "f": 651
+  },
+  {
+   "w": "Ten",
+   "f": 696
+  },
+  {
+   "w": "sixteen",
+   "f": 705
+  },
+  {
+   "w": "at",
+   "f": 722
+  },
+  {
+   "w": "night",
+   "f": 725
+  },
+  {
+   "w": "One",
+   "f": 762
+  },
+  {
+   "w": "man",
+   "f": 771
+  },
+  {
+   "w": "on",
+   "f": 778
+  },
+  {
+   "w": "the",
+   "f": 782
+  },
+  {
+   "w": "night",
+   "f": 784
+  },
+  {
+   "w": "shift",
+   "f": 791
+  },
+  {
+   "w": "and",
+   "f": 811
+  },
+  {
+   "w": "a",
+   "f": 815
+  },
+  {
+   "w": "printer",
+   "f": 817
+  },
+  {
+   "w": "Paper",
+   "f": 856
+  },
+  {
+   "w": "came",
+   "f": 868
+  },
+  {
+   "w": "out",
+   "f": 875
+  },
+  {
+   "w": "of",
+   "f": 879
+  },
+  {
+   "w": "the",
+   "f": 882
+  },
+  {
+   "w": "machine",
+   "f": 884
+  },
+  {
+   "w": "Six",
+   "f": 925
+  },
+  {
+   "w": "characters",
+   "f": 938
+  },
+  {
+   "w": "One",
+   "f": 985
+  },
+  {
+   "w": "thousand",
+   "f": 994
+  },
+  {
+   "w": "four",
+   "f": 1008
+  },
+  {
+   "w": "hundred",
+   "f": 1016
+  },
+  {
+   "w": "twenty",
+   "f": 1024
+  },
+  {
+   "w": "point",
+   "f": 1033
+  },
+  {
+   "w": "four",
+   "f": 1042
+  },
+  {
+   "w": "five",
+   "f": 1053
+  },
+  {
+   "w": "five",
+   "f": 1064
+  },
+  {
+   "w": "six",
+   "f": 1075
+  },
+  {
+   "w": "megahertz",
+   "f": 1085
+  },
+  {
+   "w": "The",
+   "f": 1131
+  },
+  {
+   "w": "hydrogen",
+   "f": 1135
+  },
+  {
+   "w": "line",
+   "f": 1153
+  },
+  {
+   "w": "The",
+   "f": 1190
+  },
+  {
+   "w": "frequency",
+   "f": 1195
+  },
+  {
+   "w": "of",
+   "f": 1213
+  },
+  {
+   "w": "cold",
+   "f": 1216
+  },
+  {
+   "w": "gas",
+   "f": 1226
+  },
+  {
+   "w": "Six",
+   "f": 1268
+  },
+  {
+   "w": "E",
+   "f": 1314
+  },
+  {
+   "w": "Q",
+   "f": 1327
+  },
+  {
+   "w": "U",
+   "f": 1343
+  },
+  {
+   "w": "J",
+   "f": 1355
+  },
+  {
+   "w": "Five",
+   "f": 1395
+  },
+  {
+   "w": "Thirty",
+   "f": 1438
+  },
+  {
+   "w": "times",
+   "f": 1448
+  },
+  {
+   "w": "above",
+   "f": 1459
+  },
+  {
+   "w": "the",
+   "f": 1469
+  },
+  {
+   "w": "noise",
+   "f": 1472
+  },
+  {
+   "w": "He",
+   "f": 1513
+  },
+  {
+   "w": "circled",
+   "f": 1518
+  },
+  {
+   "w": "it",
+   "f": 1532
+  },
+  {
+   "w": "in",
+   "f": 1535
+  },
+  {
+   "w": "red",
+   "f": 1539
+  },
+  {
+   "w": "and",
+   "f": 1555
+  },
+  {
+   "w": "wrote",
+   "f": 1561
+  },
+  {
+   "w": "one",
+   "f": 1567
+  },
+  {
+   "w": "word",
+   "f": 1576
+  },
+  {
+   "w": "in",
+   "f": 1584
+  },
+  {
+   "w": "the",
+   "f": 1587
+  },
+  {
+   "w": "margin",
+   "f": 1588
+  },
+  {
+   "w": "Wow",
+   "f": 1629
+  },
+  {
+   "w": "They",
+   "f": 1668
+  },
+  {
+   "w": "looked",
+   "f": 1673
+  },
+  {
+   "w": "again",
+   "f": 1681
+  },
+  {
+   "w": "And",
+   "f": 1720
+  },
+  {
+   "w": "again",
+   "f": 1725
+  },
+  {
+   "w": "For",
+   "f": 1764
+  },
+  {
+   "w": "fifty",
+   "f": 1772
+  },
+  {
+   "w": "years",
+   "f": 1784
+  },
+  {
+   "w": "Nothing",
+   "f": 1824
+  },
+  {
+   "w": "Not",
+   "f": 1866
+  },
+  {
+   "w": "one",
+   "f": 1875
+  },
+  {
+   "w": "repeat",
+   "f": 1882
+  },
+  {
+   "w": "Then",
+   "f": 1922
+  },
+  {
+   "w": "in",
+   "f": 1930
+  },
+  {
+   "w": "twenty",
+   "f": 1934
+  },
+  {
+   "w": "twenty",
+   "f": 1944
+  },
+  {
+   "w": "four",
+   "f": 1952
+  },
+  {
+   "w": "a",
+   "f": 1969
+  },
+  {
+   "w": "candidate",
+   "f": 1972
+  },
+  {
+   "w": "A",
+   "f": 2015
+  },
+  {
+   "w": "magnetar",
+   "f": 2019
+  },
+  {
+   "w": "flare",
+   "f": 2037
+  },
+  {
+   "w": "hitting",
+   "f": 2057
+  },
+  {
+   "w": "a",
+   "f": 2065
+  },
+  {
+   "w": "cold",
+   "f": 2067
+  },
+  {
+   "w": "cloud",
+   "f": 2078
+  },
+  {
+   "w": "of",
+   "f": 2089
+  },
+  {
+   "w": "hydrogen",
+   "f": 2092
+  },
+  {
+   "w": "A",
+   "f": 2135
+  },
+  {
+   "w": "natural",
+   "f": 2138
+  },
+  {
+   "w": "laser",
+   "f": 2153
+  },
+  {
+   "w": "Not",
+   "f": 2193
+  },
+  {
+   "w": "a",
+   "f": 2201
+  },
+  {
+   "w": "voice",
+   "f": 2203
+  },
+  {
+   "w": "It",
+   "f": 2245
+  },
+  {
+   "w": "is",
+   "f": 2250
+  },
+  {
+   "w": "still",
+   "f": 2253
+  },
+  {
+   "w": "not",
+   "f": 2262
+  },
+  {
+   "w": "proven",
+   "f": 2269
+  },
+  {
+   "w": "That",
+   "f": 2309
+  },
+  {
+   "w": "is",
+   "f": 2317
+  },
+  {
+   "w": "the",
+   "f": 2321
+  },
+  {
+   "w": "problem",
+   "f": 2324
+  },
+  {
+   "w": "The",
+   "f": 2365
+  },
+  {
+   "w": "best",
+   "f": 2369
+  },
+  {
+   "w": "evidence",
+   "f": 2380
+  },
+  {
+   "w": "that",
+   "f": 2392
+  },
+  {
+   "w": "we",
+   "f": 2396
+  },
+  {
+   "w": "are",
+   "f": 2400
+  },
+  {
+   "w": "not",
+   "f": 2403
+  },
+  {
+   "w": "alone",
+   "f": 2410
+  },
+  {
+   "w": "and",
+   "f": 2429
+  },
+  {
+   "w": "the",
+   "f": 2432
+  },
+  {
+   "w": "best",
+   "f": 2435
+  },
+  {
+   "w": "evidence",
+   "f": 2445
+  },
+  {
+   "w": "that",
+   "f": 2458
+  },
+  {
+   "w": "we",
+   "f": 2462
+  },
+  {
+   "w": "are",
+   "f": 2467
+  },
+  {
+   "w": "Seventy",
+   "f": 2502
+  },
+  {
+   "w": "two",
+   "f": 2517
+  },
+  {
+   "w": "seconds",
+   "f": 2524
+  },
+  {
+   "w": "Fifty",
+   "f": 2569
+  },
+  {
+   "w": "years",
+   "f": 2582
+  },
+  {
+   "w": "of",
+   "f": 2591
+  },
+  {
+   "w": "silence",
+   "f": 2594
+  }
+ ],
+ "captions": [
+  {
+   "f0": 3,
+   "f1": 31,
+   "w": [
+    "Nineteen",
+    "seventy",
+    "seven"
+   ]
+  },
+  {
+   "f0": 70,
+   "f1": 94,
+   "w": [
+    "Something",
+    "called",
+    "out"
+   ]
+  },
+  {
+   "f0": 129,
+   "f1": 151,
+   "w": [
+    "Seventy",
+    "two",
+    "seconds"
+   ]
+  },
+  {
+   "f0": 164,
+   "f1": 167,
+   "w": [
+    "of",
+    "it"
+   ]
+  },
+  {
+   "f0": 198,
+   "f1": 226,
+   "w": [
+    "Then",
+    "nothing",
+    "ever"
+   ]
+  },
+  {
+   "f0": 235,
+   "f1": 235,
+   "w": [
+    "again"
+   ]
+  },
+  {
+   "f0": 273,
+   "f1": 289,
+   "w": [
+    "A",
+    "radio",
+    "telescope"
+   ]
+  },
+  {
+   "f0": 309,
+   "f1": 313,
+   "w": [
+    "in",
+    "Ohio"
+   ]
+  },
+  {
+   "f0": 357,
+   "f1": 367,
+   "w": [
+    "It",
+    "could",
+    "not"
+   ]
+  },
+  {
+   "f0": 374,
+   "f1": 374,
+   "w": [
+    "steer"
+   ]
+  },
+  {
+   "f0": 414,
+   "f1": 427,
+   "w": [
+    "The",
+    "Earth",
+    "turned"
+   ]
+  },
+  {
+   "f0": 445,
+   "f1": 461,
+   "w": [
+    "and",
+    "dragged",
+    "the"
+   ]
+  },
+  {
+   "f0": 464,
+   "f1": 486,
+   "w": [
+    "sky",
+    "across",
+    "its"
+   ]
+  },
+  {
+   "f0": 491,
+   "f1": 491,
+   "w": [
+    "beam"
+   ]
+  },
+  {
+   "f0": 528,
+   "f1": 547,
+   "w": [
+    "For",
+    "seventy",
+    "two"
+   ]
+  },
+  {
+   "f0": 554,
+   "f1": 588,
+   "w": [
+    "seconds",
+    "something",
+    "was"
+   ]
+  },
+  {
+   "f0": 593,
+   "f1": 607,
+   "w": [
+    "inside",
+    "it"
+   ]
+  },
+  {
+   "f0": 638,
+   "f1": 651,
+   "w": [
+    "August",
+    "fifteenth"
+   ]
+  },
+  {
+   "f0": 696,
+   "f1": 722,
+   "w": [
+    "Ten",
+    "sixteen",
+    "at"
+   ]
+  },
+  {
+   "f0": 725,
+   "f1": 725,
+   "w": [
+    "night"
+   ]
+  },
+  {
+   "f0": 762,
+   "f1": 778,
+   "w": [
+    "One",
+    "man",
+    "on"
+   ]
+  },
+  {
+   "f0": 782,
+   "f1": 791,
+   "w": [
+    "the",
+    "night",
+    "shift"
+   ]
+  },
+  {
+   "f0": 811,
+   "f1": 817,
+   "w": [
+    "and",
+    "a",
+    "printer"
+   ]
+  },
+  {
+   "f0": 856,
+   "f1": 875,
+   "w": [
+    "Paper",
+    "came",
+    "out"
+   ]
+  },
+  {
+   "f0": 879,
+   "f1": 884,
+   "w": [
+    "of",
+    "the",
+    "machine"
+   ]
+  },
+  {
+   "f0": 925,
+   "f1": 938,
+   "w": [
+    "Six",
+    "characters"
+   ]
+  },
+  {
+   "f0": 985,
+   "f1": 1008,
+   "w": [
+    "One",
+    "thousand",
+    "four"
+   ]
+  },
+  {
+   "f0": 1016,
+   "f1": 1033,
+   "w": [
+    "hundred",
+    "twenty",
+    "point"
+   ]
+  },
+  {
+   "f0": 1042,
+   "f1": 1064,
+   "w": [
+    "four",
+    "five",
+    "five"
+   ]
+  },
+  {
+   "f0": 1075,
+   "f1": 1085,
+   "w": [
+    "six",
+    "megahertz"
+   ]
+  },
+  {
+   "f0": 1131,
+   "f1": 1153,
+   "w": [
+    "The",
+    "hydrogen",
+    "line"
+   ]
+  },
+  {
+   "f0": 1190,
+   "f1": 1213,
+   "w": [
+    "The",
+    "frequency",
+    "of"
+   ]
+  },
+  {
+   "f0": 1216,
+   "f1": 1226,
+   "w": [
+    "cold",
+    "gas"
+   ]
+  },
+  {
+   "f0": 1268,
+   "f1": 1268,
+   "w": [
+    "Six"
+   ]
+  },
+  {
+   "f0": 1314,
+   "f1": 1314,
+   "w": [
+    "E"
+   ]
+  },
+  {
+   "f0": 1327,
+   "f1": 1327,
+   "w": [
+    "Q"
+   ]
+  },
+  {
+   "f0": 1343,
+   "f1": 1343,
+   "w": [
+    "U"
+   ]
+  },
+  {
+   "f0": 1355,
+   "f1": 1355,
+   "w": [
+    "J"
+   ]
+  },
+  {
+   "f0": 1395,
+   "f1": 1395,
+   "w": [
+    "Five"
+   ]
+  },
+  {
+   "f0": 1438,
+   "f1": 1459,
+   "w": [
+    "Thirty",
+    "times",
+    "above"
+   ]
+  },
+  {
+   "f0": 1469,
+   "f1": 1472,
+   "w": [
+    "the",
+    "noise"
+   ]
+  },
+  {
+   "f0": 1513,
+   "f1": 1532,
+   "w": [
+    "He",
+    "circled",
+    "it"
+   ]
+  },
+  {
+   "f0": 1535,
+   "f1": 1555,
+   "w": [
+    "in",
+    "red",
+    "and"
+   ]
+  },
+  {
+   "f0": 1561,
+   "f1": 1576,
+   "w": [
+    "wrote",
+    "one",
+    "word"
+   ]
+  },
+  {
+   "f0": 1584,
+   "f1": 1588,
+   "w": [
+    "in",
+    "the",
+    "margin"
+   ]
+  },
+  {
+   "f0": 1629,
+   "f1": 1629,
+   "w": [
+    "Wow"
+   ]
+  },
+  {
+   "f0": 1668,
+   "f1": 1681,
+   "w": [
+    "They",
+    "looked",
+    "again"
+   ]
+  },
+  {
+   "f0": 1720,
+   "f1": 1725,
+   "w": [
+    "And",
+    "again"
+   ]
+  },
+  {
+   "f0": 1764,
+   "f1": 1784,
+   "w": [
+    "For",
+    "fifty",
+    "years"
+   ]
+  },
+  {
+   "f0": 1824,
+   "f1": 1824,
+   "w": [
+    "Nothing"
+   ]
+  },
+  {
+   "f0": 1866,
+   "f1": 1882,
+   "w": [
+    "Not",
+    "one",
+    "repeat"
+   ]
+  },
+  {
+   "f0": 1922,
+   "f1": 1934,
+   "w": [
+    "Then",
+    "in",
+    "twenty"
+   ]
+  },
+  {
+   "f0": 1944,
+   "f1": 1969,
+   "w": [
+    "twenty",
+    "four",
+    "a"
+   ]
+  },
+  {
+   "f0": 1972,
+   "f1": 1972,
+   "w": [
+    "candidate"
+   ]
+  },
+  {
+   "f0": 2015,
+   "f1": 2037,
+   "w": [
+    "A",
+    "magnetar",
+    "flare"
+   ]
+  },
+  {
+   "f0": 2057,
+   "f1": 2067,
+   "w": [
+    "hitting",
+    "a",
+    "cold"
+   ]
+  },
+  {
+   "f0": 2078,
+   "f1": 2092,
+   "w": [
+    "cloud",
+    "of",
+    "hydrogen"
+   ]
+  },
+  {
+   "f0": 2135,
+   "f1": 2153,
+   "w": [
+    "A",
+    "natural",
+    "laser"
+   ]
+  },
+  {
+   "f0": 2193,
+   "f1": 2203,
+   "w": [
+    "Not",
+    "a",
+    "voice"
+   ]
+  },
+  {
+   "f0": 2245,
+   "f1": 2253,
+   "w": [
+    "It",
+    "is",
+    "still"
+   ]
+  },
+  {
+   "f0": 2262,
+   "f1": 2269,
+   "w": [
+    "not",
+    "proven"
+   ]
+  },
+  {
+   "f0": 2309,
+   "f1": 2321,
+   "w": [
+    "That",
+    "is",
+    "the"
+   ]
+  },
+  {
+   "f0": 2324,
+   "f1": 2324,
+   "w": [
+    "problem"
+   ]
+  },
+  {
+   "f0": 2365,
+   "f1": 2380,
+   "w": [
+    "The",
+    "best",
+    "evidence"
+   ]
+  },
+  {
+   "f0": 2392,
+   "f1": 2400,
+   "w": [
+    "that",
+    "we",
+    "are"
+   ]
+  },
+  {
+   "f0": 2403,
+   "f1": 2429,
+   "w": [
+    "not",
+    "alone",
+    "and"
+   ]
+  },
+  {
+   "f0": 2432,
+   "f1": 2445,
+   "w": [
+    "the",
+    "best",
+    "evidence"
+   ]
+  },
+  {
+   "f0": 2458,
+   "f1": 2467,
+   "w": [
+    "that",
+    "we",
+    "are"
+   ]
+  },
+  {
+   "f0": 2502,
+   "f1": 2524,
+   "w": [
+    "Seventy",
+    "two",
+    "seconds"
+   ]
+  },
+  {
+   "f0": 2569,
+   "f1": 2591,
+   "w": [
+    "Fifty",
+    "years",
+    "of"
+   ]
+  },
+  {
+   "f0": 2594,
+   "f1": 2594,
+   "w": [
+    "silence"
+   ]
+  }
+ ],
  "cues": {
-  "number": 1095,
-  "wow": 1698,
-  "six": 1007
- }
+  "number": 994,
+  "hydrogen": 1135,
+  "six": 1268,
+  "wow": 1561,
+  "fifty": 1772,
+  "candidate": 1972,
+  "notproven": 2269,
+  "silence": 2594,
+  "alone": 2410
+ },
+ "script": "Nineteen seventy seven. Something called out. Seventy two seconds of it. Then nothing, ever again. A radio telescope in Ohio. It could not steer. The Earth turned, and dragged the sky across its beam. For seventy two seconds, something was inside it. August fifteenth. Ten sixteen at night. One man on the night shift, and a printer. Paper came out of the machine. Six characters. One thousand four hundred twenty point four five five six megahertz. The hydrogen line. The frequency of cold gas. Six. E. Q. U. J. Five. Thirty times above the noise. He circled it in red, and wrote one word in the margin. Wow. They looked again. And again. For fifty years. Nothing. Not one repeat. Then in twenty twenty four, a candidate. A magnetar flare, hitting a cold cloud of hydrogen. A natural laser. Not a voice. It is still not proven. That is the problem. The best evidence that we are not alone, and the best evidence that we are. Seventy two seconds. Fifty years of silence."
 }

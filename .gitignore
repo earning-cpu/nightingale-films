@@ -17,3 +17,15 @@ audio/nightingale_norm.wav
 public/wow_mix_v2.wav
 public/wow_mix_v2_norm.wav
 audio/wow/vo/*.wav
+
+# v4 — big rebuildables (regenerate with tools/synth_score.py + mix_v4.py)
+public/wow_mix_v4.wav
+public/wow_mix_v4_norm.wav
+public/wow/audio/music.wav
+public/wow/audio/roomtone.wav
+audio/wow/vo4/*.wav
+qa4/raw4.mp4
+qa4/v4_master.mp4
+qa4/*.mp4
+qa4/f*.png
+qa4/z*.png
