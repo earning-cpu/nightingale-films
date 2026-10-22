@@ -12,8 +12,8 @@ from __future__ import annotations
 import json, os, sys, urllib.error, urllib.request
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-SLUG = "earningcpu/wow-signal-film-and-vertical-cut"
-TITLE = "Wow! signal - 72 SECONDS: master and vertical cut"
+SLUG = "earningcpu/wow-signal-v3-film-and-vertical"
+TITLE = "Wow! signal - 72 SECONDS v3 (44 shots)"
 TOKEN = os.environ.get("KAGGLE_API_TOKEN", "")
 
 BASE = "https://earning-cpu.github.io/nightingale-films"
@@ -51,8 +51,8 @@ def grab(name):
     print("%-22s %8.2f MB" % (name, os.path.getsize(dst) / 1e6))
     return dst
 
-master = grab("wow2_1080.mp4")
-poster = grab("wow2_poster.jpg")
+master = grab("wow3_1080.mp4")
+poster = grab("wow3_poster.jpg")
 
 probe = json.loads(subprocess.check_output(["ffprobe", "-v", "error", "-show_format",
     "-show_streams", "-of", "json", master]))
@@ -79,8 +79,8 @@ vf = (
     "[bg][fg]overlay=(W-w)/2:(H-h)/2[v]"
 )
 
-out = "/kaggle/working/wow2_vertical_1080.mp4"
-cmd = ["ffmpeg", "-y", "-v", "error", "-i", "/kaggle/working/wow2_1080.mp4",
+out = "/kaggle/working/wow3_vertical_1080.mp4"
+cmd = ["ffmpeg", "-y", "-v", "error", "-i", "/kaggle/working/wow3_1080.mp4",
        "-filter_complex", vf, "-map", "[v]", "-map", "0:a",
        "-c:v", "libx264", "-preset", "medium", "-crf", "20",
        "-pix_fmt", "yuv420p", "-c:a", "aac", "-b:a", "160k",
@@ -96,7 +96,7 @@ print("vertical:", probe, "->", out)
 DISPLAY = '''import base64, json, subprocess, os
 from IPython.display import HTML, display
 
-poster_b64 = base64.b64encode(open("/kaggle/working/wow2_poster.jpg", "rb").read()).decode()
+poster_b64 = base64.b64encode(open("/kaggle/working/wow3_poster.jpg", "rb").read()).decode()
 display(HTML(
     '<div style="max-width:720px">'
     '<div style="font:600 15px system-ui;color:#666;margin:6px 0 10px">'
@@ -105,15 +105,15 @@ display(HTML(
     'style="width:100%%;border-radius:6px;background:#000" '
     'src="%s"></video></div>' % (
         poster_b64,
-        "data:video/mp4;base64," + base64.b64encode(open("/kaggle/working/wow2_vertical_480.mp4", "rb").read()).decode())
+        "data:video/mp4;base64," + base64.b64encode(open("/kaggle/working/wow3_vertical_480.mp4", "rb").read()).decode())
 ))
 
 # contact sheet so the film is visible even without playing it
-subprocess.run(["ffmpeg", "-y", "-v", "error", "-i", "/kaggle/working/wow2_1080.mp4",
+subprocess.run(["ffmpeg", "-y", "-v", "error", "-i", "/kaggle/working/wow3_1080.mp4",
                 "-vf", "fps=1/6,scale=360:-1,tile=4x4", "-frames:v", "1",
-                "/kaggle/working/wow2_contact.jpg"], check=True)
+                "/kaggle/working/wow3_contact.jpg"], check=True)
 display(HTML('<img src="data:image/jpeg;base64,%s" style="width:100%%;max-width:900px;border-radius:6px">'
-             % base64.b64encode(open("/kaggle/working/wow2_contact.jpg", "rb").read()).decode()))
+             % base64.b64encode(open("/kaggle/working/wow3_contact.jpg", "rb").read()).decode()))
 
 for f in sorted(os.listdir("/kaggle/working")):
     p = os.path.join("/kaggle/working", f)
@@ -122,10 +122,10 @@ for f in sorted(os.listdir("/kaggle/working")):
 '''
 
 PROXY = '''import subprocess
-subprocess.run(["ffmpeg", "-y", "-v", "error", "-i", "/kaggle/working/wow2_vertical_1080.mp4",
+subprocess.run(["ffmpeg", "-y", "-v", "error", "-i", "/kaggle/working/wow3_vertical_1080.mp4",
                 "-vf", "scale=480:854", "-c:v", "libx264", "-preset", "veryfast", "-crf", "27",
                 "-c:a", "aac", "-b:a", "64k", "-movflags", "+faststart",
-                "/kaggle/working/wow2_vertical_480.mp4"], check=True)
+                "/kaggle/working/wow3_vertical_480.mp4"], check=True)
 print("proxy ready")
 '''
 
@@ -151,13 +151,13 @@ the Output tab ends up with:
 
 | file | what it is |
 |---|---|
-| `wow2_1080.mp4` | the published master, 1920×1080, 30 fps |
-| `wow2_vertical_1080.mp4` | **9:16 cut**, 1080×1920 — the phone version |
-| `wow2_vertical_480.mp4` | 480p proxy, small enough to play inline below |
-| `wow2_contact.jpg` | 16-frame contact sheet |
-| `wow2_poster.jpg` | poster frame |
+| `wow3_1080.mp4` | the published master, 1920×1080, 30 fps |
+| `wow3_vertical_1080.mp4` | **9:16 cut**, 1080×1920 — the phone version |
+| `wow3_vertical_480.mp4` | 480p proxy, small enough to play inline below |
+| `wow3_contact.jpg` | 16-frame contact sheet |
+| `wow3_poster.jpg` | poster frame |
 
-The film is 85.9 s. Captions are burned in. The audio is mastered to −14 LUFS.
+The film is 96.3 s, cut into 44 shots, with 9 depth-parallax shots. Captions are burned in. The audio is mastered to −14 LUFS.
 """),
             md("## 1 — fetch the master that is live on the site"),
             code(FETCH),
