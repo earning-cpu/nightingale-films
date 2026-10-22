@@ -12,8 +12,8 @@ from __future__ import annotations
 import json, os, sys, urllib.error, urllib.request
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-SLUG = "earningcpu/wow-signal-72-seconds-v4"
-TITLE = "Wow! signal - 72 SECONDS v4 (scored, 46 cuts)"
+SLUG = "earningcpu/wow-signal-72-seconds-v4-scored-46-cuts"
+TITLE = "Wow! signal - 72 SECONDS v4 (scored, 43 cuts)"
 TOKEN = os.environ.get("KAGGLE_API_TOKEN", "")
 
 BASE = "https://earning-cpu.github.io/nightingale-films"

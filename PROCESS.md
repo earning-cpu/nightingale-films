@@ -285,8 +285,8 @@ cut that the audio crosses.
 
 **ASL** = average shot length. Under 3 s reads as urgency; 3–6 s as natural;
 over 10 s as weight. Modern features sit near 2.5 s; trailers and short-form
-openers under 2 s. v3 measured 2.19 s over 44 shots; v4 measures **1.91 s over
-46 shots in 88 s** — deliberately under two seconds, because this is a hook-led
+openers under 2 s. v3 measured 2.19 s over 44 shots; v4 measures **1.70 s over
+43 shots in 73 s** — deliberately under two seconds, because this is a hook-led
 short, not a scene.
 
 The single highest-leverage pacing rule is **enter late, leave early**: start
@@ -336,7 +336,7 @@ Rules that matter more than the levels:
 - **Ducking**: music is sidechained to the voice, not turned down globally, so
   it breathes back up in the gaps.
 - **Negative space** before a hit — v4 drops 0.55 s of near-silence before the
-  climax. Silence is the loudest edit.
+  climax at 69 s. Silence is the loudest edit.
 - **Diegetic vs non-diegetic** is a decision, made per sound, not an accident.
 - **Foley** is performed sync sound; **hard effects** are real objects;
   **designed effects** are impossible things (a magnetar flare).
@@ -344,10 +344,10 @@ Rules that matter more than the levels:
 
 ## 13. Music — three acts, one motif
 
-- **Act 1 setup** (0–22 s): drone, a bell motif, no pulse. Establishes D minor.
-- **Act 2 escalation** (22–62 s): an **ostinato** in eighth notes grouped
+- **Act 1 setup** (0–18 s): drone, a bell motif, no pulse. Establishes D minor.
+- **Act 2 escalation** (18–52 s): an **ostinato** in eighth notes grouped
   **3-3-2**, a half-time kick, a rising pad.
-- **Act 3 climax** (62–88 s): taiko, braams, then the last line on a bare
+- **Act 3 climax** (52–73 s): taiko, braams, then the last line on a bare
   drone. Final hit plus a long tail.
 
 Tempo: **100 BPM**, so one beat = 0.6 s = exactly **18 frames** at 30 fps and
