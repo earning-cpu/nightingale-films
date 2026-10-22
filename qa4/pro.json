@@ -11,8 +11,8 @@
   "audio": "aac",
   "audio_sr": "48000",
   "audio_ch": 2,
-  "duration_s": 87.97,
-  "bitrate_kbps": 3526,
+  "duration_s": 73.07,
+  "bitrate_kbps": 3623,
   "faststart": true
  },
  "G1_colour": {
@@ -25,12 +25,12 @@
  "V1_black": [],
  "V2_freeze": [],
  "V3_levels": {
-  "frames": 2639,
+  "frames": 2192,
   "crush_mean_pct": 0.0,
   "crush_p95_pct": 0.0,
   "crush_frames_over_12pct": 0,
-  "clip_mean_pct": 0.007,
-  "clip_p95_pct": 0.062,
+  "clip_mean_pct": 0.005,
+  "clip_p95_pct": 0.014,
   "clip_frames_over_2pct": 0,
   "floor": 17,
   "ceiling": 235,
@@ -38,53 +38,53 @@
  },
  "V4_photosensitivity": {
   "max_flashes_per_s": 3,
-  "total_flashes": 29,
+  "total_flashes": 20,
   "violations": []
  },
  "V5_rhythm": {
-  "estimated_cuts": 70,
-  "cuts_per_minute": 47.7,
-  "longest_static_s": 3.57
+  "estimated_cuts": 47,
+  "cuts_per_minute": 38.6,
+  "longest_static_s": 2.73
  },
  "V6_framing": {
-  "modal_crop": "1920x914",
-  "top": 82,
+  "modal_crop": "1920x912",
+  "top": 84,
   "left": 0,
-  "fill_pct": 84.6,
+  "fill_pct": 84.4,
   "bars": [
-   "letterbox ~83px",
+   "letterbox ~84px",
    "asymmetric crop"
   ]
  },
  "A1_A4_audio": {
-  "integrated_lufs": -14.9,
-  "lra": 3.2,
+  "integrated_lufs": -14.7,
+  "lra": 2.3,
   "true_peak_db": -2.1,
-  "dc_offset": 3.6e-05,
+  "dc_offset": 2.5e-05,
   "silences": [],
-  "phase_min": 0.751,
-  "phase_mean": 0.99,
-  "phase_samples": 880,
+  "phase_min": 0.766,
+  "phase_mean": 0.994,
+  "phase_samples": 731,
   "phase_worst": [
    {
-    "t": 2.3,
-    "phase": 0.75
+    "t": 27.2,
+    "phase": 0.77
    },
    {
-    "t": 33.3,
+    "t": 26.8,
     "phase": 0.78
    },
    {
     "t": 2.2,
-    "phase": 0.79
-   },
-   {
-    "t": 33.2,
     "phase": 0.8
    },
    {
-    "t": 33.4,
+    "t": 27.0,
     "phase": 0.8
+   },
+   {
+    "t": 2.0,
+    "phase": 0.81
    }
   ],
   "phase_sustained": []
@@ -200,8 +200,8 @@
   }
  ],
  "C2_duration": {
-  "seconds": 87.97,
-  "minutes": 1.47
+  "seconds": 73.07,
+  "minutes": 1.22
  },
  "_warnings": [],
  "_blockers": []

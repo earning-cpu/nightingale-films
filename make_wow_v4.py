@@ -25,6 +25,8 @@ Three structural changes over v3:
 from __future__ import annotations
 import asyncio, json, os, re, subprocess, sys
 
+import numpy as np
+
 import edge_tts
 
 ROOT = os.path.dirname(os.path.abspath(__file__))
@@ -122,6 +124,50 @@ SLUG = {
 }
 
 
+
+def tighten(wav_path, max_gap=0.50, floor_db=-30.0):
+    """Edge TTS puts a full second of digital silence after every sentence.
+    Left alone, the read sounds like dictation no matter how good the words
+    are — this is the actual cause of "pauses after every caption". Every
+    internal gap longer than `max_gap` is shortened to `max_gap`, and the word
+    timings are remapped so captions and cuts stay on the syllable.
+    """
+    import wave
+    w = wave.open(wav_path, "rb")
+    sr, n = w.getframerate(), w.getnframes()
+    a = np.frombuffer(w.readframes(n), np.int16).astype(np.float32) / 32768.0
+    w.close()
+    win = int(0.02 * sr)
+    m = len(a) // win
+    rms = np.sqrt((a[:m * win].reshape(m, win) ** 2).mean(1))
+    db = 20 * np.log10(rms + 1e-9)
+    speech = db > (db.max() + floor_db)
+    idx = np.where(speech)[0]
+    if len(idx) < 2:
+        return 0.0, []
+    keep, cuts, i = [], [], idx[0]
+    while i <= idx[-1]:
+        if speech[i]:
+            keep.append(i); i += 1; continue
+        j = i
+        while j <= idx[-1] and not speech[j]:
+            j += 1
+        gap = (j - i) * 0.02
+        need = max(2, int(round(max_gap / 0.02))) if gap > max_gap else (j - i)
+        for k in range(need):
+            keep.append(i + k)
+        if gap > max_gap:
+            cuts.append((i * 0.02, gap - need * 0.02))
+        i = j
+    keep = np.array(sorted(set(keep)))
+    out = np.concatenate([a[k * win:(k + 1) * win] for k in keep])
+    ww = wave.open(wav_path, "wb")
+    ww.setnchannels(1); ww.setsampwidth(2); ww.setframerate(sr)
+    ww.writeframes((np.clip(out, -1, 1) * 32767).astype(np.int16).tobytes())
+    ww.close()
+    return len(a) / sr - len(out) / sr, cuts
+
+
 def run(cmd):
     r = subprocess.run(cmd, capture_output=True, text=True)
     if r.returncode:
@@ -165,6 +211,13 @@ def main():
     words = asyncio.run(one_take(SCRIPT, mp3))
     run(["ffmpeg", "-y", "-v", "error", "-i", mp3, "-ar", "48000", "-ac", "1",
          "-c:a", "pcm_s16le", wav])
+    removed, cuts = tighten(wav)
+    if cuts:
+        print("tightened: %d gaps, %.2fs of dead air removed" % (len(cuts), removed))
+        def shift(t):
+            return t - sum(d for at, d in cuts if at < t)
+        for w_ in words:
+            w_["f"] = int(round(shift(w_["f"] / FPS) * FPS))
     total_s = dur(wav)
     total = int(round(total_s * FPS))
     print("narration: %d words, %.2f s, %d frames" % (len(words), total_s, total))
@@ -175,17 +228,24 @@ def main():
         if widx >= len(words):
             widx = len(words) - 1
         starts.append(max(0, words[widx]["f"] + off))
-    starts.append(total)
+    # the picture runs past the last word: an end card needs air, and the score
+    # needs somewhere to land its final hit
+    tail = 78
+    starts.append(total + tail)
+    total += tail
 
     scenes = []
     for i, (sid, widx, shots, off) in enumerate(SCENES):
         a, b = starts[i], starts[i + 1]
-        dur_f = max(24, b - a)
+        dur_f = max(30, b - a)
+        # 30 frames = 1.00 s. A shot shorter than that is a flicker, not a shot.
+        while len(shots) > 1 and dur_f < len(shots) * 32:
+            shots = shots[:-1]
         n = len(shots)
         w = {1: [1.0], 2: [0.54, 0.46], 3: [0.42, 0.33, 0.25]}[n]
         bounds, s0 = [], 0
         for k, wk in enumerate(w):
-            ln = max(22, int(dur_f * wk))
+            ln = max(30, int(dur_f * wk))
             bounds.append((s0, ln)); s0 += ln
         bounds[-1] = (bounds[-1][0], dur_f - bounds[-1][0])
         lo = words[widx]["f"] if widx < len(words) else a

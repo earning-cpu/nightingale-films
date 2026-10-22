@@ -157,7 +157,7 @@ the Output tab ends up with:
 | `wow4_contact.jpg` | 16-frame contact sheet |
 | `wow4_poster.jpg` | poster frame |
 
-The film is 88.0 s, cut into 46 shots (ASL 1.91 s), with one continuous narration take carried across the picture cuts (J- and L-cuts), a three-act score written in numpy at 100 BPM, and a five-layer mix. Captions are burned in. The audio is mastered to −15 LUFS with −2.8 dBTP of headroom.
+The film is 73.1 s, cut into 43 shots (ASL 1.70 s), with one continuous narration take carried across the picture cuts (J- and L-cuts), a three-act score written in numpy at 100 BPM, and a five-layer mix. Captions are burned in. The audio is mastered to −14.6 LUFS with −2.6 dBTP of headroom.
 """),
             md("## 1 — fetch the master that is live on the site"),
             code(FETCH),

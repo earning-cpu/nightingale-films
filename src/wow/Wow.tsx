@@ -221,11 +221,11 @@ const Transition: React.FC<{at: number; seed?: number; kind?: 'tape' | 'leak' | 
   }
   // tape dropout: displaced slices
   return (
-    <AbsoluteFill style={{pointerEvents: 'none', mixBlendMode: 'screen', opacity: 0.30 * k}}>
+    <AbsoluteFill style={{pointerEvents: 'none', mixBlendMode: 'screen', opacity: 0.15 * k}}>
       <svg width="100%" height="100%">
-        {Array.from({length: 7}).map((_, i) => {
+        {Array.from({length: 5}).map((_, i) => {
           const y = prand(seed * 13 + i) * 100;
-          const h = 1.5 + prand(seed * 7 + i) * 8;
+          const h = 1.2 + prand(seed * 7 + i) * 5;
           const dx = (prand(seed * 3 + i) - 0.5) * 14;
           return <rect key={i} x={dx} y={`${y}%`} width="100%" height={`${h}%`}
             fill={i % 2 ? 'rgba(255,255,255,0.55)' : 'rgba(120,200,255,0.30)'} />;
@@ -242,7 +242,9 @@ const Cuts: React.FC = () => {
   const hit = cuts.find((s) => Math.abs(f - s.from) <= 7);
   if (!hit) return null;
   const i = cuts.indexOf(hit);
-  const kind = (['tape', 'leak', 'flash'] as const)[i % 3];
+  // no white burns here: one every third cut pushed the flash rate over the
+  // WCAG 2.3.1 limit, and a leak reads warmer anyway
+  const kind = (['tape', 'leak', 'leak', 'tape'] as const)[i % 4];
   return <Transition at={hit.from} seed={i + 3} kind={kind} />;
 };
 
