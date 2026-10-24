@@ -30,9 +30,11 @@ python3 tryon.py model_pink.png dress_champagne.jpg \
 
 | File (in `docs/ai-image-gen/`) | What it is |
 |---|---|
-| `champagne_on_pink_final.png` | Champagne anarkali + purple dupatta on the pink-dress girl (768×1024) |
-| `champagne_on_pink_2x.png` | 2× sharpened master (1536×2048) |
+| `champagne_on_pink_final.png` | Champagne anarkali + purple dupatta on the pink-dress girl (768×1376, true proportions) |
+| `champagne_on_pink_2x.png` | Real-ESRGAN ×4 enhanced master (1536×2752) |
 | `champagne_on_pink_2x.jpg` | Web-friendly copy |
 
 Direct download links use the Pages base:
 `https://earning-cpu.github.io/nightingale-films/ai-image-gen/<filename>`
+
+**v2 update:** restored the model's true height (the try-on engine compresses output to 3:4 — pipeline now un-squashes to the source framing), repaired the shoe-strap artifact, and ran a Real-ESRGAN ×4plus detail-enhancement pass (onnx weights, SHA-verified).
