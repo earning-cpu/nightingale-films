@@ -38,3 +38,5 @@ Direct download links use the Pages base:
 `https://earning-cpu.github.io/nightingale-films/ai-image-gen/<filename>`
 
 **v2 update:** restored the model's true height (the try-on engine compresses output to 3:4 — pipeline now un-squashes to the source framing), repaired the shoe-strap artifact, and ran a Real-ESRGAN ×4plus detail-enhancement pass (onnx weights, SHA-verified).
+
+**v3 update:** removed the Real-ESRGAN pass (it hallucinated different embroidery and over-processed the face). The image is now rebuilt from the pristine generation: true height, natural face, faithful dress details, repaired shoe strap. Installed `imagegen.py` — the #1 ranked open-source image editor **Qwen-Image-Edit-2509** (multi-image person+product swap) — set `HF_TOKEN` (free at huggingface.co/settings/tokens) to run unlimited swaps with high quota.
