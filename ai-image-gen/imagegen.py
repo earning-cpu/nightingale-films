@@ -20,7 +20,11 @@ import os, sys, shutil
 from gradio_client import Client, handle_file
 
 SPACE_2509 = "Qwen/Qwen-Image-Edit-2509"   # multi-image (person + product)
-SPACE_SINGLE = "Qwen/Qwen-Image-Edit"      # fallback, single image
+SPACE_SINGLE = "Qwen/Qwen-Image-Edit"      # fallback, single image (240s slot)
+# NOTE: Qwen-2509 endpoint asks a fixed 600s GPU slot (> free-tier max). If it
+# errors "GPU duration larger than maximum", use SPACE_SINGLE or wait for
+# ZeroGPU quota reset (~daily). Gemini alternative: gemini-3-pro-image via
+# generativelanguage.googleapis.com (needs image billing enabled on the key).
 
 DRESS_PROMPT = (
     "Replace the outfit of the girl in the first image with the EXACT outfit shown in the second image (a product photo of a dress). "
@@ -35,7 +39,7 @@ DRESS_PROMPT = (
 
 def generate(person, garment, prompt, out, seed=42, height=1600, width=896):
     token = os.environ.get("HF_TOKEN") or None
-    c = Client(SPACE_2509, hf_token=token, verbose=False)
+    c = Client(SPACE_2509, token=token, verbose=False)
     res = c.predict(
         [
             {"image": handle_file(person), "caption": "the person"},
