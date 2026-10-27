@@ -108,6 +108,7 @@
       <div class="chip active" data-f="product" data-v="all">All</div>
       <div class="chip" data-f="product" data-v="TJF-K02">TJF-K02 · Blue Floral Anarkali</div>
       <div class="chip" data-f="product" data-v="TJF-S01">TJF-S01 · Magenta Bandhani Saree</div>
+      <div class="chip" data-f="product" data-v="TJF-K01">TJF-K01 · Red Nermosa Anarkali</div>
       <span class="count" id="count"></span>
     </div>
     <div class="frow">
@@ -123,6 +124,7 @@
       <div class="chip" data-f="version" data-v="v2">V2 · Story cut</div>
       <div class="chip" data-f="version" data-v="v1">V1 · Straight cut</div>
       <div class="chip" data-f="version" data-v="diwali">Diwali reel</div>
+      <div class="chip" data-f="version" data-v="red">Red · Story cut</div>
     </div>
   </div>
 </header>
@@ -186,6 +188,20 @@ const VIDEOS = [
     serial:"TJF-S01 · ASIN B0FDLFLYMQ", type:"silent", version:"diwali", dur:"0:20",
     src:"../diwali-reel/diwali_reel_SILENT.mp4", thumb:"thumbs/dw_c.jpg",
     productUrl:"https://www.amazon.in/dp/B0FDLFLYMQ?tag=thejaipurifit-21", song:"no audio at all" },
+
+  // ---------- TJF-K01 Red Nermosa Anarkali ----------
+  { id:"k01-song", title:"Red Anarkali — Story Cut · with song", product:"TJF-K01", dressName:"Nermosa Red Anarkali Set",
+    serial:"TJF-K01 · ASIN B0H8SBFJBX", type:"song", version:"red", dur:"0:21",
+    src:"../red-anarkali-reel/reel_k01_MUSIC_REF.mp4", thumb:"thumbs/k01_a.jpg",
+    productUrl:"https://www.amazon.in/dp/B0H8SBFJBX?tag=thejaipurifit-21", song:"Aarzu · 104 BPM" },
+  { id:"k01-nomusic", title:"Red Anarkali — Story Cut · no music", product:"TJF-K01", dressName:"Nermosa Red Anarkali Set",
+    serial:"TJF-K01 · ASIN B0H8SBFJBX", type:"nomusic", version:"red", dur:"0:21",
+    src:"../red-anarkali-reel/reel_k01_NOMUSIC.mp4", thumb:"thumbs/k01_b.jpg",
+    productUrl:"https://www.amazon.in/dp/B0H8SBFJBX?tag=thejaipurifit-21", song:"beat bed · upload this" },
+  { id:"k01-silent", title:"Red Anarkali — Story Cut · silent", product:"TJF-K01", dressName:"Nermosa Red Anarkali Set",
+    serial:"TJF-K01 · ASIN B0H8SBFJBX", type:"silent", version:"red", dur:"0:21",
+    src:"../red-anarkali-reel/reel_k01_SILENT.mp4", thumb:"thumbs/k01_c.jpg",
+    productUrl:"https://www.amazon.in/dp/B0H8SBFJBX?tag=thejaipurifit-21", song:"no audio at all" },
 ];
 
 const TYPE_LABEL = {
