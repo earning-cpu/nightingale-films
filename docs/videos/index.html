@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Reel Library · thejaipurifit — all videos, filters & downloads</title>
+<style>
+  * { margin:0; padding:0; box-sizing:border-box; }
+  body {
+    font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;
+    background:#0f172a; color:#EEF2F7; min-height:100vh;
+  }
+  header {
+    position:sticky; top:0; z-index:50;
+    background:rgba(15,23,42,.92); backdrop-filter:blur(12px);
+    border-bottom:1px solid #24344f; padding:16px 22px 12px;
+  }
+  h1 { font-size:20px; letter-spacing:.01em; }
+  h1 .grad { background:linear-gradient(120deg,#9DBEDD,#FFE9B8); -webkit-background-clip:text; background-clip:text; color:transparent; }
+  .sub { color:#94A9C4; font-size:12.5px; margin-top:3px; }
+  .filters { margin-top:12px; display:flex; flex-direction:column; gap:8px; }
+  .frow { display:flex; align-items:center; gap:8px; flex-wrap:wrap; }
+  .flabel { font-size:11px; color:#7C93B0; text-transform:uppercase; letter-spacing:.08em; min-width:74px; }
+  .chip {
+    border:1px solid #31486b; background:#16243c; color:#C6D6E8;
+    border-radius:999px; padding:7px 15px; font-size:12.5px; font-weight:600;
+    cursor:pointer; transition:all .18s ease; user-select:none; white-space:nowrap;
+  }
+  .chip:hover { border-color:#5b7ead; transform:translateY(-1px); }
+  .chip.active { background:linear-gradient(135deg,#9DBEDD,#6E93BC); color:#0c1626; border-color:transparent; }
+  .grid {
+    display:grid; grid-template-columns:repeat(auto-fill,minmax(300px,1fr));
+    gap:20px; padding:24px 22px 60px; max-width:1480px; margin:0 auto;
+  }
+  .card {
+    background:#16243c; border:1px solid #24344f; border-radius:14px; overflow:hidden;
+    transition:transform .18s ease, box-shadow .18s ease, opacity .25s ease;
+    display:flex; flex-direction:column;
+  }
+  .card:hover { transform:translateY(-3px); box-shadow:0 14px 40px rgba(0,0,0,.45); }
+  .card.hidden { display:none; }
+  .thumbwrap { position:relative; cursor:pointer; aspect-ratio:9/14.4; background:#000; overflow:hidden; }
+  .thumbwrap img { width:100%; height:100%; object-fit:cover; display:block; transition:transform .3s ease; }
+  .card:hover .thumbwrap img { transform:scale(1.04); }
+  .playicon {
+    position:absolute; inset:0; display:flex; align-items:center; justify-content:center;
+    background:linear-gradient(0deg,rgba(8,14,26,.45),rgba(8,14,26,.05)); opacity:.85;
+  }
+  .playicon svg { width:58px; height:58px; filter:drop-shadow(0 4px 14px rgba(0,0,0,.5)); }
+  .badge {
+    position:absolute; top:10px; left:10px; font-size:10.5px; font-weight:750;
+    padding:5px 10px; border-radius:7px; letter-spacing:.03em;
+  }
+  .b-song { background:linear-gradient(135deg,#E0A23C,#B9762A); color:#241202; }
+  .b-nomusic { background:linear-gradient(135deg,#7FC8A9,#3E8B6C); color:#062117; }
+  .b-silent { background:#2c3f5e; color:#B9CBE0; border:1px solid #45608a; }
+  .dur {
+    position:absolute; bottom:10px; right:10px; font-size:11px; font-weight:700;
+    background:rgba(6,12,24,.82); color:#EAF1F9; padding:3px 8px; border-radius:6px;
+  }
+  .body { padding:13px 15px 15px; display:flex; flex-direction:column; gap:9px; flex:1; }
+  .title { font-size:14.5px; font-weight:750; line-height:1.35; }
+  .dress {
+    font-size:11.5px; color:#0c1626; background:linear-gradient(135deg,#FFE9B8,#E8C27C);
+    border-radius:8px; padding:6px 10px; font-weight:700; display:inline-block; width:fit-content;
+    text-decoration:none;
+  }
+  .dress:hover { filter:brightness(1.06); }
+  .meta { font-size:11px; color:#8AA2BE; line-height:1.6; }
+  .meta b { color:#C6D6E8; }
+  .btns { display:flex; gap:8px; margin-top:auto; padding-top:4px; }
+  .btn {
+    flex:1; text-align:center; text-decoration:none; border-radius:9px; padding:10px 8px;
+    font-size:12.5px; font-weight:750; cursor:pointer; transition:all .15s ease; border:none;
+  }
+  .b-watch { background:#24374f; color:#DCE8F5; }
+  .b-watch:hover { background:#2e4666; }
+  .b-dl { background:linear-gradient(135deg,#9DBEDD,#6E93BC); color:#0c1626; }
+  .b-dl:hover { filter:brightness(1.08); }
+  .note {
+    max-width:1480px; margin:0 auto; padding:0 22px 46px; color:#7C93B0; font-size:12px; line-height:1.8;
+  }
+  .note code { background:#16243c; padding:2px 7px; border-radius:6px; font-size:11px; }
+  /* modal */
+  .modal {
+    display:none; position:fixed; inset:0; z-index:100;
+    background:rgba(5,9,18,.86); backdrop-filter:blur(6px);
+    align-items:center; justify-content:center; padding:18px;
+  }
+  .modal.open { display:flex; }
+  .modal-inner { width:min(420px,96vw); }
+  .modal video { width:100%; border-radius:14px; background:#000; box-shadow:0 30px 90px rgba(0,0,0,.6); }
+  .modal-close {
+    display:block; margin:12px auto 0; background:#24374f; color:#DCE8F5;
+    border:none; border-radius:999px; padding:10px 26px; font-size:13px; font-weight:700; cursor:pointer;
+  }
+  .count { color:#7C93B0; font-size:12px; margin-left:auto; }
+</style>
+</head>
+<body>
+
+<header>
+  <h1>🎬 Reel Library · <span class="grad">thejaipurifit</span></h1>
+  <div class="sub">Every reel · every version · filter & download — one page. (Old pages stay untouched.)</div>
+  <div class="filters">
+    <div class="frow">
+      <span class="flabel">Dress</span>
+      <div class="chip active" data-f="product" data-v="all">All</div>
+      <div class="chip" data-f="product" data-v="TJF-K02">TJF-K02 · Blue Floral Anarkali</div>
+      <div class="chip" data-f="product" data-v="TJF-S01">TJF-S01 · Magenta Bandhani Saree</div>
+      <span class="count" id="count"></span>
+    </div>
+    <div class="frow">
+      <span class="flabel">Type</span>
+      <div class="chip active" data-f="type" data-v="all">All</div>
+      <div class="chip" data-f="type" data-v="song">🎵 With song (reference)</div>
+      <div class="chip" data-f="type" data-v="nomusic">🎬 No music (upload this)</div>
+      <div class="chip" data-f="type" data-v="silent">🔇 Silent</div>
+    </div>
+    <div class="frow">
+      <span class="flabel">Version</span>
+      <div class="chip active" data-f="version" data-v="all">All</div>
+      <div class="chip" data-f="version" data-v="v2">V2 · Story cut</div>
+      <div class="chip" data-f="version" data-v="v1">V1 · Straight cut</div>
+      <div class="chip" data-f="version" data-v="diwali">Diwali reel</div>
+    </div>
+  </div>
+</header>
+
+<div class="grid" id="grid"></div>
+
+<div class="note">
+  <b>How to use:</b> grab the 🎬 <b>No music</b> copy for Instagram (it keeps its soft beat bed exactly as originally made — not silent),
+  add the trending song in-app and slide its first beat to <code>0:00</code> — every cut lands on a downbeat.<br>
+  Use the 🎵 <b>With song</b> copy as your reference to hear which part of the song belongs where.
+  Songs: <b>Achchi Lagti Ho</b> (92 BPM — Blue reels) · <b>Mast Magan</b> (83 BPM — Diwali).<br>
+  Song-reference audio = Apple Music official store previews (timing reference). Prefer keeping these downloads private.
+</div>
+
+<div class="modal" id="modal">
+  <div class="modal-inner">
+    <video id="mvideo" controls playsinline></video>
+    <button class="modal-close" onclick="closeModal()">Close</button>
+  </div>
+</div>
+
+<script>
+const VIDEOS = [
+  // ---------- TJF-K02 Blue Floral Anarkali ----------
+  { id:"v2-song", title:"Blue Anarkali — Story Cut · with song", product:"TJF-K02", dressName:"White & Blue Floral Anarkali Set",
+    serial:"TJF-K02 · ASIN B0CQC5992X", type:"song", version:"v2", dur:"0:23",
+    src:"../blue-anarkali-reel-v2/reel_k02_v2_MUSIC_REF.mp4", thumb:"thumbs/v2_a.jpg",
+    productUrl:"https://www.amazon.in/dp/B0CQC5992X?tag=thejaipurifit-21", song:"Achchi Lagti Ho · 92 BPM" },
+  { id:"v2-nomusic", title:"Blue Anarkali — Story Cut · no music", product:"TJF-K02", dressName:"White & Blue Floral Anarkali Set",
+    serial:"TJF-K02 · ASIN B0CQC5992X", type:"nomusic", version:"v2", dur:"0:23",
+    src:"../blue-anarkali-reel-v2/reel_k02_v2_NOMUSIC.mp4", thumb:"thumbs/v2_b.jpg",
+    productUrl:"https://www.amazon.in/dp/B0CQC5992X?tag=thejaipurifit-21", song:"beat bed · upload this" },
+  { id:"v2-silent", title:"Blue Anarkali — Story Cut · silent", product:"TJF-K02", dressName:"White & Blue Floral Anarkali Set",
+    serial:"TJF-K02 · ASIN B0CQC5992X", type:"silent", version:"v2", dur:"0:23",
+    src:"../blue-anarkali-reel-v2/reel_k02_v2_SILENT.mp4", thumb:"thumbs/v2_c.jpg",
+    productUrl:"https://www.amazon.in/dp/B0CQC5992X?tag=thejaipurifit-21", song:"no audio at all" },
+
+  { id:"v1-song", title:"Blue Anarkali — Straight Cut · with song", product:"TJF-K02", dressName:"White & Blue Floral Anarkali Set",
+    serial:"TJF-K02 · ASIN B0CQC5992X", type:"song", version:"v1", dur:"0:21",
+    src:"../blue-anarkali-reel/reel_k02_MUSIC_REF.mp4", thumb:"thumbs/v1_a.jpg",
+    productUrl:"https://www.amazon.in/dp/B0CQC5992X?tag=thejaipurifit-21", song:"Achchi Lagti Ho · 92 BPM" },
+  { id:"v1-nomusic", title:"Blue Anarkali — Straight Cut · no music", product:"TJF-K02", dressName:"White & Blue Floral Anarkali Set",
+    serial:"TJF-K02 · ASIN B0CQC5992X", type:"nomusic", version:"v1", dur:"0:21",
+    src:"../blue-anarkali-reel/reel_k02_NOMUSIC.mp4", thumb:"thumbs/v1_b.jpg",
+    productUrl:"https://www.amazon.in/dp/B0CQC5992X?tag=thejaipurifit-21", song:"beat bed · upload this" },
+  { id:"v1-silent", title:"Blue Anarkali — Straight Cut · silent", product:"TJF-K02", dressName:"White & Blue Floral Anarkali Set",
+    serial:"TJF-K02 · ASIN B0CQC5992X", type:"silent", version:"v1", dur:"0:21",
+    src:"../blue-anarkali-reel/reel_k02_SILENT.mp4", thumb:"thumbs/v1_c.jpg",
+    productUrl:"https://www.amazon.in/dp/B0CQC5992X?tag=thejaipurifit-21", song:"no audio at all" },
+
+  // ---------- TJF-S01 Magenta Bandhani Saree ----------
+  { id:"dw-song", title:"Diwali Reel — Bandhani Saree · with song", product:"TJF-S01", dressName:"Satrani Magenta Bandhani Saree",
+    serial:"TJF-S01 · ASIN B0FDLFLYMQ", type:"song", version:"diwali", dur:"0:20",
+    src:"../diwali-reel/diwali_reel_MUSIC_REF.mp4", thumb:"thumbs/dw_a.jpg",
+    productUrl:"https://www.amazon.in/dp/B0FDLFLYMQ?tag=thejaipurifit-21", song:"Mast Magan · 83 BPM · hook" },
+  { id:"dw-nomusic", title:"Diwali Reel — Bandhani Saree · no music", product:"TJF-S01", dressName:"Satrani Magenta Bandhani Saree",
+    serial:"TJF-S01 · ASIN B0FDLFLYMQ", type:"nomusic", version:"diwali", dur:"0:20",
+    src:"../diwali-reel/diwali_reel_NOMUSIC.mp4", thumb:"thumbs/dw_b.jpg",
+    productUrl:"https://www.amazon.in/dp/B0FDLFLYMQ?tag=thejaipurifit-21", song:"beat bed · upload this" },
+  { id:"dw-silent", title:"Diwali Reel — Bandhani Saree · silent", product:"TJF-S01", dressName:"Satrani Magenta Bandhani Saree",
+    serial:"TJF-S01 · ASIN B0FDLFLYMQ", type:"silent", version:"diwali", dur:"0:20",
+    src:"../diwali-reel/diwali_reel_SILENT.mp4", thumb:"thumbs/dw_c.jpg",
+    productUrl:"https://www.amazon.in/dp/B0FDLFLYMQ?tag=thejaipurifit-21", song:"no audio at all" },
+];
+
+const TYPE_LABEL = {
+  song:   { txt:"🎵 WITH SONG", cls:"b-song" },
+  nomusic:{ txt:"🎬 NO MUSIC", cls:"b-nomusic" },
+  silent: { txt:"🔇 SILENT", cls:"b-silent" },
+};
+
+const state = { product:"all", type:"all", version:"all" };
+
+function render() {
+  const grid = document.getElementById("grid");
+  grid.innerHTML = "";
+  let shown = 0;
+  for (const v of VIDEOS) {
+    const ok = (state.product === "all" || v.product === state.product)
+            && (state.type === "all" || v.type === state.type)
+            && (state.version === "all" || v.version === state.version);
+    if (!ok) continue;
+    shown++;
+    const t = TYPE_LABEL[v.type];
+    const card = document.createElement("div");
+    card.className = "card";
+    card.innerHTML = `
+      <div class="thumbwrap" onclick="play('${v.src}')">
+        <img src="${v.thumb}" alt="${v.title}" loading="lazy">
+        <div class="badge ${t.cls}">${t.txt}</div>
+        <div class="dur">${v.dur}</div>
+        <div class="playicon">
+          <svg viewBox="0 0 68 68"><circle cx="34" cy="34" r="32" fill="rgba(12,22,38,.72)" stroke="rgba(255,255,255,.55)" stroke-width="2.5"/><polygon points="27,20 50,34 27,48" fill="#fff"/></svg>
+        </div>
+      </div>
+      <div class="body">
+        <div class="title">${v.title}</div>
+        <a class="dress" href="${v.productUrl}" target="_blank" rel="noopener">👗 ${v.dressName} · ${v.serial}</a>
+        <div class="meta"><b>Audio:</b> ${v.song}<br><b>Size:</b> 1080×1920 · 24fps</div>
+        <div class="btns">
+          <button class="btn b-watch" onclick="play('${v.src}')">▶ Watch</button>
+          <a class="btn b-dl" href="${v.src}" download>⬇ Download</a>
+        </div>
+      </div>`;
+    grid.appendChild(card);
+  }
+  document.getElementById("count").textContent = shown + " / " + VIDEOS.length + " videos";
+}
+
+document.querySelectorAll(".chip").forEach(ch => {
+  ch.addEventListener("click", () => {
+    const f = ch.dataset.f;
+    document.querySelectorAll(`.chip[data-f="${f}"]`).forEach(c => c.classList.remove("active"));
+    ch.classList.add("active");
+    state[f] = ch.dataset.v;
+    render();
+  });
+});
+
+function play(src) {
+  const m = document.getElementById("modal");
+  const vid = document.getElementById("mvideo");
+  vid.src = src;
+  m.classList.add("open");
+  vid.play().catch(() => {});
+}
+function closeModal() {
+  const m = document.getElementById("modal");
+  const vid = document.getElementById("mvideo");
+  vid.pause(); vid.src = "";
+  m.classList.remove("open");
+}
+document.getElementById("modal").addEventListener("click", e => {
+  if (e.target.id === "modal") closeModal();
+});
+
+render();
+</script>
+</body>
+</html>
