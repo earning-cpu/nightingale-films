@@ -109,6 +109,8 @@
       <div class="chip" data-f="product" data-v="TJF-K02">TJF-K02 · Blue Floral Anarkali</div>
       <div class="chip" data-f="product" data-v="TJF-S01">TJF-S01 · Magenta Bandhani Saree</div>
       <div class="chip" data-f="product" data-v="TJF-K01">TJF-K01 · Red Nermosa Anarkali</div>
+      <div class="chip" data-f="product" data-v="TJF-S02">TJF-S02 · Champagne Silk Saree</div>
+      <div class="chip" data-f="product" data-v="TJF-K03">TJF-K03 · Maroon Printed Kurta</div>
       <span class="count" id="count"></span>
     </div>
     <div class="frow">
@@ -126,6 +128,8 @@
       <div class="chip" data-f="version" data-v="diwali">Diwali reel</div>
       <div class="chip" data-f="version" data-v="red">Red · Story cut</div>
       <div class="chip" data-f="version" data-v="redv2">Red V2 · Ordered story</div>
+      <div class="chip" data-f="version" data-v="s02">Saree · Glitch-free cut</div>
+      <div class="chip" data-f="version" data-v="k03">Kurta · Glitch-free cut</div>
     </div>
   </div>
 </header>
@@ -216,6 +220,33 @@ const VIDEOS = [
     serial:"TJF-K01 · ASIN B0H8SBFJBX", type:"silent", version:"redv2", dur:"0:16",
     src:"https://github.com/earning-cpu/nightingale-films/releases/download/videos/reel_k01v2_SILENT.mp4", thumb:"thumbs/k01v2_c.jpg",
     productUrl:"https://www.amazon.in/dp/B0H8SBFJBX?tag=thejaipurifit-21", song:"no audio at all" },
+  // ---------- TJF-S02 Champagne Silk Saree ----------
+  { id:"s02-song", title:"Silk Saree — Glitch-free Cut · with song", product:"TJF-S02", dressName:"Champagne Silk Saree",
+    serial:"TJF-S02", type:"song", version:"s02", dur:"0:12",
+    src:"https://github.com/earning-cpu/nightingale-films/releases/download/videos/reel_s02_MUSIC_REF.mp4", thumb:"thumbs/s02_a.jpg",
+    productUrl:"", song:"Mast Magan · 83 BPM · hook" },
+  { id:"s02-nomusic", title:"Silk Saree — Glitch-free Cut · no music", product:"TJF-S02", dressName:"Champagne Silk Saree",
+    serial:"TJF-S02", type:"nomusic", version:"s02", dur:"0:12",
+    src:"https://github.com/earning-cpu/nightingale-films/releases/download/videos/reel_s02_NOMUSIC.mp4", thumb:"thumbs/s02_b.jpg",
+    productUrl:"", song:"beat bed · upload this" },
+  { id:"s02-silent", title:"Silk Saree — Glitch-free Cut · silent", product:"TJF-S02", dressName:"Champagne Silk Saree",
+    serial:"TJF-S02", type:"silent", version:"s02", dur:"0:12",
+    src:"https://github.com/earning-cpu/nightingale-films/releases/download/videos/reel_s02_SILENT.mp4", thumb:"thumbs/s02_c.jpg",
+    productUrl:"", song:"no audio at all" },
+
+  // ---------- TJF-K03 Maroon Printed Kurta ----------
+  { id:"k03-song", title:"Kurta Set — Glitch-free Cut · with song", product:"TJF-K03", dressName:"Maroon Printed Kurta Set",
+    serial:"TJF-K03", type:"song", version:"k03", dur:"0:09",
+    src:"https://github.com/earning-cpu/nightingale-films/releases/download/videos/reel_k03_MUSIC_REF.mp4", thumb:"thumbs/k03_a.jpg",
+    productUrl:"", song:"Mast Magan · 83 BPM · hook" },
+  { id:"k03-nomusic", title:"Kurta Set — Glitch-free Cut · no music", product:"TJF-K03", dressName:"Maroon Printed Kurta Set",
+    serial:"TJF-K03", type:"nomusic", version:"k03", dur:"0:09",
+    src:"https://github.com/earning-cpu/nightingale-films/releases/download/videos/reel_k03_NOMUSIC.mp4", thumb:"thumbs/k03_b.jpg",
+    productUrl:"", song:"beat bed · upload this" },
+  { id:"k03-silent", title:"Kurta Set — Glitch-free Cut · silent", product:"TJF-K03", dressName:"Maroon Printed Kurta Set",
+    serial:"TJF-K03", type:"silent", version:"k03", dur:"0:09",
+    src:"https://github.com/earning-cpu/nightingale-films/releases/download/videos/reel_k03_SILENT.mp4", thumb:"thumbs/k03_c.jpg",
+    productUrl:"", song:"no audio at all" },
 ];
 
 const TYPE_LABEL = {
