@@ -146,7 +146,7 @@
 
 <div class="modal" id="modal">
   <div class="modal-inner">
-    <video id="mvideo" controls playsinline></video>
+    <video id="mvideo" controls playsinline preload="metadata"></video>
     <button class="modal-close" onclick="closeModal()">Close</button>
   </div>
 </div>
@@ -221,31 +221,31 @@ const VIDEOS = [
     src:"https://github.com/earning-cpu/nightingale-films/releases/download/videos/reel_k01v2_SILENT.mp4", thumb:"thumbs/k01v2_c.jpg",
     productUrl:"https://www.amazon.in/dp/B0H8SBFJBX?tag=thejaipurifit-21", song:"no audio at all" },
   // ---------- TJF-S02 Yashika Pink Banarasi Saree ----------
-  { id:"s02-song", title:"Banarasi Saree — Glitch-free Cut · with song", product:"TJF-S02", dressName:"Yashika Banarasi Art Silk Saree (Maliya Pink)",
-    serial:"TJF-S02 · ASIN B0CDQDCWSD", type:"song", version:"s02", dur:"0:12",
-    src:"https://github.com/earning-cpu/nightingale-films/releases/download/videos/reel_s02v2_MUSIC_REF.mp4", thumb:"thumbs/s02_a.jpg",
+  { id:"s02-song", title:"Banarasi Saree — Story Cut V3 · with song", product:"TJF-S02", dressName:"Yashika Banarasi Art Silk Saree (Maliya Pink)",
+    serial:"TJF-S02 · ASIN B0CDQDCWSD", type:"song", version:"s02", page:"../silk-saree-reel/", dur:"0:12",
+    src:"https://github.com/earning-cpu/nightingale-films/releases/download/videos/reel_s02v3_MUSIC_REF.mp4", thumb:"thumbs/s02_a.jpg",
     productUrl:"https://www.amazon.in/dp/B0CDQDCWSD?tag=thejaipurifit-21", song:"Mast Magan · 83 BPM · hook" },
-  { id:"s02-nomusic", title:"Banarasi Saree — Glitch-free Cut · no music", product:"TJF-S02", dressName:"Yashika Banarasi Art Silk Saree (Maliya Pink)",
-    serial:"TJF-S02 · ASIN B0CDQDCWSD", type:"nomusic", version:"s02", dur:"0:12",
-    src:"https://github.com/earning-cpu/nightingale-films/releases/download/videos/reel_s02v2_NOMUSIC.mp4", thumb:"thumbs/s02_b.jpg",
+  { id:"s02-nomusic", title:"Banarasi Saree — Story Cut V3 · no music", product:"TJF-S02", dressName:"Yashika Banarasi Art Silk Saree (Maliya Pink)",
+    serial:"TJF-S02 · ASIN B0CDQDCWSD", type:"nomusic", version:"s02", page:"../silk-saree-reel/", dur:"0:12",
+    src:"https://github.com/earning-cpu/nightingale-films/releases/download/videos/reel_s02v3_NOMUSIC.mp4", thumb:"thumbs/s02_b.jpg",
     productUrl:"https://www.amazon.in/dp/B0CDQDCWSD?tag=thejaipurifit-21", song:"beat bed · upload this" },
-  { id:"s02-silent", title:"Banarasi Saree — Glitch-free Cut · silent", product:"TJF-S02", dressName:"Yashika Banarasi Art Silk Saree (Maliya Pink)",
-    serial:"TJF-S02 · ASIN B0CDQDCWSD", type:"silent", version:"s02", dur:"0:12",
-    src:"https://github.com/earning-cpu/nightingale-films/releases/download/videos/reel_s02v2_SILENT.mp4", thumb:"thumbs/s02_c.jpg",
+  { id:"s02-silent", title:"Banarasi Saree — Story Cut V3 · silent", product:"TJF-S02", dressName:"Yashika Banarasi Art Silk Saree (Maliya Pink)",
+    serial:"TJF-S02 · ASIN B0CDQDCWSD", type:"silent", version:"s02", page:"../silk-saree-reel/", dur:"0:12",
+    src:"https://github.com/earning-cpu/nightingale-films/releases/download/videos/reel_s02v3_SILENT.mp4", thumb:"thumbs/s02_c.jpg",
     productUrl:"https://www.amazon.in/dp/B0CDQDCWSD?tag=thejaipurifit-21", song:"no audio at all" },
 
   // ---------- TJF-K05 Klosia Maroon Anarkali ----------
-  { id:"k05-song", title:"Anarkali Kurta Set — Glitch-free Cut · with song", product:"TJF-K05", dressName:"Klosia Maroon Printed Anarkali Kurta Set",
-    serial:"TJF-K05 · ASIN B0FRFXX2C3", type:"song", version:"k05", dur:"0:09",
-    src:"https://github.com/earning-cpu/nightingale-films/releases/download/videos/reel_k05_MUSIC_REF.mp4", thumb:"thumbs/k05_a.jpg",
+  { id:"k05-song", title:"Anarkali Kurta Set — Story Cut V2 · with song", product:"TJF-K05", dressName:"Klosia Maroon Printed Anarkali Kurta Set",
+    serial:"TJF-K05 · ASIN B0FRFXX2C3", type:"song", version:"k05", page:"../maroon-kurta-reel/", dur:"0:09",
+    src:"https://github.com/earning-cpu/nightingale-films/releases/download/videos/reel_k05v2_MUSIC_REF.mp4", thumb:"thumbs/k05_a.jpg",
     productUrl:"https://www.amazon.in/dp/B0FRFXX2C3?tag=thejaipurifit-21", song:"Mast Magan · 83 BPM · hook" },
-  { id:"k05-nomusic", title:"Anarkali Kurta Set — Glitch-free Cut · no music", product:"TJF-K05", dressName:"Klosia Maroon Printed Anarkali Kurta Set",
-    serial:"TJF-K05 · ASIN B0FRFXX2C3", type:"nomusic", version:"k05", dur:"0:09",
-    src:"https://github.com/earning-cpu/nightingale-films/releases/download/videos/reel_k05_NOMUSIC.mp4", thumb:"thumbs/k05_b.jpg",
+  { id:"k05-nomusic", title:"Anarkali Kurta Set — Story Cut V2 · no music", product:"TJF-K05", dressName:"Klosia Maroon Printed Anarkali Kurta Set",
+    serial:"TJF-K05 · ASIN B0FRFXX2C3", type:"nomusic", version:"k05", page:"../maroon-kurta-reel/", dur:"0:09",
+    src:"https://github.com/earning-cpu/nightingale-films/releases/download/videos/reel_k05v2_NOMUSIC.mp4", thumb:"thumbs/k05_b.jpg",
     productUrl:"https://www.amazon.in/dp/B0FRFXX2C3?tag=thejaipurifit-21", song:"beat bed · upload this" },
-  { id:"k05-silent", title:"Anarkali Kurta Set — Glitch-free Cut · silent", product:"TJF-K05", dressName:"Klosia Maroon Printed Anarkali Kurta Set",
-    serial:"TJF-K05 · ASIN B0FRFXX2C3", type:"silent", version:"k05", dur:"0:09",
-    src:"https://github.com/earning-cpu/nightingale-films/releases/download/videos/reel_k05_SILENT.mp4", thumb:"thumbs/k05_c.jpg",
+  { id:"k05-silent", title:"Anarkali Kurta Set — Story Cut V2 · silent", product:"TJF-K05", dressName:"Klosia Maroon Printed Anarkali Kurta Set",
+    serial:"TJF-K05 · ASIN B0FRFXX2C3", type:"silent", version:"k05", page:"../maroon-kurta-reel/", dur:"0:09",
+    src:"https://github.com/earning-cpu/nightingale-films/releases/download/videos/reel_k05v2_SILENT.mp4", thumb:"thumbs/k05_c.jpg",
     productUrl:"https://www.amazon.in/dp/B0FRFXX2C3?tag=thejaipurifit-21", song:"no audio at all" },
 ];
 
@@ -286,6 +286,7 @@ function render() {
         <div class="btns">
           <button class="btn b-watch" onclick="play('${v.src}')">▶ Watch</button>
           <a class="btn b-dl" href="${v.src}" download>⬇ Download</a>
+          ${v.page ? `<a class="btn b-song" href="${v.page}" target="_blank">⚡ Fast view + download</a>` : ""}
         </div>
       </div>`;
     grid.appendChild(card);
