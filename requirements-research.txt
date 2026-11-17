@@ -1,0 +1,5 @@
+# Research/QA helpers for locally provided reference media
+# Install in an isolated Python environment: python3 -m venv .venv && .venv/bin/pip install -r requirements-research.txt
+yt-dlp==2026.10.26
+opencv-python-headless==5.0.0.93
+faster-whisper==1.2.1

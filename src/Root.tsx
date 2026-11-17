@@ -5,6 +5,7 @@ import {loadFont as loadType} from '@remotion/google-fonts/SpecialElite';
 import {loadFont as loadSans} from '@remotion/google-fonts/Inter';
 import {Nightingale} from './Nightingale';
 import {Wow, WOW_TOTAL} from './wow/Wow';
+import {PlatformTwo, PLATFORM_TWO_FRAMES} from './PlatformTwo';
 import {T} from './theme';
 
 loadMono('normal', {weights: ['400', '600', '700'], subsets: ['latin']});
@@ -25,6 +26,14 @@ export const RemotionRoot: React.FC = () => (
     id="Wow"
     component={Wow}
     durationInFrames={WOW_TOTAL}
+    fps={30}
+    width={1920}
+    height={1080}
+  />
+  <Composition
+    id="PlatformTwo"
+    component={PlatformTwo}
+    durationInFrames={PLATFORM_TWO_FRAMES}
     fps={30}
     width={1920}
     height={1080}

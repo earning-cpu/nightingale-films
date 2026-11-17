@@ -29,3 +29,9 @@ qa4/v4_master.mp4
 qa4/*.mp4
 qa4/f*.png
 qa4/z*.png
+
+# generated video exports and local render/cache artifacts
+deliverables/*.mp4
+.cache/
+.venv/
+public/horror/ambience.wav

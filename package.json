@@ -3,13 +3,16 @@
   "version": "1.0.0",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"no automated tests configured\"",
+    "video:platform-two": "node tools/make_platform_ambience.cjs && node tools/render_platform_two_short.cjs",
+    "video:platform-two-landscape": "node tools/make_platform_ambience.cjs && node tools/render_platform_two.cjs"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "description": "",
   "dependencies": {
+    "@fontsource/noto-sans-devanagari": "^5.3.0",
     "@remotion/cli": "^4.0.536",
     "@remotion/google-fonts": "^4.0.536",
     "react": "^19.3.1",
@@ -17,6 +20,7 @@
     "remotion": "^4.0.536"
   },
   "devDependencies": {
+    "@ffmpeg-installer/linux-x64": "^4.1.0",
     "@types/react": "^18.3.31",
     "@types/react-dom": "^18.3.7",
     "typescript": "^5.6.3"
