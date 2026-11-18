@@ -10,6 +10,9 @@
   "license": "ISC",
   "description": "",
   "dependencies": {
+    "@fontsource/hind": "^5.3.0",
+    "@fontsource/noto-sans-devanagari": "^5.3.0",
+    "@fontsource/poppins": "^5.3.0",
     "@remotion/cli": "^4.0.536",
     "@remotion/google-fonts": "^4.0.536",
     "react": "^19.3.1",
