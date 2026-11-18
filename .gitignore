@@ -28,4 +28,6 @@ qa4/raw4.mp4
 qa4/v4_master.mp4
 qa4/*.mp4
 qa4/f*.png
-qa4/z*.png
+# hindi horror intermediates
+qa_hindi/
+audio/hindi_horror/score_raw.wav
