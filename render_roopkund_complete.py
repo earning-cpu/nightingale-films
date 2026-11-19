@@ -64,31 +64,75 @@ def apply_scrim(frame):
     return frame
 
 def draw_hud(frame, frame_idx, time_sec, mode="sensor", tag="EXPEDITION ARCHIVE"):
-    """Contextually accurate HUD: sensor, lab, or historical archival stamp."""
+    """Contextually accurate HUD: sensor, asi, archival, historical, or lab."""
     h, w = frame.shape[:2]
     
-    # 1. Historical Archival Mode (1942 / 1943)
-    if mode == "archival":
-        # Subtle vintage document header
-        cv2.putText(frame, f"[ARCHIVAL RECORD: {tag}]", (60, 65), cv2.FONT_HERSHEY_SIMPLEX, 0.65, (160, 160, 160), 1, cv2.LINE_AA)
-        cv2.putText(frame, "DEPT OF FOREST & WILDLIFE // ALLIED FORCES 1942", (w - 620, 65), cv2.FONT_HERSHEY_SIMPLEX, 0.55, (140, 140, 140), 1, cv2.LINE_AA)
+    if mode == "none":
         return frame
 
-    # 2. Modern Forensic Lab Mode
+    # 1. Historical Archival Mode (1942 Forest Ranger / 1943 WW2 Dossier)
+    if mode == "archival_ranger":
+        # Subtle vintage forestry record header with dark backing strip
+        sub = frame[40:85, 45:w-45].copy()
+        cv2.rectangle(frame, (45, 40), (w - 45, 85), (10, 15, 20), -1)
+        frame[40:85, 45:w-45] = cv2.addWeighted(sub, 0.35, frame[40:85, 45:w-45], 0.65, 0)
+        cv2.putText(frame, "[FOREST PATROL RECORD: SUMMER 1942]", (60, 72), cv2.FONT_HERSHEY_SIMPLEX, 0.65, (220, 220, 220), 1, cv2.LINE_AA)
+        cv2.putText(frame, "NANDA DEVI RESERVE // H.K. MADHWAL EXPEDITION", (w - 650, 72), cv2.FONT_HERSHEY_SIMPLEX, 0.55, (180, 200, 210), 1, cv2.LINE_AA)
+        return frame
+
+    if mode == "archival_dossier":
+        # Allied intelligence header
+        sub = frame[40:85, 45:w-45].copy()
+        cv2.rectangle(frame, (45, 40), (w - 45, 85), (15, 15, 20), -1)
+        frame[40:85, 45:w-45] = cv2.addWeighted(sub, 0.35, frame[40:85, 45:w-45], 0.65, 0)
+        cv2.putText(frame, "[WAR OFFICE DECLASSIFIED DOSSIER // 1943]", (60, 72), cv2.FONT_HERSHEY_SIMPLEX, 0.65, (220, 220, 220), 1, cv2.LINE_AA)
+        cv2.putText(frame, "BRITISH MILITARY INTELLIGENCE - INDIA COMMAND", (w - 680, 72), cv2.FONT_HERSHEY_SIMPLEX, 0.55, (190, 205, 215), 1, cv2.LINE_AA)
+        return frame
+
+    # 2. Modern Forensic Lab Mode (CCMB Hyderabad)
     if mode == "lab":
-        cv2.putText(frame, "[LAB] CCMB FORENSIC ANALYSIS", (60, 65), cv2.FONT_HERSHEY_SIMPLEX, 0.65, (0, 220, 255), 2, cv2.LINE_AA)
-        cv2.putText(frame, "FACILITY: PALEOGENOMICS & RADIOCARBON (C-14)", (w - 620, 65), cv2.FONT_HERSHEY_SIMPLEX, 0.55, (180, 210, 230), 1, cv2.LINE_AA)
+        sub = frame[40:85, 45:w-45].copy()
+        cv2.rectangle(frame, (45, 40), (w - 45, 85), (10, 15, 25), -1)
+        frame[40:85, 45:w-45] = cv2.addWeighted(sub, 0.4, frame[40:85, 45:w-45], 0.6, 0)
+        cv2.putText(frame, "[LAB] CCMB FORENSIC ANALYSIS", (60, 72), cv2.FONT_HERSHEY_SIMPLEX, 0.65, (0, 220, 255), 2, cv2.LINE_AA)
+        cv2.putText(frame, "FACILITY: PALEOGENOMICS & RADIOCARBON (C-14)", (w - 650, 72), cv2.FONT_HERSHEY_SIMPLEX, 0.55, (180, 215, 235), 1, cv2.LINE_AA)
         return frame
 
-    # 3. Outdoor Sensor Telemetry (Roopkund Basin)
+    # 3. Archaeological Survey of India (ASI) Field Expedition Mode
+    if mode == "asi":
+        sub = frame[40:85, 45:w-45].copy()
+        cv2.rectangle(frame, (45, 40), (w - 45, 85), (10, 20, 20), -1)
+        frame[40:85, 45:w-45] = cv2.addWeighted(sub, 0.35, frame[40:85, 45:w-45], 0.65, 0)
+        cv2.putText(frame, "[ASI SURVEY RECORD] SITE: ROOPKUND GLACIAL BASIN", (60, 72), cv2.FONT_HERSHEY_SIMPLEX, 0.65, (220, 235, 245), 2, cv2.LINE_AA)
+        cv2.putText(frame, "SPECIMEN ID: RPK-SK-1942 // ELEV: 5,029M", (w - 580, 72), cv2.FONT_HERSHEY_SIMPLEX, 0.55, (180, 210, 225), 1, cv2.LINE_AA)
+        return frame
+
+    # 4. Cinematic Historical Period Reenactment Mode (No modern digital sensors!)
+    if mode == "historical_850":
+        sub = frame[40:85, 45:w-45].copy()
+        cv2.rectangle(frame, (45, 40), (w - 45, 85), (15, 15, 18), -1)
+        frame[40:85, 45:w-45] = cv2.addWeighted(sub, 0.4, frame[40:85, 45:w-45], 0.6, 0)
+        cv2.putText(frame, "[HISTORICAL RECONSTRUCTION: c. 850 CE]", (60, 72), cv2.FONT_HERSHEY_SIMPLEX, 0.65, (240, 220, 160), 2, cv2.LINE_AA)
+        cv2.putText(frame, "NANDA DEVI RAJ JAT PILGRIMAGE EXPEDITION", (w - 620, 72), cv2.FONT_HERSHEY_SIMPLEX, 0.55, (210, 200, 180), 1, cv2.LINE_AA)
+        return frame
+
+    if mode == "historical_1800":
+        sub = frame[40:85, 45:w-45].copy()
+        cv2.rectangle(frame, (45, 40), (w - 45, 85), (15, 15, 18), -1)
+        frame[40:85, 45:w-45] = cv2.addWeighted(sub, 0.4, frame[40:85, 45:w-45], 0.6, 0)
+        cv2.putText(frame, "[HISTORICAL RECONSTRUCTION: c. 1800 CE]", (60, 72), cv2.FONT_HERSHEY_SIMPLEX, 0.65, (240, 220, 160), 2, cv2.LINE_AA)
+        cv2.putText(frame, "EASTERN MEDITERRANEAN TRAVELERS (CRETA / GREECE)", (w - 680, 72), cv2.FONT_HERSHEY_SIMPLEX, 0.55, (210, 200, 180), 1, cv2.LINE_AA)
+        return frame
+
+    # 5. Outdoor Recon Sensor Telemetry (Aerial Drone Shot 01)
     if mode == "sensor":
         pulse = int(128 + 127 * np.sin(frame_idx * 0.2))
-        cv2.circle(frame, (50, 65), 7, (0, 0, pulse), -1)
-        cv2.putText(frame, "REC [SENSOR 01]", (68, 72), cv2.FONT_HERSHEY_SIMPLEX, 0.65, (220, 220, 220), 2, cv2.LINE_AA)
-        cv2.putText(frame, "LOC: ROOPKUND | 30.2622° N, 79.7317° E", (320, 72), cv2.FONT_HERSHEY_SIMPLEX, 0.6, (180, 210, 210), 1, cv2.LINE_AA)
-        cv2.putText(frame, "ALT: 5,029m (16,500 FT)", (w - 420, 72), cv2.FONT_HERSHEY_SIMPLEX, 0.65, (0, 210, 255), 2, cv2.LINE_AA)
+        cv2.circle(frame, (55, 68), 7, (0, 0, pulse), -1)
+        cv2.putText(frame, "REC [SENSOR 01]", (75, 74), cv2.FONT_HERSHEY_SIMPLEX, 0.65, (220, 220, 220), 2, cv2.LINE_AA)
+        cv2.putText(frame, "LOC: ROOPKUND [30.2622 N, 79.7317 E]", (320, 74), cv2.FONT_HERSHEY_SIMPLEX, 0.6, (180, 210, 210), 1, cv2.LINE_AA)
+        cv2.putText(frame, "ALT: 5,029m (16,500 FT)", (w - 460, 74), cv2.FONT_HERSHEY_SIMPLEX, 0.65, (0, 210, 255), 2, cv2.LINE_AA)
         
-        # Corner brackets
+        # Corner brackets with safe padding
         blen, col = 30, (90, 130, 160)
         for cx, cy in [(35, 35), (w - 35, 35), (35, h - 35), (w - 35, h - 35)]:
             dx = blen if cx < w//2 else -blen
@@ -119,29 +163,29 @@ def render_all_shots():
         # 2. 3.8s - 5.5s (51f): Midnight Mountains Title Backdrop
         ("public/img/roopkund_cinematic_title_bg.jpg", 51, "shot_02", "title_bg", "none", "CLASSIFIED DOSSIER"),
         # 3. 5.5s - 9.0s (105f): Ribs & Skull in Glacial Ice
-        ("public/img/roopkund_skeletons_ice.jpg", 105, "shot_03", "ice_shimmer", "sensor", "SPECIMEN SKELETAL CLUSTER"),
+        ("public/img/roopkund_skeletons_ice.jpg", 105, "shot_03", "ice_shimmer", "asi", "SPECIMEN SKELETAL CLUSTER"),
         # 4. 9.0s - 12.5s (105f): 1942 British Ranger
-        ("public/img/roopkund_ranger_1942.jpg", 105, "shot_04", "archival_grain", "archival", "1942 FOREST PATROL"),
+        ("public/img/roopkund_ranger_1942.jpg", 105, "shot_04", "archival_grain", "archival_ranger", "1942 FOREST PATROL"),
         # 5. 12.5s - 16.5s (120f): WWII Secret Intelligence Map
-        ("public/img/roopkund_ww2_dossier.jpg", 120, "shot_05", "tactical_map", "archival", "WAR OFFICE 1943"),
+        ("public/img/roopkund_ww2_dossier.jpg", 120, "shot_05", "tactical_map", "archival_dossier", "WAR OFFICE 1943"),
         # 6. 16.5s - 20.5s (120f): Forensic Anthropology Lab Examination
         ("public/img/roopkund_forensic_lab.jpg", 120, "shot_06", "lab_zoom", "lab", "ANTHROPOLOGY FORENSIC LAB"),
         # 7. 20.5s - 25.0s (135f): 9th Century Pilgrims on Ridge
-        ("public/img/roopkund_pilgrims_blizzard.jpg", 135, "shot_07", "blizzard_pan", "sensor", "850 CE PILGRIMAGE ROUTE"),
+        ("public/img/roopkund_pilgrims_blizzard.jpg", 135, "shot_07", "blizzard_pan", "historical_850", "850 CE PILGRIMAGE ROUTE"),
         # 8. 25.0s - 28.5s (105f): Macro Cranial Fracture
         ("public/img/roopkund_skull_fracture.jpg", 105, "shot_08", "light_sweep", "lab", "CRANIAL TRAUMA ANALYSIS"),
         # 9. 28.5s - 32.0s (105f): 3D Computed Tomography CT Reconstruction
         ("public/img/roopkund_ct_scan_reconstruction.jpg", 105, "shot_09", "ct_recon", "none", "AXIAL CT SCAN 3D"),
         # 10. 32.0s - 36.5s (135f): Lethal Cricket-Ball Hailstorm
-        ("public/img/roopkund_hailstorm_lethal.jpg", 135, "shot_10", "hail_impact", "sensor", "SUPERCELL HAIL DYNAMICS"),
+        ("public/img/roopkund_hailstorm_lethal.jpg", 135, "shot_10", "hail_impact", "none", "SUPERCELL HAIL DYNAMICS"),
         # 11. 36.5s - 41.5s (150f): 2019 Nature Eurasian Migration Map
         ("public/img/roopkund_dna_discovery.jpg", 150, "shot_11", "dna_pan", "lab", "NATURE 2019 GENOMIC STUDY"),
         # 12. 41.5s - 46.5s (150f): Nature 2019 Scientific Monitor Infographic
         ("public/img/roopkund_nature_infographic.jpg", 150, "shot_12", "monitor_zoom", "none", "1,000 YEAR TIME GAP"),
         # 13. 46.5s - 52.0s (165f): 19th Century Greek Travelers
-        ("public/img/roopkund_mediterranean_travelers.jpg", 165, "shot_13", "traveler_zoom", "sensor", "1800 CE MEDITERRANEAN GROUP"),
+        ("public/img/roopkund_mediterranean_travelers.jpg", 165, "shot_13", "traveler_zoom", "historical_1800", "1800 CE MEDITERRANEAN GROUP"),
         # 14. 52.0s - 55.0s (90f): Twilight Panoramic Lake & Milky Way
-        ("public/img/roopkund_lake_night_panoramic.jpg", 90, "shot_14", "panoramic_drift", "sensor", "ROOPKUND BASIN NIGHT"),
+        ("public/img/roopkund_lake_night_panoramic.jpg", 90, "shot_14", "panoramic_drift", "none", "ROOPKUND BASIN NIGHT"),
         # 15. 55.0s - 58.0s (90f): Studio Soundstage Outro Backdrop
         ("public/img/roopkund_outro_clean_bg.jpg", 90, "shot_15", "outro_fog", "none", "NIGHTINGALE FILMS")
     ]
@@ -230,8 +274,8 @@ def render_all_shots():
                 frame = apply_zoom_pan(base_img, prog, 1.08, 1.0)
                 frame = snow.update_and_render(frame, f, 0.8)
             elif fx == "panoramic_drift":
+                # Pure cinematic drift across midnight lake and Milky Way (no snow interference)
                 frame = apply_zoom_pan(base_img, prog, 1.0, 1.06, dx=int(40 * prog))
-                frame = snow.update_and_render(frame, f, 0.4)
             elif fx == "outro_fog":
                 frame = apply_zoom_pan(base_img, prog, 1.0, 1.04)
             else:

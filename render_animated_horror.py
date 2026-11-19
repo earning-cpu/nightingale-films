@@ -39,6 +39,11 @@ def update_rain(rain, frame, wind=-3.0):
         cv2.line(frame, (x1, y1), (x2, y2), (200, 215, 230), 1, cv2.LINE_AA)
 
 def add_cctv_hud(frame, cam_name, t_sec, rec_blink=True):
+    # Dark semi-transparent backing strip for guaranteed 100% legibility against bright backgrounds
+    sub = frame[45:120, 50:680].copy()
+    cv2.rectangle(frame, (50, 45), (680, 120), (10, 12, 16), -1)
+    frame[45:120, 50:680] = cv2.addWeighted(sub, 0.35, frame[45:120, 50:680], 0.65, 0)
+
     # Live running millisecond timecode
     total_ms = int(t_sec * 1000)
     sec = (total_ms // 1000) % 60
@@ -47,15 +52,18 @@ def add_cctv_hud(frame, cam_name, t_sec, rec_blink=True):
     frame_num = int((t_sec * FPS) % FPS)
     
     # Cam label
-    cv2.putText(frame, cam_name, (70, 70), cv2.FONT_HERSHEY_SIMPLEX, 0.7, (0, 230, 255), 2, cv2.LINE_AA)
+    cv2.putText(frame, cam_name, (70, 75), cv2.FONT_HERSHEY_SIMPLEX, 0.65, (0, 220, 255), 2, cv2.LINE_AA)
     # Timecode
     tc_str = f"1967-10-31  {hour:02d}:{minute:02d}:{sec:02d}:{frame_num:02d}"
-    cv2.putText(frame, tc_str, (70, 105), cv2.FONT_HERSHEY_SIMPLEX, 0.6, (210, 220, 225), 1, cv2.LINE_AA)
+    cv2.putText(frame, tc_str, (70, 105), cv2.FONT_HERSHEY_SIMPLEX, 0.55, (210, 220, 225), 1, cv2.LINE_AA)
     
     # REC blinking indicator
     if rec_blink and (int(t_sec * 2) % 2 == 0):
-        cv2.circle(frame, (W - 130, 70), 9, (0, 0, 255), -1)
-        cv2.putText(frame, "REC", (W - 105, 78), cv2.FONT_HERSHEY_SIMPLEX, 0.75, (0, 0, 255), 2, cv2.LINE_AA)
+        r_sub = frame[48:90, W-145:W-35].copy()
+        cv2.rectangle(frame, (W - 145, 48), (W - 35, 90), (10, 12, 16), -1)
+        frame[48:90, W-145:W-35] = cv2.addWeighted(r_sub, 0.35, frame[48:90, W-145:W-35], 0.65, 0)
+        cv2.circle(frame, (W - 120, 68), 7, (0, 0, 255), -1)
+        cv2.putText(frame, "REC", (W - 100, 75), cv2.FONT_HERSHEY_SIMPLEX, 0.7, (0, 0, 255), 2, cv2.LINE_AA)
 
 def add_radial_light(frame, lx, ly, radius, color, intensity=0.8):
     # Downscale for high-speed radial field computation
@@ -124,8 +132,8 @@ def render_shot_01(out_path, dur=2.8):
         
         # Real rain
         update_rain(rain, frame, wind=-4.0)
-        # CCTV HUD
-        add_cctv_hud(frame, "CAM 01 - PURULIA JUNCTION [1967]", t)
+        # 1967 Purulia Railway Station HUD
+        add_cctv_hud(frame, "EASTERN RAILWAY - BEGUNKODAR [1967]", t)
         proc.stdin.write(frame.tobytes())
         
     proc.stdin.close()
@@ -185,8 +193,11 @@ def render_shot_03(out_path, dur=3.3):
         fy = int(H * 0.40 + 20 * math.cos(t * 5.0))
         add_radial_light(frame, fx, fy, 450, [220, 230, 240], intensity=0.55)
         
-        # Add TOP SECRET declassified watermarks
-        cv2.putText(frame, "DECLASSIFIED - RAILWAY RECORD 1967", (W - 580, H - 70), cv2.FONT_HERSHEY_SIMPLEX, 0.65, (0, 30, 220), 2, cv2.LINE_AA)
+        # Add TOP SECRET declassified watermarks with high contrast
+        sub_bot = frame[H - 95:H - 45, W - 600:W - 40].copy()
+        cv2.rectangle(frame, (W - 600, H - 95), (W - 40, H - 45), (10, 15, 20), -1)
+        frame[H - 95:H - 45, W - 600:W - 40] = cv2.addWeighted(sub_bot, 0.35, frame[H - 95:H - 45, W - 600:W - 40], 0.65, 0)
+        cv2.putText(frame, "DECLASSIFIED - RAILWAY RECORD 1967", (W - 580, H - 65), cv2.FONT_HERSHEY_SIMPLEX, 0.65, (0, 220, 255), 2, cv2.LINE_AA)
         add_cctv_hud(frame, "EVIDENCE ARCHIVE - CASUALTY LOG", t + 5.5, rec_blink=False)
         proc.stdin.write(frame.tobytes())
         
@@ -461,10 +472,20 @@ def render_shot_11_blackout(out_path, dur=0.8):
     subprocess.run(cmd, check=True, stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
 
 def render_shot_12_title(out_path, dur=3.2):
-    # Climactic Title Card with HarfBuzz Ass and White Impact Flash
-    cmd = ["ffmpeg", "-y", "-f", "lavfi", "-i", f"color=c=#07090e:s={W}x{H}:r={FPS}:d={dur}",
-           "-vf", f"drawbox=x=0:y=0:w=iw:h=ih:color=white:t=fill:enable='between(t,0,0.06)',ass=qa_hindi/title_shot.ass:fontsdir=assets",
-           "-pix_fmt", "yuv420p", "-r", str(FPS), "-c:v", "libx264", "-preset", "ultrafast", "-crf", "18", out_path]
+    # Climactic Studio Outro Card with HarfBuzz Ass and Cinematic Studio Soundstage
+    bg_path = "public/img/roopkund_outro_clean_bg.jpg"
+    ass_path = "audio/begunkodar_outro.ass" if os.path.exists("audio/begunkodar_outro.ass") else "qa_hindi/title_shot.ass"
+    if os.path.exists(bg_path):
+        cmd = [
+            "ffmpeg", "-y",
+            "-loop", "1", "-t", str(dur), "-i", bg_path,
+            "-vf", f"scale={W}:{H},drawbox=x=0:y=0:w=iw:h=ih:color=white:t=fill:enable='between(t,0,0.06)',ass={ass_path}:fontsdir=assets",
+            "-pix_fmt", "yuv420p", "-r", str(FPS), "-c:v", "libx264", "-preset", "ultrafast", "-crf", "18", out_path
+        ]
+    else:
+        cmd = ["ffmpeg", "-y", "-f", "lavfi", "-i", f"color=c=#07090e:s={W}x{H}:r={FPS}:d={dur}",
+               "-vf", f"drawbox=x=0:y=0:w=iw:h=ih:color=white:t=fill:enable='between(t,0,0.06)',ass={ass_path}:fontsdir=assets",
+               "-pix_fmt", "yuv420p", "-r", str(FPS), "-c:v", "libx264", "-preset", "ultrafast", "-crf", "18", out_path]
     subprocess.run(cmd, check=True, stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
 
 # -------------------------------------------------------------
@@ -513,12 +534,15 @@ def master_final(video_path, audio_path):
     print("Mastering final cut with ASS subtitles, gradient bottom scrim, film grain...")
     master_1080 = "docs/begunkodar_1080.mp4"
     
+    subs_path = "audio/begunkodar_subs.ass" if os.path.exists("audio/begunkodar_subs.ass") else "qa_hindi/master_subs.ass"
+    scrim_path = "assets/gradient_scrim.png" if os.path.exists("assets/gradient_scrim.png") else "qa_hindi/gradient_scrim.png"
+    
     subprocess.run([
         "ffmpeg", "-y",
         "-i", video_path,
-        "-loop", "1", "-i", "qa_hindi/gradient_scrim.png",
+        "-loop", "1", "-i", scrim_path,
         "-i", audio_path,
-        "-filter_complex", "[0:v][1:v]overlay=shortest=1[vscrim];[vscrim]ass=qa_hindi/master_subs.ass:fontsdir=assets[vout]",
+        "-filter_complex", f"[0:v][1:v]overlay=shortest=1[vscrim];[vscrim]ass={subs_path}:fontsdir=assets[vout]",
         "-map", "[vout]", "-map", "2:a",
         "-c:v", "libx264", "-preset", "veryfast", "-crf", "19",
         "-c:a", "aac", "-b:a", "192k", "-ar", "48000",

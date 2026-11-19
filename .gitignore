@@ -30,7 +30,9 @@ qa4/*.mp4
 qa4/f*.png
 # hindi horror intermediates
 qa_hindi/
-audio/hindi_horror/score_raw.wav
 qa_roopkund/
+qa_audit/
+__pycache__/
+audio/hindi_horror/score_raw.wav
 audio/roopkund_score.wav
 test_tts.mp3

@@ -1,0 +1,28 @@
+[Script Info]
+ScriptType: v4.00+
+PlayResX: 1920
+PlayResY: 1080
+WrapStyle: 0
+ScaledBorderAndShadow: yes
+
+[V4+ Styles]
+Format: Name, Fontname, Fontsize, PrimaryColour, SecondaryColour, OutlineColour, BackColour, Bold, Italic, Underline, StrikeOut, ScaleX, ScaleY, Spacing, Angle, BorderStyle, Outline, Shadow, Alignment, MarginL, MarginR, MarginV, Encoding
+Style: BottomSub,Noto Sans Devanagari,48,&H00F5F5F5,&H000000FF,&H000a0e14,&H80000000,-1,0,0,0,100,100,0,0,1,1.8,4,2,60,60,75,1
+Style: TopTag,Noto Sans Devanagari,24,&H00D9A441,&H000000FF,&H000a0e14,&H80000000,-1,0,0,0,100,100,0,0,1,1.2,2,7,80,80,65,1
+
+[Events]
+Format: Layer, Start, End, Style, Name, MarginL, MarginR, MarginV, Effect, Text
+; Top corner location / timeline stamp
+
+; Dynamic kinetic dialogue subtitles
+Dialogue: 0,0:00:00.50,0:00:02.80,BottomSub,,0,0,0,,{\fad(60,60)}उन्नीस सौ {\c&H0022CCFF&}सड़सठ...{\c}
+Dialogue: 0,0:00:02.80,0:00:05.50,BottomSub,,0,0,0,,{\fad(60,60)}पश्चिम बंगाल का {\c&H0022CCFF&}पुरुलिया{\c} जिला।
+Dialogue: 0,0:00:05.50,0:00:08.80,BottomSub,,0,0,0,,{\fad(60,60)}रेलवे ने स्टेशन को {\c&H0022CCFF&}42 साल{\c} के लिए बंद कर दिया।
+Dialogue: 0,0:00:08.80,0:00:12.00,BottomSub,,0,0,0,,{\fad(60,60)}स्टेशन मास्टर ने रात को...
+Dialogue: 0,0:00:12.00,0:00:14.50,BottomSub,,0,0,0,,{\fad(60,60)}पटरियों पर एक {\c&H002222FF&}सफ़ेद साया{\c} देखा।
+Dialogue: 0,0:00:14.50,0:00:17.20,BottomSub,,0,0,0,,{\fad(60,60)}अगली सुबह... उसकी {\c&H002222FF&}लाश मिली।{\c}
+Dialogue: 0,0:00:17.20,0:00:21.00,BottomSub,,0,0,0,,{\fad(60,60)}उसके बाद {\c&H0022CCFF&}कोई ट्रेन{\c} वहाँ नहीं रुकी।
+Dialogue: 0,0:00:21.00,0:00:24.20,BottomSub,,0,0,0,,{\fad(60,60)}लेकिन हर {\c&H0022CCFF&}अमावस की रात...{\c}
+Dialogue: 0,0:00:24.20,0:00:27.20,BottomSub,,0,0,0,,{\fad(60,60)}सिग्नल अपने आप {\c&H002222FF&}लाल{\c} हो जाता था...
+Dialogue: 0,0:00:27.20,0:00:31.00,BottomSub,,0,0,0,,{\fad(60,60)}{\c&H002222FF&}बेगुनकोदर...{\c} वो नाम जिसे नक्शे से मिटा दिया गया।
+Dialogue: 0,0:00:31.00,0:00:34.00,BottomSub,,0,0,0,,{\fad(60,60)}अगर ट्रेन धीमी हो जाए... तो खिड़की से {\c&H002222FF&}बाहर मत देखना।{\c}
