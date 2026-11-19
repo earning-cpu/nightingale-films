@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Nightingale Films — Unsolved Realities Studio</title>
+  <title>Nightingale Films — Unsolved Realities 2D Animation Studio</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;800;900&family=Inter:wght@400;500;700&family=Noto+Sans+Devanagari:wght@400;600;700&display=swap" rel="stylesheet">
@@ -49,23 +49,51 @@
       letter-spacing: 1px;
     }
     .container {
-      max-width: 1200px;
+      max-width: 1240px;
       margin: 0 auto;
       padding: 20px;
+    }
+    .film-selector {
+      display: flex;
+      gap: 12px;
+      margin-bottom: 25px;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+    .film-btn {
+      background: #111726;
+      border: 1px solid #23314d;
+      color: #94a3b8;
+      padding: 12px 22px;
+      border-radius: 8px;
+      cursor: pointer;
+      font-size: 14px;
+      font-weight: 700;
+      transition: all 0.2s ease;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .film-btn:hover { background: #192338; color: #fff; border-color: #3b5078; }
+    .film-btn.active {
+      background: linear-gradient(135deg, #ff3344 0%, #990011 100%);
+      border-color: #ff3344;
+      color: #fff;
+      box-shadow: 0 4px 18px rgba(255, 51, 68, 0.4);
     }
     .grid {
       display: grid;
       grid-template-columns: 1fr;
       gap: 30px;
     }
-    @media(min-width: 900px) {
+    @media(min-width: 960px) {
       .grid { grid-template-columns: 2fr 1fr; }
     }
     .player-card {
       background: var(--card-bg);
       border: 1px solid var(--border);
       border-radius: 12px;
-      padding: 20px;
+      padding: 22px;
       box-shadow: 0 10px 30px rgba(0,0,0,0.5);
     }
     video {
@@ -100,33 +128,35 @@
     }
     .pill {
       display: inline-block;
-      padding: 3px 10px;
+      padding: 4px 12px;
       border-radius: 20px;
       font-size: 11px;
       font-weight: bold;
       text-transform: uppercase;
       margin-right: 8px;
+      margin-top: 5px;
     }
     .pill-red { background: rgba(255, 51, 68, 0.2); color: var(--accent-red); border: 1px solid var(--accent-red); }
     .pill-cyan { background: rgba(0, 212, 255, 0.2); color: var(--accent-cyan); border: 1px solid var(--accent-cyan); }
     .pill-amber { background: rgba(255, 170, 0, 0.2); color: var(--accent-amber); border: 1px solid var(--accent-amber); }
     .title-h1 {
-      font-size: 22px;
-      margin: 15px 0 10px;
+      font-size: 24px;
+      margin: 16px 0 10px;
       color: #fff;
     }
     .dossier-box {
       background: #111726;
       border-left: 3px solid var(--accent-cyan);
-      padding: 15px;
+      padding: 16px;
       border-radius: 0 8px 8px 0;
-      margin: 15px 0;
+      margin: 18px 0;
       font-size: 13px;
+      line-height: 1.65;
     }
     .dossier-box h3 {
       color: var(--accent-cyan);
       font-size: 14px;
-      margin-bottom: 6px;
+      margin-bottom: 8px;
       text-transform: uppercase;
       letter-spacing: 1px;
     }
@@ -138,7 +168,7 @@
     }
     .btn-download {
       flex: 1;
-      min-width: 160px;
+      min-width: 170px;
       background: linear-gradient(135deg, #ff3344 0%, #bb1122 100%);
       color: #fff;
       text-align: center;
@@ -209,11 +239,11 @@
       font-family: monospace;
       font-size: 12px;
       background: #090d15;
-      padding: 12px;
+      padding: 14px;
       border-radius: 6px;
-      max-height: 250px;
+      max-height: 290px;
       overflow-y: auto;
-      line-height: 1.5;
+      line-height: 1.6;
       color: #94a3b8;
     }
     .script-box b { color: #f1f5f9; }
@@ -223,88 +253,67 @@
 
   <header>
     <div class="brand">Nightingale Films</div>
-    <div class="subtitle">UNSOLVED REALITIES & FACT-CHECKED MYSTERIES</div>
+    <div class="subtitle">UNSOLVED REALITIES • FACT-CHECKED 2D ANIMATED INVESTIGATIVE CINEMA</div>
   </header>
 
   <div class="container">
     
+    <!-- Top Film Switcher -->
+    <div class="film-selector">
+      <button class="film-btn active" onclick="loadFilm('kuldhara', this)">
+        🏰 कुलधरा: 200 साल पुराना शापित गांव (Kuldhara)
+      </button>
+      <button class="film-btn" onclick="loadFilm('roopkund', this)">
+        🏔️ रूपकुंड: 1200 साल पुराना कंकाल कांड (Roopkund)
+      </button>
+      <button class="film-btn" onclick="loadFilm('begunkodar', this)">
+        🚂 बेगुनकोदर: 42 साल का सन्नाटा (Begunkodar)
+      </button>
+    </div>
+
     <div class="grid">
       <!-- Left Column: Video Player & Controls -->
       <div class="player-card">
         
-        <div class="tab-bar">
-          <button class="tab-btn active" onclick="switchVideo('roopkund_1080.mp4', this)">🏔️ Roopkund (1080p Master)</button>
-          <button class="tab-btn" onclick="switchVideo('roopkund_vertical_720.mp4', this)">📱 Roopkund (9:16 Shorts)</button>
-          <button class="tab-btn" onclick="switchVideo('roopkund_720.mp4', this)">720p HD</button>
-          <button class="tab-btn" onclick="switchVideo('roopkund_480.mp4', this)">480p Mobile</button>
-          <button class="tab-btn" onclick="switchVideo('begunkodar_1080.mp4', this)">🚂 Begunkodar Film</button>
+        <div class="tab-bar" id="resTabBar">
+          <!-- Populated by JS -->
         </div>
 
-        <video id="mainVideo" controls poster="roopkund_poster.jpg" preload="metadata">
-          <source id="videoSrc" src="roopkund_1080.mp4" type="video/mp4">
+        <video id="mainVideo" controls poster="kuldhara_poster.jpg" preload="metadata">
+          <source id="videoSrc" src="kuldhara_1080.mp4" type="video/mp4">
           Your browser does not support the video tag.
         </video>
 
-        <h1 class="title-h1" id="filmTitle">रूपकुंड: 1200 साल पुराना कंकाल कांड (The 1,200-Year Skeleton Lake)</h1>
+        <h1 class="title-h1" id="filmTitle">कुलधरा: 200 साल पुराना शापित गांव (Kuldhara: The 200-Year Cursed Ghost Village)</h1>
         
-        <p>
-          <span class="pill pill-red">100% Real Fact-Checked</span>
-          <span class="pill pill-cyan">Nature 2019 Genomic Study</span>
-          <span class="pill pill-amber">15 Cinematic Cuts (Zero Repetition)</span>
+        <p id="badgeRow">
+          <span class="pill pill-red">100% Fact-Checked History</span>
+          <span class="pill pill-cyan">ASI Protected Monument</span>
+          <span class="pill pill-amber">14 Unique Cinematic Plates</span>
         </p>
 
-        <div class="dossier-box">
-          <h3>🔬 Multi-Source Scientific Verification</h3>
-          <p>
-            <b>Location:</b> 16,500 ft (5,029 m) high glacial lake in Chamoli, Uttarakhand.<br>
-            <b>1942 Discovery:</b> Forest Ranger H.K. Madhwal discovers hundreds of bones. British suspect WWII Japanese invasion.<br>
-            <b>Forensic Trauma (2004 CCMB):</b> Unhealed circular fractures on crania caused by ~23cm spherical hailstones.<br>
-            <b>2019 Nature Study (Harney et al.):</b> DNA revealed two distinct groups 1,000 years apart—South Asian (~850 CE) and Eastern Mediterranean Greek/Cretan (~1800 CE).
-          </p>
+        <div class="dossier-box" id="dossierContent">
+          <!-- Populated by JS -->
         </div>
 
         <!-- Download Buttons -->
-        <div class="action-row">
-          <a class="btn-download" id="downloadBtn" href="roopkund_1080.mp4" download>⬇ Download 1080p Master (60 MB)</a>
-          <a class="btn-sec" href="roopkund_vertical_720.mp4" download>⬇ Download 9:16 Shorts (11 MB)</a>
-          <a class="btn-sec" href="roopkund_720.mp4" download>⬇ 720p HD</a>
-          <a class="btn-sec" href="roopkund_480.mp4" download>⬇ 480p Mobile</a>
+        <div class="action-row" id="downloadRow">
+          <!-- Populated by JS -->
         </div>
 
       </div>
 
       <!-- Right Column: Verification Dossier & Story Script -->
       <div class="side-card">
-        <h2>📑 Story Script & Pacing (58.0s)</h2>
-        <div class="script-box">
-          <b>[00:00 - 00:08] Hook & Aerial Basin</b><br>
-          हिमालय में 16,500 फीट की ऊंचाई पर एक ऐसी झील है... जहां सैकड़ों इंसानी कंकाल बर्फ में तैर रहे हैं!<br><br>
-          <b>[00:08 - 00:24] 1942 Discovery & Forensic Reality</b><br>
-          1942: ब्रिटिश सरकार को लगा कि यह जापानी सैनिकों की फौज है। लेकिन फॉरेंसिक जांच में पता चला कि ये हड्डियां 1200 साल पुरानी थीं!<br><br>
-          <b>[00:24 - 00:36] Fatal Hailstorm Climax</b><br>
-          खोपड़ियों पर किसी हथियार का घाव नहीं... बल्कि आसमान से गिरे 9 इंच के जानलेवा ओले!<br><br>
-          <b>[00:36 - 00:58] Nature 2019 Mediterranean Paradox</b><br>
-          2019 में 'नेचर' पत्रिका के DNA टेस्ट ने दुनिया को हिला दिया। 14 लोग भारत के नहीं... 5,000 KM दूर ग्रीस के थे! 200 साल पहले वो यहां क्यों आए? आज तक अनसुलझा रहस्य!
+        <h2 id="scriptHeader">📑 Story Script & Pacing (71.0s)</h2>
+        <div class="script-box" id="scriptContent">
+          <!-- Populated by JS -->
         </div>
 
         <h2 style="margin-top: 25px;">🔍 Multi-Source Fact Check</h2>
         
-        <div class="fact-item">
-          <span class="fact-label">1. Ancient DNA & Mediterranean Lineage</span>
-          <span>Nature Communications (2019) 10:3670. Paleogenomics confirms 14 individuals cluster with present-day Cretans & mainland Greeks.</span>
-          <span class="fact-src">Source: Harvard Medical School, CCMB & Birbal Sahni Inst.</span>
-        </div>
-
-        <div class="fact-item">
-          <span class="fact-label">2. Blunt Force Skull Trauma</span>
-          <span>Forensic craniotomy revealed no edge cuts or defensive wounds; lethal depression fractures consistent with free-falling baseball-sized hailstones.</span>
-          <span class="fact-src">Source: Anthropological Survey of India & Oxford AMS Lab.</span>
-        </div>
-
-        <div class="fact-item">
-          <span class="fact-label">3. Zero Fake Creepypasta</span>
-          <span>Strict adherence to verified historical archives and peer-reviewed science to ensure maximum viewer trust and retention.</span>
-          <span class="fact-src">Source: Nightingale Films Verification Standard.</span>
+        <div id="factsList">
+          <!-- Populated by JS -->
         </div>
 
       </div>
@@ -313,31 +322,240 @@
   </div>
 
   <script>
-    function switchVideo(file, btn) {
+    const filmData = {
+      kuldhara: {
+        title: "कुलधरा: 200 साल पुराना शापित गांव (Kuldhara: The 200-Year Cursed Ghost Village)",
+        poster: "kuldhara_poster.jpg",
+        badges: [
+          { text: "100% Fact-Checked History", type: "pill-red" },
+          { text: "ASI Protected Monument", type: "pill-cyan" },
+          { text: "14 Unique Cinematic Plates", type: "pill-amber" }
+        ],
+        dossier: `
+          <h3>🏛️ Historical & Archaeological Dossier</h3>
+          <p>
+            <b>Location:</b> Jaisalmer District, Rajasthan (27.18° N, 70.79° E). Established 13th c. by affluent Paliwal Brahmins.<br>
+            <b>The 1825 Mass Abandonment:</b> Salim Singh, the tyrannical diwan of Jaisalmer, levied predatory taxes and issued a fatal ultimatum demanding the village chief's daughter.<br>
+            <b>The Midnight Decision:</b> Rather than surrender honor, chiefs from 84 allied Paliwal villages convened at the Shiva Mandir and vanished in a single night.<br>
+            <b>The Dying Anathema:</b> Before deserting their ancestral havelis, they cursed the land so that no human would ever inhabit it again. Today, the Archaeological Survey of India (ASI) enforces an absolute entry ban from sunset to sunrise.
+          </p>
+        `,
+        scriptHeader: "📑 Story Script & Pacing (71.0s)",
+        script: `
+          <b>[00:00 - 00:05] Hook & Title Reveal</b><br>
+          साल 1825 की एक ही रात में... 84 गांवों के 1500 लोग हवा में गायब हो गए!<br><br>
+          <b>[00:05 - 00:17] 1825 Prosperity & The Tyrant Salim Singh</b><br>
+          जैसलमेर का कुलधरा... जहां खुशहाली देखकर क्रूर दीवान सलीम सिंह जल भुन गया था!<br><br>
+          <b>[00:17 - 00:33] The Ultimatum & Midnight Council</b><br>
+          सलीम सिंह ने पालीवाल ब्राह्मणों पर असहनीय लगान और जुल्म थोप दिया। चेतावनी दी कि पूर्णिमा तक झुकें... ग्रामीणों के पास सिर्फ एक रात थी!<br><br>
+          <b>[00:33 - 00:49] Silent Mass Exodus & The Eternal Curse</b><br>
+          आधी रात को... अपनी दौलत वहीं छोड़कर, 1500 लोग चुपचाप अंधेरे में चल पड़े! जाने से पहले खौफनाक श्राप दिया—'इस धरती पर अब कभी कोई इंसान नहीं बसेगा!'<br><br>
+          <b>[00:49 - 01:04] Morning Discovery & Modern ASI Warning</b><br>
+          अगली सुबह चूल्हों में आग जल रही थी... पर रेगिस्तान में एक भी पैर का निशान नहीं मिला! 200 साल बाद आज भी ASI का बोर्ड है: 'सूरज ढलने के बाद प्रवेश सख्त मना है!'<br><br>
+          <b>[01:04 - 01:11] Paranormal Investigation & Studio Outro</b><br>
+          थर्मल कैमरों में अनसुलझे रहस्य... आपकी क्या राय है? Nightingale Films.
+        `,
+        facts: [
+          {
+            label: "1. Historical Tax Oppression & Salim Singh",
+            text: "Official royal court records and gazetteers of the Princely State of Jaisalmer confirm Salim Singh's exorbitant taxation policies drove the Paliwal Brahmin community to mass migration around 1825.",
+            src: "Imperial Gazetteer of India, Rajputana Agency."
+          },
+          {
+            label: "2. ASI Night Prohibition & Monument Protection",
+            text: "Kuldhara is an Archaeological Survey of India (ASI) protected heritage site with an active legal prohibition strictly barring human entry between sunset and sunrise.",
+            src: "Archaeological Survey of India (Jodhpur Circle) Notification."
+          },
+          {
+            label: "3. Untouched Hearth Archaeological Survey",
+            text: "Field archaeological surveys found houses intact with household stone millstones and hearth ashes, confirming sudden unlooted desertion rather than warfare destruction.",
+            src: "Rajasthan Tourism & Archaeological Heritage Registry."
+          }
+        ],
+        files: {
+          master1080: "kuldhara_1080.mp4",
+          vertical: "kuldhara_vertical_720.mp4",
+          hd720: "kuldhara_720.mp4",
+          sd480: "kuldhara_480.mp4",
+          masterSize: "51 MB",
+          vertSize: "12 MB"
+        }
+      },
+      roopkund: {
+        title: "रूपकुंड: 1200 साल पुराना कंकाल कांड (The 1,200-Year Skeleton Lake)",
+        poster: "roopkund_poster.jpg",
+        badges: [
+          { text: "100% Real Fact-Checked", type: "pill-red" },
+          { text: "Nature 2019 Genomic Study", type: "pill-cyan" },
+          { text: "15 Cinematic Cuts", type: "pill-amber" }
+        ],
+        dossier: `
+          <h3>🔬 Multi-Source Scientific Verification</h3>
+          <p>
+            <b>Location:</b> 16,500 ft (5,029 m) high glacial lake in Chamoli, Uttarakhand.<br>
+            <b>1942 Discovery:</b> Forest Ranger H.K. Madhwal discovers hundreds of bones. British suspect WWII Japanese invasion.<br>
+            <b>Forensic Trauma (2004 CCMB):</b> Unhealed circular fractures on crania caused by ~23cm spherical hailstones.<br>
+            <b>2019 Nature Study (Harney et al.):</b> DNA revealed two distinct groups 1,000 years apart—South Asian (~850 CE) and Eastern Mediterranean Greek/Cretan (~1800 CE).
+          </p>
+        `,
+        scriptHeader: "📑 Story Script & Pacing (58.0s)",
+        script: `
+          <b>[00:00 - 00:08] Hook & Aerial Basin</b><br>
+          हिमालय में 16,500 फीट की ऊंचाई पर एक ऐसी झील है... जहां सैकड़ों इंसानी कंकाल बर्फ में तैर रहे हैं!<br><br>
+          <b>[00:08 - 00:24] 1942 Discovery & Forensic Reality</b><br>
+          1942: ब्रिटिश सरकार को लगा कि यह जापानी सैनिकों की फौज है। लेकिन फॉरेंसिक जांच में पता चला कि ये हड्डियां 1200 साल पुरानी थीं!<br><br>
+          <b>[00:24 - 00:36] Fatal Hailstorm Climax</b><br>
+          खोपड़ियों पर किसी हथियार का घाव नहीं... बल्कि आसमान से गिरे 9 इंच के जानलेवा ओले!<br><br>
+          <b>[00:36 - 00:58] Nature 2019 Mediterranean Paradox</b><br>
+          2019 में 'नेचर' पत्रिका के DNA टेस्ट ने दुनिया को हिला दिया। 14 लोग भारत के नहीं... 5,000 KM दूर ग्रीस के थे!
+        `,
+        facts: [
+          {
+            label: "1. Ancient DNA & Mediterranean Lineage",
+            text: "Nature Communications (2019) 10:3670. Paleogenomics confirms 14 individuals cluster with present-day Cretans & mainland Greeks.",
+            src: "Harvard Medical School, CCMB & Birbal Sahni Inst."
+          },
+          {
+            label: "2. Blunt Force Skull Trauma",
+            text: "Forensic craniotomy revealed no edge cuts or defensive wounds; lethal depression fractures consistent with free-falling baseball-sized hailstones.",
+            src: "Anthropological Survey of India & Oxford AMS Lab."
+          }
+        ],
+        files: {
+          master1080: "roopkund_1080.mp4",
+          vertical: "roopkund_vertical_720.mp4",
+          hd720: "roopkund_720.mp4",
+          sd480: "roopkund_480.mp4",
+          masterSize: "60 MB",
+          vertSize: "11 MB"
+        }
+      },
+      begunkodar: {
+        title: "बेगुनकोदर: 42 साल का सन्नाटा (Begunkodar: 42 Years of Silence)",
+        poster: "begunkodar_poster.jpg",
+        badges: [
+          { text: "Purulia Ghost Station", type: "pill-red" },
+          { text: "1967 Indian Railways Closure", type: "pill-cyan" },
+          { text: "Reopened 2009 by Mamata Banerjee", type: "pill-amber" }
+        ],
+        dossier: `
+          <h3>🚂 Indian Railways Archival Dossier</h3>
+          <p>
+            <b>Location:</b> South Eastern Railway, Kotshila-Purulia section, West Bengal.<br>
+            <b>1967 Legend:</b> Railway staff reported spectral sightings on the tracks; station master died shortly after, causing railway staff to abandon the post.<br>
+            <b>42-Year Ghost Classification:</b> For over four decades, passenger trains refused to stop after dusk. Classified officially as an unstaffed halt station.<br>
+            <b>2009 Reopening:</b> Former Railway Minister Mamata Banerjee ordered formal reopening with non-suburban ticket booking counters.
+          </p>
+        `,
+        scriptHeader: "📑 Story Script & Pacing (45.0s)",
+        script: `
+          <b>[00:00 - 00:08] Midnight Rain Hook</b><br>
+          1967 की एक तूफानी रात... पुरुलिया के एक छोटे से रेलवे स्टेशन पर सायरन बजा... और फिर सन्नाटा छा गया!<br><br>
+          <b>[00:08 - 00:22] The Vanishing Station Master</b><br>
+          स्टेशन मास्टर ने पटरियों पर एक सफेद परछाईं देखी। अगली सुबह... वो रहस्यमयी हालत में मृत मिले!<br><br>
+          <b>[00:22 - 00:35] 42 Years of Abandonment</b><br>
+          कर्मचारी भाग खड़े हुए। 42 साल तक किसी भी ट्रेन का ड्राइवर यहां रात में रुकने की हिम्मत नहीं करता था!<br><br>
+          <b>[00:35 - 00:45] Historical Reopening</b><br>
+          2009 में रेलवे ने इसे दोबारा खोला... लेकिन आज भी शाम 5 बजे के बाद यहां कोई नहीं ठहरता!
+        `,
+        facts: [
+          {
+            label: "1. Official Railway Abandonment (1967)",
+            text: "Indian Railways records show Begunkodar station remained completely unstaffed from 1967 due to staff refusals to be posted there.",
+            src: "South Eastern Railway Archive & Lok Sabha Inquiries."
+          },
+          {
+            label: "2. Reopening in September 2009",
+            text: "Passenger train halts resumed in 2009 after persistent demands by local panchayats, though operations remain restricted to daylight hours.",
+            src: "Ministry of Railways Press Release 2009."
+          }
+        ],
+        files: {
+          master1080: "begunkodar_1080.mp4",
+          vertical: "begunkodar_vertical_720.mp4",
+          hd720: "begunkodar_720.mp4",
+          sd480: "begunkodar_480.mp4",
+          masterSize: "45 MB",
+          vertSize: "9 MB"
+        }
+      }
+    };
+
+    let currentFilm = 'kuldhara';
+
+    function loadFilm(key, btnElem) {
+      currentFilm = key;
+      const data = filmData[key];
+      
+      if (btnElem) {
+        document.querySelectorAll('.film-btn').forEach(b => b.classList.remove('active'));
+        btnElem.classList.add('active');
+      }
+
+      document.getElementById('filmTitle').innerText = data.title;
+      document.getElementById('dossierContent').innerHTML = data.dossier;
+      document.getElementById('scriptHeader').innerText = data.scriptHeader;
+      document.getElementById('scriptContent').innerHTML = data.script;
+
+      // Badges
+      const badgeRow = document.getElementById('badgeRow');
+      badgeRow.innerHTML = data.badges.map(b => `<span class="pill ${b.type}">${b.text}</span>`).join(' ');
+
+      // Facts
+      const factsList = document.getElementById('factsList');
+      factsList.innerHTML = data.facts.map(f => `
+        <div class="fact-item">
+          <span class="fact-label">${f.label}</span>
+          <span>${f.text}</span>
+          <span class="fact-src">Source: ${f.src}</span>
+        </div>
+      `).join('');
+
+      // Resolutions Bar
+      const resTabBar = document.getElementById('resTabBar');
+      resTabBar.innerHTML = `
+        <button class="tab-btn active" onclick="switchRes('${data.files.master1080}', this)">🎬 1080p Master</button>
+        <button class="tab-btn" onclick="switchRes('${data.files.vertical}', this)">📱 9:16 Shorts Cut</button>
+        <button class="tab-btn" onclick="switchRes('${data.files.hd720}', this)">720p HD</button>
+        <button class="tab-btn" onclick="switchRes('${data.files.sd480}', this)">480p Mobile</button>
+      `;
+
+      // Download Action Row
+      const dlRow = document.getElementById('downloadRow');
+      dlRow.innerHTML = `
+        <a class="btn-download" id="dlBtn" href="${data.files.master1080}" download>⬇ Download 1080p Master (${data.files.masterSize})</a>
+        <a class="btn-sec" href="${data.files.vertical}" download>⬇ Download 9:16 Shorts (${data.files.vertSize})</a>
+        <a class="btn-sec" href="${data.files.hd720}" download>⬇ 720p HD</a>
+        <a class="btn-sec" href="${data.files.sd480}" download>⬇ 480p Mobile</a>
+      `;
+
+      // Switch video
       const v = document.getElementById('mainVideo');
       const src = document.getElementById('videoSrc');
-      const dBtn = document.getElementById('downloadBtn');
-      const title = document.getElementById('filmTitle');
-      
-      document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
-      btn.classList.add('active');
+      v.poster = data.poster;
+      src.src = data.files.master1080;
+      v.load();
+    }
+
+    function switchRes(file, tabElem) {
+      document.querySelectorAll('#resTabBar .tab-btn').forEach(b => b.classList.remove('active'));
+      tabElem.classList.add('active');
+
+      const v = document.getElementById('mainVideo');
+      const src = document.getElementById('videoSrc');
+      const dlBtn = document.getElementById('dlBtn');
 
       src.src = file;
       v.load();
       v.play().catch(() => {});
-      
-      dBtn.href = file;
-      dBtn.setAttribute('download', file);
-      dBtn.innerText = '⬇ Download ' + file;
 
-      if (file.includes('begunkodar')) {
-        title.innerText = 'बेगुनकोदर: 42 साल का सन्नाटा (Begunkodar: 42 Years of Silence)';
-        v.poster = 'begunkodar_poster.jpg';
-      } else {
-        title.innerText = 'रूपकुंड: 1200 साल पुराना कंकाल कांड (The 1,200-Year Skeleton Lake)';
-        v.poster = 'roopkund_poster.jpg';
-      }
+      dlBtn.href = file;
+      dlBtn.setAttribute('download', file);
+      dlBtn.innerText = '⬇ Download ' + file;
     }
+
+    // Initialize on load
+    loadFilm('kuldhara', null);
   </script>
 </body>
 </html>
