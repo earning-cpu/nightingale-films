@@ -1,1376 +1,1977 @@
-// kuldhara_scenes.mjs - Broadcast-Grade 2D Vector Animation Engine for Kuldhara
-// High-definition SVG vector rendering + Skia canvas, multiplane parallax, dynamic radial lighting, and anatomical character rigs.
-import { GlobalFonts, Image } from "@napi-rs/canvas";
-import { clamp, lerp, rad, ellipse, stroke, fill, line, poly, smooth, rrect, INK } from "./anim/core.mjs";
+// kuldhara_scenes.mjs - Broadcast-Grade 2D Vector Animation & Modern Documentary Motion Graphics
+// 100% Pure Vector 2D (Canvas/Skia + HarfBuzz Devanagari + Procedural Shaders). Zero AI image artifacts.
+// Incorporates modern animation trends (Kurzgesagt, Vox, Lemmino) and peer-reviewed historical & palaeoseismic facts.
+
+import { createCanvas, Image, GlobalFonts } from "@napi-rs/canvas";
 
 try {
   GlobalFonts.registerFromPath("./assets/NotoSansDevanagari-Bold.ttf", "Noto Sans Devanagari");
-} catch (e) {}
-
-const DARK_INK = "#100A16";
-const GOLD = "#E5B842";
-const RAJASTHANI_RED = "#D8281E";
-
-/** Helper: Render SVG string onto canvas */
-export function drawSvgToCanvas(ctx, svgString, x = 0, y = 0, w = 1920, h = 1080) {
-  const img = new Image();
-  img.src = Buffer.from(svgString);
-  ctx.drawImage(img, x, y, w, h);
+} catch (e) {
+  // Ignore if already registered
 }
 
-/** Helper: Radial lighting glow */
-export function addRadialGlow(ctx, x, y, radius, color, alpha = 0.5) {
-  const g = ctx.createRadialGradient(x, y, 0, x, y, radius);
-  g.addColorStop(0, color);
-  g.addColorStop(1, "rgba(0,0,0,0)");
-  ctx.save();
-  ctx.globalCompositeOperation = "screen";
-  ctx.globalAlpha = alpha;
-  ctx.fillStyle = g;
-  ctx.beginPath();
-  ctx.arc(x, y, radius, 0, Math.PI * 2);
-  ctx.fill();
-  ctx.restore();
+import {
+  applyCinematicFilmLook,
+  drawDocumentaryHUD,
+  drawVolumetricBeam,
+  drawFloatingDust,
+  drawDynamicFlame,
+  drawBranchingLightning
+} from "./anim_enhancements.mjs";
+import {
+  drawAdvancedSalimSingh,
+  drawAdvancedChief,
+  drawAdvancedDaughter
+} from "./kuldhara_advanced_rigs.mjs";
+
+function getSceneTime(t) {
+  return (t > 15) ? (t % 15) : t;
 }
 
 // ============================================================================
-// 1. SCENE 01: Ruined Midnight Havelis & Crescent Moon (0.0s - 5.2s)
+// SCENE 01: MIDNIGHT RUINS (Prologue & Geographic Coordinates)
 // ============================================================================
 export function drawSceneNightRuins(ctx, W, H, t) {
-  const zoom = 1.0 + t * 0.025;
-  const moonWobble = Math.sin(t * 3) * 2;
-
-  const svg = `
-<svg xmlns="http://www.w3.org/2000/svg" width="${W}" height="${H}" viewBox="0 0 ${W} ${H}">
-  <defs>
-    <linearGradient id="skyGrad" x1="0" y1="0" x2="0" y2="1">
-      <stop offset="0%" stop-color="#04060F"/>
-      <stop offset="50%" stop-color="#0E1426"/>
-      <stop offset="85%" stop-color="#1B172A"/>
-      <stop offset="100%" stop-color="#281A28"/>
-    </linearGradient>
-
-    <radialGradient id="moonGlow" cx="0.5" cy="0.5" r="0.5">
-      <stop offset="0%" stop-color="#FFF8E0" stop-opacity="0.9"/>
-      <stop offset="25%" stop-color="#FFEAA8" stop-opacity="0.35"/>
-      <stop offset="60%" stop-color="#FFEAA8" stop-opacity="0.1"/>
-      <stop offset="100%" stop-color="#FFEAA8" stop-opacity="0"/>
-    </radialGradient>
-
-    <pattern id="brickDark" width="60" height="24" patternUnits="userSpaceOnUse">
-      <rect width="60" height="24" fill="#22283E"/>
-      <line x1="0" y1="0" x2="60" y2="0" stroke="#121624" stroke-width="1.5"/>
-      <line x1="0" y1="12" x2="60" y2="12" stroke="#121624" stroke-width="1.5"/>
-      <line x1="0" y1="0" x2="0" y2="12" stroke="#121624" stroke-width="1.5"/>
-      <line x1="30" y1="12" x2="30" y2="24" stroke="#121624" stroke-width="1.5"/>
-    </pattern>
-
-    <pattern id="brickForeground" width="70" height="28" patternUnits="userSpaceOnUse">
-      <rect width="70" height="28" fill="#2C263A"/>
-      <line x1="0" y1="0" x2="70" y2="0" stroke="#140F1E" stroke-width="2"/>
-      <line x1="0" y1="14" x2="70" y2="14" stroke="#140F1E" stroke-width="2"/>
-      <line x1="0" y1="0" x2="0" y2="14" stroke="#140F1E" stroke-width="2"/>
-      <line x1="35" y1="14" x2="35" y2="28" stroke="#140F1E" stroke-width="2"/>
-    </pattern>
-  </defs>
-
-  <rect width="${W}" height="${H}" fill="url(#skyGrad)"/>
-
-  <!-- Crescent Moon -->
-  <circle cx="1480" cy="${220 + moonWobble}" r="240" fill="url(#moonGlow)"/>
-  <circle cx="1480" cy="${220 + moonWobble}" r="68" fill="#FFF6DE"/>
-  <circle cx="1512" cy="${204 + moonWobble}" r="60" fill="#0E1426"/>
-
-  <!-- Distant Dunes -->
-  <path d="M0,${H * 0.62} Q${W * 0.25},${H * 0.58} ${W * 0.55},${H * 0.63} T${W},${H * 0.59} L${W},${H} L0,${H} Z" fill="#141829"/>
-
-  <!-- Midground Ruined Havelis with Broken Silhouettes -->
-  <g id="midground-ruins">
-    <path d="M120,${H * 0.78} L120,440 L160,440 L160,410 L220,410 L220,460 L280,430 L320,430 L320,400 L380,400 L380,450 L440,420 L440,${H * 0.78} Z" fill="url(#brickDark)" stroke="#0E121E" stroke-width="3"/>
-    <path d="M180,560 L180,510 Q180,480 210,480 Q240,480 240,510 L240,560 Z" fill="#0A0C16" stroke="#0E121E" stroke-width="2.5"/>
-    <rect x="170" y="555" width="80" height="24" fill="#323854" stroke="#0E121E" stroke-width="2"/>
-    <path d="M300,540 L300,490 Q300,460 330,460 Q360,460 360,490 L360,540 Z" fill="#0A0C16" stroke="#0E121E" stroke-width="2.5"/>
-    <rect x="290" y="535" width="80" height="24" fill="#323854" stroke="#0E121E" stroke-width="2"/>
-
-    <path d="M1240,${H * 0.78} L1240,380 L1310,380 L1310,350 L1370,350 L1370,410 L1430,370 L1490,370 L1490,340 L1560,340 L1560,${H * 0.78} Z" fill="url(#brickDark)" stroke="#0E121E" stroke-width="3"/>
-    <path d="M1320,350 Q1340,310 1340,290 Q1340,310 1360,350 Z" fill="#323854" stroke="#0E121E" stroke-width="2.5"/>
-    <path d="M1380,510 L1380,450 Q1380,420 1415,420 Q1450,420 1450,450 L1450,510 Z" fill="#0A0C16" stroke="#0E121E" stroke-width="2.5"/>
-    <rect x="1365" y="505" width="100" height="28" fill="#323854" stroke="#0E121E" stroke-width="2"/>
-  </g>
-
-  <!-- Mid Dune -->
-  <path d="M0,${H * 0.76} Q${W * 0.35},${H * 0.7} ${W * 0.7},${H * 0.77} T${W},${H * 0.73} L${W},${H} L0,${H} Z" fill="#1C2136"/>
-
-  <!-- Foreground Gateway Arch -->
-  <g id="foreground-arch">
-    <rect x="360" y="180" width="180" height="${H - 180}" fill="url(#brickForeground)" stroke="#0E0A16" stroke-width="4.5"/>
-    <rect x="340" y="320" width="220" height="24" fill="#3D3550" stroke="#0E0A16" stroke-width="3"/>
-
-    <rect x="1040" y="180" width="180" height="${H - 180}" fill="url(#brickForeground)" stroke="#0E0A16" stroke-width="4.5"/>
-    <rect x="1020" y="320" width="220" height="24" fill="#3D3550" stroke="#0E0A16" stroke-width="3"/>
-
-    <path d="M360,180 L1220,180 L1220,280 Q1140,360 1040,440 Q940,290 790,320 Q640,290 540,440 Q440,360 360,280 Z" fill="#443A58" stroke="#0E0A16" stroke-width="5"/>
-    <circle cx="480" cy="240" r="28" fill="#584C72" stroke="#0E0A16" stroke-width="2.5"/>
-    <circle cx="1100" cy="240" r="28" fill="#584C72" stroke="#0E0A16" stroke-width="2.5"/>
-  </g>
-
-  <!-- Foreground Sand Dune & Fallen Stone Blocks -->
-  <path d="M0,${H * 0.86} Q${W * 0.4},${H * 0.82} ${W * 0.78},${H * 0.88} L${W},${H} L0,${H} Z" fill="#242232"/>
-  <polygon points="560,${H * 0.89} 620,${H * 0.87} 640,${H * 0.94} 570,${H * 0.96}" fill="#3C344C" stroke="#0E0A16" stroke-width="2.5"/>
-  <polygon points="650,${H * 0.92} 710,${H * 0.9} 725,${H * 0.97} 660,${H * 0.98}" fill="#322B40" stroke="#0E0A16" stroke-width="2.5"/>
-  <polygon points="980,${H * 0.88} 1040,${H * 0.85} 1060,${H * 0.93} 995,${H * 0.95}" fill="#3C344C" stroke="#0E0A16" stroke-width="2.5"/>
-</svg>
-`;
-
-  ctx.save();
-  ctx.translate(W / 2, H / 2);
-  ctx.scale(zoom, zoom);
-  ctx.translate(-W / 2, -H / 2);
-  drawSvgToCanvas(ctx, svg);
-
-  // Twinkling stars
-  for (let i = 0; i < 45; i++) {
-    const sx = (i * 149.3) % W;
-    const sy = (i * 87.7) % (H * 0.58);
-    const tw = 0.4 + 0.6 * Math.sin(t * 3.5 + i);
-    ellipse(ctx, sx, sy, 2.0 * tw, 2.0 * tw);
-    ctx.fillStyle = "#EDE8FF";
-    ctx.fill();
-  }
-
-  // Drifting Thar desert dust
-  for (let p = 0; p < 35; p++) {
-    const px = (t * 220 + p * 67) % W;
-    const py = H * 0.82 + Math.sin(t * 4 + p) * 15 - (p % 6) * 12;
-    ellipse(ctx, px, py, 2.5, 1.5);
-    ctx.fillStyle = "rgba(220, 190, 140, 0.45)";
-    ctx.fill();
-  }
-
-  ctx.restore();
-}
-
-// ============================================================================
-// 2. SCENE 02: 1825 Prosperous Paliwal Trade Kingdom (5.2s - 11.0s)
-// ============================================================================
-export function drawSceneProsperous1825(ctx, W, H, t) {
-  const st = t >= 5.2 ? t - 5.2 : t; // Handles both local shot time and global time
-  const camelProgress = (st % 6) / 6;
-  const camelX = -120 + camelProgress * 2160;
-  const legCycle = st * 6;
-  const f1 = Math.sin(legCycle) * 20;
-  const f2 = -Math.sin(legCycle) * 20;
-  const b1 = Math.sin(legCycle + Math.PI * 0.5) * 20;
-  const b2 = -Math.sin(legCycle + Math.PI * 0.5) * 20;
-
-  const svg = `
-<svg xmlns="http://www.w3.org/2000/svg" width="${W}" height="${H}" viewBox="0 0 ${W} ${H}">
-  <defs>
-    <linearGradient id="daySky" x1="0" y1="0" x2="0" y2="1">
-      <stop offset="0%" stop-color="#1E65C6"/>
-      <stop offset="50%" stop-color="#64A2E6"/>
-      <stop offset="85%" stop-color="#E8CE98"/>
-      <stop offset="100%" stop-color="#F5DDB0"/>
-    </linearGradient>
-
-    <radialGradient id="sunGlow" cx="0.5" cy="0.5" r="0.5">
-      <stop offset="0%" stop-color="#FFFDF5" stop-opacity="1"/>
-      <stop offset="25%" stop-color="#FFE898" stop-opacity="0.5"/>
-      <stop offset="60%" stop-color="#FFE898" stop-opacity="0.15"/>
-      <stop offset="100%" stop-color="#FFE898" stop-opacity="0"/>
-    </radialGradient>
-
-    <pattern id="sandstoneBrick" width="70" height="28" patternUnits="userSpaceOnUse">
-      <rect width="70" height="28" fill="#E2A654"/>
-      <line x1="0" y1="0" x2="70" y2="0" stroke="#9A652E" stroke-width="1.5"/>
-      <line x1="0" y1="14" x2="70" y2="14" stroke="#9A652E" stroke-width="1.5"/>
-      <line x1="0" y1="0" x2="0" y2="14" stroke="#9A652E" stroke-width="1.5"/>
-      <line x1="35" y1="14" x2="35" y2="28" stroke="#9A652E" stroke-width="1.5"/>
-    </pattern>
-
-    <pattern id="streetCobble" width="90" height="36" patternUnits="userSpaceOnUse">
-      <rect width="90" height="36" fill="#D29850"/>
-      <line x1="0" y1="0" x2="90" y2="0" stroke="#8E5E28" stroke-width="2"/>
-      <line x1="0" y1="18" x2="90" y2="18" stroke="#8E5E28" stroke-width="2"/>
-      <line x1="0" y1="0" x2="0" y2="18" stroke="#8E5E28" stroke-width="2"/>
-      <line x1="45" y1="18" x2="45" y2="36" stroke="#8E5E28" stroke-width="2"/>
-    </pattern>
-
-    <linearGradient id="awningRed" x1="0" y1="0" x2="0" y2="1">
-      <stop offset="0%" stop-color="#C82018"/>
-      <stop offset="100%" stop-color="#8C1410"/>
-    </linearGradient>
-
-    <linearGradient id="awningGold" x1="0" y1="0" x2="0" y2="1">
-      <stop offset="0%" stop-color="#E8B038"/>
-      <stop offset="100%" stop-color="#B88018"/>
-    </linearGradient>
-  </defs>
-
-  <rect width="${W}" height="${H}" fill="url(#daySky)"/>
-  <circle cx="1580" cy="160" r="300" fill="url(#sunGlow)"/>
-  <circle cx="1580" cy="160" r="50" fill="#FFF9E0"/>
-
-  <g id="haveli-row">
-    <rect x="0" y="160" width="460" height="600" fill="url(#sandstoneBrick)" stroke="#110A14" stroke-width="4"/>
-    <path d="M120,160 L120,110 Q120,70 170,70 Q220,70 220,110 L220,160 Z" fill="#E8B262" stroke="#110A14" stroke-width="3"/>
-    <rect x="80" y="240" width="180" height="180" fill="#C88E3E" stroke="#110A14" stroke-width="3.5"/>
-    <path d="M110,380 L110,300 Q110,260 170,260 Q230,260 230,300 L230,380 Z" fill="#180E08" stroke="#110A14" stroke-width="3"/>
-    <polygon points="60,420 280,420 260,450 80,450" fill="#A86E28" stroke="#110A14" stroke-width="3"/>
-
-    <rect x="460" y="120" width="500" height="640" fill="url(#sandstoneBrick)" stroke="#110A14" stroke-width="4"/>
-    <path d="M640,120 L640,70 Q640,30 710,30 Q780,30 780,70 L780,120 Z" fill="#E8B262" stroke="#110A14" stroke-width="3.5"/>
-    <circle cx="710" cy="20" r="8" fill="#E5B842" stroke="#110A14" stroke-width="2"/>
-    <rect x="560" y="220" width="300" height="200" fill="#C88E3E" stroke="#110A14" stroke-width="3.5"/>
-    <path d="M610,370 L610,280 Q610,240 710,240 Q810,240 810,280 L810,370 Z" fill="#180E08" stroke="#110A14" stroke-width="3"/>
-    <polygon points="530,420 890,420 860,455 560,455" fill="#A86E28" stroke="#110A14" stroke-width="3"/>
-
-    <rect x="960" y="150" width="480" height="610" fill="url(#sandstoneBrick)" stroke="#110A14" stroke-width="4"/>
-    <rect x="1080" y="250" width="240" height="180" fill="#C88E3E" stroke="#110A14" stroke-width="3.5"/>
-    <path d="M1130,380 L1130,300 Q1130,260 1200,260 Q1270,260 1270,300 L1270,380 Z" fill="#180E08" stroke="#110A14" stroke-width="3"/>
-    <polygon points="1050,430 1350,430 1320,465 1080,465" fill="#A86E28" stroke="#110A14" stroke-width="3"/>
-
-    <rect x="1440" y="100" width="480" height="660" fill="url(#sandstoneBrick)" stroke="#110A14" stroke-width="4"/>
-    <path d="M1620,100 L1620,50 Q1620,10 1690,10 Q1760,10 1760,50 L1760,100 Z" fill="#E8B262" stroke="#110A14" stroke-width="3.5"/>
-    <circle cx="1690" cy="2" r="8" fill="#E5B842" stroke="#110A14" stroke-width="2"/>
-    <rect x="1540" y="220" width="280" height="190" fill="#C88E3E" stroke="#110A14" stroke-width="3.5"/>
-    <path d="M1590,360 L1590,270 Q1590,230 1680,230 Q1770,230 1770,270 L1770,360 Z" fill="#180E08" stroke="#110A14" stroke-width="3"/>
-    <polygon points="1510,410 1850,410 1820,445 1540,445" fill="#A86E28" stroke="#110A14" stroke-width="3"/>
-  </g>
-
-  <g id="market-stalls">
-    <polygon points="50,560 380,560 410,680 20,680" fill="url(#awningRed)" stroke="#110A14" stroke-width="4"/>
-    <line x1="40" y1="680" x2="40" y2="760" stroke="#482A14" stroke-width="7"/>
-    <line x1="390" y1="680" x2="390" y2="760" stroke="#482A14" stroke-width="7"/>
-
-    <polygon points="520,540 880,540 910,670 490,670" fill="url(#awningGold)" stroke="#110A14" stroke-width="4"/>
-    <line x1="510" y1="670" x2="510" y2="760" stroke="#482A14" stroke-width="7"/>
-    <line x1="890" y1="670" x2="890" y2="760" stroke="#482A14" stroke-width="7"/>
-
-    <polygon points="1020,550 1380,550 1410,680 990,680" fill="url(#awningRed)" stroke="#110A14" stroke-width="4"/>
-    <line x1="1010" y1="680" x2="1010" y2="760" stroke="#482A14" stroke-width="7"/>
-    <line x1="1390" y1="680" x2="1390" y2="760" stroke="#482A14" stroke-width="7"/>
-
-    <polygon points="1500,540 1860,540 1890,670 1470,670" fill="url(#awningGold)" stroke="#110A14" stroke-width="4"/>
-    <line x1="1490" y1="670" x2="1490" y2="760" stroke="#482A14" stroke-width="7"/>
-    <line x1="1870" y1="670" x2="1870" y2="760" stroke="#482A14" stroke-width="7"/>
-  </g>
-
-  <rect x="0" y="750" width="${W}" height="330" fill="url(#streetCobble)" stroke="#110A14" stroke-width="5"/>
-
-  <g id="market-props">
-    <ellipse cx="140" cy="770" rx="36" ry="24" fill="#8C5824" stroke="#110A14" stroke-width="3"/>
-    <ellipse cx="140" cy="762" rx="28" ry="14" fill="#F4B818"/>
-    <ellipse cx="200" cy="780" rx="32" ry="22" fill="#8C5824" stroke="#110A14" stroke-width="3"/>
-    <ellipse cx="200" cy="773" rx="24" ry="12" fill="#D42018"/>
-    <ellipse cx="260" cy="765" rx="24" ry="26" fill="#A84E28" stroke="#110A14" stroke-width="3"/>
-    <ellipse cx="260" cy="742" rx="14" ry="6" fill="#C4683C" stroke="#110A14" stroke-width="2.5"/>
-
-    <ellipse cx="1440" cy="775" rx="35" ry="23" fill="#8C5824" stroke="#110A14" stroke-width="3"/>
-    <ellipse cx="1440" cy="768" rx="27" ry="13" fill="#8C6E28"/>
-    <ellipse cx="1510" cy="765" rx="26" ry="28" fill="#E5B842" stroke="#110A14" stroke-width="3"/>
-    <ellipse cx="1510" cy="740" rx="15" ry="7" fill="#F8D468" stroke="#110A14" stroke-width="2.5"/>
-    <ellipse cx="1570" cy="780" rx="25" ry="26" fill="#A84E28" stroke="#110A14" stroke-width="3"/>
-  </g>
-
-  <!-- Grand Anatomical Desert Camel Rig -->
-  <g id="camel" transform="translate(${camelX}, 690) scale(2.1)">
-    <ellipse cx="0" cy="115" rx="150" ry="18" fill="rgba(60,35,15,0.35)"/>
-
-    <g id="far-rear-leg" transform="translate(-85, -60)">
-      <path d="M-20,-30 Q-28,20 -15,55 L5,50 Q18,10 10,-30 Z" fill="#B88046" stroke="#110A14" stroke-width="2.5"/>
-      <line x1="-5" y1="50" x2="${-5 + Math.sin(rad(b1)) * 26}" y2="175" stroke="#B88046" stroke-width="12" stroke-linecap="round"/>
-      <ellipse cx="${-5 + Math.sin(rad(b1)) * 26}" cy="175" rx="11" ry="6" fill="#422416"/>
-    </g>
-
-    <g id="far-front-leg" transform="translate(85, -60)">
-      <path d="M-15,-30 Q-22,20 -10,50 L10,45 Q18,10 10,-30 Z" fill="#B88046" stroke="#110A14" stroke-width="2.5"/>
-      <line x1="0" y1="45" x2="${0 + Math.sin(rad(f1)) * 26}" y2="175" stroke="#B88046" stroke-width="12" stroke-linecap="round"/>
-      <ellipse cx="${0 + Math.sin(rad(f1)) * 26}" cy="175" rx="11" ry="6" fill="#422416"/>
-    </g>
-
-    <path d="M-115,-70 Q-135,-30 -80,-15 Q0,-10 90,-20 Q130,-40 120,-75 Q100,-105 50,-95 Q15,-155 -30,-150 Q-65,-120 -115,-70 Z" fill="#DCA86A" stroke="#110A14" stroke-width="4"/>
-    <path d="M-110,-55 Q-120,-25 -75,-16 Q0,-10 85,-20 Q115,-35 110,-55 Q60,-35 0,-30 Q-60,-35 -110,-55 Z" fill="#C89254"/>
-
-    <path d="M75,-65 Q105,-45 130,-75 Q155,-115 170,-165 L215,-150 Q195,-95 160,-55 Q125,-15 85,-30 Z" fill="#DCA86A" stroke="#110A14" stroke-width="4"/>
-
-    <g transform="translate(195, -165) rotate(-15)">
-      <path d="M-25,-15 L25,-15 Q38,-10 40,5 Q38,20 18,18 L-20,10 Z" fill="#DCA86A" stroke="#110A14" stroke-width="3"/>
-      <ellipse cx="36" cy="4" rx="7" ry="5" fill="#C89254"/>
-      <ellipse cx="34" cy="2" rx="2.5" ry="1.5" fill="#110A14"/>
-      <ellipse cx="6" cy="-4" rx="5" ry="4" fill="#110A14"/>
-      <circle cx="8" cy="-5" r="1.5" fill="#FFFFFF"/>
-      <path d="M-2,-10 Q8,-12 16,-8" fill="none" stroke="#68421E" stroke-width="3" stroke-linecap="round"/>
-      <ellipse cx="-16" cy="-20" rx="6" ry="12" fill="#DCA86A" stroke="#110A14" stroke-width="2.5" transform="rotate(-25 -16 -20)"/>
-    </g>
-
-    <path d="M-115,-65 Q-135,-40 -125,0" fill="none" stroke="#DCA86A" stroke-width="6"/>
-    <ellipse cx="-125" cy="5" rx="7" ry="14" fill="#422416"/>
-
-    <g id="near-rear-leg" transform="translate(-70, -55)">
-      <path d="M-24,-30 Q-34,25 -18,60 L12,55 Q24,15 14,-30 Z" fill="#DCA86A" stroke="#110A14" stroke-width="3"/>
-      <line x1="-5" y1="55" x2="${-5 + Math.sin(rad(b2)) * 26}" y2="175" stroke="#DCA86A" stroke-width="14" stroke-linecap="round"/>
-      <line x1="-5" y1="55" x2="${-5 + Math.sin(rad(b2)) * 26}" y2="175" stroke="#110A14" stroke-width="2.5"/>
-      <ellipse cx="${-5 + Math.sin(rad(b2)) * 26}" cy="175" rx="12" ry="6.5" fill="#422416"/>
-    </g>
-
-    <g id="near-front-leg" transform="translate(100, -55)">
-      <path d="M-18,-30 Q-26,25 -12,55 L14,50 Q24,15 16,-30 Z" fill="#DCA86A" stroke="#110A14" stroke-width="3"/>
-      <line x1="0" y1="50" x2="${0 + Math.sin(rad(f2)) * 26}" y2="175" stroke="#DCA86A" stroke-width="14" stroke-linecap="round"/>
-      <line x1="0" y1="50" x2="${0 + Math.sin(rad(f2)) * 26}" y2="175" stroke="#110A14" stroke-width="2.5"/>
-      <ellipse cx="${0 + Math.sin(rad(f2)) * 26}" cy="175" rx="12" ry="6.5" fill="#422416"/>
-    </g>
-
-    <polygon points="-45,-125 35,-125 45,-60 -55,-60" fill="#D8281E" stroke="#110A14" stroke-width="3.5"/>
-    <line x1="-45" y1="-125" x2="35" y2="-125" stroke="#E5B842" stroke-width="6"/>
-    <line x1="-55" y1="-60" x2="45" y2="-60" stroke="#E5B842" stroke-width="6"/>
-
-    <ellipse cx="-15" cy="-135" rx="30" ry="20" fill="#E5B842" stroke="#110A14" stroke-width="3"/>
-    <ellipse cx="20" cy="-135" rx="28" ry="19" fill="#8C5824" stroke="#110A14" stroke-width="3"/>
-
-    <line x1="205" y1="-165" x2="160" y2="-120" stroke="#D8281E" stroke-width="2.5"/>
-    <circle cx="190" cy="-150" r="4.5" fill="#D8281E"/>
-    <circle cx="175" cy="-135" r="4.5" fill="#D8281E"/>
-    <circle cx="160" cy="-120" r="4.5" fill="#E5B842"/>
-  </g>
-</svg>
-`;
-
-  drawSvgToCanvas(ctx, svg);
-}
-
-// ============================================================================
-// 3. SCENE 03: Diwan Salim Singh In Palace (11.0s - 17.0s)
-// ============================================================================
-export function drawSceneSalimSingh(ctx, W, H, t) {
-  const gleamPulse = 0.8 + 0.2 * Math.sin(t * 8);
-
-  const svg = `
-<svg xmlns="http://www.w3.org/2000/svg" width="${W}" height="${H}" viewBox="0 0 ${W} ${H}">
-  <defs>
-    <radialGradient id="palaceBg" cx="0.5" cy="0.45" r="0.65">
-      <stop offset="0%" stop-color="#32141E"/>
-      <stop offset="55%" stop-color="#180810"/>
-      <stop offset="100%" stop-color="#080206"/>
-    </radialGradient>
-
-    <linearGradient id="pillarG" x1="0" y1="0" x2="1" y2="0">
-      <stop offset="0%" stop-color="#180C08"/>
-      <stop offset="30%" stop-color="#462216"/>
-      <stop offset="70%" stop-color="#582C1C"/>
-      <stop offset="100%" stop-color="#1E0E08"/>
-    </linearGradient>
-
-    <linearGradient id="velvetDrape" x1="0" y1="0" x2="1" y2="0">
-      <stop offset="0%" stop-color="#4A0E18"/>
-      <stop offset="45%" stop-color="#7E1828"/>
-      <stop offset="100%" stop-color="#340810"/>
-    </linearGradient>
-
-    <linearGradient id="robeG" x1="0" y1="0" x2="1" y2="0">
-      <stop offset="0%" stop-color="#141C30"/>
-      <stop offset="35%" stop-color="#24345C"/>
-      <stop offset="70%" stop-color="#24345C"/>
-      <stop offset="100%" stop-color="#101626"/>
-    </linearGradient>
-
-    <linearGradient id="steelG" x1="0" y1="0" x2="1" y2="0">
-      <stop offset="0%" stop-color="#CBD5E1"/>
-      <stop offset="50%" stop-color="#F1F5F9"/>
-      <stop offset="100%" stop-color="#94A3B8"/>
-    </linearGradient>
-
-    <radialGradient id="torchGlow" cx="0.5" cy="0.5" r="0.5">
-      <stop offset="0%" stop-color="#FF9A28" stop-opacity="0.8"/>
-      <stop offset="40%" stop-color="#FF6A18" stop-opacity="0.25"/>
-      <stop offset="100%" stop-color="#FF6A18" stop-opacity="0"/>
-    </radialGradient>
-
-    <radialGradient id="starGlint" cx="0.5" cy="0.5" r="0.5">
-      <stop offset="0%" stop-color="#FFFFFF" stop-opacity="${gleamPulse}"/>
-      <stop offset="35%" stop-color="#FFFFFF" stop-opacity="${gleamPulse * 0.8}"/>
-      <stop offset="100%" stop-color="#FFFFFF" stop-opacity="0"/>
-    </radialGradient>
-  </defs>
-
-  <rect width="${W}" height="${H}" fill="url(#palaceBg)"/>
-
-  <rect x="140" y="0" width="200" height="${H}" fill="url(#pillarG)" stroke="#0E0806" stroke-width="4"/>
-  <line x1="180" y1="0" x2="180" y2="${H}" stroke="rgba(255,180,120,0.15)" stroke-width="2"/>
-  <line x1="220" y1="0" x2="220" y2="${H}" stroke="rgba(255,180,120,0.15)" stroke-width="2"/>
-  <line x1="260" y1="0" x2="260" y2="${H}" stroke="rgba(255,180,120,0.15)" stroke-width="2"/>
-  <line x1="300" y1="0" x2="300" y2="${H}" stroke="rgba(255,180,120,0.15)" stroke-width="2"/>
-  <circle cx="240" cy="460" r="320" fill="url(#torchGlow)"/>
-
-  <rect x="1580" y="0" width="200" height="${H}" fill="url(#pillarG)" stroke="#0E0806" stroke-width="4"/>
-  <line x1="1620" y1="0" x2="1620" y2="${H}" stroke="rgba(255,180,120,0.15)" stroke-width="2"/>
-  <line x1="1660" y1="0" x2="1660" y2="${H}" stroke="rgba(255,180,120,0.15)" stroke-width="2"/>
-  <line x1="1700" y1="0" x2="1700" y2="${H}" stroke="rgba(255,180,120,0.15)" stroke-width="2"/>
-  <line x1="1740" y1="0" x2="1740" y2="${H}" stroke="rgba(255,180,120,0.15)" stroke-width="2"/>
-  <circle cx="1680" cy="460" r="320" fill="url(#torchGlow)"/>
-
-  <path d="M0,0 L360,0 Q320,480 345,820 Q180,720 0,820 Z" fill="url(#velvetDrape)" stroke="#0E0806" stroke-width="4"/>
-  <path d="M0,820 Q180,720 345,820" fill="none" stroke="#E5B842" stroke-width="7"/>
-
-  <path d="M1560,0 L1920,0 L1920,820 Q1740,720 1575,820 Q1600,480 1560,0 Z" fill="url(#velvetDrape)" stroke="#0E0806" stroke-width="4"/>
-  <path d="M1575,820 Q1740,720 1920,820" fill="none" stroke="#E5B842" stroke-width="7"/>
-
-  <g id="salim-singh" transform="translate(960, 520)">
-    <path d="M-110,60 Q-260,80 -440,190 L-480,560 L480,560 L440,190 Q260,80 110,60 Z" fill="url(#robeG)" stroke="#0E121E" stroke-width="5"/>
-
-    <ellipse cx="-420" cy="200" rx="42" ry="24" fill="#E5B842" stroke="#0E121E" stroke-width="3.5" transform="rotate(-25 -420 200)"/>
-    <ellipse cx="420" cy="200" rx="42" ry="24" fill="#E5B842" stroke="#0E121E" stroke-width="3.5" transform="rotate(25 420 200)"/>
-
-    <path d="M-62,-30 Q-68,25 -95,65 L95,65 Q68,25 62,-30 Z" fill="#E4A872" stroke="#0E121E" stroke-width="4"/>
-    <path d="M-62,-25 Q0,25 62,-25 Q0,45 -62,-25 Z" fill="rgba(30,12,10,0.3)"/>
-
-    <path d="M-95,65 Q0,135 95,65 L80,92 Q0,162 -80,92 Z" fill="#E5B842" stroke="#0E121E" stroke-width="3.5"/>
-
-    <line x1="-380" y1="210" x2="140" y2="560" stroke="#E5B842" stroke-width="16"/>
-    <line x1="-380" y1="210" x2="140" y2="560" stroke="#0E121E" stroke-width="2.5"/>
-    <line x1="380" y1="210" x2="-140" y2="560" stroke="#E5B842" stroke-width="16"/>
-    <line x1="380" y1="210" x2="-140" y2="560" stroke="#0E121E" stroke-width="2.5"/>
-
-    <circle cx="0" cy="180" r="11" fill="#FCE38A" stroke="#0E121E" stroke-width="2.5"/>
-    <circle cx="0" cy="180" r="5" fill="#C81E2B"/>
-    <circle cx="0" cy="245" r="11" fill="#FCE38A" stroke="#0E121E" stroke-width="2.5"/>
-    <circle cx="0" cy="245" r="5" fill="#C81E2B"/>
-    <circle cx="0" cy="310" r="11" fill="#FCE38A" stroke="#0E121E" stroke-width="2.5"/>
-    <circle cx="0" cy="310" r="5" fill="#C81E2B"/>
-
-    <path d="M-82,-120 Q-92,-55 -60,-8 Q0,25 60,-8 Q92,-55 82,-120 Z" fill="#E8AC76" stroke="#0E121E" stroke-width="4.5"/>
-
-    <ellipse cx="-86" cy="-70" rx="14" ry="24" fill="#E8AC76" stroke="#0E121E" stroke-width="3.5"/>
-    <circle cx="-86" cy="-52" r="9" fill="#E5B842" stroke="#0E121E" stroke-width="2.5"/>
-    <ellipse cx="86" cy="-70" rx="14" ry="24" fill="#E8AC76" stroke="#0E121E" stroke-width="3.5"/>
-    <circle cx="86" cy="-52" r="9" fill="#E5B842" stroke="#0E121E" stroke-width="2.5"/>
-
-    <path d="M-64,-82 Q-38,-96 -12,-82 Q-38,-68 -64,-82 Z" fill="#FFF9F2" stroke="#0E121E" stroke-width="3"/>
-    <circle cx="-36" cy="-82" r="10" fill="#421E0E"/>
-    <circle cx="-36" cy="-82" r="5" fill="#0E121E"/>
-    <circle cx="-40" cy="-85" r="3" fill="#FFF"/>
-    <path d="M-66,-98 Q-38,-106 -14,-92 L-16,-88 Q-40,-100 -64,-94 Z" fill="#0E121E"/>
-
-    <path d="M12,-82 Q38,-96 64,-82 Q38,-68 12,-82 Z" fill="#FFF9F2" stroke="#0E121E" stroke-width="3"/>
-    <circle cx="40" cy="-82" r="10" fill="#421E0E"/>
-    <circle cx="40" cy="-82" r="5" fill="#0E121E"/>
-    <circle cx="36" cy="-85" r="3" fill="#FFF"/>
-    <path d="M14,-92 Q38,-106 66,-98 L64,-94 Q40,-100 16,-88 Z" fill="#0E121E"/>
-
-    <path d="M0,-92 L-7,-52 Q0,-42 8,-50" fill="none" stroke="#0E121E" stroke-width="4" stroke-linecap="round"/>
-
-    <path d="M-98,-48 Q-40,-25 0,-34 Q40,-25 98,-48 Q122,-64 116,-82 Q102,-64 62,-44 L-62,-44 Q-102,-64 -116,-82 Q-122,-64 -98,-48 Z" fill="#0E121E"/>
-
-    <ellipse cx="0" cy="-14" rx="20" ry="${8 + Math.abs(Math.sin(t * 12)) * 6}" fill="#441014" stroke="#0E121E" stroke-width="2.5"/>
-    <path d="M-14,-18 Q0,-12 14,-18 Q10,-12 -14,-12 Z" fill="#FFFBF4"/>
-
-    <ellipse cx="0" cy="-125" rx="114" ry="34" fill="#D8281E" stroke="#0E121E" stroke-width="4.5"/>
-    <ellipse cx="0" cy="-158" rx="108" ry="32" fill="#B81E16" stroke="#0E121E" stroke-width="4.5"/>
-    <ellipse cx="0" cy="-158" rx="100" ry="12" fill="none" stroke="#E5B842" stroke-width="8"/>
-    <ellipse cx="0" cy="-190" rx="102" ry="30" fill="#D8281E" stroke="#0E121E" stroke-width="4.5"/>
-    <ellipse cx="0" cy="-220" rx="92" ry="26" fill="#B81E16" stroke="#0E121E" stroke-width="4.5"/>
-
-    <circle cx="0" cy="-242" r="18" fill="#E5B842" stroke="#0E121E" stroke-width="3"/>
-    <circle cx="0" cy="-242" r="10" fill="#C81E2B"/>
-
-    <path d="M0,-256 Q-32,-330 -10,-390 Q25,-320 0,-256 Z" fill="#FFFFFF" stroke="#0E121E" stroke-width="3.5"/>
-    <line x1="0" y1="-256" x2="-10" y2="-385" stroke="#CBD5E1" stroke-width="2.5"/>
-
-    <g transform="translate(420, 240) rotate(-14)">
-      <path d="M-120,-80 L-10,0 L-40,80 L-160,20 Z" fill="#24345C" stroke="#0E121E" stroke-width="4.5"/>
-      <path d="M-45,-25 L-10,0 L-25,45 L-60,20 Z" fill="#E5B842" stroke="#0E121E" stroke-width="3"/>
-
-      <ellipse cx="0" cy="0" rx="36" ry="32" fill="#E8AC76" stroke="#0E121E" stroke-width="4"/>
-      <ellipse cx="22" cy="-22" rx="12" ry="8" fill="#D69460" stroke="#0E121E" stroke-width="2.5" transform="rotate(12 22 -22)"/>
-      <ellipse cx="25" cy="-7" rx="12" ry="8" fill="#D69460" stroke="#0E121E" stroke-width="2.5" transform="rotate(12 25 -7)"/>
-      <ellipse cx="24" cy="8" rx="12" ry="8" fill="#D69460" stroke="#0E121E" stroke-width="2.5" transform="rotate(12 24 8)"/>
-      <ellipse cx="21" cy="22" rx="12" ry="8" fill="#D69460" stroke="#0E121E" stroke-width="2.5" transform="rotate(12 21 22)"/>
-
-      <rect x="-14" y="-45" width="28" height="90" fill="#E5B842" stroke="#0E121E" stroke-width="4"/>
-      <circle cx="0" cy="52" r="18" fill="#1B7A4E" stroke="#0E121E" stroke-width="3"/>
-      <ellipse cx="0" cy="-48" rx="34" ry="11" fill="#E5B842" stroke="#0E121E" stroke-width="3"/>
-
-      <path d="M-12,-48 L12,-48 Q28,-180 72,-310 Q18,-210 -12,-48 Z" fill="url(#steelG)" stroke="#0E121E" stroke-width="4.5"/>
-      <path d="M0,-55 Q18,-170 48,-270" fill="none" stroke="#94A3B8" stroke-width="4"/>
-
-      <circle cx="68" cy="-305" r="48" fill="url(#starGlint)"/>
-      <circle cx="68" cy="-305" r="7" fill="#FFFFFF"/>
-    </g>
-  </g>
-</svg>
-`;
-
-  drawSvgToCanvas(ctx, svg);
-}
-
-// ============================================================================
-// 4. SCENE 04: Haveli Interior - Chief & Weeping Daughter (17.0s - 25.0s)
-// ============================================================================
-export function drawSceneChiefAndDaughter(ctx, W, H, t) {
-  const tearDrop = (t * 1.8) % 1;
-
-  const svg = `
-<svg xmlns="http://www.w3.org/2000/svg" width="${W}" height="${H}" viewBox="0 0 ${W} ${H}">
-  <defs>
-    <linearGradient id="chamberBg" x1="0" y1="0" x2="0" y2="1">
-      <stop offset="0%" stop-color="#1A1020"/>
-      <stop offset="60%" stop-color="#120816"/>
-      <stop offset="100%" stop-color="#08030A"/>
-    </linearGradient>
-
-    <linearGradient id="sunsetG" x1="0" y1="0" x2="0" y2="1">
-      <stop offset="0%" stop-color="#6E1838"/>
-      <stop offset="45%" stop-color="#E05022"/>
-      <stop offset="85%" stop-color="#F8AC38"/>
-      <stop offset="100%" stop-color="#FFE07A"/>
-    </linearGradient>
-
-    <radialGradient id="diyaGlow" cx="0.5" cy="0.5" r="0.5">
-      <stop offset="0%" stop-color="#FFB842" stop-opacity="0.9"/>
-      <stop offset="40%" stop-color="#FF7A18" stop-opacity="0.3"/>
-      <stop offset="100%" stop-color="#FF7A18" stop-opacity="0"/>
-    </radialGradient>
-
-    <linearGradient id="kurtaG" x1="0" y1="0" x2="1" y2="0">
-      <stop offset="0%" stop-color="#E8E2D4"/>
-      <stop offset="35%" stop-color="#FAF8F2"/>
-      <stop offset="70%" stop-color="#FAF8F2"/>
-      <stop offset="100%" stop-color="#DDD6C4"/>
-    </linearGradient>
-  </defs>
-
-  <rect width="${W}" height="${H}" fill="url(#chamberBg)"/>
-
-  <g id="window" transform="translate(960, 420)">
-    <path d="M-280,380 L-280,-80 A280,280 0 0,1 280,-80 L280,380 Z" fill="url(#sunsetG)"/>
-    <path d="M-280,240 Q-80,180 80,260 Q180,310 280,230 L280,380 L-280,380 Z" fill="#9E3A1A"/>
-    <path d="M-280,380 L-280,-80 A280,280 0 0,1 280,-80 L280,380" fill="none" stroke="#483226" stroke-width="18"/>
-  </g>
-
-  <g id="diyas">
-    <line x1="240" y1="0" x2="240" y2="400" stroke="#E5B842" stroke-width="3"/>
-    <ellipse cx="240" cy="415" rx="26" ry="14" fill="#E5B842" stroke="#110A14" stroke-width="3"/>
-    <ellipse cx="240" cy="402" rx="7" ry="14" fill="#FFA828"/>
-    <circle cx="240" cy="402" r="340" fill="url(#diyaGlow)"/>
-
-    <line x1="1680" y1="0" x2="1680" y2="400" stroke="#E5B842" stroke-width="3"/>
-    <ellipse cx="1680" cy="415" rx="26" ry="14" fill="#E5B842" stroke="#110A14" stroke-width="3"/>
-    <ellipse cx="1680" cy="402" rx="7" ry="14" fill="#FFA828"/>
-    <circle cx="1680" cy="402" r="340" fill="url(#diyaGlow)"/>
-  </g>
-
-  <rect x="0" y="860" width="${W}" height="220" fill="#241B18"/>
-  <line x1="0" y1="860" x2="${W}" y2="860" stroke="#110A14" stroke-width="4"/>
-
-  <!-- Village Chief (Father - Left) -->
-  <g id="chief" transform="translate(680, 560)">
-    <path d="M-65,30 Q-140,45 -220,110 L-250,520 L180,520 L160,110 Q100,45 65,30 Z" fill="url(#kurtaG)" stroke="#110A14" stroke-width="4.5"/>
-    <path d="M-150,95 L-50,-10 L70,200 L-40,240 Z" fill="#E86E1C" stroke="#110A14" stroke-width="3.5"/>
-    <line x1="-50" y1="-10" x2="70" y2="200" stroke="#E5B842" stroke-width="6"/>
-
-    <path d="M140,80 Q200,120 280,180 L255,220 Q180,160 120,120 Z" fill="url(#kurtaG)" stroke="#110A14" stroke-width="4"/>
-    <ellipse cx="280" cy="190" rx="20" ry="16" fill="#D69864" stroke="#110A14" stroke-width="3.5" transform="rotate(25 280 190)"/>
-
-    <path d="M-50,-40 L-55,30 L55,30 L50,-40 Z" fill="#D69864" stroke="#110A14" stroke-width="4"/>
-    <ellipse cx="0" cy="-80" rx="55" ry="65" fill="#D69864" stroke="#110A14" stroke-width="4.5"/>
-
-    <path d="M-45,-55 Q-65,20 -28,95 Q0,135 28,95 Q65,20 45,-55 Z" fill="#FFFFFF" stroke="#110A14" stroke-width="4"/>
-    <path d="M-15,-10 Q-20,40 -12,80" fill="none" stroke="#DDD8CC" stroke-width="2.5"/>
-    <path d="M15,-10 Q20,40 12,80" fill="none" stroke="#DDD8CC" stroke-width="2.5"/>
-
-    <path d="M-35,-85 Q-18,-95 -2,-85 Q-18,-75 -35,-85 Z" fill="#FFF8EE" stroke="#110A14" stroke-width="2.5"/>
-    <circle cx="-18" cy="-85" r="5.5" fill="#2E160C"/>
-    <path d="M-36,-98 Q-18,-108 0,-94" fill="none" stroke="#FFFFFF" stroke-width="4.5" stroke-linecap="round"/>
-
-    <path d="M2,-85 Q18,-95 35,-85 Q18,-75 2,-85 Z" fill="#FFF8EE" stroke="#110A14" stroke-width="2.5"/>
-    <circle cx="18" cy="-85" r="5.5" fill="#2E160C"/>
-    <path d="M0,-94 Q18,-108 36,-98" fill="none" stroke="#FFFFFF" stroke-width="4.5" stroke-linecap="round"/>
-
-    <ellipse cx="0" cy="-125" rx="72" ry="26" fill="#FAF8F2" stroke="#110A14" stroke-width="4"/>
-    <ellipse cx="0" cy="-152" rx="68" ry="24" fill="#EDE8DC" stroke="#110A14" stroke-width="4"/>
-    <ellipse cx="0" cy="-178" rx="60" ry="22" fill="#FAF8F2" stroke="#110A14" stroke-width="4"/>
-  </g>
-
-  <!-- Weeping Daughter (Right) -->
-  <g id="daughter" transform="translate(1240, 580)">
-    <path d="M-55,30 Q-120,45 -180,110 L-200,500 L200,500 L180,110 Q120,45 55,30 Z" fill="#D8281E" stroke="#110A14" stroke-width="4.5"/>
-    <path d="M-170,110 Q-110,40 0,20 Q110,40 170,110" fill="none" stroke="#E5B842" stroke-width="8"/>
-
-    <path d="M-22,-40 L-24,30 L24,30 L22,-40 Z" fill="#F8D4AE" stroke="#110A14" stroke-width="3.5"/>
-    <ellipse cx="0" cy="-75" rx="46" ry="54" fill="#F8D4AE" stroke="#110A14" stroke-width="3.5"/>
-
-    <path d="M-56,-45 Q-68,-140 0,-155 Q68,-140 56,-45 Z" fill="#D8281E" stroke="#110A14" stroke-width="4"/>
-    <path d="M-54,-45 Q0,-150 54,-45" fill="none" stroke="#E5B842" stroke-width="4"/>
-
-    <line x1="0" y1="-145" x2="0" y2="-112" stroke="#E5B842" stroke-width="2.5"/>
-    <circle cx="0" cy="-110" r="5" fill="#C81E2B" stroke="#110A14" stroke-width="1.5"/>
-
-    <path d="M-26,-78 A10,10 0 0,0 -4,-78" fill="none" stroke="#110A14" stroke-width="3.5"/>
-    <line x1="-22" y1="-82" x2="-26" y2="-86" stroke="#110A14" stroke-width="2"/>
-    <line x1="-8" y1="-82" x2="-4" y2="-86" stroke="#110A14" stroke-width="2"/>
-    <ellipse cx="-15" cy="${-68 + tearDrop * 28}" rx="3.5" ry="7" fill="#72CAFF"/>
-
-    <path d="M4,-78 A10,10 0 0,0 26,-78" fill="none" stroke="#110A14" stroke-width="3.5"/>
-    <line x1="8" y1="-82" x2="4" y2="-86" stroke="#110A14" stroke-width="2"/>
-    <line x1="22" y1="-82" x2="26" y2="-86" stroke="#110A14" stroke-width="2"/>
-    <ellipse cx="15" cy="${-68 + tearDrop * 28}" rx="3.5" ry="7" fill="#72CAFF"/>
-
-    <path d="M-8,-44 Q0,-48 8,-44 Q0,-40 -8,-44 Z" fill="#8C1E2A"/>
-
-    <path d="M-150,110 L-60,220 L-20,180 L-100,90 Z" fill="#D02C45" stroke="#110A14" stroke-width="3.5"/>
-    <path d="M150,110 L60,220 L20,180 L100,90 Z" fill="#D02C45" stroke="#110A14" stroke-width="3.5"/>
-
-    <circle cx="0" cy="185" r="18" fill="#F8D4AE" stroke="#110A14" stroke-width="3"/>
-    <ellipse cx="-12" cy="205" rx="8" ry="4" fill="#E5B842"/>
-    <ellipse cx="12" cy="205" rx="8" ry="4" fill="#E5B842"/>
-  </g>
-</svg>
-`;
-
-  drawSvgToCanvas(ctx, svg);
-}
-
-// ============================================================================
-// 5. SCENE 05: Midnight Shiva Temple Council of 84 Chiefs (25.0s - 33.5s)
-// ============================================================================
-export function drawSceneTempleCouncil(ctx, W, H, t) {
-  const fw1 = Math.sin(t * 14) * 10;
-  const fw2 = Math.cos(t * 20) * 12;
-
-  const svg = `
-<svg xmlns="http://www.w3.org/2000/svg" width="${W}" height="${H}" viewBox="0 0 ${W} ${H}">
-  <defs>
-    <radialGradient id="templeChamber" cx="0.5" cy="0.6" r="0.65">
-      <stop offset="0%" stop-color="#3A1412"/>
-      <stop offset="40%" stop-color="#200A14"/>
-      <stop offset="75%" stop-color="#0E040A"/>
-      <stop offset="100%" stop-color="#050106"/>
-    </radialGradient>
-
-    <radialGradient id="fireGlow" cx="0.5" cy="0.75" r="0.6">
-      <stop offset="0%" stop-color="#FFA828" stop-opacity="1"/>
-      <stop offset="30%" stop-color="#FF5A10" stop-opacity="0.6"/>
-      <stop offset="65%" stop-color="#B81E0A" stop-opacity="0.2"/>
-      <stop offset="100%" stop-color="#B81E0A" stop-opacity="0"/>
-    </radialGradient>
-
-    <linearGradient id="chiefKurta" x1="0" y1="0" x2="1" y2="0">
-      <stop offset="0%" stop-color="#E8DFD0"/>
-      <stop offset="35%" stop-color="#FAF8F2"/>
-      <stop offset="70%" stop-color="#FAF8F2"/>
-      <stop offset="100%" stop-color="#DDD4C0"/>
-    </linearGradient>
-  </defs>
-
-  <rect width="${W}" height="${H}" fill="url(#templeChamber)"/>
-
-  <g id="bg-relief" opacity="0.45">
-    <rect x="0" y="0" width="${W}" height="480" fill="#1A0A10"/>
-    <path d="M160,320 L160,180 Q240,120 320,180 Q400,120 480,180 L480,320 Z" fill="#240E16" stroke="#0E0408" stroke-width="3"/>
-    <path d="M720,320 L720,180 Q800,120 880,180 Q960,120 1040,180 L1040,320 Z" fill="#240E16" stroke="#0E0408" stroke-width="3"/>
-    <path d="M1280,320 L1280,180 Q1360,120 1440,180 Q1520,120 1600,180 L1600,320 Z" fill="#240E16" stroke="#0E0408" stroke-width="3"/>
-  </g>
-
-  <circle cx="960" cy="850" r="750" fill="url(#fireGlow)"/>
-
-  <!-- Left Chief -->
-  <g id="chief-left" transform="translate(480, 480)">
-    <path d="M-60,50 Q-150,70 -260,160 L-290,600 L120,600 L110,160 Q60,70 -60,50 Z" fill="url(#chiefKurta)" stroke="#0E0408" stroke-width="5"/>
-    <path d="M-220,130 L-80,20 L40,240 L-100,290 Z" fill="#1E7A4A" stroke="#0E0408" stroke-width="4"/>
-    <line x1="-80" y1="20" x2="40" y2="240" stroke="#E5B842" stroke-width="6"/>
-
-    <ellipse cx="-20" cy="-60" rx="58" ry="68" fill="#D69864" stroke="#0E0408" stroke-width="4.5"/>
-    <path d="M-65,-30 Q-80,40 -40,105 Q-15,135 15,105 Q55,40 40,-30 Z" fill="#CCCCCC" stroke="#0E0408" stroke-width="4"/>
-    <ellipse cx="5" cy="-68" rx="8" ry="6" fill="#FFF9F2" stroke="#0E0408" stroke-width="2"/>
-    <circle cx="7" cy="-68" r="4" fill="#0E0408"/>
-    <path d="M-8,-80 L22,-74" stroke="#0E0408" stroke-width="4" stroke-linecap="round"/>
-
-    <ellipse cx="-20" cy="-105" rx="76" ry="28" fill="#D8281E" stroke="#0E0408" stroke-width="4.5"/>
-    <ellipse cx="-20" cy="-135" rx="72" ry="26" fill="#B81E16" stroke="#0E0408" stroke-width="4.5"/>
-    <ellipse cx="-20" cy="-162" rx="64" ry="24" fill="#D8281E" stroke="#0E0408" stroke-width="4.5"/>
-  </g>
-
-  <!-- Right Chief -->
-  <g id="chief-right" transform="translate(1440, 480)">
-    <path d="M60,50 Q150,70 260,160 L290,600 L-120,600 L-110,160 Q-60,70 60,50 Z" fill="url(#chiefKurta)" stroke="#0E0408" stroke-width="5"/>
-    <path d="M220,130 L80,20 L-40,240 L100,290 Z" fill="#8C1828" stroke="#0E0408" stroke-width="4"/>
-    <line x1="80" y1="20" x2="-40" y2="240" stroke="#E5B842" stroke-width="6"/>
-
-    <ellipse cx="20" cy="-60" rx="58" ry="68" fill="#D69864" stroke="#0E0408" stroke-width="4.5"/>
-    <path d="M-40,-30 Q-55,40 -15,105 Q15,135 40,105 Q80,40 65,-30 Z" fill="#888888" stroke="#0E0408" stroke-width="4"/>
-    <ellipse cx="-5" cy="-68" rx="8" ry="6" fill="#FFF9F2" stroke="#0E0408" stroke-width="2"/>
-    <circle cx="-7" cy="-68" r="4" fill="#0E0408"/>
-    <path d="M-22,-74 L8,-80" stroke="#0E0408" stroke-width="4" stroke-linecap="round"/>
-
-    <ellipse cx="20" cy="-105" rx="76" ry="28" fill="#E5B842" stroke="#0E0408" stroke-width="4.5"/>
-    <ellipse cx="20" cy="-135" rx="72" ry="26" fill="#C89A2E" stroke="#0E0408" stroke-width="4.5"/>
-    <ellipse cx="20" cy="-162" rx="64" ry="24" fill="#E5B842" stroke="#0E0408" stroke-width="4.5"/>
-  </g>
-
-  <!-- Central Patriarch Chief in Defiance -->
-  <g id="head-chief" transform="translate(960, 420)">
-    <path d="M-80,40 Q-200,65 -340,160 L-370,660 L370,660 L340,160 Q200,65 80,40 Z" fill="url(#chiefKurta)" stroke="#0E0408" stroke-width="5"/>
-    <path d="M-260,150 L-90,-10 L80,260 L-70,310 Z" fill="#E86E1C" stroke="#0E0408" stroke-width="4.5"/>
-    <line x1="-90" y1="-10" x2="80" y2="260" stroke="#E5B842" stroke-width="8"/>
-
-    <path d="M-55,-40 L-60,40 L60,40 L55,-40 Z" fill="#D69864" stroke="#0E0408" stroke-width="4"/>
-    <ellipse cx="0" cy="-85" rx="72" ry="84" fill="#D69864" stroke="#0E0408" stroke-width="5"/>
-
-    <path d="M-60,-50 Q-85,35 -38,135 Q0,185 38,135 Q85,35 60,-50 Z" fill="#FFFFFF" stroke="#0E0408" stroke-width="4.5"/>
-    <path d="M-20,0 Q-25,60 -15,115" fill="none" stroke="#DCD6C8" stroke-width="3"/>
-    <path d="M20,0 Q25,60 15,115" fill="none" stroke="#DCD6C8" stroke-width="3"/>
-
-    <rect x="-5" y="-140" width="10" height="28" rx="4" fill="#D8281E"/>
-    <circle cx="0" cy="-105" r="4" fill="#E5B842"/>
-
-    <path d="M-45,-90 Q-24,-102 -4,-90 Q-24,-80 -45,-90 Z" fill="#FFF8EE" stroke="#0E0408" stroke-width="3"/>
-    <circle cx="-24" cy="-90" r="7" fill="#2E160C"/>
-    <circle cx="-26" cy="-92" r="2.5" fill="#FFFFFF"/>
-    <path d="M-48,-106 Q-24,-116 -2,-100" fill="none" stroke="#0E0408" stroke-width="5" stroke-linecap="round"/>
-
-    <path d="M4,-90 Q24,-102 45,-90 Q24,-80 4,-90 Z" fill="#FFF8EE" stroke="#0E0408" stroke-width="3"/>
-    <circle cx="24" cy="-90" r="7" fill="#2E160C"/>
-    <circle cx="22" cy="-92" r="2.5" fill="#FFFFFF"/>
-    <path d="M2,-100 Q24,-116 48,-106" fill="none" stroke="#0E0408" stroke-width="5" stroke-linecap="round"/>
-
-    <path d="M0,-95 L-6,-55 Q0,-45 8,-52" fill="none" stroke="#0E0408" stroke-width="3.5" stroke-linecap="round"/>
-    <path d="M-14,-32 Q0,-26 14,-32" fill="none" stroke="#4A1810" stroke-width="4" stroke-linecap="round"/>
-
-    <ellipse cx="0" cy="-135" rx="98" ry="34" fill="#F26E20" stroke="#0E0408" stroke-width="5"/>
-    <ellipse cx="0" cy="-170" rx="92" ry="32" fill="#E05510" stroke="#0E0408" stroke-width="5"/>
-    <ellipse cx="0" cy="-205" rx="82" ry="28" fill="#F26E20" stroke="#0E0408" stroke-width="5"/>
-  </g>
-
-  <!-- Foreground Roaring Sacred Havan Fire -->
-  <g id="fg-fire" transform="translate(960, 940)">
-    <polygon points="-480,140 480,140 540,240 -540,240" fill="#32120C" stroke="#0E0408" stroke-width="6"/>
-    <polygon points="-400,140 400,140 440,200 -440,200" fill="#1E0A06" stroke="#0E0408" stroke-width="4"/>
-
-    <path d="M-220,140 Q${-110 + fw1},-120 ${0 + fw2},-340 Q${110 - fw1},-120 220,140 Z" fill="#D41E0E"/>
-    <path d="M-160,140 Q${-75 + fw2},-90 ${0 + fw1},-260 Q${75 - fw2},-90 160,140 Z" fill="#FF5E10"/>
-    <path d="M-100,140 Q${-35 + fw1},-50 0,-180 Q${35 - fw1},-50 100,140 Z" fill="#FFAE18"/>
-    <path d="M-50,140 Q0,-20 0,-100 Q0,-20 50,140 Z" fill="#FFFDE0"/>
-
-    <circle cx="${-60 + fw1}" cy="-360" r="6" fill="#FFAE18"/>
-    <circle cx="${45 + fw2}" cy="-400" r="5" fill="#FF5E10"/>
-    <circle cx="${-15 + fw2}" cy="-450" r="4.5" fill="#FFAE18"/>
-    <circle cx="${80 - fw1}" cy="-480" r="4" fill="#FFFDE0"/>
-  </g>
-</svg>
-`;
-
-  drawSvgToCanvas(ctx, svg);
-}
-
-// ============================================================================
-// 6. SCENE 06: Thar Desert Midnight Silent Exodus (33.5s - 39.5s)
-// ============================================================================
-export function drawSceneNightExodus(ctx, W, H, t) {
-  const st = t >= 33.5 ? t - 33.5 : t; // Handles both local shot time and global time
-  const walkPhase = st * 5;
-  const leg1 = Math.sin(walkPhase) * 22;
-  const leg2 = -Math.sin(walkPhase) * 22;
-
-  const caravanX = W * 0.75 - (st / 6.0) * 600;
-
-  const svg = `
-<svg xmlns="http://www.w3.org/2000/svg" width="${W}" height="${H}" viewBox="0 0 ${W} ${H}">
-  <defs>
-    <linearGradient id="exodusSky" x1="0" y1="0" x2="0" y2="1">
-      <stop offset="0%" stop-color="#04060E"/>
-      <stop offset="45%" stop-color="#0B1226"/>
-      <stop offset="75%" stop-color="#161C36"/>
-      <stop offset="100%" stop-color="#241E34"/>
-    </linearGradient>
-
-    <radialGradient id="fullMoonGlow" cx="0.5" cy="0.5" r="0.5">
-      <stop offset="0%" stop-color="#FFFDF0" stop-opacity="1"/>
-      <stop offset="25%" stop-color="#FFEAA8" stop-opacity="0.45"/>
-      <stop offset="65%" stop-color="#FFEAA8" stop-opacity="0.12"/>
-      <stop offset="100%" stop-color="#FFEAA8" stop-opacity="0"/>
-    </radialGradient>
-
-    <radialGradient id="lanternGlow" cx="0.5" cy="0.5" r="0.5">
-      <stop offset="0%" stop-color="#FFB842" stop-opacity="0.95"/>
-      <stop offset="35%" stop-color="#FF7A18" stop-opacity="0.4"/>
-      <stop offset="80%" stop-color="#FF7A18" stop-opacity="0.08"/>
-      <stop offset="100%" stop-color="#FF7A18" stop-opacity="0"/>
-    </radialGradient>
-  </defs>
-
-  <rect width="${W}" height="${H}" fill="url(#exodusSky)"/>
-
-  <circle cx="1450" cy="240" r="320" fill="url(#fullMoonGlow)"/>
-  <circle cx="1450" cy="240" r="75" fill="#FFF8E2"/>
-
-  <path d="M0,${H * 0.58} Q${W * 0.3},${H * 0.52} ${W * 0.65},${H * 0.59} T${W},${H * 0.55} L${W},${H} L0,${H} Z" fill="#0D1424"/>
-  <path d="M0,${H * 0.68} Q${W * 0.45},${H * 0.72} ${W * 0.8},${H * 0.66} L${W},${H} L0,${H} Z" fill="#151C30"/>
-  <path d="M0,${H * 0.8} Q${W * 0.4},${H * 0.72} ${W},${H * 0.76} L${W},${H} L0,${H} Z" fill="#1C223A" stroke="#0E121E" stroke-width="3"/>
-  <path d="M0,${H * 0.88} Q${W * 0.5},${H * 0.84} ${W},${H * 0.9} L${W},${H} L0,${H} Z" fill="#121626"/>
-
-  <g id="caravan" transform="translate(${caravanX}, 0)">
-    <!-- Camel 1 -->
-    <g transform="translate(0, 770) scale(1.6)">
-      <ellipse cx="0" cy="5" rx="80" ry="12" fill="rgba(8,10,18,0.5)"/>
-
-      <line x1="-40" y1="-70" x2="${-40 + Math.sin(rad(leg1)) * 26}" y2="-35" stroke="#080C16" stroke-width="11" stroke-linecap="round"/>
-      <line x1="${-40 + Math.sin(rad(leg1)) * 26}" y1="-35" x2="${-40 + Math.sin(rad(leg1 * 0.7)) * 26}" y2="0" stroke="#080C16" stroke-width="9" stroke-linecap="round"/>
-
-      <line x1="-25" y1="-70" x2="${-25 - Math.sin(rad(leg1)) * 26}" y2="-35" stroke="#0E1422" stroke-width="11" stroke-linecap="round"/>
-      <line x1="${-25 - Math.sin(rad(leg1)) * 26}" y1="-35" x2="${-25 - Math.sin(rad(leg1 * 0.7)) * 26}" y2="0" stroke="#0E1422" stroke-width="9" stroke-linecap="round"/>
-
-      <line x1="35" y1="-70" x2="${35 + Math.sin(rad(leg2)) * 26}" y2="-35" stroke="#080C16" stroke-width="11" stroke-linecap="round"/>
-      <line x1="${35 + Math.sin(rad(leg2)) * 26}" y1="-35" x2="${35 + Math.sin(rad(leg2 * 0.7)) * 26}" y2="0" stroke="#080C16" stroke-width="9" stroke-linecap="round"/>
-
-      <line x1="50" y1="-70" x2="${50 - Math.sin(rad(leg2)) * 26}" y2="-35" stroke="#0E1422" stroke-width="11" stroke-linecap="round"/>
-      <line x1="${50 - Math.sin(rad(leg2)) * 26}" y1="-35" x2="${50 - Math.sin(rad(leg2 * 0.7)) * 26}" y2="0" stroke="#0E1422" stroke-width="9" stroke-linecap="round"/>
-
-      <path d="M60,-70 Q45,-90 20,-80 Q0,-120 -15,-80 Q-45,-90 -65,-70 Q-55,-40 0,-40 Q55,-40 60,-70 Z" fill="#080C16"/>
-      <path d="M-50,-65 Q-80,-60 -95,-105 Q-100,-135 -112,-140 Q-128,-145 -132,-135 Q-120,-120 -105,-115 Q-90,-75 -60,-50 Z" fill="#080C16"/>
-      <ellipse cx="-118" cy="-140" rx="14" ry="10" fill="#080C16" transform="rotate(15 -118 -140)"/>
-      <ellipse cx="-106" cy="-150" rx="4" ry="8" fill="#080C16" transform="rotate(18 -106 -150)"/>
-
-      <ellipse cx="-10" cy="-90" rx="20" ry="15" fill="#0E1422"/>
-      <ellipse cx="14" cy="-90" rx="20" ry="15" fill="#0E1422"/>
-      <rect x="-24" y="-82" width="48" height="24" fill="#080C16"/>
-    </g>
-
-    <path d="M100,680 Q230,730 360,680" fill="none" stroke="#080C16" stroke-width="3.5"/>
-
-    <!-- Camel 2 -->
-    <g transform="translate(450, 780) scale(1.6)">
-      <ellipse cx="0" cy="5" rx="80" ry="12" fill="rgba(8,10,18,0.5)"/>
-
-      <line x1="-40" y1="-70" x2="${-40 + Math.sin(rad(leg2)) * 26}" y2="-35" stroke="#080C16" stroke-width="11" stroke-linecap="round"/>
-      <line x1="${-40 + Math.sin(rad(leg2)) * 26}" y1="-35" x2="${-40 + Math.sin(rad(leg2 * 0.7)) * 26}" y2="0" stroke="#080C16" stroke-width="9" stroke-linecap="round"/>
-
-      <line x1="-25" y1="-70" x2="${-25 - Math.sin(rad(leg2)) * 26}" y2="-35" stroke="#0E1422" stroke-width="11" stroke-linecap="round"/>
-      <line x1="${-25 - Math.sin(rad(leg2)) * 26}" y1="-35" x2="${-25 - Math.sin(rad(leg2 * 0.7)) * 26}" y2="0" stroke="#0E1422" stroke-width="9" stroke-linecap="round"/>
-
-      <line x1="35" y1="-70" x2="${35 + Math.sin(rad(leg1)) * 26}" y2="-35" stroke="#080C16" stroke-width="11" stroke-linecap="round"/>
-      <line x1="${35 + Math.sin(rad(leg1)) * 26}" y1="-35" x2="${35 + Math.sin(rad(leg1 * 0.7)) * 26}" y2="0" stroke="#080C16" stroke-width="9" stroke-linecap="round"/>
-
-      <line x1="50" y1="-70" x2="${50 - Math.sin(rad(leg1)) * 26}" y2="-35" stroke="#0E1422" stroke-width="11" stroke-linecap="round"/>
-      <line x1="${50 - Math.sin(rad(leg1)) * 26}" y1="-35" x2="${50 - Math.sin(rad(leg1 * 0.7)) * 26}" y2="0" stroke="#0E1422" stroke-width="9" stroke-linecap="round"/>
-
-      <path d="M60,-70 Q45,-90 20,-80 Q0,-120 -15,-80 Q-45,-90 -65,-70 Q-55,-40 0,-40 Q55,-40 60,-70 Z" fill="#080C16"/>
-      <path d="M-50,-65 Q-80,-60 -95,-105 Q-100,-135 -112,-140 Q-128,-145 -132,-135 Q-120,-120 -105,-115 Q-90,-75 -60,-50 Z" fill="#080C16"/>
-      <ellipse cx="-118" cy="-140" rx="14" ry="10" fill="#080C16" transform="rotate(15 -118 -140)"/>
-      <ellipse cx="-106" cy="-150" rx="4" ry="8" fill="#080C16" transform="rotate(18 -106 -150)"/>
-
-      <ellipse cx="-10" cy="-90" rx="22" ry="16" fill="#0E1422"/>
-      <ellipse cx="14" cy="-90" rx="22" ry="16" fill="#0E1422"/>
-    </g>
-
-    <!-- Caravan Leader with Lantern -->
-    <g transform="translate(-260, 780) scale(1.3)">
-      <ellipse cx="0" cy="5" rx="35" ry="10" fill="rgba(8,10,18,0.5)"/>
-      <line x1="-12" y1="-65" x2="${-12 + Math.sin(rad(leg1)) * 18}" y2="0" stroke="#080C16" stroke-width="12" stroke-linecap="round"/>
-      <line x1="12" y1="-65" x2="${12 - Math.sin(rad(leg1)) * 18}" y2="0" stroke="#080C16" stroke-width="12" stroke-linecap="round"/>
-
-      <path d="M-22,-145 L22,-145 L26,-65 L-26,-65 Z" fill="#080C16"/>
-      <ellipse cx="0" cy="-170" rx="20" ry="24" fill="#080C16"/>
-      <ellipse cx="0" cy="-184" rx="26" ry="14" fill="#080C16"/>
-
-      <line x1="28" y1="-140" x2="38" y2="0" stroke="#080C16" stroke-width="4.5"/>
-
-      <line x1="-18" y1="-135" x2="-45" y2="-100" stroke="#080C16" stroke-width="7" stroke-linecap="round"/>
-      <line x1="-45" y1="-100" x2="-45" y2="-75" stroke="#E5B842" stroke-width="2.5"/>
-      <rect x="-54" y="-75" width="18" height="26" rx="4" fill="#080C16"/>
-      <rect x="-51" y="-71" width="12" height="18" fill="#FFF2AA"/>
-
-      <circle cx="-45" cy="-62" r="160" fill="url(#lanternGlow)"/>
-    </g>
-
-    <!-- Woman carrying water pot -->
-    <g transform="translate(-420, 790) scale(1.25)">
-      <ellipse cx="0" cy="5" rx="30" ry="8" fill="rgba(8,10,18,0.5)"/>
-      <line x1="-10" y1="-60" x2="${-10 + Math.sin(rad(leg2)) * 16}" y2="0" stroke="#080C16" stroke-width="10" stroke-linecap="round"/>
-      <line x1="10" y1="-60" x2="${10 - Math.sin(rad(leg2)) * 16}" y2="0" stroke="#080C16" stroke-width="10" stroke-linecap="round"/>
-
-      <polygon points="-24,-50 24,-50 16,-125 -16,-125" fill="#080C16"/>
-      <path d="M-18,-125 Q-26,-150 0,-165 Q26,-150 18,-125 Z" fill="#080C16"/>
-
-      <ellipse cx="0" cy="-182" rx="20" ry="18" fill="#080C16"/>
-      <ellipse cx="0" cy="-196" rx="10" ry="5" fill="#080C16"/>
-
-      <path d="M-16,-125 L-22,-165 L-14,-180" fill="none" stroke="#080C16" stroke-width="5" stroke-linecap="round"/>
-      <path d="M16,-125 L22,-165 L14,-180" fill="none" stroke="#080C16" stroke-width="5" stroke-linecap="round"/>
-    </g>
-
-    <!-- Second Lantern Bearer -->
-    <g transform="translate(240, 775) scale(1.2)">
-      <ellipse cx="0" cy="5" rx="30" ry="8" fill="rgba(8,10,18,0.5)"/>
-      <line x1="-10" y1="-65" x2="${-10 + Math.sin(rad(leg1)) * 16}" y2="0" stroke="#080C16" stroke-width="11" stroke-linecap="round"/>
-      <line x1="10" y1="-65" x2="${10 - Math.sin(rad(leg1)) * 16}" y2="0" stroke="#080C16" stroke-width="11" stroke-linecap="round"/>
-      <polygon points="-20,-60 20,-60 18,-140 -18,-140" fill="#080C16"/>
-      <ellipse cx="0" cy="-160" rx="18" ry="22" fill="#080C16"/>
-      <ellipse cx="0" cy="-172" rx="24" ry="12" fill="#080C16"/>
-
-      <line x1="-15" y1="-130" x2="-35" y2="-90" stroke="#080C16" stroke-width="6" stroke-linecap="round"/>
-      <line x1="-35" y1="-90" x2="-35" y2="-70" stroke="#E5B842" stroke-width="2.5"/>
-      <rect x="-42" y="-70" width="14" height="20" rx="3" fill="#080C16"/>
-      <rect x="-40" y="-67" width="10" height="14" fill="#FFF2AA"/>
-      <circle cx="-35" cy="-60" r="140" fill="url(#lanternGlow)"/>
-    </g>
-  </g>
-</svg>
-`;
-
-  drawSvgToCanvas(ctx, svg);
-}
-
-// ============================================================================
-// 7. SCENE 07: Village Elder Flaming Torch & Kamandalu Curse (39.5s - 49.2s)
-// ============================================================================
-export function drawSceneElderCurse(ctx, W, H, t) {
-  const st = t >= 39.5 ? t - 39.5 : t;
-  const fw1 = Math.sin(st * 18) * 12;
-  const fw2 = Math.cos(st * 24) * 16;
-  const windCloth = Math.sin(st * 10) * 14;
-
-  const svg = `
-<svg xmlns="http://www.w3.org/2000/svg" width="${W}" height="${H}" viewBox="0 0 ${W} ${H}">
-  <defs>
-    <linearGradient id="curseSky" x1="0" y1="0" x2="0" y2="1">
-      <stop offset="0%" stop-color="#140208"/>
-      <stop offset="35%" stop-color="#380818"/>
-      <stop offset="70%" stop-color="#5A1028"/>
-      <stop offset="100%" stop-color="#240610"/>
-    </linearGradient>
-
-    <radialGradient id="torchFireGlow" cx="0.5" cy="0.5" r="0.5">
-      <stop offset="0%" stop-color="#FFA828" stop-opacity="1"/>
-      <stop offset="30%" stop-color="#FF5A10" stop-opacity="0.6"/>
-      <stop offset="70%" stop-color="#C8180E" stop-opacity="0.2"/>
-      <stop offset="100%" stop-color="#C8180E" stop-opacity="0"/>
-    </radialGradient>
-
-    <linearGradient id="robeShading" x1="0" y1="0" x2="1" y2="0">
-      <stop offset="0%" stop-color="#DDD6C6"/>
-      <stop offset="35%" stop-color="#FAF8F2"/>
-      <stop offset="75%" stop-color="#FAF8F2"/>
-      <stop offset="100%" stop-color="#C8C0AE"/>
-    </linearGradient>
-  </defs>
-
-  <rect width="${W}" height="${H}" fill="url(#curseSky)"/>
-
-  <!-- Jagged Lightning Bolts -->
-  <g id="lightning" stroke="#FFE2E8" stroke-linecap="round">
-    <path d="M420,0 L450,140 L380,240 L440,380 L390,480" fill="none" stroke-width="4.5"/>
-    <path d="M450,140 L520,220 L490,290" fill="none" stroke-width="2.5" stroke-opacity="0.7"/>
-    <path d="M1520,0 L1480,160 L1560,260 L1510,400" fill="none" stroke-width="4"/>
-  </g>
-
-  <!-- Distant Kuldhara Fortress Battlements -->
-  <rect x="0" y="700" width="${W}" height="380" fill="#200A12" stroke="#0E0408" stroke-width="5"/>
-  <path d="M0,700 L0,630 L90,630 L90,700 L160,700 L160,630 L250,630 L250,700 L320,700 L320,630 L410,630 L410,700 L480,700 L480,630 L570,630 L570,700 L640,700 L640,630 L730,630 L730,700 L800,700 L800,630 L890,630 L890,700 L960,700 L960,630 L1050,630 L1050,700 L1120,700 L1120,630 L1210,630 L1210,700 L1280,700 L1280,630 L1370,630 L1370,700 L1440,700 L1440,630 L1530,630 L1530,700 L1600,700 L1600,630 L1690,630 L1690,700 L1760,700 L1760,630 L1850,630 L1850,700 L1920,700 L1920,1080 L0,1080 Z" fill="#280E16" stroke="#0E0408" stroke-width="4"/>
-
-  <!-- Village Elder Heroic Figure -->
-  <g id="elder" transform="translate(960, 500)">
-    <path d="M-90,60 Q-240,90 -420,240 L${-440 + windCloth},620 L440,620 L400,200 Q260,80 90,60 Z" fill="url(#robeShading)" stroke="#0E0408" stroke-width="5"/>
-    <path d="M-300,210 L-90,-10 L80,260 L${-90 + windCloth},350 Z" fill="#E86E1C" stroke="#0E0408" stroke-width="4.5"/>
-    <line x1="-90" y1="-10" x2="80" y2="260" stroke="#E5B842" stroke-width="8"/>
-
-    <!-- Left Arm & Kamandalu -->
-    <path d="M-220,170 Q-260,260 -290,340 L-235,355 Q-210,270 -170,195 Z" fill="url(#robeShading)" stroke="#0E0408" stroke-width="4.5"/>
-    <path d="M-280,335 L-310,430 L-270,440 L-245,350 Z" fill="#D69864" stroke="#0E0408" stroke-width="4"/>
-    <ellipse cx="-290" cy="435" rx="18" ry="16" fill="#D69864" stroke="#0E0408" stroke-width="3"/>
-
-    <g transform="translate(-290, 460)">
-      <path d="M-20,-15 Q0,-35 20,-15" fill="none" stroke="#E5B842" stroke-width="5"/>
-      <path d="M-24,5 L-42,12 L-40,20 L-22,12 Z" fill="#C89A2E" stroke="#0E0408" stroke-width="2.5"/>
-      <ellipse cx="0" cy="20" rx="32" ry="28" fill="#E5B842" stroke="#0E0408" stroke-width="3.5"/>
-      <ellipse cx="0" cy="18" rx="26" ry="20" fill="#F8E298"/>
-      <path d="M-42,16 Q-65,90 -55,180" fill="none" stroke="#72CAFF" stroke-width="4.5" stroke-linecap="round"/>
-      <ellipse cx="-55" cy="180" rx="12" ry="6" fill="#72CAFF"/>
-    </g>
-
-    <!-- Right Arm & Torch -->
-    <path d="M190,140 Q280,90 350,30 L380,85 Q300,150 210,195 Z" fill="url(#robeShading)" stroke="#0E0408" stroke-width="4.5"/>
-    <path d="M335,45 L380,-85 L425,-75 L375,55 Z" fill="#D69864" stroke="#0E0408" stroke-width="4"/>
-    <ellipse cx="400" cy="-85" rx="24" ry="20" fill="#D69864" stroke="#0E0408" stroke-width="3.5" transform="rotate(-20 400 -85)"/>
-
-    <rect x="390" y="-230" width="18" height="190" fill="#422416" stroke="#0E0408" stroke-width="3.5" transform="rotate(-10 400 -130)"/>
-    <polygon points="365,-230 425,-230 415,-205 375,-205" fill="#221C18" stroke="#0E0408" stroke-width="3.5"/>
-
-    <circle cx="395" cy="-330" r="540" fill="url(#torchFireGlow)"/>
-    <path d="M370,-225 Q${310 + fw1},-350 ${395 + fw2},-480 Q${495 - fw1},-350 420,-225 Z" fill="#D41E0E"/>
-    <path d="M377,-225 Q${330 + fw2},-320 ${395 + fw1},-430 Q${465 - fw2},-320 413,-225 Z" fill="#FF5E10"/>
-    <path d="M385,-225 Q${360 + fw1},-285 395,-365 Q${430 - fw1},-285 405,-225 Z" fill="#FFAE18"/>
-    <path d="M390,-225 Q393,-260 395,-300 Q397,-260 400,-225 Z" fill="#FFFDE0"/>
-
-    <circle cx="${340 + fw1}" cy="-470" r="5.5" fill="#FFAE18"/>
-    <circle cx="${450 + fw2}" cy="-520" r="5" fill="#FF5E10"/>
-    <circle cx="${300 + fw2}" cy="-560" r="4" fill="#FFAE18"/>
-
-    <path d="M-55,-40 L-60,40 L60,40 L55,-40 Z" fill="#D69864" stroke="#0E0408" stroke-width="4"/>
-    <ellipse cx="0" cy="-80" rx="72" ry="82" fill="#D69864" stroke="#0E0408" stroke-width="5"/>
-    <path d="M-55,-45 Q${-90 + windCloth},40 ${-50 + windCloth},155 Q${0 + windCloth},205 ${50 + windCloth},155 Q80,40 55,-45 Z" fill="#FFFFFF" stroke="#0E0408" stroke-width="4.5"/>
-
-    <ellipse cx="0" cy="-30" rx="20" ry="${18 + Math.abs(Math.sin(st * 12)) * 7}" fill="#320C12" stroke="#0E0408" stroke-width="3.5"/>
-    <path d="M-14,-42 Q0,-35 14,-42 Q10,-35 -14,-35 Z" fill="#FFFBF4"/>
-
-    <path d="M-45,-85 Q-24,-98 -4,-85 Q-24,-74 -45,-85 Z" fill="#FFF8EE" stroke="#0E0408" stroke-width="3"/>
-    <circle cx="-24" cy="-85" r="7" fill="#2E160C"/>
-    <circle cx="-26" cy="-87" r="2.5" fill="#FFFFFF"/>
-    <path d="M-48,-102 Q-24,-112 -2,-96" fill="none" stroke="#0E0408" stroke-width="5.5" stroke-linecap="round"/>
-
-    <path d="M4,-85 Q24,-98 45,-85 Q24,-74 4,-85 Z" fill="#FFF8EE" stroke="#0E0408" stroke-width="3"/>
-    <circle cx="24" cy="-85" r="7" fill="#2E160C"/>
-    <circle cx="22" cy="-87" r="2.5" fill="#FFFFFF"/>
-    <path d="M2,-96 Q24,-112 48,-102" fill="none" stroke="#0E0408" stroke-width="5.5" stroke-linecap="round"/>
-
-    <ellipse cx="0" cy="-130" rx="96" ry="34" fill="#FAF8F2" stroke="#0E0408" stroke-width="5"/>
-    <ellipse cx="0" cy="-165" rx="90" ry="32" fill="#EDE8DC" stroke="#0E0408" stroke-width="5"/>
-    <ellipse cx="0" cy="-198" rx="80" ry="28" fill="#FAF8F2" stroke="#0E0408" stroke-width="5"/>
-  </g>
-</svg>
-`;
-
-  drawSvgToCanvas(ctx, svg);
-
-  // Directly render HarfBuzz Devanagari text on Canvas
-  ctx.save();
-  ctx.textAlign = "center";
-  ctx.fillStyle = "#FFC838";
-  ctx.font = "bold 34px 'Noto Sans Devanagari', sans-serif";
-  ctx.fillText("॥ यह भूमि हमेशा के लिए निर्जन और शापित रहेगी ॥", W * 0.5, 160);
-
-  ctx.fillStyle = "#FFAE28";
-  ctx.font = "bold 20px sans-serif";
-  ctx.fillText('"NO SOUL SHALL EVER SETTLE HERE AGAIN"', W * 0.5, 205);
-  ctx.restore();
-}
-
-// ============================================================================
-// 8. SCENE 08: Abandoned Morning Kitchen (49.2s - 54.5s)
-// ============================================================================
-export function drawSceneAbandonedKitchen(ctx, W, H, t) {
-  const smokeWobble = Math.sin(t * 3) * 15;
-
-  const svg = `
-<svg xmlns="http://www.w3.org/2000/svg" width="${W}" height="${H}" viewBox="0 0 ${W} ${H}">
-  <defs>
-    <linearGradient id="mudWall" x1="0" y1="0" x2="0" y2="1">
-      <stop offset="0%" stop-color="#C89662"/>
-      <stop offset="60%" stop-color="#A87242"/>
-      <stop offset="100%" stop-color="#8A5832"/>
-    </linearGradient>
-
-    <linearGradient id="sunbeam" x1="0" y1="0" x2="1" y2="1">
-      <stop offset="0%" stop-color="#FFF8E0" stop-opacity="0.6"/>
-      <stop offset="40%" stop-color="#FFDE90" stop-opacity="0.35"/>
-      <stop offset="100%" stop-color="#FFDE90" stop-opacity="0"/>
-    </linearGradient>
-
-    <radialGradient id="emberGlow" cx="0.5" cy="0.5" r="0.5">
-      <stop offset="0%" stop-color="#FF4818" stop-opacity="0.9"/>
-      <stop offset="50%" stop-color="#FF8A24" stop-opacity="0.4"/>
-      <stop offset="100%" stop-color="#FF8A24" stop-opacity="0"/>
-    </radialGradient>
-
-    <pattern id="mudPlaster" width="80" height="40" patternUnits="userSpaceOnUse">
-      <rect width="80" height="40" fill="#B6804E"/>
-      <line x1="0" y1="0" x2="80" y2="0" stroke="#9A6638" stroke-width="1.5"/>
-      <line x1="0" y1="20" x2="80" y2="20" stroke="#9A6638" stroke-width="1.5"/>
-      <circle cx="20" cy="10" r="2" fill="#88552C"/>
-      <circle cx="60" cy="30" r="2" fill="#88552C"/>
-    </pattern>
-  </defs>
-
-  <rect width="${W}" height="${H}" fill="url(#mudWall)"/>
-  <rect width="${W}" height="${H * 0.8}" fill="url(#mudPlaster)" opacity="0.3"/>
-
-  <path d="M180,480 L180,260 Q260,200 340,260 L340,480 Z" fill="#6A4222" stroke="#4A2A12" stroke-width="4"/>
-  <ellipse cx="260" cy="460" rx="42" ry="16" fill="#8C5832" stroke="#4A2A12" stroke-width="2.5"/>
-  <ellipse cx="260" cy="425" rx="34" ry="14" fill="#A87042" stroke="#4A2A12" stroke-width="2.5"/>
-  <ellipse cx="260" cy="395" rx="26" ry="12" fill="#C28652" stroke="#4A2A12" stroke-width="2.5"/>
-
-  <path d="M1540,460 L1540,280 Q1610,230 1680,280 L1680,460 Z" fill="#6A4222" stroke="#4A2A12" stroke-width="4"/>
-  <ellipse cx="1610" cy="445" rx="28" ry="12" fill="#E5B842" stroke="#4A2A12" stroke-width="2"/>
-  <ellipse cx="1610" cy="435" rx="6" ry="12" fill="#FF8A18"/>
-
-  <path d="M520,${H * 0.82} L520,240 Q680,140 840,240 L840,${H * 0.82} Z" fill="#FFF2CC" stroke="#3A1E0E" stroke-width="6"/>
-  <path d="M520,680 Q680,620 840,660 L840,${H * 0.82} L520,${H * 0.82} Z" fill="#E8A654"/>
-  <circle cx="680" cy="420" r="140" fill="#FFFBF0"/>
-
-  <polygon points="520,240 840,240 1480,${H} 0,${H}" fill="url(#sunbeam)"/>
-
-  <rect x="0" y="${H * 0.82}" width="${W}" height="${H * 0.18}" fill="#784A28" stroke="#3A1E0E" stroke-width="5"/>
-
-  <g id="chulha" transform="translate(1260, ${H * 0.82})">
-    <path d="M-130,20 Q-150,-60 0,-70 Q150,-60 130,20 Z" fill="#8C522E" stroke="#3A1E0E" stroke-width="4.5"/>
-    <ellipse cx="0" cy="-68" rx="85" ry="24" fill="#221C18" stroke="#110A14" stroke-width="3"/>
-    <ellipse cx="-15" cy="-70" rx="55" ry="16" fill="#F4DCA8" stroke="#684A2C" stroke-width="2.5"/>
-    <ellipse cx="8" cy="-72" rx="14" ry="4" fill="#8C5E32"/>
-
-    <path d="M-75,15 Q0,-35 75,15 Z" fill="#240E06"/>
-    <circle cx="0" cy="5" r="90" fill="url(#emberGlow)"/>
-    <ellipse cx="0" cy="5" rx="42" ry="14" fill="#FF5214"/>
-    <ellipse cx="0" cy="5" rx="22" ry="7" fill="#FFAE28"/>
-
-    <path d="M-10,-90 Q${-25 + smokeWobble},-160 -5,-240 Q${15 - smokeWobble},-320 -15,-400" fill="none" stroke="rgba(255,245,230,0.35)" stroke-width="12" stroke-linecap="round"/>
-    <path d="M10,-85 Q${35 - smokeWobble},-150 15,-230 Q${-5 + smokeWobble},-310 20,-390" fill="none" stroke="rgba(255,245,230,0.25)" stroke-width="8" stroke-linecap="round"/>
-  </g>
-
-  <g id="brass-vessels" transform="translate(940, ${H * 0.87})">
-    <ellipse cx="0" cy="0" rx="90" ry="32" fill="#E5B842" stroke="#3A1E0E" stroke-width="4"/>
-    <ellipse cx="0" cy="-2" rx="72" ry="24" fill="#F6D678"/>
-    <circle cx="-35" cy="-6" r="18" fill="#C88E28" stroke="#3A1E0E" stroke-width="2"/>
-    <circle cx="-35" cy="-6" r="14" fill="#E86E18"/>
-    <circle cx="25" cy="-8" r="16" fill="#C88E28" stroke="#3A1E0E" stroke-width="2"/>
-    <circle cx="25" cy="-8" r="12" fill="#F8E8C8"/>
-
-    <g transform="translate(130, -10)">
-      <ellipse cx="0" cy="15" rx="34" ry="12" fill="#C89A2E" stroke="#3A1E0E" stroke-width="3"/>
-      <path d="M-30,12 Q-42,-20 -20,-45 L20,-45 Q42,-20 30,12 Z" fill="#E5B842" stroke="#3A1E0E" stroke-width="3"/>
-      <ellipse cx="0" cy="-45" rx="24" ry="8" fill="#F8E298" stroke="#3A1E0E" stroke-width="2.5"/>
-    </g>
-  </g>
-</svg>
-`;
-
-  drawSvgToCanvas(ctx, svg);
-
-  // Floating dust motes in sunbeam
-  for (let m = 0; m < 30; m++) {
-    const mx = 600 + (m * 23.7) % 650;
-    const my = 280 + ((t * 40 + m * 55) % (H * 0.55));
-    ellipse(ctx, mx, my, 2, 2);
-    ctx.fillStyle = "rgba(255, 245, 210, 0.65)";
-    ctx.fill();
-  }
-}
-
-// ============================================================================
-// 9. SCENE 09: Desert Dunes Footprint Paradox (54.5s - 58.5s)
-// ============================================================================
-export function drawSceneFootprintParadox(ctx, W, H, t) {
-  const skyG = ctx.createLinearGradient(0, 0, 0, H);
-  skyG.addColorStop(0, "#3668A6");
-  skyG.addColorStop(0.5, "#E88856");
-  skyG.addColorStop(1, "#F8CA76");
-  ctx.fillStyle = skyG;
+  const localT = getSceneTime(t);
+
+  // Deep midnight sky
+  const sky = ctx.createLinearGradient(0, 0, 0, H);
+  sky.addColorStop(0, "#050916");
+  sky.addColorStop(0.5, "#0D1632");
+  sky.addColorStop(0.85, "#182244");
+  sky.addColorStop(1, "#221D38");
+  ctx.fillStyle = sky;
   ctx.fillRect(0, 0, W, H);
 
-  poly(ctx, [[0, H * 0.52], [W * 0.45, H * 0.46], [W, H * 0.56], [W, H], [0, H]]);
-  ctx.fillStyle = "#E89646";
+  // Stars
+  ctx.fillStyle = "#E2E8F0";
+  for (let i = 0; i < 75; i++) {
+    const sx = (i * 137.5 + localT * 4) % W;
+    const sy = ((i * 269.3) % (H * 0.65));
+    const r = (i % 3 === 0) ? 2.0 : 1.2;
+    const alpha = 0.35 + Math.sin(localT * 2 + i) * 0.35;
+    ctx.globalAlpha = Math.max(0.1, alpha);
+    ctx.beginPath();
+    ctx.arc(sx, sy, r, 0, Math.PI * 2);
+    ctx.fill();
+  }
+  ctx.globalAlpha = 1;
+
+  // Crescent Moon framed inside arch
+  const moonX = 1040;
+  const moonY = 320;
+  const moonGlow = ctx.createRadialGradient(moonX, moonY, 30, moonX, moonY, 280);
+  moonGlow.addColorStop(0, "rgba(255, 245, 210, 0.5)");
+  moonGlow.addColorStop(0.35, "rgba(255, 230, 160, 0.18)");
+  moonGlow.addColorStop(1, "rgba(255, 230, 160, 0)");
+  ctx.fillStyle = moonGlow;
+  ctx.beginPath();
+  ctx.arc(moonX, moonY, 280, 0, Math.PI * 2);
   ctx.fill();
 
-  poly(ctx, [[0, H * 0.68], [W * 0.6, H * 0.64], [W, H * 0.72], [W, H], [0, H]]);
-  ctx.fillStyle = "#F2AB52";
+  ctx.fillStyle = "#FFF7E6";
+  ctx.beginPath();
+  ctx.arc(moonX, moonY, 68, 0, Math.PI * 2);
+  ctx.fill();
+  ctx.fillStyle = "#0D1632";
+  ctx.beginPath();
+  ctx.arc(moonX + 32, moonY - 14, 60, 0, Math.PI * 2);
   ctx.fill();
 
-  for (let r = 0; r < 14; r++) {
-    const ry = H * 0.7 + r * 24;
-    line(ctx, [[W * 0.08, ry], [W * 0.42, ry + 8], [W * 0.88, ry - 6]], 2.5, "#D27E30");
+  // Distant Sand Dune Horizon
+  const duneGrad = ctx.createLinearGradient(0, H * 0.6, 0, H);
+  duneGrad.addColorStop(0, "#1A223E");
+  duneGrad.addColorStop(1, "#10162B");
+  ctx.fillStyle = duneGrad;
+  ctx.beginPath();
+  ctx.moveTo(0, H * 0.68);
+  ctx.bezierCurveTo(W * 0.35, H * 0.62, W * 0.65, H * 0.72, W, H * 0.65);
+  ctx.lineTo(W, H);
+  ctx.lineTo(0, H);
+  ctx.closePath();
+  ctx.fill();
+
+  // Ruined Haveli Walls in Midground
+  const hCol = "#202742";
+  const hShadow = "#12172A";
+
+  // Haveli 1 (Left)
+  ctx.fillStyle = hCol;
+  ctx.fillRect(500, 470, 240, H - 470);
+  // Battlements / crenellations
+  for (let bx = 500; bx < 740; bx += 40) {
+    ctx.fillRect(bx, 440, 25, 30);
+  }
+  // Windows
+  ctx.fillStyle = "#090C18";
+  ctx.beginPath(); ctx.arc(620, 550, 30, Math.PI, 0); ctx.lineTo(650, 620); ctx.lineTo(590, 620); ctx.closePath(); ctx.fill();
+  ctx.beginPath(); ctx.arc(620, 700, 24, Math.PI, 0); ctx.lineTo(644, 760); ctx.lineTo(596, 760); ctx.closePath(); ctx.fill();
+  // Horizontal stone courses
+  ctx.strokeStyle = hShadow;
+  ctx.lineWidth = 1.5;
+  for (let y = 490; y < H; y += 26) {
+    ctx.beginPath(); ctx.moveTo(500, y); ctx.lineTo(740, y); ctx.stroke();
   }
 
-  const scanX = W * 0.5 + Math.sin(t * 2.2) * (W * 0.2);
-  const scanY = H * 0.78;
+  // Chhatri Dome Cenotaph (Right)
+  ctx.fillStyle = hCol;
+  ctx.beginPath(); ctx.arc(1260, 470, 52, Math.PI, 0); ctx.fill();
+  ctx.strokeStyle = hCol; ctx.lineWidth = 4;
+  ctx.beginPath(); ctx.moveTo(1260, 418); ctx.lineTo(1260, 388); ctx.stroke();
+  ctx.fillStyle = "#090C18";
+  ctx.fillRect(1225, 470, 14, 75);
+  ctx.fillRect(1281, 470, 14, 75);
+  ctx.fillStyle = hCol;
+  ctx.fillRect(1195, 545, 130, H - 545);
 
-  ctx.save();
-  ctx.strokeStyle = "#00E5FF";
-  ctx.lineWidth = 3;
+  // Foreground Gateway Arch (Massive Sandstone Structure)
+  const archCol = "#2A2338";
+  const archShadow = "#151020";
+
+  ctx.fillStyle = archCol;
+  ctx.fillRect(240, 140, 240, H - 140);
+  ctx.fillRect(W - 480, 140, 240, H - 140);
+
+  // Arch Lintel & Span
   ctx.beginPath();
-  ctx.arc(scanX, scanY, 80, 0, Math.PI * 2);
+  ctx.moveTo(220, 120);
+  ctx.lineTo(W - 220, 120);
+  ctx.lineTo(W - 220, 260);
+  ctx.lineTo(W - 480, 260);
+  ctx.bezierCurveTo(W - 580, 170, 580, 170, 480, 260);
+  ctx.lineTo(220, 260);
+  ctx.closePath();
+  ctx.fill();
+
+  // Arch Moulding
+  ctx.fillStyle = "#3D3550";
+  ctx.fillRect(220, 250, 260, 20);
+  ctx.fillRect(W - 480, 250, 260, 20);
+
+  // Rosettes
+  ctx.fillStyle = "#4B4260";
+  ctx.beginPath();
+  ctx.arc(360, 190, 26, 0, Math.PI * 2);
+  ctx.arc(W - 360, 190, 26, 0, Math.PI * 2);
+  ctx.fill();
+
+  // Pillar Mortar Lines
+  ctx.strokeStyle = archShadow;
+  ctx.lineWidth = 2;
+  for (let py = 160; py < H; py += 30) {
+    ctx.beginPath(); ctx.moveTo(240, py); ctx.lineTo(480, py); ctx.stroke();
+    ctx.beginPath(); ctx.moveTo(W - 480, py); ctx.lineTo(W - 240, py); ctx.stroke();
+  }
+
+  // Debris & Fallen blocks
+  ctx.fillStyle = archShadow;
+  ctx.fillRect(520, H * 0.90, 95, 45);
+  ctx.fillRect(W - 620, H * 0.88, 115, 55);
+
+  drawFloatingDust(ctx, W, H, localT, { count: 40, color: "rgba(226, 232, 240, 0.5)" });
+
+  drawDocumentaryHUD(ctx, W, H, localT, {
+    location: "27° 19′ N, 70° 54′ E · THAR DESERT, JAISALMER",
+    era: "CIRCA 1825 CE · 84 ABANDONED SETTLEMENTS",
+    chapter: "PROLOGUE: MIDNIGHT RUINS"
+  });
+
+  applyCinematicFilmLook(ctx, W, H, localT, { vignette: 0.38, grainAlpha: 0.06 });
+}
+
+// ============================================================================
+// SCENE 02: PROSPEROUS 1825 (The Golden Era & Rajasthani Bazaar)
+// ============================================================================
+export function drawSceneProsperous1825(ctx, W, H, t) {
+  const localT = getSceneTime(t);
+
+  // Golden Morning Sky
+  const skyGrad = ctx.createLinearGradient(0, 0, 0, H);
+  skyGrad.addColorStop(0, "#2563EB");
+  skyGrad.addColorStop(0.35, "#D97706");
+  skyGrad.addColorStop(0.7, "#F59E0B");
+  skyGrad.addColorStop(1, "#CA8A04");
+  ctx.fillStyle = skyGrad;
+  ctx.fillRect(0, 0, W, H);
+
+  // Distant Fortified Sandstone Citadel Silhouettes
+  ctx.fillStyle = "#854D0E";
+  ctx.beginPath();
+  ctx.moveTo(0, H * 0.44);
+  ctx.lineTo(260, H * 0.44);
+  ctx.lineTo(260, H * 0.38);
+  ctx.lineTo(340, H * 0.38);
+  ctx.lineTo(340, H * 0.44);
+  ctx.lineTo(700, H * 0.44);
+  ctx.lineTo(750, H * 0.35);
+  ctx.lineTo(820, H * 0.35);
+  ctx.lineTo(820, H * 0.44);
+  ctx.lineTo(1200, H * 0.44);
+  ctx.lineTo(1260, H * 0.39);
+  ctx.lineTo(1340, H * 0.39);
+  ctx.lineTo(1340, H * 0.44);
+  ctx.lineTo(W, H * 0.44);
+  ctx.lineTo(W, H);
+  ctx.lineTo(0, H);
+  ctx.closePath();
+  ctx.fill();
+
+  // Left Multi-tier Haveli with Chhatris & Masonry Lines
+  ctx.fillStyle = "#D99B43";
+  ctx.fillRect(60, 200, 520, H - 200);
+  ctx.fillStyle = "#B2782A";
+  ctx.fillRect(40, 185, 560, 25);
+
+  ctx.strokeStyle = "rgba(110, 60, 20, 0.25)";
+  ctx.lineWidth = 1.5;
+  for (let by = 210; by < H; by += 24) {
+    ctx.beginPath(); ctx.moveTo(60, by); ctx.lineTo(580, by); ctx.stroke();
+  }
+
+  // Rooftop Chhatri on Left
+  ctx.fillStyle = "#D99B43";
+  ctx.beginPath();
+  ctx.arc(320, 160, 48, Math.PI, 0);
+  ctx.fill();
+  ctx.strokeStyle = "#854D0E";
+  ctx.lineWidth = 3;
+  ctx.stroke();
+  ctx.fillStyle = "#451A03";
+  ctx.fillRect(290, 160, 12, 28);
+  ctx.fillRect(340, 160, 12, 28);
+
+  // Left Jharokha Balcony
+  ctx.fillStyle = "#B2782A";
+  ctx.beginPath();
+  ctx.moveTo(220, 280);
+  ctx.lineTo(420, 280);
+  ctx.lineTo(440, 400);
+  ctx.lineTo(200, 400);
+  ctx.closePath();
+  ctx.fill();
+  ctx.stroke();
+  ctx.fillStyle = "#2D1B08";
+  ctx.beginPath();
+  ctx.arc(320, 320, 48, Math.PI, 0);
+  ctx.lineTo(368, 385);
+  ctx.lineTo(272, 385);
+  ctx.closePath();
+  ctx.fill();
+  ctx.strokeStyle = "#D99B43";
+  ctx.lineWidth = 2;
+  for (let lx = 285; lx <= 355; lx += 14) {
+    ctx.beginPath(); ctx.moveTo(lx, 320); ctx.lineTo(lx, 385); ctx.stroke();
+  }
+
+  // Right Multi-tier Haveli
+  ctx.fillStyle = "#D99B43";
+  ctx.fillRect(W - 580, 200, 520, H - 200);
+  ctx.fillStyle = "#B2782A";
+  ctx.fillRect(W - 600, 185, 560, 25);
+  for (let by = 210; by < H; by += 24) {
+    ctx.beginPath(); ctx.moveTo(W - 580, by); ctx.lineTo(W - 60, by); ctx.stroke();
+  }
+  ctx.fillStyle = "#D99B43";
+  ctx.beginPath();
+  ctx.arc(W - 320, 160, 48, Math.PI, 0);
+  ctx.fill();
+  ctx.stroke();
+  ctx.fillStyle = "#451A03";
+  ctx.fillRect(W - 350, 160, 12, 28);
+  ctx.fillRect(W - 300, 160, 12, 28);
+  ctx.fillStyle = "#B2782A";
+  ctx.beginPath();
+  ctx.moveTo(W - 420, 280);
+  ctx.lineTo(W - 220, 280);
+  ctx.lineTo(W - 200, 400);
+  ctx.lineTo(W - 440, 400);
+  ctx.closePath();
+  ctx.fill();
+  ctx.stroke();
+  ctx.fillStyle = "#2D1B08";
+  ctx.beginPath();
+  ctx.arc(W - 320, 320, 48, Math.PI, 0);
+  ctx.lineTo(W - 272, 385);
+  ctx.lineTo(W - 368, 385);
+  ctx.closePath();
+  ctx.fill();
+
+  // Central Stone-Paved Street
+  const streetGrad = ctx.createLinearGradient(0, H * 0.62, 0, H);
+  streetGrad.addColorStop(0, "#C99147");
+  streetGrad.addColorStop(1, "#8A5820");
+  ctx.fillStyle = streetGrad;
+  ctx.fillRect(0, H * 0.62, W, H * 0.38);
+
+  // Volumetric Morning Sunbeam
+  drawVolumetricBeam(ctx, 960, 0, 500, H * 0.85, 260, 750, "rgba(255, 235, 160, 0.22)");
+
+  // Left Market Stall (Vibrant Spices & Canopies)
+  const lsX = 140, lsY = 560;
+  ctx.fillStyle = "#B91C1C";
+  ctx.fillRect(lsX, lsY, 420, 75);
+  for (let s = 0; s < 420; s += 50) {
+    ctx.fillStyle = "#F59E0B";
+    ctx.fillRect(lsX + s, lsY, 25, 75);
+  }
+  ctx.fillStyle = "#5A3010";
+  ctx.fillRect(lsX + 20, lsY + 140, 380, 40);
+  const spices = [
+    { x: lsX + 70, col: "#EAB308", r: 35 },
+    { x: lsX + 150, col: "#DC2626", r: 40 },
+    { x: lsX + 230, col: "#2563EB", r: 36 },
+    { x: lsX + 310, col: "#16A34A", r: 38 }
+  ];
+  for (const sp of spices) {
+    ctx.fillStyle = sp.col;
+    ctx.beginPath();
+    ctx.arc(sp.x, lsY + 140, sp.r, Math.PI, 0);
+    ctx.fill();
+  }
+
+  // Right Market Stall (Brass & Grains)
+  const rsX = W - 560, rsY = 560;
+  ctx.fillStyle = "#1E3A8A";
+  ctx.fillRect(rsX, rsY, 420, 75);
+  for (let s = 0; s < 420; s += 50) {
+    ctx.fillStyle = "#F59E0B";
+    ctx.fillRect(rsX + s, rsY, 25, 75);
+  }
+  ctx.fillStyle = "#5A3010";
+  ctx.fillRect(rsX + 20, rsY + 140, 380, 40);
+  ctx.fillStyle = "#FBBF24";
+  ctx.strokeStyle = "#B45309";
+  ctx.lineWidth = 2.5;
+  ctx.beginPath();
+  ctx.arc(rsX + 90, rsY + 115, 28, 0, Math.PI * 2);
+  ctx.fill();
+  ctx.stroke();
+  ctx.beginPath();
+  ctx.arc(rsX + 180, rsY + 120, 34, 0, Math.PI * 2);
+  ctx.fill();
+  ctx.stroke();
+  ctx.fillRect(rsX + 172, rsY + 65, 16, 40);
+
+  // Grounded Anatomical Camel in Center
+  const camelFeetY = 970;
+  const camelX = W / 2 - 140;
+
+  ctx.fillStyle = "rgba(45, 25, 10, 0.4)";
+  ctx.beginPath();
+  ctx.ellipse(camelX + 130, camelFeetY, 240, 32, 0, 0, Math.PI * 2);
+  ctx.fill();
+
+  drawMajesticDesertCamel(ctx, camelX, camelFeetY, Math.sin(localT * 3), false);
+
+  drawFloatingDust(ctx, W, H, localT, { count: 35, color: "rgba(255, 240, 180, 0.8)" });
+
+  drawDocumentaryHUD(ctx, W, H, localT, {
+    location: "27° 19′ N, 70° 54′ E · THAR DESERT, RAJASTHAN",
+    era: "CIRCA 1825 CE · 84 PALIWAL SETTLEMENTS · SILK & GRAIN HUB",
+    chapter: "CHAPTER I: THE GOLDEN ERA",
+    accentColor: "#F59E0B"
+  });
+
+  applyCinematicFilmLook(ctx, W, H, localT, { vignette: 0.32, grainAlpha: 0.05 });
+}
+
+function drawMajesticDesertCamel(ctx, x, feetY, walk, isSilhouette = false) {
+  ctx.save();
+  ctx.translate(x, feetY - 420);
+
+  const skin = isSilhouette ? "#0D1527" : "#C99863";
+  const skinDark = isSilhouette ? "#060A14" : "#A87442";
+  const harness = "#DC2626";
+
+  // Back Legs
+  ctx.strokeStyle = skinDark;
+  ctx.lineWidth = 24;
+  ctx.lineCap = "round";
+  ctx.beginPath();
+  ctx.moveTo(80, 200);
+  ctx.lineTo(70 + walk * 18, 310);
+  ctx.lineTo(65 + walk * 28, 415);
+  ctx.stroke();
+  if (!isSilhouette) {
+    ctx.fillStyle = "#3E2718";
+    ctx.beginPath();
+    ctx.ellipse(65 + walk * 28, 420, 18, 9, 0, 0, Math.PI * 2);
+    ctx.fill();
+  }
+
+  ctx.beginPath();
+  ctx.moveTo(270, 200);
+  ctx.lineTo(280 - walk * 18, 310);
+  ctx.lineTo(290 - walk * 28, 415);
+  ctx.stroke();
+  if (!isSilhouette) {
+    ctx.beginPath();
+    ctx.ellipse(290 - walk * 28, 420, 18, 9, 0, 0, Math.PI * 2);
+    ctx.fill();
+  }
+
+  // Torso & High Hump
+  ctx.fillStyle = skin;
+  ctx.strokeStyle = isSilhouette ? "rgba(255, 245, 210, 0.3)" : skinDark;
+  ctx.lineWidth = isSilhouette ? 2.5 : 4;
+  ctx.beginPath();
+  ctx.moveTo(50, 180);
+  ctx.bezierCurveTo(50, 60, 160, 50, 175, 120);
+  ctx.bezierCurveTo(190, 140, 240, 150, 290, 150);
+  ctx.bezierCurveTo(340, 180, 320, 240, 280, 240);
+  ctx.bezierCurveTo(210, 250, 120, 240, 50, 220);
+  ctx.closePath();
+  ctx.fill();
   ctx.stroke();
 
-  line(ctx, [[scanX - 100, scanY], [scanX + 100, scanY]], 2, "#00E5FF");
-  line(ctx, [[scanX, scanY - 100], [scanX, scanY + 100]], 2, "#00E5FF");
+  // Saddle Blanket
+  if (!isSilhouette) {
+    ctx.fillStyle = "#B91C1C";
+    ctx.beginPath();
+    ctx.roundRect(100, 95, 120, 95, 8);
+    ctx.fill();
+    ctx.fillStyle = "#F59E0B";
+    ctx.fillRect(100, 175, 120, 15);
+    for (let tx = 110; tx <= 210; tx += 15) {
+      ctx.fillStyle = "#FBBF24";
+      ctx.beginPath();
+      ctx.arc(tx, 195, 5, 0, Math.PI * 2);
+      ctx.fill();
+    }
+  } else {
+    ctx.fillStyle = "#1E293B";
+    ctx.beginPath();
+    ctx.roundRect(100, 95, 120, 95, 8);
+    ctx.fill();
+  }
 
-  ctx.fillStyle = "#00E5FF";
-  ctx.font = "bold 26px monospace";
-  ctx.fillText("[0 FOOTPRINTS // PRISTINE SAND DUNES]", scanX - 220, scanY - 115);
-  ctx.font = "20px monospace";
-  ctx.fillText("LAT: 27.18° N  LON: 70.79° E", scanX - 160, scanY + 125);
+  // Curved Neck & Head
+  const nb = Math.sin(walk * 1.5) * 6;
+  ctx.fillStyle = skin;
+  ctx.beginPath();
+  ctx.moveTo(280, 190);
+  ctx.bezierCurveTo(320, 160, 345, 70, 340 + nb, -20);
+  ctx.bezierCurveTo(340 + nb, -60, 395 + nb, -65, 410 + nb, -30);
+  ctx.bezierCurveTo(430 + nb, -30, 435 + nb, -5, 395 + nb, 10);
+  ctx.bezierCurveTo(370 + nb, 20, 335, 80, 315, 215);
+  ctx.closePath();
+  ctx.fill();
+  ctx.stroke();
+
+  if (!isSilhouette) {
+    ctx.fillStyle = skinDark;
+    ctx.beginPath();
+    ctx.ellipse(335 + nb, -45, 8, 18, 0.4, 0, Math.PI * 2);
+    ctx.fill();
+    ctx.fillStyle = "#1E1208";
+    ctx.beginPath();
+    ctx.arc(370 + nb, -30, 6, 0, Math.PI * 2);
+    ctx.fill();
+    ctx.fillStyle = "#FFFFFF";
+    ctx.beginPath();
+    ctx.arc(372 + nb, -31, 2.2, 0, Math.PI * 2);
+    ctx.fill();
+    ctx.strokeStyle = harness;
+    ctx.lineWidth = 4;
+    ctx.beginPath();
+    ctx.moveTo(400 + nb, 2);
+    ctx.lineTo(365 + nb, -38);
+    ctx.lineTo(345 + nb, -22);
+    ctx.lineTo(400 + nb, 2);
+    ctx.stroke();
+  }
+
+  // Front Legs (Foreground)
+  ctx.strokeStyle = skin;
+  ctx.lineWidth = 24;
+  ctx.beginPath();
+  ctx.moveTo(105, 215);
+  ctx.lineTo(110 - walk * 20, 320);
+  ctx.lineTo(115 - walk * 32, 415);
+  ctx.stroke();
+  if (!isSilhouette) {
+    ctx.fillStyle = "#3E2718";
+    ctx.beginPath();
+    ctx.ellipse(115 - walk * 32, 420, 19, 10, 0, 0, Math.PI * 2);
+    ctx.fill();
+  }
+
+  ctx.beginPath();
+  ctx.moveTo(295, 215);
+  ctx.lineTo(300 + walk * 20, 320);
+  ctx.lineTo(305 + walk * 32, 415);
+  ctx.stroke();
+  if (!isSilhouette) {
+    ctx.beginPath();
+    ctx.ellipse(305 + walk * 32, 420, 19, 10, 0, 0, Math.PI * 2);
+    ctx.fill();
+  }
+
+  if (!isSilhouette) {
+    ctx.strokeStyle = skinDark;
+    ctx.lineWidth = 7;
+    ctx.beginPath();
+    ctx.moveTo(50, 200);
+    ctx.quadraticCurveTo(25, 270, 32 + Math.sin(walk * 2) * 12, 310);
+    ctx.stroke();
+    ctx.fillStyle = "#3E2718";
+    ctx.beginPath();
+    ctx.ellipse(32 + Math.sin(walk * 2) * 12, 315, 10, 16, 0, 0, Math.PI * 2);
+    ctx.fill();
+  }
+
   ctx.restore();
 }
 
 // ============================================================================
-// 10. SCENE 10: Official ASI Warning Board at Ruins Gate (58.5s - 64.0s)
+// SCENE 03: DIWAN SALIM SINGH (Menacing Character Rig & Khanjar Dagger)
 // ============================================================================
-export function drawSceneASIGate(ctx, W, H, t) {
-  const bgGrad = ctx.createLinearGradient(0, 0, 0, H);
-  bgGrad.addColorStop(0, "#161424");
-  bgGrad.addColorStop(0.7, "#281E2E");
-  bgGrad.addColorStop(1, "#362824");
+export function drawSceneSalimSingh(ctx, W, H, t) {
+  const localT = getSceneTime(t);
+
+  const bgGrad = ctx.createRadialGradient(W / 2, H * 0.45, 100, W / 2, H * 0.45, W * 0.7);
+  bgGrad.addColorStop(0, "#2D1217");
+  bgGrad.addColorStop(0.5, "#170A0F");
+  bgGrad.addColorStop(1, "#070406");
   ctx.fillStyle = bgGrad;
   ctx.fillRect(0, 0, W, H);
 
-  for (const px of [W * 0.16, W * 0.84]) {
-    ctx.fillStyle = "#3C2E24";
-    ctx.fillRect(px - 60, H * 0.2, 120, H * 0.8);
-    stroke(ctx, 4.5, DARK_INK);
+  // Fluted Marble Columns
+  const colL = 160, colR = W - 320;
+  for (const cx of [colL, colR]) {
+    const colGrad = ctx.createLinearGradient(cx, 0, cx + 160, 0);
+    colGrad.addColorStop(0, "#543828");
+    colGrad.addColorStop(0.3, "#A67A5B");
+    colGrad.addColorStop(0.7, "#D9A982");
+    colGrad.addColorStop(1, "#4A2F1F");
+    ctx.fillStyle = colGrad;
+    ctx.fillRect(cx, 0, 160, H);
+    ctx.strokeStyle = "rgba(40, 20, 10, 0.4)";
+    ctx.lineWidth = 3;
+    for (let gx = cx + 20; gx < cx + 160; gx += 24) {
+      ctx.beginPath(); ctx.moveTo(gx, 0); ctx.lineTo(gx, H); ctx.stroke();
+    }
   }
 
-  for (let b = 0; b < 11; b++) {
-    const by = H * 0.42 + b * 46;
-    line(ctx, [[W * 0.18, by], [W * 0.82, by]], 5.5, "#221A16");
-  }
-  for (let gx = W * 0.22; gx < W * 0.8; gx += 55) {
-    line(ctx, [[gx, H * 0.38], [gx, H * 0.94]], 6.5, "#221A16");
-  }
-
-  const bx = W * 0.5, by = H * 0.54;
-  const bw = 740, bh = 320;
-
-  poly(ctx, [[bx - bw / 2, by - bh / 2], [bx + bw / 2, by - bh / 2], [bx + bw / 2, by + bh / 2], [bx - bw / 2, by + bh / 2]]);
-  ctx.fillStyle = "#103E78";
+  // Velvet Curtains
+  const drapeGrad = ctx.createLinearGradient(0, 0, 350, 0);
+  drapeGrad.addColorStop(0, "#580A12");
+  drapeGrad.addColorStop(0.5, "#961824");
+  drapeGrad.addColorStop(1, "#40070D");
+  ctx.fillStyle = drapeGrad;
+  ctx.beginPath();
+  ctx.moveTo(0, 0); ctx.lineTo(340, 0);
+  ctx.bezierCurveTo(280, 350, 320, 700, 180, H);
+  ctx.lineTo(0, H);
+  ctx.closePath();
   ctx.fill();
-  stroke(ctx, 6, "#FFFFFF");
 
-  ctx.fillStyle = "#FFFFFF";
-  ctx.font = "bold 28px 'Noto Sans Devanagari', sans-serif";
-  ctx.textAlign = "center";
-  ctx.fillText("भारतीय पुरातत्व सर्वेक्षण (ASI)", bx, by - bh * 0.28);
-  ctx.font = "bold 22px sans-serif";
-  ctx.fillText("ARCHAEOLOGICAL SURVEY OF INDIA", bx, by - bh * 0.14);
+  ctx.beginPath();
+  ctx.moveTo(W, 0); ctx.lineTo(W - 340, 0);
+  ctx.bezierCurveTo(W - 280, 350, W - 320, 700, W - 180, H);
+  ctx.lineTo(W, H);
+  ctx.closePath();
+  ctx.fill();
 
-  line(ctx, [[bx - bw * 0.42, by - bh * 0.05], [bx + bw * 0.42, by - bh * 0.05]], 3.5, GOLD);
+  // Advanced Salim Singh Rig in center (Grounded)
+  const breathing = Math.sin(localT * 2.5) * 4;
+  drawAdvancedSalimSingh(ctx, W / 2, 940 + breathing, 1.32, localT, 1.0);
 
-  ctx.fillStyle = GOLD;
-  ctx.font = "bold 30px 'Noto Sans Devanagari', sans-serif";
-  ctx.fillText("चेतावनी: सूर्यास्त के बाद प्रवेश सख्त मना है", bx, by + bh * 0.13);
+  drawDocumentaryHUD(ctx, W, H, localT, {
+    location: "DIWAN'S DARBAR · KINGDOM OF JAISALMER",
+    era: "CRUEL PRIME MINISTER SALIM SINGH · ATROCITIES & EXTORTION",
+    chapter: "ACT I: THE TYRANT'S ULTIMATUM",
+    accentColor: "#EF4444"
+  });
 
-  ctx.fillStyle = "#FFFFFF";
-  ctx.font = "bold 24px sans-serif";
-  ctx.fillText("ENTRY STRICTLY PROHIBITED AFTER SUNSET", bx, by + bh * 0.28);
-  ctx.textAlign = "left";
+  applyCinematicFilmLook(ctx, W, H, localT, { vignette: 0.35, grainAlpha: 0.05 });
 }
 
 // ============================================================================
-// 11. SCENE 11: Night FLIR Thermal Camera & Paranormal Phantom (64.0s - 68.5s)
+// SCENE 04: CHIEF & WEEPING DAUGHTER (The Dilemma of Honor)
 // ============================================================================
-export function drawSceneThermalAnomaly(ctx, W, H, t) {
-  const pulse = Math.sin(t * 8) * 8;
+function drawExpressiveChief(ctx, x, y, scale = 1, t = 0) {
+  ctx.save();
+  ctx.translate(x, y);
+  ctx.scale(scale, scale);
 
-  const svg = `
-<svg xmlns="http://www.w3.org/2000/svg" width="${W}" height="${H}" viewBox="0 0 ${W} ${H}">
-  <defs>
-    <linearGradient id="flirBg" x1="0" y1="0" x2="0" y2="1">
-      <stop offset="0%" stop-color="#080618"/>
-      <stop offset="60%" stop-color="#100C30"/>
-      <stop offset="100%" stop-color="#1A1248"/>
-    </linearGradient>
+  const DARK = "#1A1020";
 
-    <radialGradient id="heatAura" cx="0.5" cy="0.5" r="0.5">
-      <stop offset="0%" stop-color="#FFFFFF" stop-opacity="1"/>
-      <stop offset="25%" stop-color="#FFE838" stop-opacity="0.9"/>
-      <stop offset="55%" stop-color="#FF3818" stop-opacity="0.75"/>
-      <stop offset="80%" stop-color="#9C1088" stop-opacity="0.35"/>
-      <stop offset="100%" stop-color="#100C30" stop-opacity="0"/>
-    </radialGradient>
+  // Contact shadow
+  const shadowG = ctx.createRadialGradient(0, 0, 10, 0, 0, 130);
+  shadowG.addColorStop(0, "rgba(20, 10, 25, 0.7)");
+  shadowG.addColorStop(1, "rgba(20, 10, 25, 0)");
+  ctx.fillStyle = shadowG;
+  ctx.beginPath(); ctx.ellipse(0, 5, 130, 25, 0, 0, Math.PI * 2); ctx.fill();
 
-    <linearGradient id="tempBar" x1="0" y1="0" x2="0" y2="1">
-      <stop offset="0%" stop-color="#FFFFFF"/>
-      <stop offset="20%" stop-color="#FFE838"/>
-      <stop offset="45%" stop-color="#FF4818"/>
-      <stop offset="70%" stop-color="#9C1088"/>
-      <stop offset="100%" stop-color="#141042"/>
-    </linearGradient>
-  </defs>
+  // White Dhoti & Mojari Shoes
+  for (const side of [-1, 1]) {
+    const lx = side * 36;
+    ctx.beginPath();
+    ctx.moveTo(lx - 18, -100); ctx.lineTo(lx + 18, -100); ctx.lineTo(lx + 14, 0); ctx.lineTo(lx - 14, 0);
+    ctx.closePath();
+    ctx.fillStyle = "#ECE7DA"; ctx.fill();
+    ctx.strokeStyle = DARK; ctx.lineWidth = 3; ctx.stroke();
 
-  <rect width="${W}" height="${H}" fill="url(#flirBg)"/>
+    // Mojari
+    ctx.fillStyle = "#7A4A28";
+    ctx.beginPath(); ctx.ellipse(lx + 4, 0, 16, 7, 0, 0, Math.PI * 2); ctx.fill();
+    ctx.stroke();
+  }
 
-  <g id="cold-ruins">
-    <rect x="240" y="220" width="220" height="700" fill="#182458" stroke="#2CE8C4" stroke-width="2.5"/>
-    <line x1="240" y1="340" x2="460" y2="340" stroke="#249CA8" stroke-width="1.5"/>
-    <line x1="240" y1="460" x2="460" y2="460" stroke="#249CA8" stroke-width="1.5"/>
-    <line x1="240" y1="580" x2="460" y2="580" stroke="#249CA8" stroke-width="1.5"/>
-    <line x1="240" y1="700" x2="460" y2="700" stroke="#249CA8" stroke-width="1.5"/>
+  // Khadi Kurta / Flared Angrakha Skirt
+  const kurtaG = ctx.createLinearGradient(-100, -320, 100, -320);
+  kurtaG.addColorStop(0, "#D8D2C2");
+  kurtaG.addColorStop(0.3, "#F8F5EE");
+  kurtaG.addColorStop(0.7, "#F8F5EE");
+  kurtaG.addColorStop(1, "#CEC7B5");
 
-    <rect x="1460" y="220" width="220" height="700" fill="#182458" stroke="#2CE8C4" stroke-width="2.5"/>
-    <line x1="1460" y1="340" x2="1680" y2="340" stroke="#249CA8" stroke-width="1.5"/>
-    <line x1="1460" y1="460" x2="1680" y2="460" stroke="#249CA8" stroke-width="1.5"/>
-    <line x1="1460" y1="580" x2="1680" y2="580" stroke="#249CA8" stroke-width="1.5"/>
-    <line x1="1460" y1="700" x2="1680" y2="700" stroke="#249CA8" stroke-width="1.5"/>
+  ctx.beginPath();
+  ctx.moveTo(-65, -310); ctx.lineTo(65, -310); ctx.lineTo(90, -80); ctx.lineTo(-90, -80);
+  ctx.closePath();
+  ctx.fillStyle = kurtaG; ctx.fill();
+  ctx.strokeStyle = DARK; ctx.lineWidth = 3.5; ctx.stroke();
 
-    <path d="M240,220 L1680,220 L1680,340 Q1460,480 1200,480 Q960,320 720,480 Q460,480 240,340 Z" fill="#203072" stroke="#2CE8C4" stroke-width="3"/>
-    <rect x="0" y="860" width="${W}" height="220" fill="#141038" stroke="#2CE8C4" stroke-width="2.5"/>
-  </g>
+  // Fabric pleats
+  ctx.strokeStyle = "rgba(60, 50, 40, 0.25)"; ctx.lineWidth = 2;
+  for (const fx of [-45, -20, 0, 20, 45]) {
+    ctx.beginPath(); ctx.moveTo(fx * 0.8, -290); ctx.lineTo(fx * 1.3, -85); ctx.stroke();
+  }
 
-  <!-- Humanoid Thermal Anomaly -->
-  <g id="humanoid-heat-signature" transform="translate(960, 560)">
-    <circle cx="0" cy="60" r="${340 + pulse}" fill="url(#heatAura)"/>
-    <ellipse cx="0" cy="-120" rx="42" ry="50" fill="#FFFFFF"/>
-    <ellipse cx="0" cy="-120" rx="46" ry="54" fill="none" stroke="#FFE838" stroke-width="4"/>
+  // Saffron Shawl (Angavastram) draped across chest
+  const shawlG = ctx.createLinearGradient(-70, -290, 70, -160);
+  shawlG.addColorStop(0, "#C2410C"); shawlG.addColorStop(0.5, "#EA580C"); shawlG.addColorStop(1, "#9A3412");
+  ctx.beginPath();
+  ctx.moveTo(-68, -290); ctx.lineTo(-20, -305); ctx.lineTo(75, -160); ctx.lineTo(45, -125); ctx.lineTo(-70, -230);
+  ctx.closePath();
+  ctx.fillStyle = shawlG; ctx.fill();
+  ctx.strokeStyle = DARK; ctx.lineWidth = 3; ctx.stroke();
 
-    <path d="M-20,-70 L20,-70 L85,0 L-85,0 Z" fill="#FFFFFF"/>
-    <path d="M-85,0 Q-95,140 -65,280 L65,280 Q95,140 85,0 Z" fill="#FFE838"/>
-    <path d="M-55,20 Q-65,130 -40,240 L40,240 Q65,130 55,20 Z" fill="#FFFFFF"/>
-    <path d="M-65,280 Q-85,380 -30,420 Q0,400 30,420 Q85,380 65,280 Z" fill="#FF4818"/>
-  </g>
+  // Gold Zari border
+  ctx.strokeStyle = "#FBBF24"; ctx.lineWidth = 4;
+  ctx.beginPath(); ctx.moveTo(-66, -286); ctx.lineTo(50, -130); ctx.stroke();
 
-  <g id="flir-crosshairs" stroke="#2CE8C4" stroke-width="2.5">
-    <rect x="830" y="380" width="260" height="520" fill="none" stroke="#FF2828" stroke-width="3.5" stroke-dasharray="14,8"/>
-    <path d="M800,420 L800,350 L870,350" fill="none" stroke="#FF2828" stroke-width="4"/>
-    <path d="M1120,350 L1190,350 L1190,420" fill="none" stroke="#FF2828" stroke-width="4"/>
-    <path d="M800,860 L800,930 L870,930" fill="none" stroke="#FF2828" stroke-width="4"/>
-    <path d="M1120,930 L1190,930 L1190,860" fill="none" stroke="#FF2828" stroke-width="4"/>
+  // Left Arm (Protective posture pointing or folded)
+  ctx.fillStyle = "#F8F5EE"; ctx.strokeStyle = DARK; ctx.lineWidth = 3;
+  ctx.beginPath();
+  ctx.moveTo(-65, -290); ctx.lineTo(-105, -210); ctx.lineTo(-90, -140); ctx.lineTo(-68, -150); ctx.lineTo(-78, -215); ctx.lineTo(-50, -270);
+  ctx.closePath();
+  ctx.fill(); ctx.stroke();
 
-    <circle cx="960" cy="580" r="14" fill="none"/>
-    <line x1="930" y1="580" x2="945" y2="580"/>
-    <line x1="975" y1="580" x2="990" y2="580"/>
-    <line x1="960" y1="550" x2="960" y2="565"/>
-    <line x1="960" y1="595" x2="960" y2="610"/>
-  </g>
+  // Hand
+  ctx.fillStyle = "#D69A68";
+  ctx.beginPath(); ctx.arc(-80, -135, 12, 0, Math.PI * 2); ctx.fill(); ctx.stroke();
 
-  <g id="temp-calibration" transform="translate(1820, 260)">
-    <rect x="0" y="0" width="30" height="520" fill="url(#tempBar)" stroke="#2CE8C4" stroke-width="2"/>
-    <text x="-15" y="15" fill="#FFFFFF" font-size="18" font-family="monospace" text-anchor="end">+42.0°C</text>
-    <text x="-15" y="140" fill="#FFE838" font-size="18" font-family="monospace" text-anchor="end">+37.4°C</text>
-    <text x="-15" y="270" fill="#FF4818" font-size="18" font-family="monospace" text-anchor="end">+28.0°C</text>
-    <text x="-15" y="400" fill="#9C1088" font-size="18" font-family="monospace" text-anchor="end">+18.0°C</text>
-    <text x="-15" y="515" fill="#2CE8C4" font-size="18" font-family="monospace" text-anchor="end">+10.2°C</text>
-  </g>
+  // Right Arm (Resting on side)
+  ctx.fillStyle = "#F8F5EE";
+  ctx.beginPath();
+  ctx.moveTo(65, -290); ctx.lineTo(100, -220); ctx.lineTo(90, -150); ctx.lineTo(70, -160); ctx.lineTo(78, -220); ctx.lineTo(50, -270);
+  ctx.closePath();
+  ctx.fill(); ctx.stroke();
+  ctx.fillStyle = "#D69A68";
+  ctx.beginPath(); ctx.arc(80, -145, 12, 0, Math.PI * 2); ctx.fill(); ctx.stroke();
 
-  <g id="hud-text" font-family="monospace" font-weight="bold">
-    <text x="80" y="90" fill="#FF2828" font-size="28">● REC [FLIR THERMAL IR-PRO]</text>
-    <text x="80" y="135" fill="#2CE8C4" font-size="22">GPS: 27°11'48.2"N 70°47'24.8"E</text>
-    <text x="80" y="172" fill="#2CE8C4" font-size="22">EMF DETECT: 4.8 mG [HIGH FLUCTUATION]</text>
-    <text x="80" y="210" fill="#FFE838" font-size="24">TARGET: +37.4 °C [HUMANOID ANOMALY DETECTED]</text>
-  </g>
-</svg>
-`;
+  // Head & Neck
+  ctx.fillStyle = "#D69A68"; ctx.strokeStyle = DARK; ctx.lineWidth = 3;
+  ctx.beginPath(); ctx.arc(0, -330, 34, 0, Math.PI * 2); ctx.fill(); ctx.stroke();
 
-  drawSvgToCanvas(ctx, svg);
+  // Rajasthani White Pagri
+  ctx.fillStyle = "#F8FAFC";
+  for (let ti = 0; ti < 4; ti++) {
+    ctx.beginPath(); ctx.ellipse(0, -365 - ti * 12, 45 - ti * 3, 14, 0, 0, Math.PI * 2); ctx.fill(); ctx.stroke();
+  }
+
+  // Full White Beard
+  ctx.fillStyle = "#FFFFFF";
+  ctx.beginPath();
+  ctx.moveTo(-30, -325);
+  ctx.bezierCurveTo(-45, -250, -15, -170, 0, -155);
+  ctx.bezierCurveTo(15, -170, 45, -250, 30, -325);
+  ctx.closePath();
+  ctx.fill(); ctx.stroke();
+
+  // Tilak
+  ctx.fillStyle = "#DC2626"; ctx.fillRect(-3.5, -350, 7, 14);
+
+  // Eyes & Somber Expression
+  ctx.fillStyle = DARK;
+  ctx.beginPath();
+  ctx.ellipse(-14, -335, 5, 3.5, 0, 0, Math.PI * 2);
+  ctx.ellipse(14, -335, 5, 3.5, 0, 0, Math.PI * 2);
+  ctx.fill();
+
+  ctx.restore();
 }
 
-// ============================================================================
-// 12. SCENE 12: Studio Outro (68.5s - 71.0s)
-// ============================================================================
-export function drawSceneOutro(ctx, W, H, t) {
-  ctx.fillStyle = "#07090E";
+function drawExpressiveDaughter(ctx, x, y, scale = 1, t = 0) {
+  ctx.save();
+  ctx.translate(x, y);
+  ctx.scale(scale, scale);
+
+  const DARK = "#1A1020";
+
+  // Contact shadow
+  const shadowG = ctx.createRadialGradient(0, 0, 10, 0, 0, 110);
+  shadowG.addColorStop(0, "rgba(20, 10, 25, 0.7)");
+  shadowG.addColorStop(1, "rgba(20, 10, 25, 0)");
+  ctx.fillStyle = shadowG;
+  ctx.beginPath(); ctx.ellipse(0, 5, 110, 22, 0, 0, Math.PI * 2); ctx.fill();
+
+  // Flared Rajasthani Ghagra (Skirt) with Gold Booti
+  const ghagraG = ctx.createLinearGradient(-90, -180, 90, -180);
+  ghagraG.addColorStop(0, "#991B1B");
+  ghagraG.addColorStop(0.5, "#DC2626");
+  ghagraG.addColorStop(1, "#7F1D1D");
+
+  ctx.beginPath();
+  ctx.moveTo(-45, -200); ctx.lineTo(45, -200); ctx.lineTo(80, 0); ctx.lineTo(-80, 0);
+  ctx.closePath();
+  ctx.fillStyle = ghagraG; ctx.fill();
+  ctx.strokeStyle = DARK; ctx.lineWidth = 3.5; ctx.stroke();
+
+  // Gold Brocade Border Hem
+  ctx.beginPath();
+  ctx.moveTo(-80, 0); ctx.lineTo(80, 0); ctx.lineTo(78, -18); ctx.lineTo(-78, -18);
+  ctx.closePath();
+  ctx.fillStyle = "#F59E0B"; ctx.fill();
+  ctx.strokeStyle = DARK; ctx.lineWidth = 2.5; ctx.stroke();
+
+  // Delicate Gold Booti Dots on Ghagra
+  ctx.fillStyle = "#FDE68A";
+  for (let r = -170; r < -25; r += 28) {
+    const w = 45 + ((r + 200) / 200) * 30;
+    for (let bx = -w + 14; bx < w - 10; bx += 22) {
+      ctx.beginPath(); ctx.arc(bx, r, 2.5, 0, Math.PI * 2); ctx.fill();
+    }
+  }
+
+  // Choli (Blouse)
+  ctx.beginPath();
+  ctx.moveTo(-38, -255); ctx.lineTo(38, -255); ctx.lineTo(42, -195); ctx.lineTo(-42, -195);
+  ctx.closePath();
+  ctx.fillStyle = "#B91C1C"; ctx.fill();
+  ctx.strokeStyle = DARK; ctx.lineWidth = 3; ctx.stroke();
+
+  // Arms & Bangles (Chooda) in Supplication / Praying Pose
+  for (const s of [-1, 1]) {
+    ctx.fillStyle = "#B91C1C";
+    ctx.beginPath();
+    ctx.moveTo(s * 36, -250); ctx.lineTo(s * 52, -200); ctx.lineTo(s * 38, -180); ctx.lineTo(s * 25, -230);
+    ctx.closePath();
+    ctx.fill(); ctx.strokeStyle = DARK; ctx.lineWidth = 2.5; ctx.stroke();
+
+    ctx.fillStyle = "#E8B282";
+    ctx.beginPath();
+    ctx.moveTo(s * 38, -180); ctx.lineTo(s * 10, -160); ctx.lineTo(s * 12, -145); ctx.lineTo(s * 42, -165);
+    ctx.closePath();
+    ctx.fill(); ctx.stroke();
+
+    // Red and Gold Bangles
+    for (let bi = 0; bi < 4; bi++) {
+      ctx.fillStyle = (bi % 2 === 0) ? "#DC2626" : "#F59E0B";
+      ctx.fillRect(s * 22 - (s === 1 ? 0 : 6), -175 + bi * 4, 8, 3);
+    }
+  }
+
+  // Hands clasped together
+  ctx.fillStyle = "#E8B282";
+  ctx.beginPath(); ctx.ellipse(0, -150, 12, 10, 0, 0, Math.PI * 2); ctx.fill();
+  ctx.strokeStyle = DARK; ctx.lineWidth = 2; ctx.stroke();
+
+  // Head & Face
+  ctx.beginPath(); ctx.arc(0, -280, 26, 0, Math.PI * 2); ctx.fill(); ctx.stroke();
+
+  // Beautiful Royal Rajasthani Odhna (Veil) framing head and shoulders
+  const odhnaG = ctx.createLinearGradient(0, -320, 0, -180);
+  odhnaG.addColorStop(0, "#EF4444");
+  odhnaG.addColorStop(1, "#991B1B");
+  ctx.fillStyle = odhnaG;
+  ctx.strokeStyle = DARK; ctx.lineWidth = 3.5;
+  ctx.beginPath();
+  ctx.arc(0, -290, 36, Math.PI, 0);
+  ctx.lineTo(44, -180);
+  ctx.bezierCurveTo(25, -170, -25, -170, -44, -180);
+  ctx.closePath();
+  ctx.fill(); ctx.stroke();
+
+  // Golden Zari Arch Trim on Odhna
+  ctx.strokeStyle = "#F59E0B"; ctx.lineWidth = 4;
+  ctx.beginPath();
+  ctx.arc(0, -290, 36, Math.PI, 0);
+  ctx.lineTo(44, -180);
+  ctx.moveTo(-36, -290);
+  ctx.lineTo(-44, -180);
+  ctx.stroke();
+
+  // Bindi & Maang Tikka
+  ctx.fillStyle = "#DC2626"; ctx.beginPath(); ctx.arc(0, -292, 3.5, 0, Math.PI * 2); ctx.fill();
+  ctx.fillStyle = "#F59E0B"; ctx.beginPath(); ctx.arc(0, -305, 3, 0, Math.PI * 2); ctx.fill();
+
+  // Expressive Weeping Eyes & Falling Tears
+  ctx.fillStyle = DARK;
+  ctx.beginPath();
+  ctx.ellipse(-10, -280, 4.5, 3, 0, 0, Math.PI * 2);
+  ctx.ellipse(10, -280, 4.5, 3, 0, 0, Math.PI * 2);
+  ctx.fill();
+
+  // Tear streaks
+  const tearProg = (t * 2) % 1;
+  ctx.fillStyle = "#67E8F9";
+  ctx.beginPath(); ctx.arc(10, -272 + tearProg * 35, 2.8, 0, Math.PI * 2); ctx.fill();
+  ctx.beginPath(); ctx.arc(-10, -270 + ((tearProg + 0.5) % 1) * 35, 2.5, 0, Math.PI * 2); ctx.fill();
+
+  ctx.restore();
+}
+
+export function drawSceneChiefAndDaughter(ctx, W, H, t) {
+  const localT = getSceneTime(t);
+
+  const sunsetGrad = ctx.createLinearGradient(0, 0, 0, H);
+  sunsetGrad.addColorStop(0, "#31103F");
+  sunsetGrad.addColorStop(0.35, "#8B1E3F");
+  sunsetGrad.addColorStop(0.65, "#E25B2D");
+  sunsetGrad.addColorStop(0.85, "#F9A03F");
+  sunsetGrad.addColorStop(1, "#EBB059");
+  ctx.fillStyle = sunsetGrad;
   ctx.fillRect(0, 0, W, H);
 
-  const cx = W * 0.5, cy = H * 0.45;
+  ctx.fillStyle = "#8C3224";
+  ctx.beginPath();
+  ctx.moveTo(0, H * 0.65);
+  ctx.quadraticCurveTo(W * 0.5, H * 0.58, W, H * 0.64);
+  ctx.lineTo(W, H); ctx.lineTo(0, H);
+  ctx.closePath();
+  ctx.fill();
 
-  ctx.save();
-  ctx.translate(cx, cy);
-  ctx.rotate(t * 0.6);
-  ellipse(ctx, 0, 0, 95, 95);
-  stroke(ctx, 7, "#FF3344");
-  for (let i = 0; i < 6; i++) {
-    const a = (i / 6) * Math.PI * 2;
-    ellipse(ctx, Math.cos(a) * 52, Math.sin(a) * 52, 19, 19);
-    stroke(ctx, 4, "#E2E8F0");
+  const wallCol = "#231828";
+  ctx.fillStyle = wallCol;
+  ctx.fillRect(0, 0, 480, H);
+  ctx.fillRect(W - 480, 0, 480, H);
+  ctx.beginPath();
+  ctx.moveTo(480, 0); ctx.lineTo(W - 480, 0); ctx.lineTo(W - 480, 360);
+  ctx.bezierCurveTo(W - 550, 180, 550, 180, 480, 360);
+  ctx.closePath();
+  ctx.fill();
+
+  for (const dx of [260, W - 260]) {
+    ctx.strokeStyle = "#B48628";
+    ctx.lineWidth = 2.5;
+    ctx.beginPath(); ctx.moveTo(dx, 0); ctx.lineTo(dx, 400); ctx.stroke();
+    ctx.fillStyle = "#F59E0B";
+    ctx.beginPath(); ctx.arc(dx, 415, 22, 0, Math.PI); ctx.fill();
+    drawDynamicFlame(ctx, dx, 405, 30, localT);
   }
+
+  drawExpressiveChief(ctx, 740, 920, 1.25, localT);
+  drawExpressiveDaughter(ctx, 1140, 920, 1.25, localT);
+
+  drawFloatingDust(ctx, W, H, localT, { count: 30, color: "rgba(255, 230, 180, 0.6)" });
+
+  drawDocumentaryHUD(ctx, W, H, localT, {
+    location: "KULDHARA CHIEF HAVELI · PRIVATE SANCTUM",
+    era: "DEMAND FOR THE CHIEF'S DAUGHTER · HONOR VS ANNIHILATION",
+    chapter: "ACT II: THE DILEMMA OF HONOR",
+    accentColor: "#F59E0B"
+  });
+
+  applyCinematicFilmLook(ctx, W, H, localT, { vignette: 0.35, grainAlpha: 0.05 });
+}
+
+// ============================================================================
+// SCENE 05: TEMPLE COUNCIL (Emergency Mahapanchayat of 84 Chiefs)
+// ============================================================================
+export function drawSceneTempleCouncil(ctx, W, H, t) {
+  const localT = getSceneTime(t);
+
+  const bg = ctx.createRadialGradient(W / 2, H * 0.45, 80, W / 2, H * 0.45, W * 0.7);
+  bg.addColorStop(0, "#2A1208");
+  bg.addColorStop(0.45, "#140A07");
+  bg.addColorStop(1, "#070404");
+  ctx.fillStyle = bg;
+  ctx.fillRect(0, 0, W, H);
+
+  ctx.fillStyle = "#0A0505";
+  for (const ax of [320, W / 2, W - 320]) {
+    ctx.beginPath(); ctx.arc(ax, 380, 80, Math.PI, 0); ctx.lineTo(ax + 80, 520); ctx.lineTo(ax - 80, 520); ctx.closePath(); ctx.fill();
+  }
+
+  ctx.fillStyle = "#1E1815";
+  ctx.beginPath(); ctx.arc(W / 2, 430, 42, Math.PI, 0); ctx.lineTo(W / 2 + 42, 510); ctx.lineTo(W / 2 - 42, 510); ctx.closePath(); ctx.fill();
+  ctx.strokeStyle = "rgba(255, 255, 255, 0.75)";
+  ctx.lineWidth = 2.5;
+  for (const y of [425, 432, 439]) {
+    ctx.beginPath(); ctx.moveTo(W / 2 - 22, y); ctx.lineTo(W / 2 + 22, y); ctx.stroke();
+  }
+  ctx.fillStyle = "#DC2626";
+  ctx.beginPath(); ctx.arc(W / 2, 432, 3.5, 0, Math.PI * 2); ctx.fill();
+
+  drawCinematicElder(ctx, 420, 480, 1.15, "#166534", "#DC2626", localT);
+  drawCinematicElder(ctx, W - 420, 480, 1.15, "#991B1B", "#EAB308", localT + 0.3);
+  drawCinematicElder(ctx, W / 2, 440, 1.35, "#EA580C", "#EA580C", localT + 0.6);
+
+  const altarX = W / 2;
+  const altarY = H * 0.75;
+
+  ctx.fillStyle = "#78350F";
+  ctx.beginPath();
+  ctx.moveTo(altarX - 320, H); ctx.lineTo(altarX - 220, altarY + 80);
+  ctx.lineTo(altarX + 220, altarY + 80); ctx.lineTo(altarX + 320, H);
+  ctx.closePath();
+  ctx.fill();
+
+  ctx.fillStyle = "#9A3412";
+  ctx.fillRect(altarX - 210, altarY + 35, 420, 50);
+
+  drawDynamicFlame(ctx, altarX, altarY + 35, 175, localT);
+
+  for (let i = 0; i < 28; i++) {
+    const ex = altarX + Math.sin(localT * 3.5 + i * 1.7) * 160;
+    const ey = ((altarY - localT * (90 + (i % 6) * 35) - i * 32) % H);
+    const finalEY = ey < 0 ? ey + H : ey;
+    const er = 2 + (i % 3);
+    ctx.fillStyle = (i % 2 === 0) ? "#FDE047" : "#F97316";
+    ctx.globalAlpha = 0.85;
+    ctx.beginPath(); ctx.arc(ex, finalEY, er, 0, Math.PI * 2); ctx.fill();
+  }
+  ctx.globalAlpha = 1;
+
+  drawDocumentaryHUD(ctx, W, H, localT, {
+    location: "KULDHARA SHIVA TEMPLE · CENTRAL MANDAPA",
+    era: "MIDNIGHT EMERGENCY MAHAPANCHAYAT · 84 VILLAGE HEADS",
+    chapter: "ACT III: THE SOLEMN COUNCIL",
+    accentColor: "#F97316"
+  });
+
+  applyCinematicFilmLook(ctx, W, H, localT, { vignette: 0.38, grainAlpha: 0.05 });
+}
+
+function drawCinematicElder(ctx, x, y, scale, sashColor, turbanColor, t) {
+  ctx.save();
+  ctx.translate(x, y);
+  ctx.scale(scale, scale);
+
+  ctx.fillStyle = "#F8FAFC";
+  ctx.strokeStyle = "#180B07";
+  ctx.lineWidth = 4;
+  ctx.beginPath();
+  ctx.moveTo(-130, 110);
+  ctx.bezierCurveTo(-180, 260, -220, 480, -240, 600);
+  ctx.lineTo(240, 600);
+  ctx.bezierCurveTo(220, 480, 180, 260, 130, 110);
+  ctx.closePath();
+  ctx.fill();
+  ctx.stroke();
+
+  ctx.fillStyle = sashColor;
+  ctx.beginPath();
+  ctx.moveTo(-110, 120); ctx.lineTo(110, 120); ctx.lineTo(40, 360); ctx.lineTo(-120, 280);
+  ctx.closePath();
+  ctx.fill();
+  ctx.stroke();
+
+  ctx.fillStyle = "#C89569";
+  ctx.beginPath(); ctx.arc(0, 0, 44, 0, Math.PI * 2); ctx.fill();
+
+  ctx.fillStyle = turbanColor;
+  ctx.strokeStyle = "#180B07";
+  ctx.lineWidth = 3.5;
+  for (let ti = 0; ti < 4; ti++) {
+    ctx.beginPath(); ctx.ellipse(0, -55 - ti * 16, 56 - ti * 4, 18, 0, 0, Math.PI * 2); ctx.fill(); ctx.stroke();
+  }
+
+  ctx.fillStyle = "#FFFFFF";
+  ctx.beginPath();
+  ctx.moveTo(-40, 5); ctx.bezierCurveTo(-55, 120, -20, 220, 0, 240); ctx.bezierCurveTo(20, 220, 55, 120, 40, 5);
+  ctx.closePath();
+  ctx.fill();
+  ctx.stroke();
+
+  ctx.fillStyle = "#DC2626";
+  ctx.fillRect(-4, -28, 8, 16);
+  ctx.fillStyle = "#111827";
+  ctx.beginPath();
+  ctx.ellipse(-16, -14, 6, 4, 0, 0, Math.PI * 2);
+  ctx.ellipse(16, -14, 6, 4, 0, 0, Math.PI * 2);
+  ctx.fill();
+
+  ctx.restore();
+}
+
+// ============================================================================
+// SCENE 06: THE NIGHT EXODUS (Epic Midnight Caravan Panorama)
+// ============================================================================
+function getExodusDuneY(x, W, H) {
+  const normX = x / W;
+  return H * (0.74 - 0.12 * Math.sin(normX * Math.PI) + 0.04 * Math.sin(normX * 2 * Math.PI));
+}
+
+function drawSilhouetteCamel(ctx, x, groundY, walkCycle, scale = 0.7) {
+  ctx.save();
+  ctx.translate(x, groundY);
+  ctx.scale(scale, scale);
+
+  const silhouetteCol = "#050810";
+  const legCycle = Math.sin(walkCycle);
+
+  // Back legs
+  ctx.strokeStyle = "#080C16";
+  ctx.lineWidth = 14;
+  ctx.lineCap = "round";
+  ctx.beginPath();
+  ctx.moveTo(-90, -110); ctx.lineTo(-95 + legCycle * 18, -40); ctx.lineTo(-100 + legCycle * 25, 0);
+  ctx.stroke();
+
+  ctx.beginPath();
+  ctx.moveTo(60, -110); ctx.lineTo(65 - legCycle * 18, -40); ctx.lineTo(70 - legCycle * 25, 0);
+  ctx.stroke();
+
+  // Torso & Hump
+  ctx.fillStyle = silhouetteCol;
+  ctx.beginPath();
+  ctx.moveTo(-110, -120);
+  ctx.bezierCurveTo(-115, -190, -30, -210, -20, -150);
+  ctx.bezierCurveTo(-10, -135, 40, -135, 75, -130);
+  ctx.bezierCurveTo(90, -100, 70, -70, 40, -70);
+  ctx.bezierCurveTo(-20, -65, -80, -75, -110, -100);
+  ctx.closePath();
+  ctx.fill();
+
+  // Saddle pack
+  ctx.fillStyle = "#0C1220";
+  ctx.beginPath();
+  ctx.roundRect(-70, -180, 80, 55, 6);
+  ctx.fill();
+
+  // Neck & Head
+  const neckBob = Math.sin(walkCycle) * 4;
+  ctx.fillStyle = silhouetteCol;
+  ctx.beginPath();
+  ctx.moveTo(60, -120);
+  ctx.bezierCurveTo(80, -145, 95, -200, 95 + neckBob, -250);
+  ctx.bezierCurveTo(95 + neckBob, -270, 130 + neckBob, -275, 140 + neckBob, -255);
+  ctx.bezierCurveTo(155 + neckBob, -255, 160 + neckBob, -240, 135 + neckBob, -230);
+  ctx.bezierCurveTo(120 + neckBob, -225, 95, -170, 85, -110);
+  ctx.closePath();
+  ctx.fill();
+
+  // Ears
+  ctx.beginPath();
+  ctx.ellipse(100 + neckBob, -265, 4, 10, 0.3, 0, Math.PI * 2);
+  ctx.fill();
+
+  // Front legs
+  ctx.strokeStyle = silhouetteCol;
+  ctx.lineWidth = 14;
+  ctx.lineCap = "round";
+  ctx.beginPath();
+  ctx.moveTo(-75, -105); ctx.lineTo(-70 - legCycle * 18, -40); ctx.lineTo(-65 - legCycle * 25, 0);
+  ctx.stroke();
+
+  ctx.beginPath();
+  ctx.moveTo(75, -105); ctx.lineTo(80 + legCycle * 18, -40); ctx.lineTo(85 + legCycle * 25, 0);
+  ctx.stroke();
+
+  // Tail
+  ctx.strokeStyle = silhouetteCol;
+  ctx.lineWidth = 5;
+  ctx.beginPath();
+  ctx.moveTo(-110, -110);
+  ctx.quadraticCurveTo(-125, -70, -120 + Math.sin(walkCycle) * 8, -40);
+  ctx.stroke();
+
+  // Moonlit subtle rim highlight
+  ctx.strokeStyle = "rgba(186, 215, 255, 0.4)";
+  ctx.lineWidth = 2.5;
+  ctx.beginPath();
+  ctx.moveTo(-20, -185);
+  ctx.bezierCurveTo(-10, -135, 40, -135, 75, -130);
+  ctx.moveTo(60, -120);
+  ctx.bezierCurveTo(80, -145, 95, -200, 95 + neckBob, -250);
+  ctx.stroke();
+
+  ctx.restore();
+}
+
+function drawSilhouetteVillager(ctx, x, groundY, walkCycle, hasLantern = true, scale = 0.65) {
+  ctx.save();
+  ctx.translate(x, groundY);
+  ctx.scale(scale, scale);
+
+  const silhouetteCol = "#050810";
+  const legCycle = Math.sin(walkCycle);
+
+  // Legs walking
+  ctx.strokeStyle = silhouetteCol;
+  ctx.lineWidth = 12;
+  ctx.lineCap = "round";
+  ctx.beginPath(); ctx.moveTo(0, -90); ctx.lineTo(legCycle * 22, 0); ctx.stroke();
+  ctx.beginPath(); ctx.moveTo(0, -90); ctx.lineTo(-legCycle * 22, 0); ctx.stroke();
+
+  // Draped Robe
+  ctx.fillStyle = silhouetteCol;
+  ctx.beginPath();
+  ctx.moveTo(-22, -160); ctx.lineTo(22, -160); ctx.lineTo(32, -80); ctx.lineTo(-32, -80);
+  ctx.closePath();
+  ctx.fill();
+
+  ctx.beginPath(); ctx.ellipse(0, -165, 25, 15, 0, 0, Math.PI * 2); ctx.fill();
+  ctx.beginPath(); ctx.arc(0, -195, 14, 0, Math.PI * 2); ctx.fill();
+  ctx.beginPath(); ctx.ellipse(0, -205, 24, 14, -0.1, 0, Math.PI * 2); ctx.fill();
+
+  if (hasLantern) {
+    const swing = Math.sin(walkCycle) * 0.25;
+    ctx.strokeStyle = silhouetteCol;
+    ctx.lineWidth = 9;
+    ctx.beginPath(); ctx.moveTo(14, -155); ctx.lineTo(38, -120); ctx.stroke();
+
+    ctx.save();
+    ctx.translate(38, -120);
+    ctx.rotate(swing);
+
+    ctx.strokeStyle = "#475569";
+    ctx.lineWidth = 2;
+    ctx.beginPath(); ctx.moveTo(0, 0); ctx.lineTo(0, 32); ctx.stroke();
+
+    // Warm radial amber glow
+    const lGlow = ctx.createRadialGradient(0, 48, 8, 0, 48, 140);
+    lGlow.addColorStop(0, "rgba(255, 185, 45, 0.75)");
+    lGlow.addColorStop(0.35, "rgba(255, 140, 20, 0.25)");
+    lGlow.addColorStop(0.7, "rgba(255, 100, 10, 0.08)");
+    lGlow.addColorStop(1, "rgba(255, 100, 10, 0)");
+    ctx.fillStyle = lGlow;
+    ctx.beginPath(); ctx.arc(0, 48, 140, 0, Math.PI * 2); ctx.fill();
+
+    ctx.fillStyle = "#D97706";
+    ctx.fillRect(-10, 32, 20, 28);
+    ctx.fillStyle = "#FFFBEB";
+    ctx.fillRect(-7, 36, 14, 20);
+
+    ctx.restore();
+  } else {
+    ctx.strokeStyle = "#334155";
+    ctx.lineWidth = 3.5;
+    ctx.beginPath(); ctx.moveTo(22, -210); ctx.lineTo(26, 0); ctx.stroke();
+  }
+
+  ctx.restore();
+}
+
+export function drawSceneNightExodus(ctx, W, H, t) {
+  const localT = getSceneTime(t);
+
+  // Desert midnight sky
+  const sky = ctx.createLinearGradient(0, 0, 0, H);
+  sky.addColorStop(0, "#050B18");
+  sky.addColorStop(0.35, "#0E1A36");
+  sky.addColorStop(0.65, "#1B2A52");
+  sky.addColorStop(1, "#263B6E");
+  ctx.fillStyle = sky;
+  ctx.fillRect(0, 0, W, H);
+
+  // Stars
+  ctx.fillStyle = "#E2E8F0";
+  for (let i = 0; i < 80; i++) {
+    const sx = (i * 127.3 + localT * 2) % W;
+    const sy = ((i * 311.7) % (H * 0.55));
+    const r = (i % 3 === 0) ? 1.8 : 1.1;
+    const a = 0.3 + Math.sin(localT * 1.5 + i) * 0.3;
+    ctx.globalAlpha = Math.max(0.1, a);
+    ctx.beginPath(); ctx.arc(sx, sy, r, 0, Math.PI * 2); ctx.fill();
+  }
+  ctx.globalAlpha = 1;
+
+  // Thar Desert Full Moon
+  const moonX = W * 0.78, moonY = 220;
+  const moonGlow = ctx.createRadialGradient(moonX, moonY, 30, moonX, moonY, 360);
+  moonGlow.addColorStop(0, "rgba(255, 250, 225, 0.65)");
+  moonGlow.addColorStop(0.3, "rgba(255, 240, 180, 0.22)");
+  moonGlow.addColorStop(0.65, "rgba(255, 230, 150, 0.08)");
+  moonGlow.addColorStop(1, "rgba(255, 230, 150, 0)");
+  ctx.fillStyle = moonGlow;
+  ctx.beginPath(); ctx.arc(moonX, moonY, 360, 0, Math.PI * 2); ctx.fill();
+
+  ctx.fillStyle = "#FFFBEB";
+  ctx.beginPath(); ctx.arc(moonX, moonY, 70, 0, Math.PI * 2); ctx.fill();
+
+  // Distant Sand Dune Layer
+  const bgDune = ctx.createLinearGradient(0, H * 0.52, 0, H);
+  bgDune.addColorStop(0, "#121C34");
+  bgDune.addColorStop(1, "#0A1020");
+  ctx.fillStyle = bgDune;
+  ctx.beginPath();
+  ctx.moveTo(0, H * 0.60);
+  ctx.bezierCurveTo(W * 0.35, H * 0.52, W * 0.7, H * 0.65, W, H * 0.57);
+  ctx.lineTo(W, H); ctx.lineTo(0, H);
+  ctx.closePath();
+  ctx.fill();
+
+  // Midground Dune with Moonlit Ridge
+  const midDune = ctx.createLinearGradient(0, H * 0.65, 0, H);
+  midDune.addColorStop(0, "#0E1528");
+  midDune.addColorStop(1, "#060A14");
+  ctx.fillStyle = midDune;
+  ctx.beginPath();
+  ctx.moveTo(0, H * 0.74);
+  ctx.bezierCurveTo(W * 0.35, H * 0.69, W * 0.75, H * 0.78, W, H * 0.72);
+  ctx.lineTo(W, H); ctx.lineTo(0, H);
+  ctx.closePath();
+  ctx.fill();
+
+  ctx.strokeStyle = "rgba(186, 215, 255, 0.35)";
+  ctx.lineWidth = 3;
+  ctx.beginPath();
+  ctx.moveTo(0, H * 0.74);
+  ctx.bezierCurveTo(W * 0.35, H * 0.69, W * 0.75, H * 0.78, W, H * 0.72);
+  ctx.stroke();
+
+  // Moving Caravan Line
+  const caravanSpeed = 40;
+  const loopWidth = 2200;
+  const offset = (localT * caravanSpeed) % loopWidth;
+
+  const baseCaravan = [
+    { type: "villager", relX: 100, lantern: true },
+    { type: "camel",    relX: 300 },
+    { type: "villager", relX: 520, lantern: false },
+    { type: "camel",    relX: 740 },
+    { type: "villager", relX: 960, lantern: true },
+    { type: "camel",    relX: 1180 },
+    { type: "villager", relX: 1400, lantern: false },
+    { type: "camel",    relX: 1620 },
+    { type: "villager", relX: 1840, lantern: true }
+  ];
+
+  for (let wrap = -1; wrap <= 1; wrap++) {
+    for (let i = 0; i < baseCaravan.length; i++) {
+      const item = baseCaravan[i];
+      const curX = item.relX - offset + wrap * loopWidth;
+      if (curX < -300 || curX > W + 300) continue;
+
+      const gy = getExodusDuneY(curX, W, H);
+      const walkPhase = localT * 3.2 + i * 0.7;
+
+      if (item.type === "villager") {
+        drawSilhouetteVillager(ctx, curX, gy, walkPhase, item.lantern);
+      } else {
+        drawSilhouetteCamel(ctx, curX, gy, walkPhase, 0.72);
+      }
+
+      // Lead tether rope
+      if (i < baseCaravan.length - 1 && item.type === "villager" && baseCaravan[i + 1].type === "camel") {
+        const nextX = baseCaravan[i + 1].relX - offset + wrap * loopWidth;
+        const ngy = getExodusDuneY(nextX, W, H);
+        ctx.strokeStyle = "rgba(100, 116, 139, 0.6)";
+        ctx.lineWidth = 1.5;
+        ctx.beginPath();
+        ctx.moveTo(curX + 10, gy - 100);
+        ctx.quadraticCurveTo((curX + nextX) / 2, gy - 60, nextX - 70, ngy - 130);
+        ctx.stroke();
+      }
+    }
+  }
+
+  // Foreground Dune Layer
+  ctx.fillStyle = "#03060C";
+  ctx.beginPath();
+  ctx.moveTo(0, H * 0.88);
+  ctx.bezierCurveTo(W * 0.4, H * 0.82, W * 0.7, H * 0.94, W, H * 0.85);
+  ctx.lineTo(W, H); ctx.lineTo(0, H);
+  ctx.closePath();
+  ctx.fill();
+
+  drawFloatingDust(ctx, W, H, localT, { count: 35, color: "rgba(226, 232, 240, 0.4)" });
+
+  drawDocumentaryHUD(ctx, W, H, localT, {
+    location: "THAR DESERT RIDGES · HEADING TOWARDS PALI & JODHPUR",
+    era: "MIDNIGHT EVACUATION · 1,588 RESIDENTS · 84 VILLAGES",
+    chapter: "ACT IV: THE SECRET EXODUS"
+  });
+
+  applyCinematicFilmLook(ctx, W, H, localT, { vignette: 0.42, grainAlpha: 0.05 });
+}
+
+// ============================================================================
+// SCENE 07: THE ELDER'S SACRED CURSE (Ritual Low-Angle Oath)
+// ============================================================================
+export function drawSceneElderCurse(ctx, W, H, t) {
+  const localT = getSceneTime(t);
+
+  const sky = ctx.createLinearGradient(0, 0, 0, H);
+  sky.addColorStop(0, "#100418");
+  sky.addColorStop(0.4, "#260A24");
+  sky.addColorStop(0.8, "#180616");
+  sky.addColorStop(1, "#0A0208");
+  ctx.fillStyle = sky;
+  ctx.fillRect(0, 0, W, H);
+
+  const strikeTime = (localT % 1.8) < 0.35;
+  if (strikeTime) {
+    drawBranchingLightning(ctx, 300, 0, 160, 480, localT, { intensity: 1.2 });
+    drawBranchingLightning(ctx, 1650, 0, 1780, 520, localT, { intensity: 0.9 });
+  }
+
+  // Fortress Ramparts (Low angle)
+  ctx.fillStyle = "#140A18";
+  ctx.fillRect(0, H * 0.72, W, H * 0.28);
+  for (let bx = 0; bx < W; bx += 140) {
+    ctx.fillRect(bx, H * 0.64, 80, H * 0.08);
+  }
+  ctx.strokeStyle = "#0B040D";
+  ctx.lineWidth = 2;
+  for (let y = H * 0.72; y < H; y += 32) {
+    ctx.beginPath(); ctx.moveTo(0, y); ctx.lineTo(W, y); ctx.stroke();
+  }
+
+  // Center Elder Priest
+  const ex = W / 2;
+  const ey = 520;
+  const DARK = "#110815";
+
+  // Robe body
+  const robeG = ctx.createLinearGradient(ex - 180, ey, ex + 180, ey);
+  robeG.addColorStop(0, "#DDD8CC");
+  robeG.addColorStop(0.2, "#F8F6F0");
+  robeG.addColorStop(0.8, "#F8F6F0");
+  robeG.addColorStop(1, "#CEC7B6");
+
+  // Lower Robe (Flared pleated skirt)
+  ctx.fillStyle = robeG;
+  ctx.beginPath();
+  ctx.moveTo(ex - 90, ey + 40);
+  ctx.lineTo(ex + 90, ey + 40);
+  ctx.bezierCurveTo(ex + 160, ey + 240, ex + 240, H * 0.88, ex + 280, H);
+  ctx.lineTo(ex - 280, H);
+  ctx.bezierCurveTo(ex - 240, H * 0.88, ex - 160, ey + 240, ex - 90, ey + 40);
+  ctx.closePath();
+  ctx.fill();
+  ctx.strokeStyle = DARK;
+  ctx.lineWidth = 4;
+  ctx.stroke();
+
+  // Pleats & fold shadows
+  ctx.strokeStyle = "rgba(40, 30, 20, 0.22)";
+  ctx.lineWidth = 2.5;
+  for (const fx of [-180, -120, -60, 0, 60, 120, 180]) {
+    ctx.beginPath();
+    ctx.moveTo(ex + fx * 0.4, ey + 50);
+    ctx.lineTo(ex + fx * 1.3, H);
+    ctx.stroke();
+  }
+
+  // Upper Torso
+  ctx.fillStyle = robeG;
+  ctx.beginPath();
+  ctx.moveTo(ex - 85, ey - 100);
+  ctx.lineTo(ex + 85, ey - 100);
+  ctx.lineTo(ex + 95, ey + 45);
+  ctx.lineTo(ex - 95, ey + 45);
+  ctx.closePath();
+  ctx.fill();
+  ctx.strokeStyle = DARK;
+  ctx.lineWidth = 3.5;
+  ctx.stroke();
+
+  // Draped Saffron Angavastram (Shawl with folds and zari trim)
+  const shawlG = ctx.createLinearGradient(ex - 90, ey - 95, ex + 90, ey + 80);
+  shawlG.addColorStop(0, "#C2410C");
+  shawlG.addColorStop(0.5, "#EA580C");
+  shawlG.addColorStop(1, "#9A3412");
+  ctx.fillStyle = shawlG;
+  ctx.beginPath();
+  ctx.moveTo(ex - 85, ey - 95);
+  ctx.bezierCurveTo(ex - 95, ey - 10, ex - 20, ey + 70, ex + 20, ey + 90);
+  ctx.lineTo(ex + 85, ey + 30);
+  ctx.bezierCurveTo(ex + 50, ey - 30, ex + 70, ey - 80, ex + 60, ey - 95);
+  ctx.closePath();
+  ctx.fill();
+  ctx.strokeStyle = DARK;
+  ctx.lineWidth = 3;
+  ctx.stroke();
+
+  // Gold border on shawl
+  ctx.strokeStyle = "#FBBF24";
+  ctx.lineWidth = 4;
+  ctx.beginPath();
+  ctx.moveTo(ex - 85, ey - 95);
+  ctx.bezierCurveTo(ex - 95, ey - 10, ex - 20, ey + 70, ex + 20, ey + 90);
+  ctx.stroke();
+
+  // Head & Face
+  ctx.fillStyle = "#C68A56";
+  ctx.beginPath(); ctx.arc(ex, ey - 145, 36, 0, Math.PI * 2); ctx.fill();
+  ctx.strokeStyle = DARK; ctx.lineWidth = 3; ctx.stroke();
+
+  // White Pagri (Rajasthani folded turban)
+  ctx.fillStyle = "#F8FAFC";
+  for (let ti = 0; ti < 4; ti++) {
+    ctx.beginPath();
+    ctx.ellipse(ex, ey - 180 - ti * 13, 46 - ti * 3, 15, 0, 0, Math.PI * 2);
+    ctx.fill(); ctx.stroke();
+  }
+
+  // Flowing Majestic White Beard
+  ctx.fillStyle = "#FFFFFF";
+  ctx.beginPath();
+  ctx.moveTo(ex - 32, ey - 140);
+  ctx.bezierCurveTo(ex - 48, ey - 40, ex - 18, ey + 60, ex, ey + 75);
+  ctx.bezierCurveTo(ex + 18, ey + 60, ex + 48, ey - 40, ex + 32, ey - 140);
+  ctx.closePath();
+  ctx.fill(); ctx.stroke();
+
+  // Red Vermilion Tilak
+  ctx.fillStyle = "#DC2626";
+  ctx.fillRect(ex - 3.5, ey - 165, 7, 16);
+
+  // Expressive Eyes & Open Wrathful Mouth
+  ctx.fillStyle = DARK;
+  ctx.beginPath();
+  ctx.ellipse(ex - 14, ey - 150, 5, 3.5, 0, 0, Math.PI * 2);
+  ctx.ellipse(ex + 14, ey - 150, 5, 3.5, 0, 0, Math.PI * 2);
+  ctx.fill();
+  ctx.fillStyle = "#3B1208";
+  ctx.beginPath(); ctx.arc(ex, ey - 128, 10, 0, Math.PI); ctx.fill();
+
+  // Left Arm (Holding Flaming Torch Raised High)
+  ctx.fillStyle = "#F8F6F0";
+  ctx.strokeStyle = DARK;
+  ctx.lineWidth = 3.5;
+  ctx.beginPath();
+  ctx.moveTo(ex + 85, ey - 95);
+  ctx.bezierCurveTo(ex + 130, ey - 80, ex + 160, ey - 140, ex + 190, ey - 230);
+  ctx.lineTo(ex + 165, ey - 245);
+  ctx.bezierCurveTo(ex + 140, ey - 160, ex + 115, ey - 120, ex + 75, ey - 75);
+  ctx.closePath();
+  ctx.fill(); ctx.stroke();
+
+  ctx.fillStyle = "#C68A56";
+  ctx.beginPath(); ctx.arc(ex + 180, ey - 245, 14, 0, Math.PI * 2); ctx.fill(); ctx.stroke();
+
+  ctx.strokeStyle = "#78350F";
+  ctx.lineWidth = 11;
+  ctx.lineCap = "round";
+  ctx.beginPath(); ctx.moveTo(ex + 175, ey - 235); ctx.lineTo(ex + 210, ey - 355); ctx.stroke();
+  drawDynamicFlame(ctx, ex + 210, ey - 355, 95, localT);
+
+  // Right Arm (Holding Brass Kamandalu & Pouring)
+  ctx.fillStyle = "#F8F6F0";
+  ctx.strokeStyle = DARK;
+  ctx.lineWidth = 3.5;
+  ctx.beginPath();
+  ctx.moveTo(ex - 85, ey - 95);
+  ctx.bezierCurveTo(ex - 130, ey - 50, ex - 160, ey + 20, ex - 180, ey + 110);
+  ctx.lineTo(ex - 150, ey + 125);
+  ctx.bezierCurveTo(ex - 130, ey + 40, ex - 105, ey - 20, ex - 75, ey - 75);
+  ctx.closePath();
+  ctx.fill(); ctx.stroke();
+
+  ctx.fillStyle = "#C68A56";
+  ctx.beginPath(); ctx.arc(ex - 165, ey + 120, 14, 0, Math.PI * 2); ctx.fill(); ctx.stroke();
+
+  // Brass Kamandalu
+  ctx.save();
+  ctx.translate(ex - 185, ey + 140);
+  ctx.rotate(0.65);
+  ctx.fillStyle = "#F59E0B";
+  ctx.strokeStyle = "#B45309";
+  ctx.lineWidth = 3;
+  ctx.beginPath(); ctx.arc(0, 12, 28, 0, Math.PI * 2); ctx.fill(); ctx.stroke();
+  ctx.beginPath();
+  ctx.moveTo(-22, -6); ctx.lineTo(-44, 6); ctx.lineTo(-40, 18); ctx.lineTo(-19, 10);
+  ctx.closePath(); ctx.fill(); ctx.stroke();
+  ctx.strokeStyle = "#92400E"; ctx.lineWidth = 4;
+  ctx.beginPath(); ctx.arc(0, -10, 18, Math.PI, 0); ctx.stroke();
   ctx.restore();
 
+  // Glowing Holy Water Pouring
+  ctx.strokeStyle = "#38BDF8";
+  ctx.lineWidth = 4;
+  ctx.beginPath();
+  ctx.moveTo(ex - 215, ey + 160);
+  ctx.bezierCurveTo(ex - 235, ey + 260, ex - 220, H - 40, ex - 225, H - 10);
+  ctx.stroke();
+
+  // Ripple Rings
+  ctx.strokeStyle = "rgba(56, 189, 248, 0.85)";
+  ctx.lineWidth = 2.5;
+  for (const rw of [24, 45, 70]) {
+    ctx.beginPath(); ctx.ellipse(ex - 225, H - 10, rw, rw * 0.32, 0, 0, Math.PI * 2); ctx.stroke();
+  }
+
+  // HarfBuzz Devanagari Sanskrit Oath Typography
+  ctx.font = "bold 44px 'Noto Sans Devanagari', sans-serif";
   ctx.textAlign = "center";
+  ctx.fillStyle = "#FDE047";
+  ctx.shadowColor = "rgba(0,0,0,0.9)";
+  ctx.shadowBlur = 12;
+  ctx.fillText("॥ यह भूमि हमेशा के लिए निर्जन और शापित रहेगी ॥", W / 2, 175);
+
+  ctx.font = "bold 24px 'Inter', sans-serif";
   ctx.fillStyle = "#FFFFFF";
-  ctx.font = "bold 48px sans-serif";
-  ctx.fillText("NIGHTINGALE FILMS", cx, cy + 155);
+  ctx.fillText('"NO SOUL SHALL EVER SETTLE HERE AGAIN"', W / 2, 220);
+  ctx.shadowBlur = 0;
 
-  ctx.fillStyle = "#FF3344";
-  ctx.font = "bold 24px sans-serif";
-  ctx.fillText("UNSOLVED REALITIES • FACT-CHECKED INVESTIGATIONS", cx, cy + 200);
+  drawDocumentaryHUD(ctx, W, H, localT, {
+    location: "KULDHARA SOUTHERN RAMPART · CURSE STONE",
+    era: "THE ANCIENT SANSKRIT DEATH CURSE · SEALED WITH SACRED WATER",
+    chapter: "ACT V: THE ETERNAL CURSE",
+    accentColor: "#EF4444"
+  });
 
-  ctx.fillStyle = "#94A3B8";
-  ctx.font = "20px sans-serif";
-  ctx.fillText("Subscribe for more unsolved historical mysteries", cx, cy + 245);
+  applyCinematicFilmLook(ctx, W, H, localT, { vignette: 0.35, grainAlpha: 0.05 });
+}
+
+// ============================================================================
+// SCENE 08: THE ABANDONED KITCHEN (Frozen Still Life & Smoke Hearth)
+// ============================================================================
+export function drawSceneAbandonedKitchen(ctx, W, H, t) {
+  const localT = getSceneTime(t);
+
+  const wallGrad = ctx.createLinearGradient(0, 0, 0, H);
+  wallGrad.addColorStop(0, "#8C653C");
+  wallGrad.addColorStop(0.5, "#6E4E2C");
+  wallGrad.addColorStop(1, "#452F19");
+  ctx.fillStyle = wallGrad;
+  ctx.fillRect(0, 0, W, H);
+
+  ctx.fillStyle = "#382312";
+  ctx.fillRect(0, H * 0.76, W, H * 0.24);
+
+  const winX = 640, winW = 340, winY = 160, winH = H * 0.60;
+
+  ctx.fillStyle = "#4A321E";
+  ctx.beginPath();
+  ctx.arc(winX + winW / 2, winY + 120, winW / 2 + 30, Math.PI, 0);
+  ctx.lineTo(winX + winW + 30, winY + winH);
+  ctx.lineTo(winX - 30, winY + winH);
+  ctx.closePath();
+  ctx.fill();
+
+  const winSky = ctx.createLinearGradient(winX, winY, winX, winY + winH);
+  winSky.addColorStop(0, "#FFF7ED");
+  winSky.addColorStop(0.5, "#FED7AA");
+  winSky.addColorStop(1, "#EA580C");
+  ctx.fillStyle = winSky;
+  ctx.beginPath();
+  ctx.arc(winX + winW / 2, winY + 120, winW / 2, Math.PI, 0);
+  ctx.lineTo(winX + winW, winY + winH);
+  ctx.lineTo(winX, winY + winH);
+  ctx.closePath();
+  ctx.fill();
+
+  drawVolumetricBeam(ctx, winX + winW / 2, winY + 120, 260, H * 0.95, 240, 750, "rgba(255, 240, 180, 0.25)");
+
+  ctx.fillStyle = "#2D1B0D";
+  ctx.beginPath();
+  ctx.arc(260, 320, 70, Math.PI, 0);
+  ctx.lineTo(330, 520); ctx.lineTo(190, 520);
+  ctx.closePath();
+  ctx.fill();
+
+  const potCol = "#B45309", potShade = "#78350F";
+  for (let pi = 0; pi < 3; pi++) {
+    const py = 480 - pi * 55;
+    const pr = 42 - pi * 6;
+    ctx.fillStyle = potCol;
+    ctx.strokeStyle = potShade;
+    ctx.lineWidth = 3;
+    ctx.beginPath(); ctx.arc(260, py, pr, 0, Math.PI * 2); ctx.fill(); ctx.stroke();
+    ctx.fillStyle = potShade;
+    ctx.fillRect(260 - pr * 0.5, py - pr, pr, 8);
+  }
+
+  ctx.fillStyle = "#2D1B0D";
+  ctx.beginPath();
+  ctx.arc(W - 280, 340, 60, Math.PI, 0);
+  ctx.lineTo(W - 220, 480); ctx.lineTo(W - 340, 480);
+  ctx.closePath();
+  ctx.fill();
+  drawDynamicFlame(ctx, W - 280, 460, 25, localT);
+
+  const chulhaX = 1260;
+  const chulhaY = H * 0.74;
+
+  ctx.fillStyle = "#5A381E";
+  ctx.strokeStyle = "#38200F";
+  ctx.lineWidth = 3.5;
+  ctx.beginPath();
+  ctx.arc(chulhaX, chulhaY + 50, 95, Math.PI, 0);
+  ctx.lineTo(chulhaX + 95, chulhaY + 90);
+  ctx.lineTo(chulhaX - 95, chulhaY + 90);
+  ctx.closePath();
+  ctx.fill();
+  ctx.stroke();
+
+  const emberGlow = ctx.createRadialGradient(chulhaX, chulhaY + 60, 10, chulhaX, chulhaY + 60, 60);
+  emberGlow.addColorStop(0, "#FF4500");
+  emberGlow.addColorStop(0.6, "#EA580C");
+  emberGlow.addColorStop(1, "rgba(100, 30, 0, 0)");
+  ctx.fillStyle = emberGlow;
+  ctx.beginPath(); ctx.arc(chulhaX, chulhaY + 60, 60, 0, Math.PI * 2); ctx.fill();
+
+  ctx.fillStyle = "#1F2937";
+  ctx.beginPath(); ctx.ellipse(chulhaX, chulhaY + 12, 70, 20, 0, 0, Math.PI * 2); ctx.fill();
+
+  ctx.fillStyle = "#FDE68A";
+  ctx.strokeStyle = "#D97706";
+  ctx.lineWidth = 2;
+  ctx.beginPath(); ctx.ellipse(chulhaX, chulhaY + 10, 48, 14, 0, 0, Math.PI * 2); ctx.fill(); ctx.stroke();
+
+  ctx.strokeStyle = "rgba(243, 244, 246, 0.4)";
+  ctx.lineWidth = 3.5;
+  ctx.beginPath();
+  ctx.moveTo(chulhaX, chulhaY);
+  ctx.bezierCurveTo(chulhaX - 25, chulhaY - 90, chulhaX + 35, chulhaY - 180, chulhaX - 10, chulhaY - 260);
+  ctx.stroke();
+
+  ctx.fillStyle = "#F59E0B";
+  ctx.strokeStyle = "#B45309";
+  ctx.lineWidth = 2.5;
+  ctx.beginPath(); ctx.ellipse(980, H * 0.86, 75, 24, 0, 0, Math.PI * 2); ctx.fill(); ctx.stroke();
+  ctx.beginPath(); ctx.arc(1100, H * 0.84, 28, 0, Math.PI * 2); ctx.fill(); ctx.stroke();
+
+  drawFloatingDust(ctx, W, H, localT, { count: 45, color: "rgba(255, 245, 210, 0.85)" });
+
+  drawDocumentaryHUD(ctx, W, H, localT, {
+    location: "KULDHARA DOMESTIC INTERIOR · KITCHEN HEARTH",
+    era: "HALF-COOKED FOOD LEFT ON THE HEARTH · MARCH 1825",
+    chapter: "ACT VI: THE FROZEN MOMENT",
+    accentColor: "#F59E0B"
+  });
+
+  applyCinematicFilmLook(ctx, W, H, localT, { vignette: 0.35, grainAlpha: 0.05 });
+}
+
+// ============================================================================
+// SCENE 09: THE FOOTPRINT PARADOX (Forensic Radar & Fault Line Analysis)
+// ============================================================================
+export function drawSceneFootprintParadox(ctx, W, H, t) {
+  const localT = getSceneTime(t);
+
+  const sky = ctx.createLinearGradient(0, 0, 0, H);
+  sky.addColorStop(0, "#0F172A");
+  sky.addColorStop(0.6, "#1E293B");
+  sky.addColorStop(1, "#334155");
+  ctx.fillStyle = sky;
+  ctx.fillRect(0, 0, W, H);
+
+  const duneGrad = ctx.createLinearGradient(0, H * 0.5, 0, H);
+  duneGrad.addColorStop(0, "#D97706");
+  duneGrad.addColorStop(0.5, "#B45309");
+  duneGrad.addColorStop(1, "#78350F");
+  ctx.fillStyle = duneGrad;
+  ctx.beginPath();
+  ctx.moveTo(0, H * 0.58);
+  ctx.bezierCurveTo(W * 0.4, H * 0.52, W * 0.7, H * 0.65, W, H * 0.55);
+  ctx.lineTo(W, H); ctx.lineTo(0, H);
+  ctx.closePath();
+  ctx.fill();
+
+  const radarX = W / 2;
+  const radarY = H * 0.58;
+
+  ctx.strokeStyle = "rgba(6, 182, 212, 0.45)";
+  ctx.lineWidth = 1.5;
+  for (const r of [120, 240, 360, 480]) {
+    ctx.beginPath(); ctx.arc(radarX, radarY, r, 0, Math.PI * 2); ctx.stroke();
+  }
+
+  ctx.strokeStyle = "rgba(6, 182, 212, 0.65)";
+  ctx.lineWidth = 2;
+  ctx.beginPath();
+  ctx.moveTo(radarX - 520, radarY); ctx.lineTo(radarX + 520, radarY);
+  ctx.moveTo(radarX, radarY - 420); ctx.lineTo(radarX, radarY + 320);
+  ctx.stroke();
+
+  const sweepAngle = (localT * 2.2) % (Math.PI * 2);
+  const sweepGrad = ctx.createRadialGradient(radarX, radarY, 0, radarX, radarY, 480);
+  sweepGrad.addColorStop(0, "rgba(6, 182, 212, 0.35)");
+  sweepGrad.addColorStop(1, "rgba(6, 182, 212, 0)");
+  ctx.fillStyle = sweepGrad;
+  ctx.beginPath();
+  ctx.moveTo(radarX, radarY);
+  ctx.arc(radarX, radarY, 480, sweepAngle - 0.4, sweepAngle);
+  ctx.closePath();
+  ctx.fill();
+
+  ctx.strokeStyle = "#F43F5E";
+  ctx.lineWidth = 3;
+  ctx.setLineDash([8, 8]);
+  ctx.beginPath();
+  ctx.moveTo(radarX - 350, radarY + 220);
+  ctx.lineTo(radarX - 180, radarY + 120);
+  ctx.lineTo(radarX - 50, radarY + 40);
+  ctx.stroke();
+  ctx.setLineDash([]);
+
+  ctx.font = "bold 18px 'Inter', monospace";
+  ctx.fillStyle = "#06B6D4";
+  ctx.fillText("[ RADAR SCAN: 84 VILLAGE PERIMETERS ]", 120, H * 0.78);
+  ctx.fillText("[ RESIDUAL TRACK ARCHIVE: 0 TRACKS DETECTED ]", 120, H * 0.82);
+  ctx.fillText("[ CURRENT SCIENCE 2017: KAKNI FAULT ZONE ]", 120, H * 0.86);
+
+  drawDocumentaryHUD(ctx, W, H, localT, {
+    location: "PERIMETER SURVEY · THAR BASIN FAULT LINE",
+    era: "FORENSIC FOOTPRINT PUZZLE · 1,500 REFUGEES VANISHED WITHOUT A TRACE",
+    chapter: "ACT VII: THE FOOTPRINT PARADOX",
+    accentColor: "#06B6D4"
+  });
+
+  applyCinematicFilmLook(ctx, W, H, localT, { vignette: 0.35, grainAlpha: 0.05 });
+}
+
+// ============================================================================
+// SCENE 10: THE ASI WARNING GATE (Official Heritage Restriction)
+// ============================================================================
+export function drawSceneASIGate(ctx, W, H, t) {
+  const localT = getSceneTime(t);
+
+  const bg = ctx.createLinearGradient(0, 0, 0, H);
+  bg.addColorStop(0, "#080C16");
+  bg.addColorStop(0.6, "#111827");
+  bg.addColorStop(1, "#1F2937");
+  ctx.fillStyle = bg;
+  ctx.fillRect(0, 0, W, H);
+
+  const pillarW = 200;
+  for (const px of [120, W - 320]) {
+    const pGrad = ctx.createLinearGradient(px, 0, px + pillarW, 0);
+    pGrad.addColorStop(0, "#4B3621");
+    pGrad.addColorStop(0.5, "#8B653E");
+    pGrad.addColorStop(1, "#362414");
+    ctx.fillStyle = pGrad;
+    ctx.fillRect(px, 120, pillarW, H - 120);
+    ctx.fillStyle = "#A67C52";
+    ctx.fillRect(px - 20, 95, pillarW + 40, 30);
+  }
+
+  ctx.strokeStyle = "#374151";
+  ctx.lineWidth = 8;
+  for (let gx = 340; gx <= W - 340; gx += 55) {
+    ctx.beginPath(); ctx.moveTo(gx, 160); ctx.lineTo(gx, H); ctx.stroke();
+  }
+  for (const gy of [240, 520, 800]) {
+    ctx.fillRect(320, gy, W - 640, 22);
+  }
+
+  const boardW = 860, boardH = 460;
+  const boardX = W / 2 - boardW / 2, boardY = H / 2 - boardH / 2;
+
+  ctx.fillStyle = "#1E3A8A";
+  ctx.strokeStyle = "#FFFFFF";
+  ctx.lineWidth = 6;
+  ctx.fillRect(boardX, boardY, boardW, boardH);
+  ctx.strokeRect(boardX, boardY, boardW, boardH);
+
+  ctx.strokeStyle = "#FFFFFF";
+  ctx.lineWidth = 2;
+  ctx.strokeRect(boardX + 16, boardY + 16, boardW - 32, boardH - 32);
+
+  ctx.textAlign = "center";
+  ctx.font = "bold 34px 'Noto Sans Devanagari', sans-serif";
+  ctx.fillStyle = "#FFFFFF";
+  ctx.fillText("भारतीय पुरातत्व सर्वेक्षण (ASI)", W / 2, boardY + 75);
+
+  ctx.font = "bold 22px 'Inter', sans-serif";
+  ctx.fillStyle = "#E0E7FF";
+  ctx.fillText("ARCHAEOLOGICAL SURVEY OF INDIA", W / 2, boardY + 115);
+
+  ctx.strokeStyle = "#F59E0B";
+  ctx.lineWidth = 3;
+  ctx.beginPath();
+  ctx.moveTo(boardX + 60, boardY + 140); ctx.lineTo(boardX + boardW - 60, boardY + 140);
+  ctx.stroke();
+
+  ctx.font = "bold 38px 'Noto Sans Devanagari', sans-serif";
+  ctx.fillStyle = "#FBBF24";
+  ctx.fillText("चेतावनी: सूर्यास्त के बाद प्रवेश सख्त मना है", W / 2, boardY + 225);
+
+  ctx.font = "bold 26px 'Inter', sans-serif";
+  ctx.fillStyle = "#FFFFFF";
+  ctx.fillText("ENTRY STRICTLY PROHIBITED AFTER SUNSET", W / 2, boardY + 275);
+
+  ctx.font = "600 20px 'Noto Sans Devanagari', sans-serif";
+  ctx.fillStyle = "#93C5FD";
+  ctx.fillText("संरक्षित राष्ट्रीय स्मारक • उल्लंघन करने पर कानूनी कार्रवाई होगी", W / 2, boardY + 340);
+  ctx.fillText("PROTECTED NATIONAL MONUMENT • TRESPASSERS WILL BE PROSECUTED", W / 2, boardY + 380);
+
+  const flashX = W * 0.35 + Math.sin(localT * 1.5) * 280;
+  const flashY = H * 0.55;
+  const flashGlow = ctx.createRadialGradient(flashX, flashY, 50, flashX, flashY, 400);
+  flashGlow.addColorStop(0, "rgba(255, 255, 255, 0.28)");
+  flashGlow.addColorStop(0.5, "rgba(255, 255, 255, 0.08)");
+  flashGlow.addColorStop(1, "rgba(255, 255, 255, 0)");
+  ctx.fillStyle = flashGlow;
+  ctx.beginPath(); ctx.arc(flashX, flashY, 400, 0, Math.PI * 2); ctx.fill();
+
+  drawDocumentaryHUD(ctx, W, H, localT, {
+    location: "KULDHARA VILLAGE ENTRANCE PERIMETER",
+    era: "GOVERNMENT HERITAGE RESTRICTION · ACTIVE PROTOCOL",
+    chapter: "ACT VIII: THE PROHIBITED ZONE",
+    accentColor: "#FBBF24"
+  });
+
+  applyCinematicFilmLook(ctx, W, H, localT, { vignette: 0.35, grainAlpha: 0.05 });
+}
+
+// ============================================================================
+// SCENE 11: THERMAL ANOMALY (FLIR Infrared Anomaly)
+// ============================================================================
+export function drawSceneThermalAnomaly(ctx, W, H, t) {
+  const localT = getSceneTime(t);
+
+  ctx.fillStyle = "#06071B";
+  ctx.fillRect(0, 0, W, H);
+
+  ctx.fillStyle = "#1E1B4B";
+  ctx.fillRect(180, 320, 420, H - 320);
+  ctx.fillRect(W - 600, 320, 420, H - 320);
+  ctx.fillRect(450, 220, W - 900, 160);
+
+  const targetX = W / 2;
+  const targetY = 520;
+
+  const auraGrad = ctx.createRadialGradient(targetX, targetY, 40, targetX, targetY, 220);
+  auraGrad.addColorStop(0, "rgba(244, 63, 94, 0.8)");
+  auraGrad.addColorStop(0.5, "rgba(168, 85, 247, 0.4)");
+  auraGrad.addColorStop(1, "rgba(168, 85, 247, 0)");
+  ctx.fillStyle = auraGrad;
+  ctx.beginPath(); ctx.arc(targetX, targetY, 220, 0, Math.PI * 2); ctx.fill();
+
+  ctx.fillStyle = "#FFFFFF";
+  ctx.beginPath(); ctx.arc(targetX, targetY - 140, 34, 0, Math.PI * 2); ctx.fill();
+
+  ctx.beginPath();
+  ctx.moveTo(targetX - 55, targetY - 95); ctx.lineTo(targetX + 55, targetY - 95);
+  ctx.lineTo(targetX + 45, targetY + 90); ctx.lineTo(targetX - 45, targetY + 90);
+  ctx.closePath();
+  ctx.fill();
+
+  ctx.strokeStyle = "#FFFFFF";
+  ctx.lineWidth = 24;
+  ctx.lineCap = "round";
+  ctx.beginPath();
+  ctx.moveTo(targetX - 55, targetY - 80); ctx.lineTo(targetX - 85, targetY + 30);
+  ctx.moveTo(targetX + 55, targetY - 80); ctx.lineTo(targetX + 85, targetY + 30);
+  ctx.stroke();
+
+  ctx.strokeStyle = "#FDE047";
+  ctx.lineWidth = 26;
+  ctx.beginPath();
+  ctx.moveTo(targetX - 25, targetY + 80); ctx.lineTo(targetX - 35, targetY + 240);
+  ctx.moveTo(targetX + 25, targetY + 80); ctx.lineTo(targetX + 35, targetY + 240);
+  ctx.stroke();
+
+  ctx.strokeStyle = "#EF4444";
+  ctx.lineWidth = 2.5;
+  const boxW = 260, boxH = 460;
+  const bx = targetX - boxW / 2, by = targetY - boxH / 2 - 20;
+  const blen = 35;
+  ctx.beginPath();
+  ctx.moveTo(bx, by + blen); ctx.lineTo(bx, by); ctx.lineTo(bx + blen, by);
+  ctx.moveTo(bx + boxW - blen, by); ctx.lineTo(bx + boxW, by); ctx.lineTo(bx + boxW, by + blen);
+  ctx.moveTo(bx, by + boxH - blen); ctx.lineTo(bx, by + boxH); ctx.lineTo(bx + blen, by + boxH);
+  ctx.moveTo(bx + boxW - blen, by + boxH); ctx.lineTo(bx + boxW, by + boxH); ctx.lineTo(bx + boxW, by + boxH - blen);
+  ctx.stroke();
+
+  ctx.strokeStyle = "#22D3EE";
+  ctx.beginPath();
+  ctx.arc(targetX, targetY - 60, 18, 0, Math.PI * 2);
+  ctx.moveTo(targetX - 30, targetY - 60); ctx.lineTo(targetX + 30, targetY - 60);
+  ctx.moveTo(targetX, targetY - 90); ctx.lineTo(targetX, targetY - 30);
+  ctx.stroke();
+
+  const barX = W - 140, barY = 220, barW = 32, barH = 580;
+  const barGrad = ctx.createLinearGradient(0, barY, 0, barY + barH);
+  barGrad.addColorStop(0, "#FFFFFF");
+  barGrad.addColorStop(0.2, "#FDE047");
+  barGrad.addColorStop(0.45, "#F97316");
+  barGrad.addColorStop(0.7, "#A855F7");
+  barGrad.addColorStop(1, "#1E1B4B");
+  ctx.fillStyle = barGrad;
+  ctx.fillRect(barX, barY, barW, barH);
+  ctx.strokeStyle = "#FFFFFF";
+  ctx.lineWidth = 2;
+  ctx.strokeRect(barX, barY, barW, barH);
+
+  ctx.font = "bold 15px 'Inter', monospace";
+  ctx.fillStyle = "#FFFFFF";
+  ctx.fillText("+42.0°C", barX - 70, barY + 15);
+  ctx.fillText("+37.4°C", barX - 70, barY + 120);
+  ctx.fillText("+25.0°C", barX - 70, barY + 270);
+  ctx.fillText("+10.0°C", barX - 70, barY + 420);
+  ctx.fillText(" 0.0°C", barX - 70, barY + barH);
+
   ctx.textAlign = "left";
+  ctx.font = "bold 18px 'Inter', monospace";
+  ctx.fillStyle = "#22D3EE";
+  ctx.fillText("• FLIR THERMAL IR-PRO [CALIBRATED]", 120, 140);
+  ctx.fillText("  GPS: 27° 19′ 48.2″ N, 70° 54′ 24.8″ E", 120, 175);
+  ctx.fillText("  EMF DETECT: 4.8 mG [HIGH FLUCTUATION]", 120, 210);
+
+  ctx.fillStyle = "#EF4444";
+  ctx.font = "bold 22px 'Inter', monospace";
+  ctx.fillText("TARGET: +37.4°C [HUMANOID BODY HEAT DETECTED]", 120, 255);
+
+  drawDocumentaryHUD(ctx, W, H, localT, {
+    location: "KULDHARA QUADRANGLE · PARANORMAL FIELD EXPEDITION",
+    era: "INDIAN PARANORMAL SOCIETY INVESTIGATION · FLIR IMAGING",
+    chapter: "ACT IX: THE SCIENTIFIC ANOMALY",
+    accentColor: "#22D3EE"
+  });
+
+  applyCinematicFilmLook(ctx, W, H, localT, { vignette: 0.35, grainAlpha: 0.07 });
+}
+
+// ============================================================================
+// SCENE 12: STUDIO OUTRO (Prestigious Gold Title Card)
+// ============================================================================
+export function drawSceneOutro(ctx, W, H, t) {
+  const localT = getSceneTime(t);
+
+  const bg = ctx.createRadialGradient(W / 2, H / 2, 80, W / 2, H / 2, W * 0.65);
+  bg.addColorStop(0, "#1E1738");
+  bg.addColorStop(0.5, "#0F0B1E");
+  bg.addColorStop(1, "#06040B");
+  ctx.fillStyle = bg;
+  ctx.fillRect(0, 0, W, H);
+
+  ctx.strokeStyle = "#F59E0B";
+  ctx.lineWidth = 3;
+  ctx.strokeRect(120, 80, W - 240, H - 160);
+  ctx.strokeStyle = "rgba(245, 158, 11, 0.4)";
+  ctx.lineWidth = 1;
+  ctx.strokeRect(135, 95, W - 270, H - 190);
+
+  const iconY = 320;
+  ctx.strokeStyle = "#FBBF24";
+  ctx.lineWidth = 4;
+  ctx.beginPath(); ctx.arc(W / 2, iconY, 55, 0, Math.PI * 2); ctx.stroke();
+
+  ctx.fillStyle = "#F59E0B";
+  ctx.beginPath();
+  ctx.moveTo(W / 2, iconY - 35);
+  ctx.lineTo(W / 2 + 10, iconY - 10);
+  ctx.lineTo(W / 2 + 35, iconY);
+  ctx.lineTo(W / 2 + 10, iconY + 10);
+  ctx.lineTo(W / 2, iconY + 35);
+  ctx.lineTo(W / 2 - 10, iconY + 10);
+  ctx.lineTo(W / 2 - 35, iconY);
+  ctx.lineTo(W / 2 - 10, iconY - 10);
+  ctx.closePath();
+  ctx.fill();
+
+  ctx.textAlign = "center";
+  ctx.font = "900 68px 'Cinzel', serif";
+  ctx.fillStyle = "#FFFFFF";
+  ctx.fillText("NIGHTINGALE FILMS", W / 2, 480);
+
+  ctx.font = "bold 24px 'Inter', sans-serif";
+  ctx.fillStyle = "#F59E0B";
+  ctx.fillText("UNSOLVED REALITIES • 100% FACT-CHECKED MYSTERIES", W / 2, 545);
+
+  ctx.font = "600 28px 'Noto Sans Devanagari', sans-serif";
+  ctx.fillStyle = "#93C5FD";
+  ctx.fillText("आपकी क्या राय है? कमेंट में बताएं • लाइक और सब्सक्राइब करें", W / 2, 640);
+
+  applyCinematicFilmLook(ctx, W, H, localT, { vignette: 0.35, grainAlpha: 0.05 });
 }

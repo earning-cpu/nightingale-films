@@ -1,6 +1,10 @@
 // test_qa_frames.mjs - Render and test all 12 scenes
-import { createCanvas } from "@napi-rs/canvas";
+import { createCanvas, GlobalFonts } from "@napi-rs/canvas";
 import fs from "node:fs";
+
+try {
+  GlobalFonts.registerFromPath("./assets/NotoSansDevanagari-Bold.ttf", "Noto Sans Devanagari");
+} catch (e) {}
 import {
   drawSceneNightRuins,
   drawSceneProsperous1825,
