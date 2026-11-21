@@ -10,11 +10,16 @@
   "license": "ISC",
   "description": "",
   "dependencies": {
+    "@fontsource/hind": "^5.3.0",
+    "@fontsource/noto-sans-devanagari": "^5.3.0",
+    "@fontsource/poppins": "^5.3.0",
+    "@napi-rs/canvas": "^1.1.1",
     "@remotion/cli": "^4.0.536",
     "@remotion/google-fonts": "^4.0.536",
     "react": "^19.3.1",
     "react-dom": "^19.3.1",
-    "remotion": "^4.0.536"
+    "remotion": "^4.0.536",
+    "three": "^0.187.0"
   },
   "devDependencies": {
     "@types/react": "^18.3.31",

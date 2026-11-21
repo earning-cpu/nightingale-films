@@ -35,23 +35,47 @@ def need_ffmpeg() -> None:
 
 
 def probe(path: str) -> dict:
-    out = subprocess.check_output(
-        ["ffprobe", "-v", "error", "-print_format", "json",
-         "-show_format", "-show_streams", path], text=True)
-    d = json.loads(out)
-    v = next((s for s in d["streams"] if s["codec_type"] == "video"), {})
-    a = next((s for s in d["streams"] if s["codec_type"] == "audio"), None)
-    num, den = (v.get("r_frame_rate") or "0/1").split("/")
-    fps = float(num) / float(den) if float(den) else 0.0
+    if shutil.which("ffprobe"):
+        out = subprocess.check_output(
+            ["ffprobe", "-v", "error", "-print_format", "json",
+             "-show_format", "-show_streams", path], text=True)
+        d = json.loads(out)
+        v = next((s for s in d["streams"] if s["codec_type"] == "video"), {})
+        a = next((s for s in d["streams"] if s["codec_type"] == "audio"), None)
+        num, den = (v.get("r_frame_rate") or "0/1").split("/")
+        fps = float(num) / float(den) if float(den) else 0.0
+        return {
+            "duration": float(d["format"].get("duration") or 0),
+            "width": v.get("width"), "height": v.get("height"),
+            "fps": round(fps, 3),
+            "video_kbps": round(int(v.get("bit_rate") or 0) / 1000),
+            "has_audio": a is not None,
+            "audio_kbps": round(int(a.get("bit_rate") or 0) / 1000) if a else 0,
+            "pix_fmt": v.get("pix_fmt"),
+            "size_mb": round(int(d["format"].get("size") or 0) / 1e6, 2),
+        }
+    p = subprocess.run(["ffmpeg", "-i", path], capture_output=True, text=True)
+    txt = p.stderr
+    dur_m = re.search(r"Duration:\s*(\d+):(\d+):([0-9.]+)", txt)
+    dur = 0.0
+    if dur_m:
+        dh, dm, ds = float(dur_m.group(1)), float(dur_m.group(2)), float(dur_m.group(3))
+        dur = dh * 3600 + dm * 60 + ds
+    vm = re.search(r"Video:.*?,\s*(\d+)x(\d+).*?,\s*([0-9.]+)\s*fps", txt)
+    w = int(vm.group(1)) if vm else 1920
+    h = int(vm.group(2)) if vm else 1080
+    fps = float(vm.group(3)) if vm else 30.0
+    has_audio = "Audio:" in txt
+    size_mb = round(os.path.getsize(path) / 1e6, 2) if os.path.exists(path) else 0.0
     return {
-        "duration": float(d["format"].get("duration") or 0),
-        "width": v.get("width"), "height": v.get("height"),
+        "duration": dur,
+        "width": w, "height": h,
         "fps": round(fps, 3),
-        "video_kbps": round(int(v.get("bit_rate") or 0) / 1000),
-        "has_audio": a is not None,
-        "audio_kbps": round(int(a.get("bit_rate") or 0) / 1000) if a else 0,
-        "pix_fmt": v.get("pix_fmt"),
-        "size_mb": round(int(d["format"].get("size") or 0) / 1e6, 2),
+        "video_kbps": round(size_mb * 8000 / dur) if dur > 0 else 0,
+        "has_audio": has_audio,
+        "audio_kbps": 128 if has_audio else 0,
+        "pix_fmt": "yuv420p",
+        "size_mb": size_mb,
     }
 
 

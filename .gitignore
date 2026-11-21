@@ -28,4 +28,16 @@ qa4/raw4.mp4
 qa4/v4_master.mp4
 qa4/*.mp4
 qa4/f*.png
-qa4/z*.png
+# hindi horror intermediates
+qa_hindi/
+qa_roopkund/
+qa_kuldhara/
+qa_audit/
+__pycache__/
+audio/hindi_horror/score_raw.wav
+audio/roopkund_score.wav
+audio/kuldhara/*.wav
+image-search/
+test_board.ass
+test_character_render.py
+test_tts.mp3
